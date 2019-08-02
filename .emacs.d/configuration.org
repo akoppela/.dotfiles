@@ -1,0 +1,165 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Andrey Koppel (akoppela)
+#+EMAIL: akoppela@gmail.com
+
+* Personal info
+
+  #+BEGIN_SRC emacs-lisp
+    (setq user-full-name "Andrey Koppel"
+          user-mail-address "akoppela@gmail.com")
+  #+END_SRC
+
+* =use-package=
+
+  =use-package= is used to install and configure packages.
+
+** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'package)
+    (setq package-archives '(("org" . "https://orgmode.org/elpa/")
+                             ("gnu" . "https://elpa.gnu.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")))
+    (package-initialize)
+  #+END_SRC
+
+** TODO Fix a bug when it's not possible to download packages from GNU package archive.
+
+  Should be fixed in Emacs 26.3
+
+  #+BEGIN_SRC emacs-lisp
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  #+END_SRC
+
+** Make sure =use-package= is installed.
+
+  #+BEGIN_SRC emacs-lisp
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+  #+END_SRC
+
+** Initialize =use-package= and set it up to install the package if it's not available yet.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'use-package-ensure)
+    (setq use-package-always-ensure t)
+  #+END_SRC
+
+** Always compile packages, and use the newest version available.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package auto-compile
+      :config (auto-compile-on-load-mode))
+
+    (setq load-prefer-newer t)
+  #+END_SRC
+
+* Appearance
+
+** Setup encoding to 8-UTF.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq coding-system-for-read 'utf-8)
+    (setq coding-system-for-write 'utf-8)
+  #+END_SRC
+
+** Hide default Emacs screen
+
+  #+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-screen t)
+  #+END_SRC
+
+** Change default scratch message
+
+  #+BEGIN_SRC emacs-lisp
+    (setq initial-scratch-message "Welcome in Emacs")
+  #+END_SRC
+
+** Enable custom theme
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package base16-theme
+      :init (add-to-list 'custom-theme-load-path "~/.emacs.d/akoppela/theme")
+      :config (setq base16-theme-256-color-source 'colors)
+              (load-theme 'base16-akoppela t))
+  #+END_SRC
+
+** Enable =spaceline=
+
+*** Initialize =spaceline=
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package spaceline
+      :config
+      (require 'spaceline-config)
+      (spaceline-spacemacs-theme))
+  #+END_SRC
+  
+*** Set default powerline separator
+
+  #+BEGIN_SRC emacs-lisp
+    (setq powerline-default-separator 'arrow)
+  #+END_SRC
+
+*** Change =mode-line= highlight color based on evil mode
+
+  #+BEGIN_SRC emacs-lisp
+    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  #+END_SRC
+
+** Hide menu and tool bars
+
+  #+BEGIN_SRC emacs-lisp
+    (tool-bar-mode 0)
+    (menu-bar-mode 0)
+  #+END_SRC
+
+** Enable current line highlighting
+
+  #+BEGIN_SRC emacs-lisp
+    (global-hl-line-mode)
+  #+END_SRC
+
+* =evil-mode=
+
+** Make sure TAB works correctly in =org-mode=.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq evil-want-C-i-jump nil)
+  #+END_SRC
+
+** Initialize =evil=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil
+      :config (evil-mode 1))
+  #+END_SRC
+
+** Enable =evil-surround=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-surround
+      :config (global-evil-surround-mode 1))
+  #+END_SRC
+
+** Enable =evil= for =org-mode=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-org
+      :after org
+      :config (add-hook 'org-mode-hook 'evil-org-mode)
+              (add-hook 'evil-org-mode-hook
+                        (lambda () (evil-org-set-key-theme)))
+              (require 'evil-org-agenda)
+              (evil-org-agenda-set-keys))
+  #+END_SRC
+
+** Enable =evil-commentary=
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-commentary
+      :config (evil-commentary-mode 1))
+  #+END_SRC
+
+* The End!
