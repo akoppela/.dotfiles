@@ -50,9 +50,59 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package auto-compile
-      :config (auto-compile-on-load-mode))
+      :config (auto-compile-on-load-mode 1))
 
     (setq load-prefer-newer t)
+  #+END_SRC
+
+* =evil=
+
+** Make sure TAB works correctly in =org-mode=.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq evil-want-C-i-jump nil)
+  #+END_SRC
+
+** Initialize =evil=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil
+      :config (evil-mode 1))
+  #+END_SRC
+
+** Enable =evil-surround=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-surround
+      :config (global-evil-surround-mode 1))
+  #+END_SRC
+
+** Enable =evil= for =org-mode=.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-org
+      :after org
+      :config (add-hook 'org-mode-hook 'evil-org-mode)
+              (add-hook 'evil-org-mode-hook
+                        (lambda () (evil-org-set-key-theme)))
+              (require 'evil-org-agenda)
+              (evil-org-agenda-set-keys))
+  #+END_SRC
+
+** Enable =evil-commentary=
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package evil-commentary
+      :config (evil-commentary-mode 1))
+  #+END_SRC
+
+* =which-key=
+
+  =which-key= shows all available keybindings in a popup.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package which-key
+      :config (which-key-mode 1))
   #+END_SRC
 
 * Appearance
@@ -118,48 +168,7 @@
 ** Enable current line highlighting
 
   #+BEGIN_SRC emacs-lisp
-    (global-hl-line-mode)
-  #+END_SRC
-
-* =evil-mode=
-
-** Make sure TAB works correctly in =org-mode=.
-
-  #+BEGIN_SRC emacs-lisp
-    (setq evil-want-C-i-jump nil)
-  #+END_SRC
-
-** Initialize =evil=.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package evil
-      :config (evil-mode 1))
-  #+END_SRC
-
-** Enable =evil-surround=.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package evil-surround
-      :config (global-evil-surround-mode 1))
-  #+END_SRC
-
-** Enable =evil= for =org-mode=.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package evil-org
-      :after org
-      :config (add-hook 'org-mode-hook 'evil-org-mode)
-              (add-hook 'evil-org-mode-hook
-                        (lambda () (evil-org-set-key-theme)))
-              (require 'evil-org-agenda)
-              (evil-org-agenda-set-keys))
-  #+END_SRC
-
-** Enable =evil-commentary=
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package evil-commentary
-      :config (evil-commentary-mode 1))
+    (global-hl-line-mode 1)
   #+END_SRC
 
 * The End!
