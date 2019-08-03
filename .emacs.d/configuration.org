@@ -9,6 +9,65 @@
           user-mail-address "akoppela@gmail.com")
   #+END_SRC
 
+* Defaults
+
+** Setup encoding to UTF-8.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq coding-system-for-read 'utf-8)
+    (setq coding-system-for-write 'utf-8)
+  #+END_SRC
+
+** Start with users home directory by default.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq default-directory "~/")
+  #+END_SRC
+
+** Increase garbage collection treshold.
+
+  This means GC runs less often, which speeds up some operations.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq gc-cons-treshold 20000000)
+  #+END_SRC
+
+** Delete trailing whitespace everytime buffer is saved.
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  #+END_SRC
+
+** Always follow symlinks when opening a file.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq vc-follow-symlinks t)
+  #+END_SRC
+
+** Make sure sentenses does not have two spaces after periods.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq sentense-end-double-space nil)
+  #+END_SRC
+
+** Ask before closing Emacs.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq confirm-kill-emacs 'y-or-n-p)
+  #+END_SRC
+
+** Set backup files directory.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+  #+END_SRC
+
+** Set auto save files directory.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+  #+END_SRC
+
 * =use-package=
 
   =use-package= is used to install and configure packages.
@@ -17,6 +76,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (require 'package)
+    (setq package-enable-at-startup nil)
     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
                              ("gnu" . "https://elpa.gnu.org/packages/")
                              ("melpa" . "https://melpa.org/packages/")))
@@ -77,7 +137,7 @@
       :config (global-evil-surround-mode 1))
   #+END_SRC
 
-** Enable =evil= for =org-mode=.
+** Enable =evil-org=.
 
   #+BEGIN_SRC emacs-lisp
     (use-package evil-org
@@ -89,7 +149,7 @@
               (evil-org-agenda-set-keys))
   #+END_SRC
 
-** Enable =evil-commentary=
+** Enable =evil-commentary=.
 
   #+BEGIN_SRC emacs-lisp
     (use-package evil-commentary
@@ -105,28 +165,45 @@
       :config (which-key-mode 1))
   #+END_SRC
 
-* Appearance
+* =company=
 
-** Setup encoding to 8-UTF.
+  =company= enables auto-completion.
 
   #+BEGIN_SRC emacs-lisp
-    (setq coding-system-for-read 'utf-8)
-    (setq coding-system-for-write 'utf-8)
+    (use-package company)
+    (add-hook 'after-init-hook 'global-company-mode)
   #+END_SRC
 
-** Hide default Emacs screen
+* =flycheck=
+
+  =flycheck= checks syntax.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck)
+  #+END_SRC
+
+* =magit=
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package magit
+      :config (use-package evil-magit))
+  #+END_SRC
+
+* Appearance
+
+** Hide default Emacs screen.
 
   #+BEGIN_SRC emacs-lisp
     (setq inhibit-startup-screen t)
   #+END_SRC
 
-** Change default scratch message
+** Change default scratch message.
 
   #+BEGIN_SRC emacs-lisp
     (setq initial-scratch-message "Welcome in Emacs")
   #+END_SRC
 
-** Enable custom theme
+** Enable custom theme.
 
   #+BEGIN_SRC emacs-lisp
     (use-package base16-theme
@@ -135,9 +212,9 @@
               (load-theme 'base16-akoppela t))
   #+END_SRC
 
-** Enable =spaceline=
+** Enable =spaceline=.
 
-*** Initialize =spaceline=
+*** Initialize =spaceline=.
 
   #+BEGIN_SRC emacs-lisp
     (use-package spaceline
@@ -145,30 +222,86 @@
       (require 'spaceline-config)
       (spaceline-spacemacs-theme))
   #+END_SRC
-  
-*** Set default powerline separator
+
+*** Set default powerline separator.
 
   #+BEGIN_SRC emacs-lisp
     (setq powerline-default-separator 'arrow)
   #+END_SRC
 
-*** Change =mode-line= highlight color based on evil mode
+*** Change =mode-line= highlight color based on evil mode.
 
   #+BEGIN_SRC emacs-lisp
     (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
   #+END_SRC
 
-** Hide menu and tool bars
+*** Hide minor modes.
+
+  #+BEGIN_SRC emacs-lisp
+    (spaceline-toggle-minor-modes-off)
+  #+END_SRC
+
+*** Show full names for evil state.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq evil-normal-state-tag "NORMAL")
+    (setq evil-insert-state-tag "INSERT")
+    (setq evil-visual-state-tag "VISUAL")
+    (setq evil-replace-state-tag "REPLACE")
+    (setq evil-operator-state-tag "OPERATOR")
+    (setq evil-motion-state-tag "MOTION")
+    (setq evil-emacs-state-tag "EMACS")
+  #+END_SRC
+
+*** Show date and time.
+
+  #+BEGIN_SRC emacs-lisp
+    (defun padDateNumber (stringNumber)
+           (format "%02d" (string-to-number stringNumber)))
+    (setq display-time-string-forms
+          '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
+    (display-time-mode 1)
+  #+END_SRC
+
+** Hide menu and tool bars.
 
   #+BEGIN_SRC emacs-lisp
     (tool-bar-mode 0)
     (menu-bar-mode 0)
   #+END_SRC
 
-** Enable current line highlighting
+** Enable current line highlighting.
 
   #+BEGIN_SRC emacs-lisp
     (global-hl-line-mode 1)
+  #+END_SRC
+
+** Turn on syntax highlighting whenever possible.
+
+  #+BEGIN_SRC emacs-lisp
+    (global-font-lock-mode 1)
+  #+END_SRC
+
+** Visually indicate matching parentheses.
+
+  #+BEGIN_SRC emacs-lisp
+    (show-paren-mode 1)
+    (setq show-paren-delay 0.0)
+  #+END_SRC
+
+** Flash screen on invalid operation.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq visible-bell t)
+  #+END_SRC
+
+** Display visual line numbers.
+
+  Visual lines are relative screen lines.
+
+  #+BEGIN_SRC emacs-lisp
+    (global-display-line-numbers-mode)
+    (setq display-line-numbers-type 'visual)
   #+END_SRC
 
 * The End!

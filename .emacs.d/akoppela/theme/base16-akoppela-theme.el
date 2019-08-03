@@ -12,7 +12,7 @@
 
 (defvar base16-akoppela-colors
   '(:base00 "#000000"
-    :base01 "#303030"
+    :base01 "#363636"
     :base02 "#505050"
     :base03 "#808080"
     :base04 "#d0d0d0"
