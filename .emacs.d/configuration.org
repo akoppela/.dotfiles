@@ -68,6 +68,12 @@
     (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
   #+END_SRC
 
+** Shorten yes/no answers.
+
+  #+BEGIN_SRC emacs-lisp
+    (defalias 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+
 * =use-package=
 
   =use-package= is used to install and configure packages.
@@ -182,11 +188,157 @@
     (use-package flycheck)
   #+END_SRC
 
+* =flyspell=
+
+  =flyspell= checks spelling.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package flyspell
+     :config (add-hook 'text-mode-hook 'flyspell-mode)
+             (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+             (add-hook 'org-mode-hook 'flyspell-mode)
+             (add-hook 'git-commit-mode-hook 'flyspell-mode))
+  #+END_SRC
+
 * =magit=
 
   #+BEGIN_SRC emacs-lisp
     (use-package magit
       :config (use-package evil-magit))
+  #+END_SRC
+
+* =projectile=
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package projectile
+      :config (projectile-mode 1)
+              (setq projectile-completion-system 'ivy))
+  #+END_SRC
+
+* =elfeed=
+
+  RSS reader.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package elfeed)
+    (use-package elfeed-org
+      :config (progn (elfeed-org) (setq rmh-elfeed-org-files (list "~/org/rss.org"))))
+  #+END_SRC
+
+* =ivy= and =counsel=
+
+  Completion frameworks.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package counsel
+      :config (ivy-mode 1))
+  #+END_SRC
+
+* =general=
+
+  Makes it easier to assign key bindings.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package general
+      :config (general-create-definer leader-def
+                :states '(normal visual insert motion emacs)
+                :prefix "SPC"
+                :non-normal-prefix "C-SPC"))
+  #+END_SRC
+
+** General.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "" nil
+      "/" '(counsel-git-grep :which-key "find in project"))
+
+    (general-define-key
+      :states '(normal visual motion)
+      "/" 'swiper-isearch
+      "?" 'swiper-isearch-backward
+      "*" 'swiper-isearch-thing-at-point)
+
+    (general-define-key
+      "<escape>" 'keyboard-escape-quit)
+  #+END_SRC
+
+** Main menu.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "SPC" '(counsel-M-x :which-key "M-x"))
+  #+END_SRC
+
+** Buffer.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "b" '(:ignore t :which-key "buffer")
+      "b b" '(ivy-switch-buffer :which-key "switch")
+      "b d" '(kill-current-buffer :which-key "delete")
+      "b x" '(kill-buffer-and-window :which-key "delete with window"))
+  #+END_SRC
+
+** Window.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "w" '(:ignore t :which-key "window")
+      "w TAB" '(other-window :which-key "next")
+      "w d" '(delete-window :which-key "delete")
+      "w D" '(delete-other-windows :which-key "delete other")
+      "w -" '(split-window-below :which-key "split horizontally")
+      "w |" '(split-window-right :which-key "split vertically"))
+  #+END_SRC
+
+** File.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "f" '(:ignore t :which-key "file")
+      "f f" '(counsel-find-file :which-key "find")
+      "f s" '(save-buffer :which-key "save")
+
+      "f e" '(:ignore t :which-key "emacs")
+      "f e c" '(akoppela/open-configuration :which-key "configuration")
+      "f e r" '(akoppela/load-configuration :which-key "reload configuration"))
+  #+END_SRC
+
+** Project.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "p" '(:ignore t :which-key "project")
+      "p f" '(projectile-find-file :which-key "find file")
+      "p p" '(projectile-switch-project :which-key "switch"))
+  #+END_SRC
+
+** Git.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "g" '(:ignore t :which-key "git")
+      "g s" '(magit-status :which-key "status"))
+  #+END_SRC
+
+** Help.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "h" '(:ignore t :which-key "help")
+      "h f" '(counsel-describe-function :which-key "describe function")
+      "h v" '(counsel-describe-variable :which-key "describe variable")
+      "h k" '(describe-key :which-key "describe key"))
+  #+END_SRC
+
+** Quit.
+
+  #+BEGIN_SRC emacs-lisp
+    (leader-def
+      "q" '(:ignore t :which-key "quit")
+      "q q" '(save-buffers-kill-terminal :which-key "client")
+      "q Q" '(save-buffers-kill-emacs :which-key "server"))
   #+END_SRC
 
 * Appearance
@@ -227,6 +379,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (setq powerline-default-separator 'arrow)
+    (setq powerline-arrow-shape 'arrow)
   #+END_SRC
 
 *** Change =mode-line= highlight color based on evil mode.
@@ -302,6 +455,40 @@
   #+BEGIN_SRC emacs-lisp
     (global-display-line-numbers-mode)
     (setq display-line-numbers-type 'visual)
+    (setq display-line-numbers-width-start t)
+  #+END_SRC
+
+** Always indent with spaces
+
+  #+BEGIN_SRC emacs-lisp
+    (setq-default indent-tabs-mode nil)
+  #+END_SRC
+
+** =org= specific.
+
+*** Show bullets instead of stars.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package org-bullets
+      :init (add-hook 'org-mode-hook 'org-bullets-mode))
+  #+END_SRC
+
+*** Change collapsed subtree symbol.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq org-ellipsis " ↴")
+  #+END_SRC
+
+*** Make TAB act natively for code blocks.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq org-src-tab-acts-natively t)
+  #+END_SRC
+
+** Smooth scroll.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq scroll-conservatively 100)
   #+END_SRC
 
 * The End!
