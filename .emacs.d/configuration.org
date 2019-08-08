@@ -2,14 +2,14 @@
 #+AUTHOR: Andrey Koppel (akoppela)
 #+EMAIL: akoppela@gmail.com
 
-* Personal info
+* Personal info.
 
   #+BEGIN_SRC emacs-lisp
     (setq user-full-name "Andrey Koppel")
     (setq user-mail-address "akoppela@gmail.com")
   #+END_SRC
 
-* Defaults
+* Defaults.
 
 ** Setup encoding to UTF-8.
 
@@ -74,55 +74,53 @@
      (defalias 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
 
-* Package management
+* Package management.
 
-** =use-package= is used for package management.
+** Initialize =package.el= and include Org, Gnu and Melpa package archives.
 
-*** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (setq package-enable-at-startup nil)
+     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
+                              ("gnu" . "https://elpa.gnu.org/packages/")
+                              ("melpa" . "https://melpa.org/packages/")))
+     (package-initialize)
+   #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (require 'package)
-      (setq package-enable-at-startup nil)
-      (setq package-archives '(("org" . "https://orgmode.org/elpa/")
-                               ("gnu" . "https://elpa.gnu.org/packages/")
-                               ("melpa" . "https://melpa.org/packages/")))
-      (package-initialize)
-    #+END_SRC
+** TODO Fix a bug when it's not possible to download packages from GNU package archive.
 
-*** TODO Fix a bug when it's not possible to download packages from GNU package archive.
+   Should be fixed in Emacs 26.3
 
-    Should be fixed in Emacs 26.3
+   #+BEGIN_SRC emacs-lisp
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+   #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-    #+END_SRC
+** Make sure =use-package= is installed.
 
-*** Make sure =use-package= is installed.
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+   #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (unless (package-installed-p 'use-package)
-        (package-refresh-contents)
-        (package-install 'use-package))
-    #+END_SRC
+** Initialize =use-package= and set it up to install the package if it's not available yet.
 
-*** Initialize =use-package= and set it up to install the package if it's not available yet.
+   #+BEGIN_SRC emacs-lisp
+     (require 'use-package-ensure)
+     (setq use-package-always-ensure t)
+   #+END_SRC
 
-    #+BEGIN_SRC emacs-lisp
-      (require 'use-package-ensure)
-      (setq use-package-always-ensure t)
-    #+END_SRC
+** Always compile packages, and use the newest version available.
 
-*** Always compile packages, and use the newest version available.
+   #+BEGIN_SRC emacs-lisp
+     (use-package auto-compile
+       :config
+       (auto-compile-on-load-mode 1))
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package auto-compile
-        :config
-        (auto-compile-on-load-mode 1))
+     (setq load-prefer-newer t)
+   #+END_SRC
 
-      (setq load-prefer-newer t)
-    #+END_SRC
-
-* Key bindings
+* Key bindings.
 
 ** =evil= provides =vi= key bindings.
 
@@ -138,6 +136,12 @@
       (use-package evil
         :config
         (evil-mode 1))
+    #+END_SRC
+
+*** =evil= everywhere.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq evil-emacs-state-modes nil)
     #+END_SRC
 
 *** Enable =evil-surround=.
@@ -178,8 +182,13 @@
         :config
         (general-create-definer leader-def
           :states '(normal visual insert motion emacs)
+          :keymaps 'override
           :prefix "SPC"
-          :non-normal-prefix "C-SPC"))
+          :non-normal-prefix "C-SPC")
+        (general-create-definer major-def
+          :states '(normal visual motion emacs)
+          :prefix ","
+          :non-normal-prefix "C-,"))
     #+END_SRC
 
 *** Main menu.
@@ -190,12 +199,8 @@
         "SPC" '(counsel-M-x :which-key "M-x")
         "/" '(counsel-projectile-git-grep :which-key "find in project"))
 
-      (general-def '(normal visual motion)
-        "/" 'swiper-isearch
-        "?" 'swiper-isearch-backward
-        "*" 'swiper-isearch-thing-at-point)
-
-      (general-def 'insert
+      (general-def
+        :states 'insert
         "RET" 'newline-and-indent)
 
       (general-def
@@ -221,8 +226,10 @@
         "w TAB" '(other-window :which-key "next")
         "w d" '(delete-window :which-key "delete")
         "w D" '(delete-other-windows :which-key "delete other")
-        "w -" '(split-window-below :which-key "split horizontally")
-        "w |" '(split-window-right :which-key "split vertically"))
+
+        "w s" '(:ignore t :which-key "split")
+        "w s h" '(split-window-below :which-key "split horizontally")
+        "w s v" '(split-window-right :which-key "split vertically"))
     #+END_SRC
 
 *** File.
@@ -267,12 +274,31 @@
         "p p" '(counsel-projectile-switch-project :which-key "switch"))
     #+END_SRC
 
+*** Search.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "s" '(:ignore t :which-key "search")
+        "s s" '(swiper-isearch :which-key "buffer")
+        "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point"))
+    #+END_SRC
+
+*** Error.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "e" '(:ignore t :which-key "error")
+        "e n" '(flycheck-next-error :which-key "next")
+        "e p" '(flycheck-previous-error :which-key "previous"))
+    #+END_SRC
+
 *** Git.
 
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "g" '(:ignore t :which-key "git")
-        "g s" '(magit-status :which-key "status"))
+        "g s" '(magit-status :which-key "status")
+        "g b" '(magit-blame :which-key "blame"))
     #+END_SRC
 
 *** Help.
@@ -282,7 +308,8 @@
         "h" '(:ignore t :which-key "help")
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
-        "h k" '(describe-key :which-key "describe key"))
+        "h k" '(helpful-key :which-key "describe key")
+        "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
     #+END_SRC
 
 *** Quit.
@@ -294,7 +321,7 @@
         "q Q" '(save-buffers-kill-emacs :which-key "server"))
     #+END_SRC
 
-* Project management
+* Project management.
 
 ** =projectile=.
 
@@ -317,16 +344,14 @@
        (use-package evil-magit))
    #+END_SRC
 
-* Auto completion
+* Document content management.
 
 ** =company= enables auto-completion.
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package company)
-    (add-hook 'after-init-hook 'global-company-mode)
-  #+END_SRC
-
-* Syntax and spelling checking
+   #+BEGIN_SRC emacs-lisp
+     (use-package company)
+     (add-hook 'after-init-hook 'global-company-mode)
+   #+END_SRC
 
 ** =flycheck= checks syntax.
 
@@ -345,7 +370,7 @@
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
    #+END_SRC
 
-* Navigation
+* Navigation.
 
 ** =counsel= completion framework.
 
@@ -360,8 +385,10 @@
    #+BEGIN_SRC emacs-lisp
      (use-package multiple-cursors)
    #+END_SRC
-* Languages
-** =html=
+
+* Programming languages.
+
+** =html=.
 
    #+BEGIN_SRC emacs-lisp
      (use-package emmet-mode
@@ -370,11 +397,53 @@
        (add-hook 'sgml-mode-hook 'emmet-mode)
        (add-hook 'css-mode-hook 'emmet-mode)
 
-       (general-def 'insert emmet-mode-map
+       (general-def
+         :definer 'minor-mode
+         :states 'insert
+         :keymaps 'emmet-mode
          "TAB" 'emmet-expand-line))
    #+END_SRC
 
-* Appearance
+* Task management.
+
+  The killer =org-mode=.
+
+** Key bindings.
+
+   #+BEGIN_SRC emacs-lisp
+     (major-def
+       :keymaps 'org-mode-map
+       "'" '(org-edit-special :which-key "src editor"))
+
+     (general-def
+       :definer 'minor-mode
+       :states 'normal
+       :keymaps 'org-src-mode
+       "'" 'org-edit-src-exit
+       "q" 'org-edit-src-abort)
+   #+END_SRC
+
+** Show bullets instead of stars.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :init
+       (add-hook 'org-mode-hook 'org-bullets-mode))
+   #+END_SRC
+
+** Change collapsed subtree symbol.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-ellipsis " ↴")
+   #+END_SRC
+
+** Make TAB act natively for code blocks.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-src-tab-acts-natively t)
+   #+END_SRC
+
+* Appearance.
 
 ** Hide default Emacs screen.
 
@@ -407,14 +476,9 @@
       (use-package spaceline
         :config
         (require 'spaceline-config)
+        (setq powerline-default-separator 'utf-8)
+        (setq powerline-height 3)
         (spaceline-spacemacs-theme))
-    #+END_SRC
-
-*** Set default powerline separator.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq powerline-default-separator 'arrow)
-      (setq powerline-arrow-shape 'arrow)
     #+END_SRC
 
 *** Change =mode-line= highlight color based on evil mode.
@@ -501,55 +565,54 @@
      (setq-default indent-tabs-mode nil)
    #+END_SRC
 
-** =org= specific.
-
-*** Show bullets instead of stars.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-bullets
-        :init
-        (add-hook 'org-mode-hook 'org-bullets-mode))
-    #+END_SRC
-
-*** Change collapsed subtree symbol.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq org-ellipsis " ↴")
-    #+END_SRC
-
-*** Make TAB act natively for code blocks.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq org-src-tab-acts-natively t)
-    #+END_SRC
-
 ** Smooth scroll.
 
    #+BEGIN_SRC emacs-lisp
      (setq scroll-conservatively 100)
    #+END_SRC
 
-* Help
+* Help.
 
 ** =which-key= shows all available keybindings in a popup.
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :config
-      (which-key-mode 1))
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :config
+       (which-key-mode 1))
+   #+END_SRC
 
-* News
+** =helpful= provides *Help* buffer on steroids.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helpful
+       :config
+       (setq counsel-describe-function-function #'helpful-callable)
+       (setq counsel-describe-variable-function #'helpful-variable)
+       (general-def
+         :states 'normal
+         :keymaps 'helpful-mode-map
+         "q" 'kill-buffer-and-window))
+   #+END_SRC
+
+** Benchmark emacs initialization.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package benchmark-init
+       :config
+       (add-hook 'after-init-hook 'benchmark-init/deactivate))
+   #+END_SRC
+
+* News.
 
 ** =elfeed= RSS reader.
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package elfeed)
-    (use-package elfeed-org
-      :config
-      (progn
-        (elfeed-org)
-        (setq rmh-elfeed-org-files (list "~/org/rss.org"))))
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package elfeed)
+     (use-package elfeed-org
+       :config
+       (progn
+         (elfeed-org)
+         (setq rmh-elfeed-org-files (list "~/org/rss.org"))))
+   #+END_SRC
 
 * The End!
