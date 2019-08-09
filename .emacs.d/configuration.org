@@ -360,7 +360,11 @@
 ** =company= enables auto-completion.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package company)
+     (use-package company
+       :config
+       (setq company-idle-delay 0)
+       (setq company-minimum-prefix-length 2)
+       (setq company-dabbrev-downcase nil))
      (add-hook 'after-init-hook 'global-company-mode)
    #+END_SRC
 
@@ -413,6 +417,21 @@
          :states 'insert
          :keymaps 'emmet-mode
          "TAB" 'emmet-expand-line))
+   #+END_SRC
+
+** =elm=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package elm-mode
+       :config
+       (turn-off-elm-indent)
+       (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
+       (add-hook 'elm-mode-hook 'flycheck-mode)
+       (remove-hook 'elm-mode-hook 'elm-indent-mode))
+
+     (use-package flycheck-elm
+       :config
+       (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
    #+END_SRC
 
 * Task management.
@@ -487,8 +506,6 @@
       (use-package spaceline
         :config
         (require 'spaceline-config)
-        (setq powerline-default-separator 'utf-8)
-        (setq powerline-height 3)
         (spaceline-spacemacs-theme))
     #+END_SRC
 
@@ -574,6 +591,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+** Use 4 spaces for tabs.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 4)
    #+END_SRC
 
 ** Smooth scroll.
