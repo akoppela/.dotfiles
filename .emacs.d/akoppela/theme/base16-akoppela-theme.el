@@ -10,23 +10,40 @@
 
 (require 'base16-theme)
 
+(defvar base16-akoppela-base00 "#000000")
+(defvar base16-akoppela-base01 "#363636")
+(defvar base16-akoppela-base02 "#505050")
+(defvar base16-akoppela-base03 "#808080")
+(defvar base16-akoppela-base04 "#d0d0d0")
+(defvar base16-akoppela-base05 "#e0e0e0")
+(defvar base16-akoppela-base06 "#f5f5f5")
+(defvar base16-akoppela-base07 "#ffffff")
+(defvar base16-akoppela-base08 "#fb0120")
+(defvar base16-akoppela-base09 "#fe8625")
+(defvar base16-akoppela-base0A "#fda331")
+(defvar base16-akoppela-base0B "#a1c659")
+(defvar base16-akoppela-base0C "#76c7b7")
+(defvar base16-akoppela-base0D "#6fb3d2")
+(defvar base16-akoppela-base0E "#d381c3")
+(defvar base16-akoppela-base0F "#be643c")
+
 (defvar base16-akoppela-colors
-  '(:base00 "#000000"
-    :base01 "#363636"
-    :base02 "#505050"
-    :base03 "#808080"
-    :base04 "#d0d0d0"
-    :base05 "#e0e0e0"
-    :base06 "#f5f5f5"
-    :base07 "#ffffff"
-    :base08 "#fb0120"
-    :base09 "#fe8625"
-    :base0A "#fda331"
-    :base0B "#a1c659"
-    :base0C "#76c7b7"
-    :base0D "#6fb3d2"
-    :base0E "#d381c3"
-    :base0F "#be643c")
+  `(:base00 ,base16-akoppela-base00
+    :base01 ,base16-akoppela-base01
+    :base02 ,base16-akoppela-base02
+    :base03 ,base16-akoppela-base03
+    :base04 ,base16-akoppela-base04
+    :base05 ,base16-akoppela-base05
+    :base06 ,base16-akoppela-base06
+    :base07 ,base16-akoppela-base07
+    :base08 ,base16-akoppela-base08
+    :base09 ,base16-akoppela-base09
+    :base0A ,base16-akoppela-base0A
+    :base0B ,base16-akoppela-base0B
+    :base0C ,base16-akoppela-base0C
+    :base0D ,base16-akoppela-base0D
+    :base0E ,base16-akoppela-base0E
+    :base0F ,base16-akoppela-base0F)
   "All colors for Base16 akoppela's theme are defined here.")
 
 ;; Define the theme

@@ -9,6 +9,52 @@
     (setq user-mail-address "akoppela@gmail.com")
   #+END_SRC
 
+* Package management.
+
+** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (setq package-enable-at-startup nil)
+     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
+                              ("gnu" . "https://elpa.gnu.org/packages/")
+                              ("melpa" . "https://melpa.org/packages/")))
+     (package-initialize)
+   #+END_SRC
+
+** TODO Fix a bug when it's not possible to download packages from GNU package archive.
+
+   Should be fixed in Emacs 26.3
+
+   #+BEGIN_SRC emacs-lisp
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+   #+END_SRC
+
+** Make sure =use-package= is installed.
+
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+   #+END_SRC
+
+** Initialize =use-package= and set it up to install the package if it's not available yet.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'use-package-ensure)
+     (setq use-package-always-ensure t)
+   #+END_SRC
+
+** Always compile packages, and use the newest version available.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package auto-compile
+       :config
+       (auto-compile-on-load-mode 1))
+
+     (setq load-prefer-newer t)
+   #+END_SRC
+
 * Defaults.
 
 ** Setup encoding to UTF-8.
@@ -59,7 +105,7 @@
 ** Set backup files directory.
 
    #+BEGIN_SRC emacs-lisp
-     (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
    #+END_SRC
 
 ** Set auto save files directory.
@@ -74,80 +120,190 @@
      (defalias 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
 
-* Package management.
+* Appearance.
 
-** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+** Hide default Emacs screen.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'package)
-     (setq package-enable-at-startup nil)
-     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
-                              ("gnu" . "https://elpa.gnu.org/packages/")
-                              ("melpa" . "https://melpa.org/packages/")))
-     (package-initialize)
+     (setq inhibit-startup-screen t)
    #+END_SRC
 
-** TODO Fix a bug when it's not possible to download packages from GNU package archive.
-
-   Should be fixed in Emacs 26.3
+** Change default scratch message.
 
    #+BEGIN_SRC emacs-lisp
-     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+     (setq initial-scratch-message (concat "Welcome in Emacs\nStartup time: " (emacs-init-time)))
    #+END_SRC
 
-** Make sure =use-package= is installed.
+** Enable custom theme.
 
    #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
-       (package-refresh-contents)
-       (package-install 'use-package))
-   #+END_SRC
-
-** Initialize =use-package= and set it up to install the package if it's not available yet.
-
-   #+BEGIN_SRC emacs-lisp
-     (require 'use-package-ensure)
-     (setq use-package-always-ensure t)
-   #+END_SRC
-
-** Always compile packages, and use the newest version available.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package auto-compile
+     (use-package base16-theme
+       :init
+       (add-to-list 'custom-theme-load-path "~/.emacs.d/akoppela/theme")
        :config
-       (auto-compile-on-load-mode 1))
+       (setq base16-theme-256-color-source 'colors)
+       (load-theme 'base16-akoppela t))
+   #+END_SRC
 
-     (setq load-prefer-newer t)
+** =mode-line= specific.
+
+*** Initialize =spaceline=.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package spaceline
+        :config
+        (require 'spaceline-config)
+        (spaceline-spacemacs-theme))
+    #+END_SRC
+
+*** Change =mode-line= highlight color based on evil mode.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    #+END_SRC
+
+*** Hide minor modes.
+
+    #+BEGIN_SRC emacs-lisp
+      (spaceline-toggle-minor-modes-off)
+    #+END_SRC
+
+*** Show full names for evil state.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq evil-normal-state-tag "N")
+      (setq evil-insert-state-tag "I")
+      (setq evil-visual-state-tag "V")
+      (setq evil-replace-state-tag "R")
+      (setq evil-operator-state-tag "O")
+      (setq evil-motion-state-tag "M")
+      (setq evil-emacs-state-tag "E")
+    #+END_SRC
+
+*** Show date and time.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun padDateNumber (stringNumber)
+        (format "%02d" (string-to-number stringNumber)))
+
+      (setq display-time-string-forms
+            '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
+
+      (display-time-mode 1)
+    #+END_SRC
+
+** Hide menu and tool bars.
+
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode 0)
+     (menu-bar-mode 0)
+   #+END_SRC
+
+** Enable current line highlighting.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-hl-line-mode 1)
+   #+END_SRC
+
+** Turn on syntax highlighting whenever possible.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-font-lock-mode 1)
+   #+END_SRC
+
+** Visually indicate matching parentheses.
+
+   #+BEGIN_SRC emacs-lisp
+     (show-paren-mode 1)
+     (setq show-paren-delay 0.0)
+   #+END_SRC
+
+** Flash screen on invalid operation.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq visible-bell t)
+   #+END_SRC
+
+** Display visual line numbers.
+
+   Visual lines are relative screen lines.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-display-line-numbers-mode)
+     (setq display-line-numbers-type 'visual)
+     (setq display-line-numbers-width-start t)
+   #+END_SRC
+
+** Always indent with spaces
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+** Use 4 spaces for tabs.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 4)
+   #+END_SRC
+
+** Smooth scroll.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq scroll-conservatively 100)
+   #+END_SRC
+
+** Center cursor vertically.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package centered-cursor-mode
+       :config
+       (global-centered-cursor-mode 1))
+   #+END_SRC
+
+** Add color background for hexadecimal strings.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package rainbow-mode
+       :config (add-hook 'prog-mode-hook 'rainbow-mode))
+   #+END_SRC
+
+* Navigation.
+
+** =counsel= completion framework.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel
+       :config
+       (ivy-mode 1))
+   #+END_SRC
+
+** =multiple-cursors=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package multiple-cursors)
    #+END_SRC
 
 * Key bindings.
 
 ** =evil= provides =vi= key bindings.
 
-*** Make sure TAB works correctly in =org-mode=.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq evil-want-C-i-jump nil)
-    #+END_SRC
-
 *** Initialize =evil=.
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
+        :init
+        (setq evil-want-C-i-jump nil)
+        (setq evil-want-integration t)
+        (setq evil-want-keybinding nil)
         :config
         (evil-mode 1))
-    #+END_SRC
-
-*** =evil= everywhere.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq evil-emacs-state-modes nil)
     #+END_SRC
 
 *** Enable =evil-surround=.
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-surround
+        :after evil
         :config
         (global-evil-surround-mode 1))
     #+END_SRC
@@ -156,11 +312,10 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-org
-        :after org
+        :after (evil org)
         :config
         (add-hook 'org-mode-hook 'evil-org-mode)
-        (add-hook 'evil-org-mode-hook
-                  (lambda () (evil-org-set-key-theme)))
+        (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
         (require 'evil-org-agenda)
         (evil-org-agenda-set-keys))
     #+END_SRC
@@ -169,8 +324,18 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-commentary
+        :after evil
         :config
         (evil-commentary-mode 1))
+    #+END_SRC
+
+*** Enable =evil-collection=.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-collection
+        :after evil
+        :config
+        (evil-collection-init))
     #+END_SRC
 
 ** =general= makes it easier to assign key bindings.
@@ -198,13 +363,6 @@
         "" nil
         "SPC" '(counsel-M-x :which-key "M-x")
         "/" '(counsel-projectile-git-grep :which-key "find in project"))
-
-      (general-def
-        :states 'insert
-        "RET" 'newline-and-indent)
-
-      (general-def
-        "<escape>" 'keyboard-escape-quit)
     #+END_SRC
 
 *** Buffer.
@@ -332,6 +490,7 @@
        (setq projectile-completion-system 'ivy))
 
      (use-package counsel-projectile
+       :after (projectile counsel)
        :config
        (counsel-projectile-mode 1))
    #+END_SRC
@@ -346,13 +505,15 @@
          (magit-restore-window-configuration)
          (mapc #'kill-buffer buffers)))
 
-     (use-package magit
-       :config
-       (use-package evil-magit)
-       (general-def
-         :states 'normal
-         :keymaps 'magit-status-mode-map
-         "q" 'akoppela/magit-clean-quit))
+     (use-package magit)
+       ;; :config
+       ;; (general-def
+       ;;   :states 'normal
+       ;;   :keymaps 'magit-status-mode-map
+       ;;   "q" 'akoppela/magit-clean-quit))
+
+     (use-package evil-magit
+       :after (evil magit))
    #+END_SRC
 
 * Document content management.
@@ -385,20 +546,76 @@
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
    #+END_SRC
 
-* Navigation.
+* Task management.
 
-** =counsel= completion framework.
+  The killer =org-mode=.
+
+** Key bindings.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package counsel
-       :config
-       (ivy-mode 1))
+     (major-def
+       :keymaps 'org-mode-map
+       "'" '(org-edit-special :which-key "src editor")
+
+       "d" '(:ignore t :which-key "date")
+       "d s" '(org-schedule :which-key "schedule")
+
+       "s" '(:ignore t :which-key "subtree")
+       "s r" '(org-refile :which-key "refile"))
+
+     (general-def
+       :definer 'minor-mode
+       :states 'normal
+       :keymaps 'org-src-mode
+       "'" 'org-edit-src-exit
+       "q" 'org-edit-src-abort)
    #+END_SRC
 
-** =multiple-cursors=.
+** Show bullets instead of stars.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package multiple-cursors)
+     (use-package org-bullets
+       :after org
+       :init
+       (add-hook 'org-mode-hook 'org-bullets-mode))
+   #+END_SRC
+
+** Change collapsed subtree symbol.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-ellipsis " ↴")
+   #+END_SRC
+
+** Make TAB act natively for code blocks.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-src-tab-acts-natively t)
+   #+END_SRC
+
+** Custom TODO keywords.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
+     (setq org-todo-keyword-faces
+           `(("TODO" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base08 :weight bold))
+             ("PROG" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base0D :weight bold))
+             ("DONE" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base0B :weight bold))))
+     (setq org-log-done t)
+   #+END_SRC
+
+** Agenda files.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq org-agenda-files (list "~/org/notes.org"))
+    #+END_SRC
+
+** Better =org-refile=.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
+     (setq org-refile-use-outline-path 'file)
+     (setq org-outline-path-complete-in-steps nil)
+     (setq org-refile-allow-creating-parent-nodes 'confirm)
    #+END_SRC
 
 * Programming languages.
@@ -430,179 +647,9 @@
        (remove-hook 'elm-mode-hook 'elm-indent-mode))
 
      (use-package flycheck-elm
+       :after (flycheck elm)
        :config
        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-   #+END_SRC
-
-* Task management.
-
-  The killer =org-mode=.
-
-** Key bindings.
-
-   #+BEGIN_SRC emacs-lisp
-     (major-def
-       :keymaps 'org-mode-map
-       "'" '(org-edit-special :which-key "src editor"))
-
-     (general-def
-       :definer 'minor-mode
-       :states 'normal
-       :keymaps 'org-src-mode
-       "'" 'org-edit-src-exit
-       "q" 'org-edit-src-abort)
-   #+END_SRC
-
-** Show bullets instead of stars.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :init
-       (add-hook 'org-mode-hook 'org-bullets-mode))
-   #+END_SRC
-
-** Change collapsed subtree symbol.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq org-ellipsis " ↴")
-   #+END_SRC
-
-** Make TAB act natively for code blocks.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq org-src-tab-acts-natively t)
-   #+END_SRC
-
-* Appearance.
-
-** Hide default Emacs screen.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq inhibit-startup-screen t)
-   #+END_SRC
-
-** Change default scratch message.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq initial-scratch-message (concat "Welcome in Emacs\nStartup time: " (emacs-init-time)))
-   #+END_SRC
-
-** Enable custom theme.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package base16-theme
-       :init
-       (add-to-list 'custom-theme-load-path "~/.emacs.d/akoppela/theme")
-       :config
-       (setq base16-theme-256-color-source 'colors)
-       (load-theme 'base16-akoppela t))
-   #+END_SRC
-
-** =mode-line= specific.
-
-*** Initialize =spaceline=.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package spaceline
-        :config
-        (require 'spaceline-config)
-        (spaceline-spacemacs-theme))
-    #+END_SRC
-
-*** Change =mode-line= highlight color based on evil mode.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    #+END_SRC
-
-*** Hide minor modes.
-
-    #+BEGIN_SRC emacs-lisp
-      (spaceline-toggle-minor-modes-off)
-    #+END_SRC
-
-*** Show full names for evil state.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq evil-normal-state-tag "NORMAL")
-      (setq evil-insert-state-tag "INSERT")
-      (setq evil-visual-state-tag "VISUAL")
-      (setq evil-replace-state-tag "REPLACE")
-      (setq evil-operator-state-tag "OPERATOR")
-      (setq evil-motion-state-tag "MOTION")
-      (setq evil-emacs-state-tag "EMACS")
-    #+END_SRC
-
-*** Show date and time.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun padDateNumber (stringNumber)
-        (format "%02d" (string-to-number stringNumber)))
-
-      (setq display-time-string-forms
-            '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
-
-      (display-time-mode 1)
-    #+END_SRC
-
-** Hide menu and tool bars.
-
-   #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode 0)
-     (menu-bar-mode 0)
-   #+END_SRC
-
-** Enable current line highlighting.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-hl-line-mode 1)
-   #+END_SRC
-
-** Turn on syntax highlighting whenever possible.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-font-lock-mode 1)
-   #+END_SRC
-
-** Visually indicate matching parentheses.
-
-   #+BEGIN_SRC emacs-lisp
-     (show-paren-mode 1)
-     (setq show-paren-delay 0.0)
-   #+END_SRC
-
-** Flash screen on invalid operation.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq visible-bell t)
-   #+END_SRC
-
-** Display visual line numbers.
-
-   Visual lines are relative screen lines.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-display-line-numbers-mode)
-     (setq display-line-numbers-type 'visual)
-     (setq display-line-numbers-width-start t)
-   #+END_SRC
-
-** Always indent with spaces
-
-   #+BEGIN_SRC emacs-lisp
-     (setq-default indent-tabs-mode nil)
-   #+END_SRC
-
-** Use 4 spaces for tabs.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq-default tab-width 4)
-   #+END_SRC
-
-** Smooth scroll.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq scroll-conservatively 100)
    #+END_SRC
 
 * Help.
@@ -622,10 +669,11 @@
        :config
        (setq counsel-describe-function-function #'helpful-callable)
        (setq counsel-describe-variable-function #'helpful-variable)
-       (general-def
-         :states 'normal
-         :keymaps 'helpful-mode-map
-         "q" 'kill-buffer-and-window))
+       ;; (general-def
+       ;;   :states 'normal
+       ;;   :keymaps 'helpful-mode-map
+       ;;   "q" 'kill-buffer-and-window))
+       )
    #+END_SRC
 
 ** Benchmark emacs initialization.
@@ -643,6 +691,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package elfeed)
      (use-package elfeed-org
+       :after (elfeed org)
        :config
        (progn
          (elfeed-org)
