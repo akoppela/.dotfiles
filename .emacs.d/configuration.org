@@ -505,12 +505,12 @@
          (magit-restore-window-configuration)
          (mapc #'kill-buffer buffers)))
 
-     (use-package magit)
-       ;; :config
-       ;; (general-def
-       ;;   :states 'normal
-       ;;   :keymaps 'magit-status-mode-map
-       ;;   "q" 'akoppela/magit-clean-quit))
+     (use-package magit
+       :config
+       (general-def
+         :states 'normal
+         :keymaps 'magit-status-mode-map
+         "q" 'akoppela/magit-clean-quit))
 
      (use-package evil-magit
        :after (evil magit))
@@ -567,7 +567,7 @@
        :definer 'minor-mode
        :states 'normal
        :keymaps 'org-src-mode
-       "'" 'org-edit-src-exit
+       "c" 'org-edit-src-exit
        "q" 'org-edit-src-abort)
    #+END_SRC
 
@@ -669,11 +669,10 @@
        :config
        (setq counsel-describe-function-function #'helpful-callable)
        (setq counsel-describe-variable-function #'helpful-variable)
-       ;; (general-def
-       ;;   :states 'normal
-       ;;   :keymaps 'helpful-mode-map
-       ;;   "q" 'kill-buffer-and-window))
-       )
+       (general-def
+         :states 'normal
+         :keymaps 'helpful-mode-map
+         "q" 'kill-buffer-and-window))
    #+END_SRC
 
 ** Benchmark emacs initialization.
