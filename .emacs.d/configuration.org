@@ -275,31 +275,6 @@
        :config (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 
-* Navigation and search.
-
-** =counsel= completion framework.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package counsel
-       :config
-       (ivy-mode 1)
-       (major-def
-         :keymaps 'ivy-minibuffer-map
-         "o" '(ivy-occur :which-key "occur")))
-   #+END_SRC
-
-** =multiple-cursors=.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package multiple-cursors)
-   #+END_SRC
-
-** =wgrep= to edit search.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package wgrep)
-   #+END_SRC
-
 * Key bindings.
 
 ** =evil= provides =vi= key bindings.
@@ -499,6 +474,31 @@
         "q q" '(save-buffers-kill-terminal :which-key "client")
         "q Q" '(save-buffers-kill-emacs :which-key "server"))
     #+END_SRC
+
+* Navigation and search.
+
+** =counsel= completion framework.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel
+       :config
+       (ivy-mode 1)
+       (major-def
+         :keymaps 'ivy-minibuffer-map
+         "o" '(ivy-occur :which-key "occur")))
+   #+END_SRC
+
+** =multiple-cursors=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package multiple-cursors)
+   #+END_SRC
+
+** =wgrep= to edit search.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package wgrep)
+   #+END_SRC
 
 * Project management.
 
