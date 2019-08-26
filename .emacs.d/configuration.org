@@ -128,6 +128,13 @@
        (require 'vlf-setup))
    #+END_SRC
 
+** Do not add newline at the end of a file.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq require-final-newline nil)
+     (setq mode-require-final-newline nil)
+   #+END_SRC
+
 * Appearance.
 
 ** Hide default Emacs screen.
@@ -428,6 +435,13 @@
         "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer"))
     #+END_SRC
 
+*** Application.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a" '(:ignore t :which-key "application"))
+    #+END_SRC
+
 *** Search.
 
     #+BEGIN_SRC emacs-lisp
@@ -547,6 +561,7 @@
        (setq company-idle-delay 0)
        (setq company-minimum-prefix-length 2)
        (setq company-dabbrev-downcase nil))
+
      (add-hook 'after-init-hook 'global-company-mode)
    #+END_SRC
 
@@ -584,12 +599,11 @@
        "s" '(:ignore t :which-key "subtree")
        "s r" '(org-refile :which-key "refile"))
 
-     (general-def
+     (major-def
        :definer 'minor-mode
-       :states 'normal
        :keymaps 'org-src-mode
-       "c" 'org-edit-src-exit
-       "q" 'org-edit-src-abort)
+       "c" '(org-edit-src-exit :which-key "commit")
+       "q" '(org-edit-src-abort :which-key "quit"))
    #+END_SRC
 
 ** Show bullets instead of stars.
@@ -736,14 +750,45 @@
    #+BEGIN_SRC emacs-lisp
      (use-package elfeed
        :config
+       (leader-def
+         "a e" 'elfeed)
        (major-def
-         :keymaps 'elfeed-search-mode)
-         "u" '(elfeed-update :which-key "update"))
+         :keymaps 'elfeed-search-mode-map
+         "u" '(elfeed-update :which-key "update")))
+
      (use-package elfeed-org
        :after (elfeed org)
        :config
        (elfeed-org)
        (setq rmh-elfeed-org-files (list "~/org/rss.org")))
+   #+END_SRC
+
+* Conta
+
+** Helper functions.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun akoppela/conta-serve-frontend ()
+       "Starts Conta's frontend 'dev:watch' process."
+       (interactive)
+       (let ((buffer-name "dev:watch"))
+         (if (get-buffer buffer-name)
+             (switch-to-buffer buffer-name)
+           (progn
+             (eshell)
+             (rename-buffer buffer-name)
+             (insert "cd ~/contadev/front-end/ && npm run dev:watch")
+             (eshell-send-input)))))
+   #+END_SRC
+
+** Key bindings.
+
+   #+BEGIN_SRC emacs-lisp
+     (leader-def
+       "a c" '(:ignore t :which-key "conta")
+
+       "a c s" '(:ignore t :which-key "serve")
+       "a c s f" '(akoppela/conta-serve-frontend :which-key "frontend"))
    #+END_SRC
 
 * The End!
