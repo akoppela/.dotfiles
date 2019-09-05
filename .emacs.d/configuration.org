@@ -437,7 +437,8 @@
         "p" '(:ignore t :which-key "project")
         "p f" '(counsel-projectile-find-file :which-key "find file")
         "p p" '(counsel-projectile-switch-project :which-key "switch")
-        "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer"))
+        "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer")
+        "p t" '(treemacs :which-key "treemacs"))
     #+END_SRC
 
 *** Application.
