@@ -839,6 +839,15 @@
         (akoppela/conta-exec-npm akoppela/conta-frontend-root "tests:unit:enforce"))
     #+END_SRC
 
+*** Clean elm stuff.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/conta-frontend-elm-clean-stuff ()
+        "Cleans Conta's frontend Elm stuff."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/conta-frontend-root "elm:clean:stuff"))
+    #+END_SRC
+
 *** Update frontend.
 
     #+BEGIN_SRC emacs-lisp
@@ -859,9 +868,12 @@
        "a c s" '(:ignore t :which-key "serve")
        "a c s f" '(akoppela/conta-frontend-serve :which-key "frontend")
 
-       "a c t" '(:ignore t :which-key "test")
-       "a c t j" '(akoppela/conta-frontend-js-tests :which-key "js")
-       "a c t c" '(akoppela/conta-frontend-js-tests-coverage :which-key "js coverage"))
+       "a c e" '(:ignore t :which-key "elm")
+       "a c e c" '(akoppela/conta-frontend-elm-clean-stuff :which-key "clean stuff")
+
+       "a c j" '(:ignore t :which-key "javascript")
+       "a c j t" '(akoppela/conta-frontend-js-tests :which-key "test")
+       "a c j c" '(akoppela/conta-frontend-js-tests-coverage :which-key "coverage"))
    #+END_SRC
 
 * Moontells.
