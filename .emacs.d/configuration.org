@@ -534,6 +534,12 @@
        :after (treemacs projectile))
    #+END_SRC
 
+** =iedit= to edit multiple regions simultaneously.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package iedit)
+   #+END_SRC
+
 * Project management.
 
 ** =projectile=.
@@ -702,11 +708,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package elm-mode
+       :custom
+       (elm-package-json "elm.json")
+       (elm-mode-generate-tags t)
        :config
-       (turn-off-elm-indent)
        (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
-       (add-hook 'elm-mode-hook 'flycheck-mode)
-       (remove-hook 'elm-mode-hook 'elm-indent-mode))
+       (add-hook 'elm-mode-hook 'flycheck-mode))
 
      (use-package flycheck-elm
        :after (flycheck elm-mode)
