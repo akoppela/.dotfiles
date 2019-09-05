@@ -135,6 +135,11 @@
      (setq mode-require-final-newline nil)
    #+END_SRC
 
+** Set =eww= as default browser.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq browse-url-browser-function 'eww-browse-url)
+   #+END_SRC
 * Appearance.
 
 ** Hide default Emacs screen.
