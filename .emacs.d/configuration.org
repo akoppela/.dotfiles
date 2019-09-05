@@ -140,6 +140,7 @@
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function 'eww-browse-url)
    #+END_SRC
+
 * Appearance.
 
 ** Hide default Emacs screen.
@@ -311,7 +312,6 @@
         :custom
         (evil-collection-setup-minibuffer t)
         :config
-        (setq evil-collection-outline-bind-tab-p nil)
         (evil-collection-init))
     #+END_SRC
 
@@ -521,6 +521,18 @@
      (use-package wgrep)
    #+END_SRC
 
+** =treemacs= file explorer.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package treemacs)
+
+     (use-package treemacs-evil
+       :after (treemacs evil-collection))
+
+     (use-package treemacs-projectile
+       :after (treemacs projectile))
+   #+END_SRC
+
 * Project management.
 
 ** =projectile=.
@@ -555,7 +567,7 @@
          "q" 'akoppela/magit-clean-quit))
 
      (use-package evil-magit
-       :after (evil magit))
+       :after (evil-collection magit))
    #+END_SRC
 
 * Document content management.
