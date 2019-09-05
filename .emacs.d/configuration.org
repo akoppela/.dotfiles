@@ -453,7 +453,9 @@
       (leader-def
         "s" '(:ignore t :which-key "search")
         "s s" '(swiper-isearch :which-key "buffer")
-        "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point"))
+        "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point")
+        "s b" '(eww-search-words :which-key "browser")
+        "s i" '(imenu :which-key "imenu"))
     #+END_SRC
 
 *** Error.
@@ -594,6 +596,14 @@
 ** Key bindings.
 
    #+BEGIN_SRC emacs-lisp
+     (defun akoppela/open-notes ()
+       "Opens my notes."
+       (interactive)
+       (find-file (expand-file-name "~/org/notes.org")))
+
+     (leader-def
+       "a n" '(akoppela/open-notes :which-key "notes"))
+
      (major-def
        :keymaps 'org-mode-map
        "'" '(org-edit-special :which-key "src editor")
@@ -603,12 +613,6 @@
 
        "s" '(:ignore t :which-key "subtree")
        "s r" '(org-refile :which-key "refile"))
-
-     (major-def
-       :definer 'minor-mode
-       :keymaps 'org-src-mode
-       "c" '(org-edit-src-exit :which-key "commit")
-       "q" '(org-edit-src-abort :which-key "quit"))
    #+END_SRC
 
 ** Show bullets instead of stars.
@@ -652,7 +656,7 @@
 ** Better =org-refile=.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
+     (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (akoppela/configuration-path :maxlevel . 2)))
      (setq org-refile-use-outline-path 'file)
      (setq org-outline-path-complete-in-steps nil)
      (setq org-refile-allow-creating-parent-nodes 'confirm)
@@ -692,7 +696,7 @@
        (remove-hook 'elm-mode-hook 'elm-indent-mode))
 
      (use-package flycheck-elm
-       :after (flycheck elm)
+       :after (flycheck elm-mode)
        :config
        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
    #+END_SRC
@@ -768,23 +772,68 @@
        (setq rmh-elfeed-org-files (list "~/org/rss.org")))
    #+END_SRC
 
-* Conta
+* Helper functions.
+
+** Exec npm command.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun akoppela/conta-exec-npm (root-folder cmd-name)
+       "Starts eshell buffer with given name, enters Conta's frontend folder and executes given npm command."
+       (progn
+         (if (get-buffer cmd-name)
+             (switch-to-buffer cmd-name)
+           (progn
+             (eshell)
+             (rename-buffer cmd-name)
+             (insert "cd " root-folder " && npm run " cmd-name)
+             (eshell-send-input)))))
+   #+END_SRC
+
+* Conta.
 
 ** Helper functions.
 
-   #+BEGIN_SRC emacs-lisp
-     (defun akoppela/conta-serve-frontend ()
-       "Starts Conta's frontend 'dev:watch' process."
-       (interactive)
-       (let ((buffer-name "dev:watch"))
-         (if (get-buffer buffer-name)
-             (switch-to-buffer buffer-name)
-           (progn
-             (eshell)
-             (rename-buffer buffer-name)
-             (insert "cd ~/contadev/front-end/ && npm run dev:watch")
-             (eshell-send-input)))))
-   #+END_SRC
+*** Frontend root folder.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq akoppela/conta-frontend-root "~/contadev/front-end/")
+    #+END_SRC
+
+*** Serve frontend.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/conta-frontend-serve ()
+        "Starts Conta's frontend development server."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/conta-frontend-root "dev:watch"))
+    #+END_SRC
+
+*** Run frontend JS tests.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/conta-frontend-js-tests ()
+        "Runs Conta's frontend JS unit tests command."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/conta-frontend-root "tests:unit"))
+    #+END_SRC
+
+*** Run frontend JS tests coverage.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/conta-frontend-js-tests-coverage ()
+        "Runs Conta's frontend JS unit tests coverage command."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/conta-frontend-root "tests:unit:enforce"))
+    #+END_SRC
+
+*** Update frontend.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/conta-frontend-update ()
+        "Updates Conta's frontend to the latest version."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/conta-frontend-root "update"))
+    #+END_SRC
 
 ** Key bindings.
 
@@ -792,8 +841,43 @@
      (leader-def
        "a c" '(:ignore t :which-key "conta")
 
+       "a c u" '(akoppela/conta-frontend-update :which-key "update")
+
        "a c s" '(:ignore t :which-key "serve")
-       "a c s f" '(akoppela/conta-serve-frontend :which-key "frontend"))
+       "a c s f" '(akoppela/conta-frontend-serve :which-key "frontend")
+
+       "a c t" '(:ignore t :which-key "test")
+       "a c t j" '(akoppela/conta-frontend-js-tests :which-key "js")
+       "a c t c" '(akoppela/conta-frontend-js-tests-coverage :which-key "js coverage"))
+   #+END_SRC
+
+* Moontells.
+
+** Helper functions.
+
+*** Root folder.
+
+    #+BEGIN_SRC emacs-lisp
+      (defconst akoppela/moontells-root "~/moontells/")
+    #+END_SRC
+
+*** Serve mobile app.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun akoppela/moontells-mobile-serve ()
+        "Starts Moontells's mobile app development server."
+        (interactive)
+        (akoppela/conta-exec-npm akoppela/moontells-root "start:app"))
+    #+END_SRC
+
+** Key bindings.
+
+   #+BEGIN_SRC emacs-lisp
+     (leader-def
+       "a m" '(:ignore t :which-key "moontells")
+
+       "a m m" '(:ignore t :which-key "mobile")
+       "a m m s" '(akoppela/moontells-mobile-serve :which-key "serve"))
    #+END_SRC
 
 * The End!
