@@ -708,29 +708,97 @@
 
 ** =harvest=.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package reaper
-       :custom
-       (reaper-api-key (getenv "HARVEST_API_KEY"))
-       (reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
-       :config
-       (leader-def
-         "a h" '(reaper :which-key "harvest"))
-       (general-def
-         :states 'normal
-         :keymaps 'reaper-mode-map
-         "q" 'kill-buffer-and-window)
-       (major-def
-         :keymaps 'reaper-mode-map
-         "r" '(reaper-refresh :which-key "refresh")
-         "d" '(reaper-goto-date :which-key "date")
-         "s" '(reaper-start-timer :which-key "start timer")
-         "S" '(reaper-stop-timer :which-key "stop timer")
-         "n" '(reaper-start-new-timer :which-key "new timer")
-         "e" '(reaper-edit-entry-time :which-key "edit time")
-         "E" '(reaper-edit-entry :which-key "edit entry")
-         "x" '(reaper-delete-entry :which-key "delete")))
-   #+END_SRC
+*** Initialize.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package reaper
+        :custom
+        (reaper-api-key (getenv "HARVEST_API_KEY"))
+        (reaper-account-id (getenv "HARVEST_ACCOUNT_ID")))
+    #+END_SRC
+
+*** Helper functions.
+
+**** Overriden =reaper-refresh-entries=.
+
+     #+BEGIN_SRC emacs-lisp
+       (defun reaper-refresh-entries ()
+         "Fetch time-entries from Harvest."
+         (reaper--check-credentials)
+         (reaper-with-buffer
+          (message "Refreshing data from Harvest...")
+          (let* ((response-entries
+                  (reaper-alist-get '(time_entries)
+                                    (reaper-api "GET"
+                                                (format "time_entries?from=%s&to=%s"  reaper-date reaper-date)
+                                                nil
+                                                "Refreshed cache of daily entries")))
+                 (request-time (current-time)))
+            (setq reaper-running-timer nil)
+            (setq reaper-timeentries
+                  (mapcar
+                   (lambda (entry)
+                     (when (reaper-alist-get '(is_running) entry)
+                       (setq reaper-running-timer (reaper-alist-get '(id) entry)))
+                     (cons (reaper-alist-get '(id) entry)
+                           (list
+                            (cons :id (reaper-alist-get '(id) entry))
+                            (cons :project_id (reaper-alist-get '(project id) entry))
+                            (cons :project (reaper-alist-get '(project name) entry))
+                            (cons :task_id (reaper-alist-get '(task id) entry))
+                            (cons :task (reaper-alist-get '(task name) entry))
+                            (cons :is_running (reaper-alist-get '(is_running) entry))
+                            (cons :hours (reaper-alist-get '(hours) entry))
+                            (cons :started_time (reaper-alist-get '(started_time) entry))
+                            (cons :ended_time (reaper-alist-get '(ended_time) entry))
+                            (cons :notes (let ((notes (reaper-alist-get '(notes) entry)))
+                                           (if notes (decode-coding-string notes 'utf-8) ""))))))
+                   ;; API returns newest entry first. Simply reverse the list.
+                   (reverse response-entries)))
+            (setq reaper-fetch-time request-time))))
+     #+END_SRC
+
+**** Overriden =reaper-edit-entry-time=.
+
+     #+BEGIN_SRC emacs-lisp
+       (defun reaper-edit-entry-time ()
+         "Edit start/end time of entry at point."
+         (interactive)
+         (let* ((entry-id (tabulated-list-get-id))
+                (entry (assoc entry-id reaper-timeentries))
+                (start-time (cdr (assoc :started_time entry)))
+                (new-start-time (read-string "New start time: " start-time))
+                (end-time (cdr (assoc :ended_time entry)))
+                (new-end-time (read-string "New end time: " end-time))
+                (harvest-payload (make-hash-table :test 'equal)))
+           (puthash "started_time" new-start-time harvest-payload)
+           (puthash "ended_time" new-end-time harvest-payload)
+           (reaper-api "PATCH" (format "time_entries/%s" entry-id) harvest-payload "Updated entry")
+           (reaper-refresh)))
+     #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a h" '(reaper :which-key "harvest"))
+
+      (general-def
+        :states 'normal
+        :keymaps 'reaper-mode-map
+        "q" 'kill-buffer-and-window)
+
+      (major-def
+        :keymaps 'reaper-mode-map
+        "r" '(reaper-refresh :which-key "refresh")
+        "d" '(reaper-goto-date :which-key "date")
+        "s" '(reaper-start-timer :which-key "start timer")
+        "S" '(reaper-stop-timer :which-key "stop timer")
+        "n" '(reaper-start-new-timer :which-key "new timer")
+        "e" '(reaper-edit-entry-time :which-key "edit time")
+        "E" '(reaper-edit-entry :which-key "edit entry")
+        "x" '(reaper-delete-entry :which-key "delete"))
+    #+END_SRC
 
 * Programming languages.
 
