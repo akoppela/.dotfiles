@@ -465,7 +465,8 @@
       (leader-def
         "e" '(:ignore t :which-key "error")
         "e n" '(flycheck-next-error :which-key "next")
-        "e p" '(flycheck-previous-error :which-key "previous"))
+        "e p" '(flycheck-previous-error :which-key "previous")
+        "e l" '(flycheck-list-errors :which-key "list"))
     #+END_SRC
 
 *** Git.
@@ -475,6 +476,25 @@
         "g" '(:ignore t :which-key "git")
         "g s" '(magit-status :which-key "status")
         "g b" '(magit-blame :which-key "blame"))
+    #+END_SRC
+
+*** Narrow.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "n" '(:ignore t :which-key "narrow")
+        "n f" '(narrow-to-defun :which-key "function")
+        "n r" '(narrow-to-region :which-key "region")
+        "n p" '(narrow-to-page :which-key "page")
+        "n w" '(widen :which-key "widen"))
+    #+END_SRC
+
+*** Jump.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "j" '(:ignore t :which-key "jump")
+        "j w" '(avy-goto-word-1 :which-key "word"))
     #+END_SRC
 
 *** Help.
