@@ -162,9 +162,9 @@
        :custom
        (base16-theme-256-color-source 'colors)
        :init
-       (add-to-list 'custom-theme-load-path "~/.emacs.d/akoppela/theme")
+       (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
-       (load-theme 'base16-akoppela t))
+       (load-theme 'base16-my-theme t))
    #+END_SRC
 
 ** =mode-line= specific.
@@ -405,7 +405,7 @@
 **** Helper functions.
 
      #+BEGIN_SRC emacs-lisp
-       (defun akoppela/delete-file-and-buffer ()
+       (defun my/delete-file-and-buffer ()
          "Kill the current buffer and delete the file it's visiting."
          (interactive)
          (let ((filename (buffer-file-name)))
@@ -426,11 +426,11 @@
          "f f" '(counsel-find-file :which-key "find")
          "f s" '(save-buffer :which-key "save")
          "f r" '(rename-file :which-key "rename")
-         "f d" '(akoppela/delete-file-and-buffer :which-key "delete")
+         "f d" '(my/delete-file-and-buffer :which-key "delete")
 
          "f e" '(:ignore t :which-key "emacs")
-         "f e c" '(akoppela/open-configuration :which-key "configuration")
-         "f e r" '(akoppela/load-configuration :which-key "reload configuration"))
+         "f e c" '(my/open-configuration :which-key "configuration")
+         "f e r" '(my/load-configuration :which-key "reload configuration"))
      #+END_SRC
 
 *** Project.
@@ -582,7 +582,7 @@
 ** =magit= for Git related stuff.
 
    #+BEGIN_SRC emacs-lisp
-     (defun akoppela/magit-clean-quit ()
+     (defun my/magit-clean-quit ()
        "Restore window configuration and kill all Magit buffers."
        (interactive)
        (let ((buffers (magit-mode-get-buffers)))
@@ -594,7 +594,7 @@
        (general-def
          :states 'normal
          :keymaps 'magit-status-mode-map
-         "q" 'akoppela/magit-clean-quit))
+         "q" 'my/magit-clean-quit))
 
      (use-package evil-magit
        :after (evil-collection magit))
@@ -638,13 +638,13 @@
 ** Key bindings.
 
    #+BEGIN_SRC emacs-lisp
-     (defun akoppela/open-notes ()
+     (defun my/open-notes ()
        "Opens my notes."
        (interactive)
        (find-file (expand-file-name "~/org/notes.org")))
 
      (leader-def
-       "a n" '(akoppela/open-notes :which-key "notes"))
+       "a n" '(my/open-notes :which-key "notes"))
 
      (major-def
        :keymaps 'org-mode-map
@@ -683,9 +683,9 @@
    #+BEGIN_SRC emacs-lisp
      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
      (setq org-todo-keyword-faces
-           `(("TODO" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base08 :weight bold))
-             ("PROG" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base0D :weight bold))
-             ("DONE" . (:background ,base16-akoppela-base01 :foreground ,base16-akoppela-base0B :weight bold))))
+           `(("TODO" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base08 :weight bold))
+             ("PROG" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base0D :weight bold))
+             ("DONE" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base0B :weight bold))))
      (setq org-log-done t)
    #+END_SRC
 
@@ -698,10 +698,38 @@
 ** Better =org-refile=.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (akoppela/configuration-path :maxlevel . 2)))
+     (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (my/configuration-path :maxlevel . 2)))
      (setq org-refile-use-outline-path 'file)
      (setq org-outline-path-complete-in-steps nil)
      (setq org-refile-allow-creating-parent-nodes 'confirm)
+   #+END_SRC
+
+* Time management.
+
+** =harvest=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package reaper
+       :custom
+       (reaper-api-key (getenv "HARVEST_API_KEY"))
+       (reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
+       :config
+       (leader-def
+         "a h" '(reaper :which-key "harvest"))
+       (general-def
+         :states 'normal
+         :keymaps 'reaper-mode-map
+         "q" 'kill-buffer-and-window)
+       (major-def
+         :keymaps 'reaper-mode-map
+         "r" '(reaper-refresh :which-key "refresh")
+         "d" '(reaper-goto-date :which-key "date")
+         "s" '(reaper-start-timer :which-key "start timer")
+         "S" '(reaper-stop-timer :which-key "stop timer")
+         "n" '(reaper-start-new-timer :which-key "new timer")
+         "e" '(reaper-edit-entry-time :which-key "edit time")
+         "E" '(reaper-edit-entry :which-key "edit entry")
+         "x" '(reaper-delete-entry :which-key "delete")))
    #+END_SRC
 
 * Programming languages.
@@ -822,7 +850,7 @@
 ** Exec npm command.
 
    #+BEGIN_SRC emacs-lisp
-     (defun akoppela/conta-exec-npm (root-folder cmd-name)
+     (defun my/conta-exec-npm (root-folder cmd-name)
        "Starts eshell buffer with given name, enters Conta's frontend folder and executes given npm command."
        (progn
          (if (get-buffer cmd-name)
@@ -841,52 +869,52 @@
 *** Frontend root folder.
 
     #+BEGIN_SRC emacs-lisp
-      (defconst akoppela/conta-frontend-root "~/contadev/front-end/")
+      (defconst my/conta-frontend-root "~/contadev/front-end/")
     #+END_SRC
 
 *** Serve frontend.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/conta-frontend-serve ()
+      (defun my/conta-frontend-serve ()
         "Starts Conta's frontend development server."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/conta-frontend-root "dev:watch"))
+        (my/conta-exec-npm my/conta-frontend-root "dev:watch"))
     #+END_SRC
 
 *** Run frontend JS tests.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/conta-frontend-js-tests ()
+      (defun my/conta-frontend-js-tests ()
         "Runs Conta's frontend JS unit tests command."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/conta-frontend-root "tests:unit"))
+        (my/conta-exec-npm my/conta-frontend-root "tests:unit"))
     #+END_SRC
 
 *** Run frontend JS tests coverage.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/conta-frontend-js-tests-coverage ()
+      (defun my/conta-frontend-js-tests-coverage ()
         "Runs Conta's frontend JS unit tests coverage command."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/conta-frontend-root "tests:unit:enforce"))
+        (my/conta-exec-npm my/conta-frontend-root "tests:unit:enforce"))
     #+END_SRC
 
 *** Clean elm stuff.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/conta-frontend-elm-clean-stuff ()
+      (defun my/conta-frontend-elm-clean-stuff ()
         "Cleans Conta's frontend Elm stuff."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/conta-frontend-root "elm:clean:stuff"))
+        (my/conta-exec-npm my/conta-frontend-root "elm:clean:stuff"))
     #+END_SRC
 
 *** Update frontend.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/conta-frontend-update ()
+      (defun my/conta-frontend-update ()
         "Updates Conta's frontend to the latest version."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/conta-frontend-root "update"))
+        (my/conta-exec-npm my/conta-frontend-root "update"))
     #+END_SRC
 
 ** Key bindings.
@@ -895,17 +923,17 @@
      (leader-def
        "a c" '(:ignore t :which-key "conta")
 
-       "a c u" '(akoppela/conta-frontend-update :which-key "update")
+       "a c u" '(my/conta-frontend-update :which-key "update")
 
        "a c s" '(:ignore t :which-key "serve")
-       "a c s f" '(akoppela/conta-frontend-serve :which-key "frontend")
+       "a c s f" '(my/conta-frontend-serve :which-key "frontend")
 
        "a c e" '(:ignore t :which-key "elm")
-       "a c e c" '(akoppela/conta-frontend-elm-clean-stuff :which-key "clean stuff")
+       "a c e c" '(my/conta-frontend-elm-clean-stuff :which-key "clean stuff")
 
        "a c j" '(:ignore t :which-key "javascript")
-       "a c j t" '(akoppela/conta-frontend-js-tests :which-key "test")
-       "a c j c" '(akoppela/conta-frontend-js-tests-coverage :which-key "coverage"))
+       "a c j t" '(my/conta-frontend-js-tests :which-key "test")
+       "a c j c" '(my/conta-frontend-js-tests-coverage :which-key "coverage"))
    #+END_SRC
 
 * Moontells.
@@ -915,16 +943,16 @@
 *** Root folder.
 
     #+BEGIN_SRC emacs-lisp
-      (defconst akoppela/moontells-root "~/moontells/")
+      (defconst my/moontells-root "~/moontells/")
     #+END_SRC
 
 *** Serve mobile app.
 
     #+BEGIN_SRC emacs-lisp
-      (defun akoppela/moontells-mobile-serve ()
+      (defun my/moontells-mobile-serve ()
         "Starts Moontells's mobile app development server."
         (interactive)
-        (akoppela/conta-exec-npm akoppela/moontells-root "start:app"))
+        (my/conta-exec-npm my/moontells-root "start:app"))
     #+END_SRC
 
 ** Key bindings.
@@ -934,7 +962,7 @@
        "a m" '(:ignore t :which-key "moontells")
 
        "a m m" '(:ignore t :which-key "mobile")
-       "a m m s" '(akoppela/moontells-mobile-serve :which-key "serve"))
+       "a m m s" '(my/moontells-mobile-serve :which-key "serve"))
    #+END_SRC
 
 * The End!
