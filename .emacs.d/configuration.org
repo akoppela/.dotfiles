@@ -289,9 +289,9 @@
        :config (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 
-* Key bindings.
+* Keybindings.
 
-** =evil= provides =vi= key bindings.
+** =evil= provides =vi= keybindings.
 
 *** Initialize =evil=.
 
@@ -348,7 +348,7 @@
         (evil-commentary-mode 1))
     #+END_SRC
 
-** =general= makes it easier to assign key bindings.
+** =general= makes it easier to assign keybindings.
 
 *** Initialize.
 
@@ -635,7 +635,7 @@
 
   The killer =org-mode=.
 
-** Key bindings.
+** Keybindings.
 
    #+BEGIN_SRC emacs-lisp
      (defun my/open-notes ()
@@ -917,7 +917,7 @@
         (my/conta-exec-npm my/conta-frontend-root "update"))
     #+END_SRC
 
-** Key bindings.
+** Keybindings.
 
    #+BEGIN_SRC emacs-lisp
      (leader-def
@@ -955,7 +955,7 @@
         (my/conta-exec-npm my/moontells-root "start:app"))
     #+END_SRC
 
-** Key bindings.
+** Keybindings.
 
    #+BEGIN_SRC emacs-lisp
      (leader-def
