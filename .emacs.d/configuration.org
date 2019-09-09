@@ -159,10 +159,11 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package base16-theme
+       :custom
+       (base16-theme-256-color-source 'colors)
        :init
        (add-to-list 'custom-theme-load-path "~/.emacs.d/akoppela/theme")
        :config
-       (setq base16-theme-256-color-source 'colors)
        (load-theme 'base16-akoppela t))
    #+END_SRC
 
@@ -296,10 +297,11 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
+        :custom
+        (evil-want-C-i-jump nil)
+        (evil-want-integration t)
+        (evil-want-keybinding nil)
         :init
-        (setq evil-want-C-i-jump nil)
-        (setq evil-want-integration t)
-        (setq evil-want-keybinding nil)
         :config
         (evil-mode 1))
     #+END_SRC
@@ -603,10 +605,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package company
-       :config
-       (setq company-idle-delay 0)
-       (setq company-minimum-prefix-length 2)
-       (setq company-dabbrev-downcase nil))
+       :custom
+       (company-idle-delay 0)
+       (company-minimum-prefix-length 2)
+       (company-dabbrev-downcase nil))
 
      (add-hook 'after-init-hook 'global-company-mode)
    #+END_SRC
@@ -775,9 +777,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package helpful
+       :custom
+       (counsel-describe-function-function #'helpful-callable)
+       (counsel-describe-variable-function #'helpful-variable)
        :config
-       (setq counsel-describe-function-function #'helpful-callable)
-       (setq counsel-describe-variable-function #'helpful-variable)
        (general-def
          :states 'normal
          :keymaps 'helpful-mode-map
@@ -807,9 +810,10 @@
 
      (use-package elfeed-org
        :after (elfeed org)
+       :custom
+       (rmh-elfeed-org-files (list "~/org/rss.org"))
        :config
-       (elfeed-org)
-       (setq rmh-elfeed-org-files (list "~/org/rss.org")))
+       (elfeed-org))
    #+END_SRC
 
 * Helper functions.
@@ -836,7 +840,7 @@
 *** Frontend root folder.
 
     #+BEGIN_SRC emacs-lisp
-      (setq akoppela/conta-frontend-root "~/contadev/front-end/")
+      (defconst akoppela/conta-frontend-root "~/contadev/front-end/")
     #+END_SRC
 
 *** Serve frontend.
