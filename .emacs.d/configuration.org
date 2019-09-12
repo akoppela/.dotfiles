@@ -786,11 +786,11 @@
       (general-def
         :states 'normal
         :keymaps 'reaper-mode-map
-        "q" 'kill-buffer-and-window)
+        "q" 'kill-buffer-and-window
+        "g r" '(reaper-refresh :which-key "refresh"))
 
       (major-def
         :keymaps 'reaper-mode-map
-        "r" '(reaper-refresh :which-key "refresh")
         "d" '(reaper-goto-date :which-key "date")
         "s" '(reaper-start-timer :which-key "start timer")
         "S" '(reaper-stop-timer :which-key "stop timer")
