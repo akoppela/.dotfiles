@@ -478,7 +478,10 @@
       (leader-def
         "g" '(:ignore t :which-key "git")
         "g s" '(magit-status :which-key "status")
-        "g b" '(magit-blame :which-key "blame"))
+        "g b" '(magit-blame :which-key "blame")
+
+        "g f" '(:ignore t :which-key "file")
+        "g f h" '(magit-log-buffer-file :which-key "history"))
     #+END_SRC
 
 *** Narrow.
