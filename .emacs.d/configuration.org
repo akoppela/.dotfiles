@@ -478,7 +478,7 @@
       (leader-def
         "g" '(:ignore t :which-key "git")
         "g s" '(magit-status :which-key "status")
-        "g b" '(magit-blame :which-key "blame")
+        "g b" '(magit-blame-addition :which-key "blame")
 
         "g f" '(:ignore t :which-key "file")
         "g f h" '(magit-log-buffer-file :which-key "history"))
@@ -584,24 +584,40 @@
 
 ** =magit= for Git related stuff.
 
-   #+BEGIN_SRC emacs-lisp
-     (defun my/magit-clean-quit ()
-       "Restore window configuration and kill all Magit buffers."
-       (interactive)
-       (let ((buffers (magit-mode-get-buffers)))
-         (magit-restore-window-configuration)
-         (mapc #'kill-buffer buffers)))
+*** Helper functions.
 
-     (use-package magit
-       :config
-       (general-def
-         :states 'normal
-         :keymaps 'magit-status-mode-map
-         "q" 'my/magit-clean-quit))
+    #+BEGIN_SRC emacs-lisp
+      (defun my/magit-clean-quit ()
+        "Restore window configuration and kill all Magit buffers."
+        (interactive)
+        (let ((buffers (magit-mode-get-buffers)))
+          (magit-restore-window-configuration)
+          (mapc #'kill-buffer buffers)))
+    #+END_SRC
 
-     (use-package evil-magit
-       :after (evil-collection magit))
-   #+END_SRC
+*** Initialization.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package magit
+        :custom
+        (magit-blame-styles
+         '((margin
+            (margin-format " %a - %s%f" " %C" " %H")
+            (margin-width . 42)
+            (margin-face . magit-blame-margin)
+            (margin-body-face magit-blame-dimmed))))
+         (general-def
+           :states 'normal
+           :keymaps 'magit-status-mode-map
+           "q" 'my/magit-clean-quit))
+    #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-magit
+        :after (evil-collection magit))
+    #+END_SRC
 
 * Document content management.
 
