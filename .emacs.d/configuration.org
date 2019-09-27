@@ -383,22 +383,56 @@
         "b b" '(ivy-switch-buffer :which-key "switch")
         "b d" '(kill-current-buffer :which-key "delete")
         "b x" '(kill-buffer-and-window :which-key "delete with window")
+        "b s" '(save-some-buffers :which-key "save")
         "b r" '(rename-buffer :which-key "rename"))
     #+END_SRC
 
 *** Window.
 
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "w" '(:ignore t :which-key "window")
-        "w TAB" '(other-window :which-key "next")
-        "w d" '(delete-window :which-key "delete")
-        "w D" '(delete-other-windows :which-key "delete other")
+**** Helper functions.
 
-        "w s" '(:ignore t :which-key "split")
-        "w s h" '(split-window-below :which-key "split horizontally")
-        "w s v" '(split-window-right :which-key "split vertically"))
-    #+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (defun my/split-window-toggle ()
+         "Toggles window split from horizontal to vertical and vice versa."
+         (interactive)
+         (if (= (count-windows) 2)
+             (let* ((this-win-buffer (window-buffer))
+                (next-win-buffer (window-buffer (next-window)))
+                (this-win-edges (window-edges (selected-window)))
+                (next-win-edges (window-edges (next-window)))
+                (this-win-2nd (not (and (<= (car this-win-edges)
+                            (car next-win-edges))
+                            (<= (cadr this-win-edges)
+                            (cadr next-win-edges)))))
+                (splitter
+                 (if (= (car this-win-edges)
+                    (car (window-edges (next-window))))
+                 'split-window-horizontally
+               'split-window-vertically)))
+           (delete-other-windows)
+           (let ((first-win (selected-window)))
+             (funcall splitter)
+             (if this-win-2nd (other-window 1))
+             (set-window-buffer (selected-window) this-win-buffer)
+             (set-window-buffer (next-window) next-win-buffer)
+             (select-window first-win)
+             (if this-win-2nd (other-window 1))))))
+     #+END_SRC
+
+**** Keybindings.
+
+     #+BEGIN_SRC emacs-lisp
+       (leader-def
+         "w" '(:ignore t :which-key "window")
+         "w TAB" '(other-window :which-key "next")
+         "w d" '(delete-window :which-key "delete")
+         "w D" '(delete-other-windows :which-key "delete other")
+
+         "w s" '(:ignore t :which-key "split")
+         "w s h" '(split-window-below :which-key "horizontally")
+         "w s v" '(split-window-right :which-key "vertically")
+         "w s t" '(my/split-window-toggle :which-key "toggle"))
+     #+END_SRC
 
 *** File.
 
@@ -479,9 +513,7 @@
         "g" '(:ignore t :which-key "git")
         "g s" '(magit-status :which-key "status")
         "g b" '(magit-blame-addition :which-key "blame")
-
-        "g f" '(:ignore t :which-key "file")
-        "g f h" '(magit-log-buffer-file :which-key "history"))
+        "g h" '(magit-log-buffer-file :which-key "history"))
     #+END_SRC
 
 *** Narrow.
@@ -511,6 +543,7 @@
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
         "h k" '(helpful-key :which-key "describe key")
+        "h m" '(describe-mode :which-key "describe mode")
         "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
     #+END_SRC
 
