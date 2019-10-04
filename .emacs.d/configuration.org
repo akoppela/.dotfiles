@@ -348,6 +348,12 @@
         (evil-commentary-mode 1))
     #+END_SRC
 
+** =hydra=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package hydra)
+   #+END_SRC
+
 ** =general= makes it easier to assign keybindings.
 
 *** Initialize.
@@ -391,33 +397,46 @@
 
 **** Helper functions.
 
-     #+BEGIN_SRC emacs-lisp
-       (defun my/split-window-toggle ()
-         "Toggles window split from horizontal to vertical and vice versa."
-         (interactive)
-         (if (= (count-windows) 2)
-             (let* ((this-win-buffer (window-buffer))
-                (next-win-buffer (window-buffer (next-window)))
-                (this-win-edges (window-edges (selected-window)))
-                (next-win-edges (window-edges (next-window)))
-                (this-win-2nd (not (and (<= (car this-win-edges)
-                            (car next-win-edges))
-                            (<= (cadr this-win-edges)
-                            (cadr next-win-edges)))))
-                (splitter
-                 (if (= (car this-win-edges)
-                    (car (window-edges (next-window))))
-                 'split-window-horizontally
-               'split-window-vertically)))
-           (delete-other-windows)
-           (let ((first-win (selected-window)))
-             (funcall splitter)
-             (if this-win-2nd (other-window 1))
-             (set-window-buffer (selected-window) this-win-buffer)
-             (set-window-buffer (next-window) next-win-buffer)
-             (select-window first-win)
-             (if this-win-2nd (other-window 1))))))
-     #+END_SRC
+***** Resize hydra.
+
+      #+BEGIN_SRC emacs-lisp
+        (defhydra hydra-window-resize ()
+          "Resize window"
+          ("[" shrink-window-horizontally "shrink horizontally")
+          ("]" enlarge-window-horizontally "enlarge horizontally")
+          ("{" shrink-window "shrink vertically")
+          ("}" enlarge-window "enlarge vertically"))
+      #+END_SRC
+
+***** Toggle split from horizontal to vertical and vice versa.
+
+      #+BEGIN_SRC emacs-lisp
+        (defun my/split-window-toggle ()
+          "Toggles window split from horizontal to vertical and vice versa."
+          (interactive)
+          (if (= (count-windows) 2)
+              (let* ((this-win-buffer (window-buffer))
+                 (next-win-buffer (window-buffer (next-window)))
+                 (this-win-edges (window-edges (selected-window)))
+                 (next-win-edges (window-edges (next-window)))
+                 (this-win-2nd (not (and (<= (car this-win-edges)
+                             (car next-win-edges))
+                             (<= (cadr this-win-edges)
+                             (cadr next-win-edges)))))
+                 (splitter
+                  (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+            (delete-other-windows)
+            (let ((first-win (selected-window)))
+              (funcall splitter)
+              (if this-win-2nd (other-window 1))
+              (set-window-buffer (selected-window) this-win-buffer)
+              (set-window-buffer (next-window) next-win-buffer)
+              (select-window first-win)
+              (if this-win-2nd (other-window 1))))))
+      #+END_SRC
 
 **** Keybindings.
 
@@ -427,6 +446,7 @@
          "w TAB" '(other-window :which-key "next")
          "w d" '(delete-window :which-key "delete")
          "w D" '(delete-other-windows :which-key "delete other")
+         "w r" '(hydra-window-resize/body :which-key "resize")
 
          "w s" '(:ignore t :which-key "split")
          "w s h" '(split-window-below :which-key "horizontally")
@@ -697,6 +717,10 @@
 
      (leader-def
        "a n" '(my/open-notes :which-key "notes"))
+
+     (leader-def
+       :keymaps 'org-mode-map
+       "n s" '(org-narrow-to-subtree :which-key "subtree"))
 
      (major-def
        :keymaps 'org-mode-map
