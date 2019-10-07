@@ -141,6 +141,13 @@
      (setq browse-url-browser-function 'eww-browse-url)
    #+END_SRC
 
+** Eshell visual commands.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'em-term)
+     (add-to-list 'eshell-visual-commands "htop")
+   #+END_SRC
+
 * Appearance.
 
 ** Hide default Emacs screen.
@@ -301,7 +308,6 @@
         (evil-want-C-i-jump nil)
         (evil-want-integration t)
         (evil-want-keybinding nil)
-        :init
         :config
         (evil-mode 1))
     #+END_SRC
@@ -976,7 +982,7 @@
      (use-package elfeed
        :config
        (leader-def
-         "a e" 'elfeed)
+         "a f" 'elfeed)
        (major-def
          :keymaps 'elfeed-search-mode-map
          "u" '(elfeed-update :which-key "update")))
@@ -994,7 +1000,7 @@
 ** Exec npm command.
 
    #+BEGIN_SRC emacs-lisp
-     (defun my/conta-exec-npm (root-folder cmd-name)
+     (defun my/exec-npm (root-folder cmd-name)
        "Starts eshell buffer with given name, enters Conta's frontend folder and executes given npm command."
        (progn
          (if (get-buffer cmd-name)
@@ -1022,7 +1028,7 @@
       (defun my/conta-frontend-serve ()
         "Starts Conta's frontend development server."
         (interactive)
-        (my/conta-exec-npm my/conta-frontend-root "dev:watch"))
+        (my/exec-npm my/conta-frontend-root "dev:watch"))
     #+END_SRC
 
 *** Run frontend JS tests.
@@ -1031,7 +1037,7 @@
       (defun my/conta-frontend-js-tests ()
         "Runs Conta's frontend JS unit tests command."
         (interactive)
-        (my/conta-exec-npm my/conta-frontend-root "tests:unit"))
+        (my/exec-npm my/conta-frontend-root "tests:unit"))
     #+END_SRC
 
 *** Run frontend JS tests coverage.
@@ -1040,7 +1046,7 @@
       (defun my/conta-frontend-js-tests-coverage ()
         "Runs Conta's frontend JS unit tests coverage command."
         (interactive)
-        (my/conta-exec-npm my/conta-frontend-root "tests:unit:enforce"))
+        (my/exec-npm my/conta-frontend-root "tests:unit:enforce"))
     #+END_SRC
 
 *** Clean elm stuff.
@@ -1049,7 +1055,7 @@
       (defun my/conta-frontend-elm-clean-stuff ()
         "Cleans Conta's frontend Elm stuff."
         (interactive)
-        (my/conta-exec-npm my/conta-frontend-root "elm:clean:stuff"))
+        (my/exec-npm my/conta-frontend-root "elm:clean:stuff"))
     #+END_SRC
 
 *** Update frontend.
@@ -1058,7 +1064,7 @@
       (defun my/conta-frontend-update ()
         "Updates Conta's frontend to the latest version."
         (interactive)
-        (my/conta-exec-npm my/conta-frontend-root "update"))
+        (my/exec-npm my/conta-frontend-root "update"))
     #+END_SRC
 
 ** Keybindings.
@@ -1096,7 +1102,7 @@
       (defun my/moontells-mobile-serve ()
         "Starts Moontells's mobile app development server."
         (interactive)
-        (my/conta-exec-npm my/moontells-root "start:app"))
+        (my/exec-npm my/moontells-root "start:app"))
     #+END_SRC
 
 ** Keybindings.
