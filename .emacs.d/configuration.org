@@ -22,14 +22,6 @@
      (package-initialize)
    #+END_SRC
 
-** TODO Fix a bug when it's not possible to download packages from GNU package archive.
-
-   Should be fixed in Emacs 26.3
-
-   #+BEGIN_SRC emacs-lisp
-     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-   #+END_SRC
-
 ** Make sure =use-package= is installed.
 
    #+BEGIN_SRC emacs-lisp
@@ -247,6 +239,15 @@
      (setq show-paren-delay 0.0)
    #+END_SRC
 
+** Enable smart parenthesis.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package smartparens
+       :config
+       (require 'smartparens-config)
+       (add-hook 'prog-mode-hook #'smartparens-mode))
+   #+END_SRC
+
 ** Flash screen on invalid operation.
 
    #+BEGIN_SRC emacs-lisp
@@ -293,7 +294,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-mode
-       :config (add-hook 'prog-mode-hook 'rainbow-mode))
+       :config
+       (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 
 * Keybindings.
@@ -508,7 +510,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (leader-def
-        "a" '(:ignore t :which-key "application"))
+        "a" '(:ignore t :which-key "application")
+        "a e" '(eshell :which-key "eshell"))
     #+END_SRC
 
 *** Search.
@@ -732,6 +735,12 @@
        :keymaps 'org-mode-map
        "'" '(org-edit-special :which-key "src editor")
 
+       "e" '(:ignore t :which-key "export")
+       "e a" '(org-ascii-export-as-ascii :which-key "as ascii")
+       "e A" '(org-ascii-export-to-ascii :which-key "to ascii")
+       "e m" '(org-md-export-as-markdown :which-key "as markdown")
+       "e M" '(org-md-export-to-markdown :which-key "to markdown")
+
        "d" '(:ignore t :which-key "date")
        "d s" '(org-schedule :which-key "schedule")
 
@@ -794,70 +803,12 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package reaper
+        :load-path "~/reaper/"
         :custom
+        (reaper-hours-timer-mode nil)
         (reaper-api-key (getenv "HARVEST_API_KEY"))
         (reaper-account-id (getenv "HARVEST_ACCOUNT_ID")))
     #+END_SRC
-
-*** Helper functions.
-
-**** Overriden =reaper-refresh-entries=.
-
-     #+BEGIN_SRC emacs-lisp
-       (defun reaper-refresh-entries ()
-         "Fetch time-entries from Harvest."
-         (reaper--check-credentials)
-         (reaper-with-buffer
-          (message "Refreshing data from Harvest...")
-          (let* ((response-entries
-                  (reaper-alist-get '(time_entries)
-                                    (reaper-api "GET"
-                                                (format "time_entries?from=%s&to=%s"  reaper-date reaper-date)
-                                                nil
-                                                "Refreshed cache of daily entries")))
-                 (request-time (current-time)))
-            (setq reaper-running-timer nil)
-            (setq reaper-timeentries
-                  (mapcar
-                   (lambda (entry)
-                     (when (reaper-alist-get '(is_running) entry)
-                       (setq reaper-running-timer (reaper-alist-get '(id) entry)))
-                     (cons (reaper-alist-get '(id) entry)
-                           (list
-                            (cons :id (reaper-alist-get '(id) entry))
-                            (cons :project_id (reaper-alist-get '(project id) entry))
-                            (cons :project (reaper-alist-get '(project name) entry))
-                            (cons :task_id (reaper-alist-get '(task id) entry))
-                            (cons :task (reaper-alist-get '(task name) entry))
-                            (cons :is_running (reaper-alist-get '(is_running) entry))
-                            (cons :hours (reaper-alist-get '(hours) entry))
-                            (cons :started_time (reaper-alist-get '(started_time) entry))
-                            (cons :ended_time (reaper-alist-get '(ended_time) entry))
-                            (cons :notes (let ((notes (reaper-alist-get '(notes) entry)))
-                                           (if notes (decode-coding-string notes 'utf-8) ""))))))
-                   ;; API returns newest entry first. Simply reverse the list.
-                   (reverse response-entries)))
-            (setq reaper-fetch-time request-time))))
-     #+END_SRC
-
-**** Overriden =reaper-edit-entry-time=.
-
-     #+BEGIN_SRC emacs-lisp
-       (defun reaper-edit-entry-time ()
-         "Edit start/end time of entry at point."
-         (interactive)
-         (let* ((entry-id (tabulated-list-get-id))
-                (entry (assoc entry-id reaper-timeentries))
-                (start-time (cdr (assoc :started_time entry)))
-                (new-start-time (read-string "New start time: " start-time))
-                (end-time (cdr (assoc :ended_time entry)))
-                (new-end-time (read-string "New end time: " end-time))
-                (harvest-payload (make-hash-table :test 'equal)))
-           (puthash "started_time" new-start-time harvest-payload)
-           (puthash "ended_time" new-end-time harvest-payload)
-           (reaper-api "PATCH" (format "time_entries/%s" entry-id) harvest-payload "Updated entry")
-           (reaper-refresh)))
-     #+END_SRC
 
 *** Keybindings.
 
