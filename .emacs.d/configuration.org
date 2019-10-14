@@ -148,10 +148,22 @@
      (setq inhibit-startup-screen t)
    #+END_SRC
 
-** Change default scratch message.
+** Welcome dashboard.
 
    #+BEGIN_SRC emacs-lisp
-     (setq initial-scratch-message (concat "Welcome in Emacs\nStartup time: " (emacs-init-time)))
+     (use-package page-break-lines)
+     (use-package dashboard
+       :after page-break-lines
+       :config
+       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+       (setq dashboard-set-navigator t)
+       (setq dashboard-set-init-info t)
+       (setq dashboard-set-footer nil)
+       (setq dashboard-show-shortcuts nil)
+       (setq dashboard-items '((recents . 5)
+                               (projects . 5)
+                               (agenda . 5)))
+       (dashboard-setup-startup-hook))
    #+END_SRC
 
 ** Enable custom theme.
@@ -595,7 +607,8 @@
        (ivy-mode 1)
        (major-def
          :keymaps 'ivy-minibuffer-map
-         "o" '(ivy-occur :which-key "occur")))
+         "o" '(ivy-occur :which-key "occur")
+         "a" '(ivy-read-action :which-key "action")))
    #+END_SRC
 
 ** =multiple-cursors=.
