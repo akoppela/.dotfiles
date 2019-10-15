@@ -140,6 +140,15 @@
      (add-to-list 'eshell-visual-commands "htop")
    #+END_SRC
 
+** Enable smart parenthesis.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package smartparens
+       :config
+       (require 'smartparens-config)
+       (add-hook 'prog-mode-hook 'smartparens-mode))
+   #+END_SRC
+
 * Appearance.
 
 ** Hide default Emacs screen.
@@ -251,15 +260,6 @@
      (setq show-paren-delay 0.0)
    #+END_SRC
 
-** Enable smart parenthesis.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package smartparens
-       :config
-       (require 'smartparens-config)
-       (add-hook 'prog-mode-hook #'smartparens-mode))
-   #+END_SRC
-
 ** Flash screen on invalid operation.
 
    #+BEGIN_SRC emacs-lisp
@@ -300,6 +300,27 @@
      (use-package centered-cursor-mode
        :config
        (global-centered-cursor-mode 1))
+   #+END_SRC
+
+** Buffer list grouping.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ibuffer-vc
+       :config
+       (setq ibuffer-formats
+             '((mark modified read-only locked vc-status-mini
+                     " "
+                     (name 18 18 :left :elide)
+                     " "
+                     (size 9 -1 :right)
+                     " "
+                     (mode 16 16 :left :elide)
+                     " "
+                     vc-relative-file)))
+       (add-hook 'ibuffer-hook
+                 (lambda ()
+                   (ibuffer-vc-set-filter-groups-by-vc-root)
+                   (ibuffer-do-sort-by-recency))))
    #+END_SRC
 
 ** Add color background for hexadecimal strings.
@@ -407,10 +428,16 @@
       (leader-def
         "b" '(:ignore t :which-key "buffer")
         "b b" '(ivy-switch-buffer :which-key "switch")
+        "b l" '(ibuffer :which-key "list")
         "b d" '(kill-current-buffer :which-key "delete")
         "b x" '(kill-buffer-and-window :which-key "delete with window")
         "b s" '(save-some-buffers :which-key "save")
         "b r" '(rename-buffer :which-key "rename"))
+
+      (general-def
+        :states '(normal visual)
+        :keymaps 'ibuffer-mode-map
+        "q" 'kill-buffer-and-window)
     #+END_SRC
 
 *** Window.
@@ -680,11 +707,7 @@
             (margin-format " %a - %s%f" " %C" " %H")
             (margin-width . 42)
             (margin-face . magit-blame-margin)
-            (margin-body-face magit-blame-dimmed))))
-         (general-def
-           :states 'normal
-           :keymaps 'magit-status-mode-map
-           "q" 'my/magit-clean-quit))
+            (margin-body-face magit-blame-dimmed)))))
     #+END_SRC
 
 *** Keybindings.
@@ -747,12 +770,7 @@
      (major-def
        :keymaps 'org-mode-map
        "'" '(org-edit-special :which-key "src editor")
-
-       "e" '(:ignore t :which-key "export")
-       "e a" '(org-ascii-export-as-ascii :which-key "as ascii")
-       "e A" '(org-ascii-export-to-ascii :which-key "to ascii")
-       "e m" '(org-md-export-as-markdown :which-key "as markdown")
-       "e M" '(org-md-export-to-markdown :which-key "to markdown")
+       "e" '(org-export-dispatch :which-key "export")
 
        "d" '(:ignore t :which-key "date")
        "d s" '(org-schedule :which-key "schedule")
@@ -830,7 +848,7 @@
         "a h" '(reaper :which-key "harvest"))
 
       (general-def
-        :states 'normal
+        :states '(normal visual)
         :keymaps 'reaper-mode-map
         "q" 'kill-buffer-and-window
         "g r" '(reaper-refresh :which-key "refresh"))
@@ -925,7 +943,7 @@
        (counsel-describe-variable-function #'helpful-variable)
        :config
        (general-def
-         :states 'normal
+         :states '(normal visual)
          :keymaps 'helpful-mode-map
          "q" 'kill-buffer-and-window))
    #+END_SRC
