@@ -588,11 +588,24 @@
 
 *** Application.
 
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "a" '(:ignore t :which-key "application")
-        "a e" '(eshell :which-key "eshell"))
-    #+END_SRC
+**** Helper functions.
+
+     #+BEGIN_SRC emacs-lisp
+       (defun my/eshell ()
+         "Starts eshell using projectile if possible."
+         (interactive)
+         (if (projectile-project-p)
+             (projectile-run-eshell)
+           (eshell)))
+     #+END_SRC
+
+**** Keybindings.
+
+     #+BEGIN_SRC emacs-lisp
+       (leader-def
+         "a" '(:ignore t :which-key "application")
+         "a e" '(my/eshell :which-key "eshell"))
+     #+END_SRC
 
 *** Search.
 
