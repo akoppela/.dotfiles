@@ -460,7 +460,7 @@
       (leader-def
         "" nil
         "SPC" '(counsel-M-x :which-key "M-x")
-        "/" '(counsel-projectile-git-grep :which-key "find in project"))
+        "/" '(counsel-projectile-rg :which-key "find in project"))
     #+END_SRC
 
 *** Buffer.
