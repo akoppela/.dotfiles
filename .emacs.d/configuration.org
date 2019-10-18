@@ -634,6 +634,10 @@
         "n r" '(narrow-to-region :which-key "region")
         "n p" '(narrow-to-page :which-key "page")
         "n w" '(widen :which-key "widen"))
+
+      (leader-def
+        :keymaps '(org-mode-map outline-minor-mode-map)
+        "n s" '(org-narrow-to-subtree :which-key "subtree"))
     #+END_SRC
 
 *** Jump.
@@ -804,10 +808,6 @@
      (leader-def
        "a n" '(my/open-notes :which-key "notes"))
 
-     (leader-def
-       :keymaps 'org-mode-map
-       "n s" '(org-narrow-to-subtree :which-key "subtree"))
-
      (major-def
        :keymaps 'org-mode-map
        "'" '(org-edit-special :which-key "src editor")
@@ -930,20 +930,47 @@
 
 ** =elm=.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package elm-mode
-       :custom
-       (elm-package-json "elm.json")
-       (elm-mode-generate-tags t)
-       :config
-       (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
-       (add-hook 'elm-mode-hook 'flycheck-mode))
+*** Helper functions.
 
-     (use-package flycheck-elm
-       :after (flycheck elm-mode)
-       :config
-       (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (defun my/elm-outline-mode ()
+        "Enables outline mode for Elm files."
+        (progn
+          (outline-minor-mode)
+          (setq outline-regexp "--\ ")))
+    #+END_SRC
+
+*** Initialization.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package elm-mode
+        :custom
+        (elm-package-json "elm.json")
+        (elm-mode-generate-tags t)
+        :config
+        (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
+        (add-hook 'elm-mode-hook 'flycheck-mode)
+        (add-hook 'elm-mode-hook 'my/elm-outline-mode))
+
+      (use-package flycheck-elm
+        :after (flycheck elm-mode)
+        :config
+        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
+    #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (general-def
+        :states '(normal visual)
+        :keymaps 'elm-mode-map
+        "TAB" 'org-cycle
+        "<backtab>" 'org-global-cycle
+        "M-<up>" 'outline-move-subtree-up
+        "M-<down>" 'outline-move-subtree-down
+        "g k" '(outline-previous-heading :which-key "previous heading")
+        "g j" '(outline-next-heading :which-key "next heading"))
+    #+END_SRC
 
 ** =javascript=.
 
