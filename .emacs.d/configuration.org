@@ -190,6 +190,18 @@
        (add-hook 'prog-mode-hook 'smartparens-mode))
    #+END_SRC
 
+** Revert TAGS file without asking.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq tags-revert-without-query t)
+   #+END_SRC
+
+** Automatically rescan imenu.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq imenu-auto-rescan t)
+   #+END_SRC
+
 * Appearance.
 
 ** Hide default Emacs screen.
@@ -948,9 +960,9 @@
       (use-package elm-mode
         :custom
         (elm-package-json "elm.json")
-        (elm-mode-generate-tags t)
+        (elm-tags-on-save t)
+        (elm-format-on-save t)
         :config
-        (add-hook 'elm-mode-hook 'elm-format-on-save-mode)
         (add-hook 'elm-mode-hook 'flycheck-mode)
         (add-hook 'elm-mode-hook 'my/elm-outline-mode))
 
