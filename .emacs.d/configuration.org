@@ -202,7 +202,7 @@
      (use-package dash)
    #+END_SRC
 
-** Automatically rescan imenu.
+** Automatically rescan =imenu=.
 
    #+BEGIN_SRC emacs-lisp
      (setq imenu-auto-rescan t)
