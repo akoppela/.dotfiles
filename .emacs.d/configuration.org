@@ -491,6 +491,7 @@
         "b d" '(kill-current-buffer :which-key "delete")
         "b x" '(kill-buffer-and-window :which-key "delete with window")
         "b s" '(save-some-buffers :which-key "save")
+        "b e" '(eval-buffer :which-key "eval")
         "b r" '(rename-buffer :which-key "rename"))
 
       (general-def
@@ -553,6 +554,7 @@
          "w d" '(delete-window :which-key "delete")
          "w D" '(delete-other-windows :which-key "delete other")
          "w r" '(hydra-window-resize/body :which-key "resize")
+         "w a" '(ace-window :which-key "ace")
 
          "w s" '(:ignore t :which-key "split")
          "w s h" '(split-window-below :which-key "horizontally")
@@ -724,7 +726,7 @@
       (leader-def
         "e" '(:ignore t :which-key "error")
         "e n" '(flycheck-next-error :which-key "next")
-        "e p" '(flycheck-previous-error :which-key "previous")
+        "e N" '(flycheck-previous-error :which-key "previous")
         "e l" '(flycheck-list-errors :which-key "list"))
     #+END_SRC
 
@@ -753,6 +755,13 @@
         "n s" '(org-narrow-to-subtree :which-key "subtree"))
     #+END_SRC
 
+*** Macro.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "m" '(counsel-kmacro :which-key "macro"))
+    #+END_SRC
+
 *** Jump.
 
     #+BEGIN_SRC emacs-lisp
@@ -768,6 +777,7 @@
         "h" '(:ignore t :which-key "help")
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
+        "h s" '(describe-symbol :which-key "describe symbol")
         "h k" '(helpful-key :which-key "describe key")
         "h m" '(describe-mode :which-key "describe mode")
         "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
