@@ -196,6 +196,12 @@
      (setq tags-revert-without-query t)
    #+END_SRC
 
+** Load =dash=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package dash)
+   #+END_SRC
+
 ** Automatically rescan imenu.
 
    #+BEGIN_SRC emacs-lisp
@@ -552,6 +558,88 @@
          "w s h" '(split-window-below :which-key "horizontally")
          "w s v" '(split-window-right :which-key "vertically")
          "w s t" '(my/split-window-toggle :which-key "toggle"))
+     #+END_SRC
+
+*** Theme.
+
+**** Varibles.
+
+     #+BEGIN_SRC emacs-lisp
+       (setq my/current-theme 'base16-my-theme)
+       (setq my/available-themes (custom-available-themes))
+       (setq my/favourite-themes '(base16-my-theme
+                                  base16-tomorrow))
+     #+END_SRC
+
+**** Helper functions.
+
+***** Change theme.
+
+      #+BEGIN_SRC emacs-lisp
+        (defmacro my/change-theme (fun-name fun-description themes get-new-theme get-rest-themes sort-themes)
+          "Changes theme based on given data"
+          `(defun ,fun-name ()
+             ,fun-description
+             (interactive)
+             (let* ((new-theme (,get-new-theme ,themes))
+                    (rest-themes (,get-rest-themes ,themes))
+                    (new-available-themes (funcall (,sort-themes 'append) rest-themes (list new-theme))))
+               (progn
+                 (setq ,themes new-available-themes)
+                 (if (eq new-theme my/current-theme)
+                     (,fun-name)
+                   (progn
+                     (mapcar #'disable-theme custom-enabled-themes)
+                     (load-theme new-theme t)
+                     (setq my/current-theme new-theme)))))))
+      #+END_SRC
+
+***** Next theme.
+
+      #+BEGIN_SRC emacs-lisp
+        (my/change-theme my/next-theme "Changes theme to next one" my/available-themes car cdr identity)
+        (my/change-theme my/next-favourite-theme "Changes theme to next favourite one" my/favourite-themes car cdr identity)
+      #+END_SRC
+
+***** Previous theme.
+
+      #+BEGIN_SRC emacs-lisp
+        (my/change-theme my/previous-theme "Changes theme to previous one" my/available-themes -last-item butlast -flip)
+        (my/change-theme my/previous-favourite-theme "Changes theme to previous favourite one" my/favourite-themes -last-item butlast -flip)
+      #+END_SRC
+
+***** Print current theme name.
+
+      #+BEGIN_SRC emacs-lisp
+        (defun my/print-current-theme ()
+          "Prints current theme name"
+          (interactive)
+          (message "Current theme is \"%s\"" my/current-theme))
+      #+END_SRC
+
+***** Theme hydra.
+
+      #+BEGIN_SRC emacs-lisp
+        (defhydra hydra-change-theme ()
+          "Change theme"
+          ("n" my/next-theme "next")
+          ("N" my/previous-theme "previous")
+          ("c" my/print-current-theme "current"))
+
+        (defhydra hydra-change-favourite-theme ()
+          "Change favourite theme"
+          ("n" my/next-favourite-theme "next")
+          ("N" my/previous-favourite-theme "previous")
+          ("c" my/print-current-theme "current"))
+      #+END_SRC
+
+**** Keybindings.
+
+     #+BEGIN_SRC emacs-lisp
+       (leader-def
+         "t" '(:ignore t :which-key "theme")
+         "t a" '(hydra-change-theme/body :which-key "all")
+         "t f" '(hydra-change-favourite-theme/body :which-key "favourite"))
      #+END_SRC
 
 *** File.
