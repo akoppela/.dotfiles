@@ -592,7 +592,9 @@
                      (,fun-name)
                    (progn
                      (mapcar #'disable-theme custom-enabled-themes)
+                     (font-lock-mode)
                      (load-theme new-theme t)
+                     (font-lock-mode)
                      (setq my/current-theme new-theme)))))))
       #+END_SRC
 
