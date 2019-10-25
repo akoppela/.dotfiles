@@ -570,7 +570,7 @@
        (setq my/current-theme 'base16-my-theme)
        (setq my/available-themes (custom-available-themes))
        (setq my/favourite-themes '(base16-my-theme
-                                  base16-tomorrow))
+                                   base16-tomorrow))
      #+END_SRC
 
 **** Helper functions.
@@ -967,7 +967,7 @@
 ** Agenda files.
 
    #+BEGIN_SRC emacs-lisp
-      (setq org-agenda-files (list "~/org/notes.org"))
+     (setq org-agenda-files (list "~/org/notes.org"))
    #+END_SRC
 
 ** Better =org-refile=.
