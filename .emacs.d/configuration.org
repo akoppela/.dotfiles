@@ -1167,6 +1167,12 @@
        (add-hook 'after-init-hook 'benchmark-init/deactivate))
    #+END_SRC
 
+** Select help window when open.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq help-window-select t)
+   #+END_SRC
+
 * News.
 
 ** =elfeed= RSS reader.
