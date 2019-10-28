@@ -214,200 +214,6 @@
      (setq imenu-auto-rescan t)
    #+END_SRC
 
-* Appearance.
-
-** Hide default Emacs screen.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq inhibit-startup-screen t)
-   #+END_SRC
-
-** Welcome dashboard.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package page-break-lines)
-     (use-package dashboard
-       :after page-break-lines
-       :config
-       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-       (setq dashboard-set-navigator t)
-       (setq dashboard-set-init-info t)
-       (setq dashboard-set-footer nil)
-       (setq dashboard-show-shortcuts nil)
-       (setq dashboard-items '((recents . 5)
-                               (projects . 5)
-                               (agenda . 5)))
-       (dashboard-setup-startup-hook))
-   #+END_SRC
-
-** Enable custom theme.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package base16-theme
-       :init
-       (setq base16-theme-256-color-source 'colors)
-       (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
-       :config
-       (setq my/themes '(base16-my-dark base16-my-light))
-       (setq my/current-theme 'base16-my-dark))
-   #+END_SRC
-
-** =mode-line= specific.
-
-*** Initialize =spaceline=.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package spaceline
-        :config
-        (require 'spaceline-config)
-        (spaceline-spacemacs-theme))
-    #+END_SRC
-
-*** Change =mode-line= highlight color based on evil mode.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    #+END_SRC
-
-*** Hide minor modes.
-
-    #+BEGIN_SRC emacs-lisp
-      (spaceline-toggle-minor-modes-off)
-    #+END_SRC
-
-*** Show full names for evil state.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq evil-normal-state-tag "N")
-      (setq evil-insert-state-tag "I")
-      (setq evil-visual-state-tag "V")
-      (setq evil-replace-state-tag "R")
-      (setq evil-operator-state-tag "O")
-      (setq evil-motion-state-tag "M")
-      (setq evil-emacs-state-tag "E")
-    #+END_SRC
-
-*** Show match info.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package anzu
-        :config
-        (setq anzu-cons-mode-line-p nil)
-        (global-anzu-mode 1))
-
-      (use-package evil-anzu
-        :after (evil anzu))
-    #+END_SRC
-
-*** Show date and time.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun padDateNumber (stringNumber)
-        (format "%02d" (string-to-number stringNumber)))
-
-      (setq display-time-string-forms
-            '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
-
-      (display-time-mode 1)
-    #+END_SRC
-
-** Hide menu and tool bars.
-
-   #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode 0)
-     (menu-bar-mode 0)
-   #+END_SRC
-
-** Enable current line highlighting.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-hl-line-mode 1)
-   #+END_SRC
-
-** Turn on syntax highlighting whenever possible.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-font-lock-mode 1)
-   #+END_SRC
-
-** Visually indicate matching parentheses.
-
-   #+BEGIN_SRC emacs-lisp
-     (show-paren-mode 1)
-     (setq show-paren-delay 0.0)
-   #+END_SRC
-
-** Flash screen on invalid operation.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq visible-bell t)
-   #+END_SRC
-
-** Display visual line numbers.
-
-   Visual lines are relative screen lines.
-
-   #+BEGIN_SRC emacs-lisp
-     (global-display-line-numbers-mode)
-     (setq display-line-numbers-type 'visual)
-     (setq display-line-numbers-width-start t)
-   #+END_SRC
-
-** Always indent with spaces
-
-   #+BEGIN_SRC emacs-lisp
-     (setq-default indent-tabs-mode nil)
-   #+END_SRC
-
-** Use 4 spaces for tabs.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq-default tab-width 4)
-   #+END_SRC
-
-** Smooth scroll.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq scroll-conservatively 100)
-   #+END_SRC
-
-** Center cursor vertically.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package centered-cursor-mode
-       :config
-       (global-centered-cursor-mode 1))
-   #+END_SRC
-
-** Buffer list grouping.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package ibuffer-vc
-       :config
-       (setq ibuffer-formats
-             '((mark modified read-only locked vc-status-mini
-                     " "
-                     (name 18 18 :left :elide)
-                     " "
-                     (size 9 -1 :right)
-                     " "
-                     (mode 16 16 :left :elide)
-                     " "
-                     vc-relative-file)))
-       (add-hook 'ibuffer-hook
-                 (lambda ()
-                   (ibuffer-vc-set-filter-groups-by-vc-root)
-                   (ibuffer-do-sort-by-recency))))
-   #+END_SRC
-
-** Add color background for hexadecimal strings.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package rainbow-mode
-       :config
-       (add-hook 'prog-mode-hook 'rainbow-mode))
-   #+END_SRC
-
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
@@ -789,6 +595,200 @@
         "q q" '(save-buffers-kill-terminal :which-key "client")
         "q Q" '(save-buffers-kill-emacs :which-key "server"))
     #+END_SRC
+
+* Appearance.
+
+** Hide default Emacs screen.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq inhibit-startup-screen t)
+   #+END_SRC
+
+** Welcome dashboard.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package page-break-lines)
+     (use-package dashboard
+       :after page-break-lines
+       :config
+       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+       (setq dashboard-set-navigator t)
+       (setq dashboard-set-init-info t)
+       (setq dashboard-set-footer nil)
+       (setq dashboard-show-shortcuts nil)
+       (setq dashboard-items '((recents . 5)
+                               (projects . 5)
+                               (agenda . 5)))
+       (dashboard-setup-startup-hook))
+   #+END_SRC
+
+** Enable custom theme.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package base16-theme
+       :init
+       (setq base16-theme-256-color-source 'colors)
+       (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
+       :config
+       (setq my/themes '(base16-my-dark base16-my-light))
+       (setq my/current-theme 'base16-my-dark))
+   #+END_SRC
+
+** =mode-line= specific.
+
+*** Initialize =spaceline=.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package spaceline
+        :config
+        (require 'spaceline-config)
+        (spaceline-spacemacs-theme))
+    #+END_SRC
+
+*** Change =mode-line= highlight color based on evil mode.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    #+END_SRC
+
+*** Hide minor modes.
+
+    #+BEGIN_SRC emacs-lisp
+      (spaceline-toggle-minor-modes-off)
+    #+END_SRC
+
+*** Show full names for evil state.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq evil-normal-state-tag "N")
+      (setq evil-insert-state-tag "I")
+      (setq evil-visual-state-tag "V")
+      (setq evil-replace-state-tag "R")
+      (setq evil-operator-state-tag "O")
+      (setq evil-motion-state-tag "M")
+      (setq evil-emacs-state-tag "E")
+    #+END_SRC
+
+*** Show match info.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package anzu
+        :config
+        (setq anzu-cons-mode-line-p nil)
+        (global-anzu-mode 1))
+
+      (use-package evil-anzu
+        :after (evil anzu))
+    #+END_SRC
+
+*** Show date and time.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun padDateNumber (stringNumber)
+        (format "%02d" (string-to-number stringNumber)))
+
+      (setq display-time-string-forms
+            '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
+
+      (display-time-mode 1)
+    #+END_SRC
+
+** Hide menu and tool bars.
+
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode 0)
+     (menu-bar-mode 0)
+   #+END_SRC
+
+** Enable current line highlighting.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-hl-line-mode 1)
+   #+END_SRC
+
+** Turn on syntax highlighting whenever possible.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-font-lock-mode 1)
+   #+END_SRC
+
+** Visually indicate matching parentheses.
+
+   #+BEGIN_SRC emacs-lisp
+     (show-paren-mode 1)
+     (setq show-paren-delay 0.0)
+   #+END_SRC
+
+** Flash screen on invalid operation.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq visible-bell t)
+   #+END_SRC
+
+** Display visual line numbers.
+
+   Visual lines are relative screen lines.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-display-line-numbers-mode)
+     (setq display-line-numbers-type 'visual)
+     (setq display-line-numbers-width-start t)
+   #+END_SRC
+
+** Always indent with spaces
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+** Use 4 spaces for tabs.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default tab-width 4)
+   #+END_SRC
+
+** Smooth scroll.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq scroll-conservatively 100)
+   #+END_SRC
+
+** Center cursor vertically.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package centered-cursor-mode
+       :config
+       (global-centered-cursor-mode 1))
+   #+END_SRC
+
+** Buffer list grouping.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ibuffer-vc
+       :config
+       (setq ibuffer-formats
+             '((mark modified read-only locked vc-status-mini
+                     " "
+                     (name 18 18 :left :elide)
+                     " "
+                     (size 9 -1 :right)
+                     " "
+                     (mode 16 16 :left :elide)
+                     " "
+                     vc-relative-file)))
+       (add-hook 'ibuffer-hook
+                 (lambda ()
+                   (ibuffer-vc-set-filter-groups-by-vc-root)
+                   (ibuffer-do-sort-by-recency))))
+   #+END_SRC
+
+** Add color background for hexadecimal strings.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package rainbow-mode
+       :config
+       (add-hook 'prog-mode-hook 'rainbow-mode))
+   #+END_SRC
 
 * Navigation and search.
 
