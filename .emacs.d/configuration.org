@@ -214,13 +214,6 @@
      (setq imenu-auto-rescan t)
    #+END_SRC
 
-** Display =apropos= buffer in same window.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'display-buffer-alist
-      '("*Apropos*" display-buffer-same-window))
-   #+END_SRC
-
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
@@ -265,7 +258,7 @@
         :after (evil-collection org)
         :config
         (add-hook 'org-mode-hook 'evil-org-mode)
-        (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
+        (add-hook 'evil-org-mode-hook 'evil-org-set-key-theme)
         (require 'evil-org-agenda)
         (evil-org-agenda-set-keys))
     #+END_SRC
@@ -618,6 +611,7 @@
      (use-package dashboard
        :after page-break-lines
        :config
+       (add-to-list 'evil-motion-state-modes 'dashboard-mode)
        (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
        (setq dashboard-set-navigator t)
        (setq dashboard-set-init-info t)
@@ -638,7 +632,7 @@
        (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
        (setq my/themes '(base16-my-dark base16-my-light))
-       (setq my/current-theme 'base16-my-dark)
+       (setq my/current-theme 'base16-my-light)
        (my/next-theme))
    #+END_SRC
 
@@ -1178,6 +1172,13 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq help-window-select t)
+   #+END_SRC
+
+** Display =apropos= buffer in same window.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'display-buffer-alist
+      '("*Apropos*" display-buffer-same-window))
    #+END_SRC
 
 * News.
