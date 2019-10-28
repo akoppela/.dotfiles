@@ -631,7 +631,8 @@
        (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
        (setq my/themes '(base16-my-dark base16-my-light))
-       (setq my/current-theme 'base16-my-dark))
+       (setq my/current-theme 'base16-my-dark)
+       (my/next-theme))
    #+END_SRC
 
 ** =mode-line= specific.
