@@ -416,10 +416,10 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil
-        :custom
-        (evil-want-C-i-jump nil)
-        (evil-want-integration t)
-        (evil-want-keybinding nil)
+        :init
+        (setq evil-want-C-i-jump nil)
+        (setq evil-want-integration t)
+        (setq evil-want-keybinding nil)
         :config
         (evil-mode 1))
     #+END_SRC
@@ -429,9 +429,9 @@
     #+BEGIN_SRC emacs-lisp
       (use-package evil-collection
         :after evil
-        :custom
-        (evil-collection-setup-minibuffer t)
-        (evil-collection-outline-bind-tab-p nil)
+        :init
+        (setq evil-collection-setup-minibuffer t)
+        (setq evil-collection-outline-bind-tab-p nil)
         :config
         (evil-collection-init))
     #+END_SRC
@@ -853,8 +853,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package magit
-        :custom
-        (magit-blame-styles
+        :init
+        (setq magit-blame-styles
          '((margin
             (margin-format " %a - %s%f" " %C" " %H")
             (margin-width . 42)
@@ -875,10 +875,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package company
-       :custom
-       (company-idle-delay 0)
-       (company-minimum-prefix-length 2)
-       (company-dabbrev-downcase nil))
+       :init
+       (setq company-idle-delay 0)
+       (setq company-minimum-prefix-length 2)
+       (setq company-dabbrev-downcase nil))
 
      (add-hook 'after-init-hook 'global-company-mode)
    #+END_SRC
@@ -1003,10 +1003,10 @@
     #+BEGIN_SRC emacs-lisp
       (use-package reaper
         :load-path "~/reaper/"
-        :custom
-        (reaper-hours-timer-mode nil)
-        (reaper-api-key (getenv "HARVEST_API_KEY"))
-        (reaper-account-id (getenv "HARVEST_ACCOUNT_ID")))
+        :init
+        (setq reaper-hours-timer-mode nil)
+        (setq reaper-api-key (getenv "HARVEST_API_KEY"))
+        (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID")))
     #+END_SRC
 
 *** Keybindings.
@@ -1071,10 +1071,10 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package elm-mode
-        :custom
-        (elm-package-json "elm.json")
-        (elm-tags-on-save t)
-        (elm-format-on-save t)
+        :init
+        (setq elm-package-json "elm.json")
+        (setq elm-tags-on-save t)
+        (setq elm-format-on-save t)
         :config
         (add-hook 'elm-mode-hook 'flycheck-mode)
         (add-hook 'elm-mode-hook 'my/elm-outline-mode))
@@ -1133,9 +1133,9 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package helpful
-       :custom
-       (counsel-describe-function-function #'helpful-callable)
-       (counsel-describe-variable-function #'helpful-variable)
+       :init
+       (setq counsel-describe-function-function #'helpful-callable)
+       (setq counsel-describe-variable-function #'helpful-variable)
        :config
        (general-def
          :states '(normal visual)
@@ -1166,8 +1166,8 @@
 
      (use-package elfeed-org
        :after (elfeed org)
-       :custom
-       (rmh-elfeed-org-files (list "~/org/rss.org"))
+       :init
+       (setq rmh-elfeed-org-files (list "~/org/rss.org"))
        :config
        (elfeed-org))
    #+END_SRC
