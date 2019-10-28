@@ -202,6 +202,12 @@
      (use-package dash)
    #+END_SRC
 
+** Truncate eshell buffer.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'eshell-output-filter-functions #'eshell-truncate-buffer)
+   #+END_SRC
+
 ** Automatically rescan =imenu=.
 
    #+BEGIN_SRC emacs-lisp
