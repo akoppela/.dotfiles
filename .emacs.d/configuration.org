@@ -989,8 +989,10 @@
                           bold)))))
 
      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
-     (add-hook 'my/change-theme-hook #'my/set-org-todo-keyword-faces)
      (setq org-log-done t)
+
+     (my/set-org-todo-keyword-faces)
+     (add-hook 'my/change-theme-hook 'my/set-org-todo-keyword-faces)
    #+END_SRC
 
 ** Agenda files.
