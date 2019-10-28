@@ -238,12 +238,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package base16-theme
-       :custom
-       (base16-theme-256-color-source 'colors)
        :init
+       (setq base16-theme-256-color-source 'colors)
        (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
-       (load-theme 'base16-my-theme t))
+       (setq my/themes '(base16-my-dark base16-my-light))
+       (setq my/current-theme 'base16-my-dark))
    #+END_SRC
 
 ** =mode-line= specific.
@@ -564,20 +564,14 @@
 
 *** Theme.
 
-**** Varibles.
-
-     #+BEGIN_SRC emacs-lisp
-       (setq my/current-theme 'base16-my-theme)
-       (setq my/available-themes (custom-available-themes))
-       (setq my/favourite-themes '(base16-my-theme
-                                   base16-tomorrow))
-     #+END_SRC
-
 **** Helper functions.
 
 ***** Change theme.
 
       #+BEGIN_SRC emacs-lisp
+        (defvar my/change-theme-hook nil
+          "Hooks to run after theme is changed.")
+
         (defmacro my/change-theme (fun-name fun-description themes get-new-theme get-rest-themes sort-themes)
           "Changes theme based on given data"
           `(defun ,fun-name ()
@@ -591,34 +585,24 @@
                  (if (eq new-theme my/current-theme)
                      (,fun-name)
                    (progn
+                     (setq my/current-theme new-theme)
                      (mapcar #'disable-theme custom-enabled-themes)
                      (font-lock-mode)
                      (load-theme new-theme t)
-                     (font-lock-mode)
-                     (setq my/current-theme new-theme)))))))
+                     (run-hooks 'my/change-theme-hook)
+                     (font-lock-mode)))))))
       #+END_SRC
 
 ***** Next theme.
 
       #+BEGIN_SRC emacs-lisp
-        (my/change-theme my/next-theme "Changes theme to next one" my/available-themes car cdr identity)
-        (my/change-theme my/next-favourite-theme "Changes theme to next favourite one" my/favourite-themes car cdr identity)
+        (my/change-theme my/next-theme "Changes theme to next one" my/themes car cdr identity)
       #+END_SRC
 
 ***** Previous theme.
 
       #+BEGIN_SRC emacs-lisp
-        (my/change-theme my/previous-theme "Changes theme to previous one" my/available-themes -last-item butlast -flip)
-        (my/change-theme my/previous-favourite-theme "Changes theme to previous favourite one" my/favourite-themes -last-item butlast -flip)
-      #+END_SRC
-
-***** Print current theme name.
-
-      #+BEGIN_SRC emacs-lisp
-        (defun my/print-current-theme ()
-          "Prints current theme name"
-          (interactive)
-          (message "Current theme is \"%s\"" my/current-theme))
+        (my/change-theme my/previous-theme "Changes theme to previous one" my/themes -last-item butlast -flip)
       #+END_SRC
 
 ***** Theme hydra.
@@ -627,23 +611,14 @@
         (defhydra hydra-change-theme ()
           "Change theme"
           ("n" my/next-theme "next")
-          ("N" my/previous-theme "previous")
-          ("c" my/print-current-theme "current"))
-
-        (defhydra hydra-change-favourite-theme ()
-          "Change favourite theme"
-          ("n" my/next-favourite-theme "next")
-          ("N" my/previous-favourite-theme "previous")
-          ("c" my/print-current-theme "current"))
+          ("N" my/previous-theme "previous"))
       #+END_SRC
 
 **** Keybindings.
 
      #+BEGIN_SRC emacs-lisp
        (leader-def
-         "t" '(:ignore t :which-key "theme")
-         "t a" '(hydra-change-theme/body :which-key "all")
-         "t f" '(hydra-change-favourite-theme/body :which-key "favourite"))
+         "t" '(hydra-change-theme/body :which-key "theme"))
      #+END_SRC
 
 *** File.
@@ -958,11 +933,31 @@
 ** Custom TODO keywords.
 
    #+BEGIN_SRC emacs-lisp
+     (defun my/set-org-todo-keyword-faces ()
+       "Sets org todo keyword faces based on current theme"
+       (interactive)
+       (setq org-todo-keyword-faces
+             `(("TODO" . (:background
+                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                          :foreground
+                          ,(symbol-value (intern (format "%s-base08" my/current-theme)))
+                          :weight
+                          bold))
+               ("PROG" . (:background
+                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                          :foreground
+                          ,(symbol-value (intern (format "%s-base0D" my/current-theme)))
+                          :weight
+                          bold))
+               ("DONE" . (:background
+                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                          :foreground
+                          ,(symbol-value (intern (format "%s-base0B" my/current-theme)))
+                          :weight
+                          bold)))))
+
      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
-     (setq org-todo-keyword-faces
-           `(("TODO" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base08 :weight bold))
-             ("PROG" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base0D :weight bold))
-             ("DONE" . (:background ,base16-my-theme-base01 :foreground ,base16-my-theme-base0B :weight bold))))
+     (add-hook 'my/change-theme-hook #'my/set-org-todo-keyword-faces)
      (setq org-log-done t)
    #+END_SRC
 
