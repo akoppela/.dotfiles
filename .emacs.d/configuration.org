@@ -496,6 +496,7 @@
       (leader-def
         "" nil
         "SPC" '(counsel-M-x :which-key "M-x")
+        "u" '(universal-argument :which-key "universal argument")
         "/" '(counsel-projectile-rg :which-key "find in project"))
     #+END_SRC
 
@@ -770,9 +771,11 @@
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "h" '(:ignore t :which-key "help")
+        "h a" '(apropos :which-key "apropos")
+        "h p" '(helpful-at-point :which-key "at point")
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
-        "h s" '(describe-symbol :which-key "describe symbol")
+        "h s" '(helpful-symbol :which-key "describe symbol")
         "h k" '(helpful-key :which-key "describe key")
         "h m" '(describe-mode :which-key "describe mode")
         "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
