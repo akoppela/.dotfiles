@@ -790,6 +790,16 @@
        (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 
+** Enable smart expand region.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package expand-region
+       :after general
+       :config
+       (leader-def
+         "v" '(er/expand-region :which-key "expand region")))
+   #+END_SRC
+
 * Navigation and search.
 
 ** =counsel= completion framework.
