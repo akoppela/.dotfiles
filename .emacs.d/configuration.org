@@ -287,6 +287,18 @@
       (setq evil-emacs-state-tag "E")
     #+END_SRC
 
+*** Show match info.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package anzu
+        :config
+        (setq anzu-cons-mode-line-p nil)
+        (global-anzu-mode 1))
+
+      (use-package evil-anzu
+        :after (evil anzu))
+    #+END_SRC
+
 *** Show date and time.
 
     #+BEGIN_SRC emacs-lisp
