@@ -214,6 +214,13 @@
      (setq imenu-auto-rescan t)
    #+END_SRC
 
+** Display =apropos= buffer in same window.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'display-buffer-alist
+      '("*Apropos*" display-buffer-same-window))
+   #+END_SRC
+
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
