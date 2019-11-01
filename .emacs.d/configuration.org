@@ -527,6 +527,7 @@
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "e" '(:ignore t :which-key "error")
+        "e v" '(flycheck-verify-setup :which-key "verify setup")
         "e n" '(flycheck-next-error :which-key "next")
         "e N" '(flycheck-previous-error :which-key "previous")
         "e l" '(flycheck-list-errors :which-key "list"))
@@ -569,6 +570,7 @@
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "j" '(:ignore t :which-key "jump")
+        "j s" '(avy-goto-subword-1 :which-key "subword")
         "j w" '(avy-goto-word-1 :which-key "word"))
     #+END_SRC
 
@@ -577,7 +579,7 @@
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "h" '(:ignore t :which-key "help")
-        "h a" '(apropos :which-key "apropos")
+        "h a" '(counsel-apropos :which-key "apropos")
         "h p" '(helpful-at-point :which-key "at point")
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
