@@ -814,6 +814,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package counsel
+       :init
+       (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
        :config
        (ivy-mode 1)
        (major-def
