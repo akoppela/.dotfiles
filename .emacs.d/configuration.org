@@ -632,10 +632,12 @@
        (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
        (setq my/themes '(base16-my-dark base16-my-light))
-       (setq my/current-theme
-             (let ((current-hour (string-to-number (format-time-string "%H"))))
-               (if (< 8 current-hour 16) 'base16-my-dark 'base16-my-light)))
-       (my/next-theme))
+       (run-with-timer 0 (* 15 60)
+                       (lambda ()
+                         (setq my/current-theme
+                               (let ((current-hour (string-to-number (format-time-string "%H"))))
+                                 (if (< 7 current-hour 17) 'base16-my-dark 'base16-my-light)))
+                         (my/next-theme))))
    #+END_SRC
 
 ** =mode-line= specific.
@@ -993,8 +995,6 @@
 
      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
      (setq org-log-done t)
-
-     (my/set-org-todo-keyword-faces)
      (add-hook 'my/change-theme-hook 'my/set-org-todo-keyword-faces)
    #+END_SRC
 
