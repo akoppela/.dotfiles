@@ -824,12 +824,6 @@
          "a" '(ivy-read-action :which-key "action")))
    #+END_SRC
 
-** =multiple-cursors=.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package multiple-cursors)
-   #+END_SRC
-
 ** =wgrep= to edit search.
 
    #+BEGIN_SRC emacs-lisp
