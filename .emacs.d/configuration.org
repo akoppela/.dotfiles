@@ -1093,6 +1093,7 @@
         (setq elm-tags-on-save t)
         (setq elm-format-on-save t)
         :config
+        (remove-hook 'elm-mode-hook 'elm-indent-mode)
         (add-hook 'elm-mode-hook 'flycheck-mode)
         (add-hook 'elm-mode-hook 'my/elm-outline-mode))
 
