@@ -1123,8 +1123,21 @@
      (use-package js2-mode
        :mode ("\\.js\\'" . js2-mode)
        :config
+       (setq js2-mode-show-parse-errors nil)
+       (setq js2-mode-show-strict-warnings nil)
        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
-       (add-hook 'js2-mode-hook 'flycheck-mode))
+       (add-hook 'js2-mode-hook 'flycheck-mode)
+       (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
+
+     (use-package add-node-modules-path
+       :after js2-mode
+       :config
+       (add-hook 'js2-mode-hook #'add-node-modules-path))
+
+     (use-package eslint-fix
+       :after js2-mode
+       :config
+       (add-hook 'js2-mode-hook (lambda () (add-hook 'after-save-hook 'eslint-fix nil t))))
    #+END_SRC
 
 ** =json=.
