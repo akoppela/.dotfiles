@@ -1125,6 +1125,7 @@
        :config
        (setq js2-mode-show-parse-errors nil)
        (setq js2-mode-show-strict-warnings nil)
+       (setq flycheck-javascript-eslint-executable "eslint_d")
        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
        (add-hook 'js2-mode-hook 'flycheck-mode)
        (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
@@ -1134,10 +1135,10 @@
        :config
        (add-hook 'js2-mode-hook #'add-node-modules-path))
 
-     (use-package eslint-fix
+     (use-package eslintd-fix
        :after js2-mode
        :config
-       (add-hook 'js2-mode-hook (lambda () (add-hook 'after-save-hook 'eslint-fix nil t))))
+       (add-hook 'js2-mode-hook #'eslintd-fix-mode))
    #+END_SRC
 
 ** =json=.
