@@ -808,7 +808,7 @@
          "v" '(er/expand-region :which-key "expand region")))
    #+END_SRC
 
-* Navigation and search.
+* Navigation, search, completion.
 
 ** =counsel= completion framework.
 
@@ -846,6 +846,38 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package iedit)
+   #+END_SRC
+
+** =company= enables auto-completion.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package company
+       :init
+       (setq company-idle-delay 0)
+       (setq company-minimum-prefix-length 2)
+       (setq company-dabbrev-downcase nil)
+       :config
+       (general-def
+         "TAB" #'company-indent-or-complete-common))
+
+     (add-hook 'after-init-hook 'global-company-mode)
+   #+END_SRC
+
+** =flycheck= checks syntax.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package flycheck)
+   #+END_SRC
+
+** =flyspell= checks spelling.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package flyspell
+       :config
+       (add-hook 'text-mode-hook 'flyspell-mode)
+       (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+       (add-hook 'org-mode-hook 'flyspell-mode)
+       (add-hook 'git-commit-mode-hook 'flyspell-mode))
    #+END_SRC
 
 * Project management.
@@ -886,40 +918,9 @@
         :after (evil-collection magit))
     #+END_SRC
 
-* Document content management.
+* Task/time management.
 
-** =company= enables auto-completion.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package company
-       :init
-       (setq company-idle-delay 0)
-       (setq company-minimum-prefix-length 2)
-       (setq company-dabbrev-downcase nil))
-
-     (add-hook 'after-init-hook 'global-company-mode)
-   #+END_SRC
-
-** =flycheck= checks syntax.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package flycheck)
-   #+END_SRC
-
-** =flyspell= checks spelling.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package flyspell
-       :config
-       (add-hook 'text-mode-hook 'flyspell-mode)
-       (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-       (add-hook 'org-mode-hook 'flyspell-mode)
-       (add-hook 'git-commit-mode-hook 'flyspell-mode))
-   #+END_SRC
-
-* Task management.
-
-  The killer =org-mode=.
+  The killer =org-mode= and more.
 
 ** Keybindings.
 
@@ -1011,8 +1012,6 @@
      (setq org-outline-path-complete-in-steps nil)
      (setq org-refile-allow-creating-parent-nodes 'confirm)
    #+END_SRC
-
-* Time management.
 
 ** =harvest=.
 
