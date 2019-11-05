@@ -819,6 +819,10 @@
        (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
        :config
        (ivy-mode 1)
+       (general-def
+         :keymaps 'ivy-minibuffer-map
+         "TAB" 'ivy-next-line
+         "<backtab>" 'ivy-previous-line)
        (major-def
          :keymaps 'ivy-minibuffer-map
          "o" '(ivy-occur :which-key "occur")
