@@ -238,6 +238,7 @@
         :init
         (setq evil-collection-setup-minibuffer t)
         (setq evil-collection-outline-bind-tab-p nil)
+        (setq evil-collection-company-use-tng nil)
         :config
         (evil-collection-init))
     #+END_SRC
@@ -856,9 +857,7 @@
        (setq company-idle-delay 0)
        (setq company-minimum-prefix-length 2)
        (setq company-dabbrev-downcase nil)
-       :config
-       (general-def
-         "TAB" #'company-indent-or-complete-common))
+       (setq company-dabbrev-ignore-case nil))
 
      (add-hook 'after-init-hook 'global-company-mode)
    #+END_SRC
