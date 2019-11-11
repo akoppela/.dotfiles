@@ -864,6 +864,7 @@
      (use-package company
        :init
        (setq company-idle-delay 0)
+       (setq company-require-match nil)
        (setq company-minimum-prefix-length 2)
        (setq company-dabbrev-downcase nil)
        (setq company-dabbrev-ignore-case nil)
