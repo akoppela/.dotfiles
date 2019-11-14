@@ -11,7 +11,7 @@
 
  (bootloader (bootloader-configuration
               (bootloader grub-bootloader)
-              (target "/dev/sda1")))
+              (target "/dev/sda")))
  (file-systems (cons (file-system
                       (device (file-system-label "guix"))
                       (mount-point "/")
