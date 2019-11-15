@@ -1063,6 +1063,15 @@
         "x" '(reaper-delete-entry :which-key "delete"))
     #+END_SRC
 
+* System management.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package guix
+      :config
+      (leader-def
+        "a g" '(guix :which-key "guix")))
+  #+END_SRC
+
 * Programming languages.
 
 ** =html=.
