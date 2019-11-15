@@ -11,7 +11,10 @@
 
  (bootloader (bootloader-configuration
               (bootloader grub-bootloader)
-              (target "/dev/sda")))
+              (target "/dev/vda")))
+
+ (swap-devices '("/dev/vda2"))
+
  (file-systems (cons (file-system
                       (device (file-system-label "guix"))
                       (mount-point "/")
