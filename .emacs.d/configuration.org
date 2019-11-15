@@ -587,6 +587,7 @@
         "h s" '(helpful-symbol :which-key "describe symbol")
         "h k" '(helpful-key :which-key "describe key")
         "h m" '(describe-mode :which-key "describe mode")
+        "h i" '(info :which-key "info")
         "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
     #+END_SRC
 
