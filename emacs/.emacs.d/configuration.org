@@ -548,6 +548,7 @@
         "g" '(:ignore t :which-key "git")
         "g s" '(magit-status :which-key "status")
         "g b" '(magit-blame-addition :which-key "blame")
+        "g c" '(magit-clone :which-key "clone")
         "g h" '(magit-log-buffer-file :which-key "history"))
     #+END_SRC
 
