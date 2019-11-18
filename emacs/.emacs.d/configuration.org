@@ -273,6 +273,12 @@
         (evil-commentary-mode 1))
     #+END_SRC
 
+*** Define default normal states.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'evil-normal-state-modes 'rcirc-mode)
+    #+END_SRC
+
 ** =hydra=.
 
    #+BEGIN_SRC emacs-lisp
@@ -509,6 +515,7 @@
      #+BEGIN_SRC emacs-lisp
        (leader-def
          "a" '(:ignore t :which-key "application")
+         "a i" '(rcirc :which-key "IRC")
          "a e" '(my/eshell :which-key "eshell"))
      #+END_SRC
 
@@ -1034,7 +1041,6 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package reaper
-        :load-path "~/reaper/"
         :init
         (setq reaper-hours-timer-mode nil)
         (setq reaper-api-key (getenv "HARVEST_API_KEY"))
@@ -1220,7 +1226,7 @@
       '("*Apropos*" display-buffer-same-window))
    #+END_SRC
 
-* News.
+* Communication.
 
 ** =elfeed= RSS reader.
 
@@ -1239,6 +1245,14 @@
        (setq rmh-elfeed-org-files (list "~/org/rss.org"))
        :config
        (elfeed-org))
+   #+END_SRC
+
+** IRC.
+
+   #+BEGIN_SRC emacs-lisp
+     (major-def
+       :keymaps 'rcirc-mode-map
+       "j" '(rcirc-cmd-join :which-key "join"))
    #+END_SRC
 
 * Helper functions.
