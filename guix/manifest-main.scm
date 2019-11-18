@@ -11,5 +11,8 @@
    "mosh"
    "wget"
 
+   ;; Development
+   "node"
+
    ;; Misc tools
    "stow"))
