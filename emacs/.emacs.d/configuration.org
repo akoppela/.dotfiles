@@ -904,7 +904,7 @@
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
    #+END_SRC
 
-* Project management.
+* Project, time and task management.
 
 ** =projectile=.
 
@@ -949,100 +949,98 @@
         :after magit)
     #+END_SRC
 
-* Task/time management.
+** =org-mode=.
 
-  The killer =org-mode= and more.
+*** Keybindings.
 
-** Keybindings.
+    #+BEGIN_SRC emacs-lisp
+      (defun my/open-notes ()
+        "Opens my notes."
+        (interactive)
+        (find-file (expand-file-name "~/org/notes.org")))
 
-   #+BEGIN_SRC emacs-lisp
-     (defun my/open-notes ()
-       "Opens my notes."
-       (interactive)
-       (find-file (expand-file-name "~/org/notes.org")))
+      (leader-def
+        "a n" '(my/open-notes :which-key "notes"))
 
-     (leader-def
-       "a n" '(my/open-notes :which-key "notes"))
+      (major-def
+        :keymaps 'org-mode-map
+        "'" '(org-edit-special :which-key "src editor")
+        "e" '(org-export-dispatch :which-key "export")
+        "a" '(org-agenda :which-key "agenda")
 
-     (major-def
-       :keymaps 'org-mode-map
-       "'" '(org-edit-special :which-key "src editor")
-       "e" '(org-export-dispatch :which-key "export")
-       "a" '(org-agenda :which-key "agenda")
+        "d" '(:ignore t :which-key "date")
+        "d s" '(org-schedule :which-key "schedule")
 
-       "d" '(:ignore t :which-key "date")
-       "d s" '(org-schedule :which-key "schedule")
+        "s" '(:ignore t :which-key "subtree")
+        "s r" '(org-refile :which-key "refile"))
+    #+END_SRC
 
-       "s" '(:ignore t :which-key "subtree")
-       "s r" '(org-refile :which-key "refile"))
-   #+END_SRC
+*** Show bullets instead of stars.
 
-** Show bullets instead of stars.
+    #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :after org
+        :init
+        (add-hook 'org-mode-hook 'org-bullets-mode))
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :after org
-       :init
-       (add-hook 'org-mode-hook 'org-bullets-mode))
-   #+END_SRC
+*** Change collapsed subtree symbol.
 
-** Change collapsed subtree symbol.
+    #+BEGIN_SRC emacs-lisp
+      (setq org-ellipsis " ↴")
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-ellipsis " ↴")
-   #+END_SRC
+*** Make TAB act natively for code blocks.
 
-** Make TAB act natively for code blocks.
+    #+BEGIN_SRC emacs-lisp
+      (setq org-src-tab-acts-natively t)
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-src-tab-acts-natively t)
-   #+END_SRC
+*** Custom TODO keywords.
 
-** Custom TODO keywords.
+    #+BEGIN_SRC emacs-lisp
+      (defun my/set-org-todo-keyword-faces ()
+        "Sets org todo keyword faces based on current theme"
+        (interactive)
+        (setq org-todo-keyword-faces
+              `(("TODO" . (:background
+                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                           :foreground
+                           ,(symbol-value (intern (format "%s-base08" my/current-theme)))
+                           :weight
+                           bold))
+                ("PROG" . (:background
+                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                           :foreground
+                           ,(symbol-value (intern (format "%s-base0D" my/current-theme)))
+                           :weight
+                           bold))
+                ("DONE" . (:background
+                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
+                           :foreground
+                           ,(symbol-value (intern (format "%s-base0B" my/current-theme)))
+                           :weight
+                           bold)))))
 
-   #+BEGIN_SRC emacs-lisp
-     (defun my/set-org-todo-keyword-faces ()
-       "Sets org todo keyword faces based on current theme"
-       (interactive)
-       (setq org-todo-keyword-faces
-             `(("TODO" . (:background
-                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                          :foreground
-                          ,(symbol-value (intern (format "%s-base08" my/current-theme)))
-                          :weight
-                          bold))
-               ("PROG" . (:background
-                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                          :foreground
-                          ,(symbol-value (intern (format "%s-base0D" my/current-theme)))
-                          :weight
-                          bold))
-               ("DONE" . (:background
-                          ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                          :foreground
-                          ,(symbol-value (intern (format "%s-base0B" my/current-theme)))
-                          :weight
-                          bold)))))
+      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
+      (setq org-log-done t)
+      (add-hook 'my/change-theme-hook 'my/set-org-todo-keyword-faces)
+    #+END_SRC
 
-     (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
-     (setq org-log-done t)
-     (add-hook 'my/change-theme-hook 'my/set-org-todo-keyword-faces)
-   #+END_SRC
+*** Agenda files.
 
-** Agenda files.
+    #+BEGIN_SRC emacs-lisp
+      (setq org-agenda-files (list "~/org/notes.org"))
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-agenda-files (list "~/org/notes.org"))
-   #+END_SRC
+*** Better =org-refile=.
 
-** Better =org-refile=.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (my/configuration-path :maxlevel . 2)))
-     (setq org-refile-use-outline-path 'file)
-     (setq org-outline-path-complete-in-steps nil)
-     (setq org-refile-allow-creating-parent-nodes 'confirm)
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (my/configuration-path :maxlevel . 2)))
+      (setq org-refile-use-outline-path 'file)
+      (setq org-outline-path-complete-in-steps nil)
+      (setq org-refile-allow-creating-parent-nodes 'confirm)
+    #+END_SRC
 
 ** =harvest=.
 
@@ -1078,15 +1076,6 @@
         "E" '(reaper-edit-entry :which-key "edit entry")
         "x" '(reaper-delete-entry :which-key "delete"))
     #+END_SRC
-
-* System management.
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package guix
-      :config
-      (leader-def
-        "a g" '(guix :which-key "guix")))
-  #+END_SRC
 
 * Programming languages and modes.
 
@@ -1201,6 +1190,44 @@
                             "C-k" 'eshell-previous-matching-input-from-input)))
    #+END_SRC
 
+** =guix=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package guix
+       :config
+       (leader-def
+         "a g" '(guix :which-key "guix")))
+   #+END_SRC
+
+* Communication.
+
+** =elfeed= RSS reader.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package elfeed
+       :config
+       (leader-def
+         "a f" 'elfeed)
+       (major-def
+         :keymaps 'elfeed-search-mode-map
+         "u" '(elfeed-update :which-key "update")))
+
+     (use-package elfeed-org
+       :after (elfeed org)
+       :init
+       (setq rmh-elfeed-org-files (list "~/org/rss.org"))
+       :config
+       (elfeed-org))
+   #+END_SRC
+
+** IRC.
+
+   #+BEGIN_SRC emacs-lisp
+     (major-def
+       :keymaps 'rcirc-mode-map
+       "j" '(rcirc-cmd-join :which-key "join"))
+   #+END_SRC
+
 * Help.
 
 ** =which-key= shows all available keybindings in a popup.
@@ -1246,51 +1273,22 @@
       '("*Apropos*" display-buffer-same-window))
    #+END_SRC
 
-* Communication.
+** Functions.
 
-** =elfeed= RSS reader.
+*** Exec npm command.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package elfeed
-       :config
-       (leader-def
-         "a f" 'elfeed)
-       (major-def
-         :keymaps 'elfeed-search-mode-map
-         "u" '(elfeed-update :which-key "update")))
-
-     (use-package elfeed-org
-       :after (elfeed org)
-       :init
-       (setq rmh-elfeed-org-files (list "~/org/rss.org"))
-       :config
-       (elfeed-org))
-   #+END_SRC
-
-** IRC.
-
-   #+BEGIN_SRC emacs-lisp
-     (major-def
-       :keymaps 'rcirc-mode-map
-       "j" '(rcirc-cmd-join :which-key "join"))
-   #+END_SRC
-
-* Helper functions.
-
-** Exec npm command.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun my/exec-npm (root-folder cmd-name)
-       "Starts eshell buffer with given name, enters Conta's frontend folder and executes given npm command."
-       (progn
-         (if (get-buffer cmd-name)
-             (switch-to-buffer cmd-name)
-           (progn
-             (eshell)
-             (rename-buffer cmd-name)
-             (insert "cd " root-folder " && npm run " cmd-name)
-             (eshell-send-input)))))
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (defun my/exec-npm (root-folder cmd-name)
+        "Starts eshell buffer with given name, enters Conta's frontend folder and executes given npm command."
+        (progn
+          (if (get-buffer cmd-name)
+              (switch-to-buffer cmd-name)
+            (progn
+              (eshell)
+              (rename-buffer cmd-name)
+              (insert "cd " root-folder " && npm run " cmd-name)
+              (eshell-send-input)))))
+    #+END_SRC
 
 * Conta.
 
