@@ -1088,7 +1088,7 @@
         "a g" '(guix :which-key "guix")))
   #+END_SRC
 
-* Programming languages.
+* Programming languages and modes.
 
 ** =html=.
 
@@ -1188,6 +1188,17 @@
        (major-def
          :keymaps 'json-mode-map
          "p" '(json-mode-show-path :which-key "path")))
+   #+END_SRC
+
+** =eshell=.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'eshell-mode-hook
+               (lambda () (general-def
+                            :keymaps 'eshell-mode-map
+                            :states '(normal visual insert)
+                            "C-j" 'eshell-next-matching-input-from-input
+                            "C-k" 'eshell-previous-matching-input-from-input)))
    #+END_SRC
 
 * Help.
