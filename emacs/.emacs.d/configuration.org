@@ -941,6 +941,13 @@
         :after (evil-collection magit))
     #+END_SRC
 
+*** Forge.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package forge
+        :after magit)
+    #+END_SRC
+
 * Task/time management.
 
   The killer =org-mode= and more.
