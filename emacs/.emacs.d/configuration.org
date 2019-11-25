@@ -830,8 +830,9 @@
        (ivy-mode 1)
        (general-def
          :keymaps 'ivy-minibuffer-map
-         "TAB" 'ivy-next-line
-         "<backtab>" 'ivy-previous-line)
+         :states '(normal visual insert)
+         "C-j" 'ivy-next-line
+         "C-k" 'ivy-previous-line)
        (major-def
          :keymaps 'ivy-minibuffer-map
          "o" '(ivy-occur :which-key "occur")
