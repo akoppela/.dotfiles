@@ -1147,27 +1147,43 @@
 
 ** =javascript=.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package js2-mode
-       :mode ("\\.js\\'" . js2-mode)
-       :config
-       (setq js2-mode-show-parse-errors nil)
-       (setq js2-mode-show-strict-warnings nil)
-       (setq flycheck-javascript-eslint-executable "eslint_d")
-       (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
-       (add-hook 'js2-mode-hook 'flycheck-mode)
-       (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
+*** Initialization.
 
-     (use-package add-node-modules-path
-       :after js2-mode
-       :config
-       (add-hook 'js2-mode-hook #'add-node-modules-path))
+    #+BEGIN_SRC emacs-lisp
+      (use-package js2-mode
+        :mode ("\\.js\\'" . js2-mode)
+        :config
+        (setq js2-mode-show-parse-errors nil)
+        (setq js2-mode-show-strict-warnings nil)
+        (setq flycheck-javascript-eslint-executable "eslint_d")
+        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
+        (add-hook 'js2-mode-hook 'flycheck-mode)
+        (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
+    #+END_SRC
 
-     (use-package eslintd-fix
-       :after js2-mode
-       :config
-       (add-hook 'js2-mode-hook #'eslintd-fix-mode))
-   #+END_SRC
+*** Make sure executables from `node_modules` are available.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package add-node-modules-path
+        :after js2-mode
+        :config
+        (add-hook 'js2-mode-hook #'add-node-modules-path))
+    #+END_SRC
+
+*** Run `eslint fix` on file save.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package eslintd-fix
+        :after js2-mode
+        :config
+        (add-hook 'js2-mode-hook #'eslintd-fix-mode))
+    #+END_SRC
+
+*** =node= repl.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package nodejs-repl)
+    #+END_SRC
 
 ** =json=.
 
