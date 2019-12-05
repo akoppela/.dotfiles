@@ -1162,15 +1162,6 @@
         (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
     #+END_SRC
 
-*** Make sure executables from `node_modules` are available.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package add-node-modules-path
-        :after js2-mode
-        :config
-        (add-hook 'js2-mode-hook #'add-node-modules-path))
-    #+END_SRC
-
 *** Run `eslint fix` on file save.
 
     #+BEGIN_SRC emacs-lisp
@@ -1288,6 +1279,16 @@
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'display-buffer-alist
       '("*Apropos*" display-buffer-same-window))
+   #+END_SRC
+
+** =dash= documentation.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel-dash
+       :config
+       (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash"))
+       (leader-def
+         "a d" '(counsel-dash :which-key "dash")))
    #+END_SRC
 
 ** Functions.
