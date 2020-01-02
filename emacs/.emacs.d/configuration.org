@@ -1171,10 +1171,22 @@
         (add-hook 'js2-mode-hook #'eslintd-fix-mode))
     #+END_SRC
 
-*** =node= repl.
+*** =node=.
+
+**** REPL.
 
     #+BEGIN_SRC emacs-lisp
       (use-package nodejs-repl)
+    #+END_SRC
+
+**** Modules path.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package add-node-modules-path
+        :after (elm-mode js2-mode)
+        :config
+        (add-hook 'js2-mode-hook #'add-node-modules-path)
+        (add-hook 'elm-mode-hook #'add-node-modules-path))
     #+END_SRC
 
 ** =json=.
