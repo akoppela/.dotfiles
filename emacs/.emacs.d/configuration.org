@@ -1303,6 +1303,12 @@
          "a d" '(counsel-dash :which-key "dash")))
    #+END_SRC
 
+** Thesaurus synonyms/antonyms.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package synosaurus)
+   #+END_SRC
+
 ** Functions.
 
 *** Exec npm command.
