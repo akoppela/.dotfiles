@@ -1206,8 +1206,8 @@
                (lambda () (general-def
                             :keymaps 'eshell-mode-map
                             :states '(normal visual insert)
-                            "C-j" 'eshell-next-matching-input-from-input
-                            "C-k" 'eshell-previous-matching-input-from-input)))
+                            "C-j" 'eshell-next-input
+                            "C-k" 'eshell-previous-input)))
    #+END_SRC
 
 ** =guix=.
