@@ -1219,6 +1219,15 @@
          "a g" '(guix :which-key "guix")))
    #+END_SRC
 
+** =nix=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package nix-mode
+       :mode "\\.nix\\'"
+       :config
+       (add-hook 'before-save-hook 'nix-mode-format))
+   #+END_SRC
+
 * Communication.
 
 ** =elfeed= RSS reader.
