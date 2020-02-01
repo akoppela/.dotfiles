@@ -22,16 +22,29 @@ source /etc/bashrc
 # Adjust the prompt depending on whether we're in 'guix environment'.
 if [ -n "$GUIX_ENVIRONMENT" ]
 then
-    PS1='\u@\h \w [env]\$ '
+    PS1="\[\e[32m\]\h\[\e[m\][env]:\[\e[35m\]\w\[\e[m\]\[\e[31m\]\\$\[\e[m\] "
 else
-    PS1='\u@\h \w\$ '
+    PS1="\[\e[32m\]\h\[\e[m\]:\[\e[35m\]\w\[\e[m\]\[\e[31m\]\\$\[\e[m\] "
 fi
+
 alias ls='ls -p --color=auto'
 alias ll='ls -l'
+alias la='ls -la'
 alias grep='grep --color=auto'
 
 # Emacs
 alias mymacs="emacsclient -a \"\" -nw"
 
 # Secrets
-source ~/.secret_profile
+source ~/.secret-profile
+
+# Guix
+export GUIX_PROFILE="/home/akoppela/.guix-profile"
+export PATH="$PATH:$GUIX_PROFILE/bin"
+
+# Nix
+export NIX_PATH="$NIX_PATH:/home/akoppela/channels"
+
+# Certificates
+export SSL_CERT_DIR="$GUIX_PROFILE/etc/ssl/certs"
+export SSL_CERT_FILE="$GUIX_PROFILE/etc/ssl/certs/ca-certificates.crt"
