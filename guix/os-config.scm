@@ -32,6 +32,9 @@
                (supplementary-groups '("wheel")))
               %base-user-accounts))
 
+ ;; Global packages
+ (packages (cons glibc-utf8-locales git %base-packages))
+
  ;; DigitalOcean specifit configuration.
  ;; Have to investigate in the future.
  (initrd-modules (append (list "virtio_scsi")
