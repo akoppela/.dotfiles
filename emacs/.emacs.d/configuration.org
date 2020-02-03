@@ -591,6 +591,7 @@
         "h" '(:ignore t :which-key "help")
         "h a" '(counsel-apropos :which-key "apropos")
         "h p" '(helpful-at-point :which-key "at point")
+        "h P" '(describe-package :which-key "package")
         "h f" '(counsel-describe-function :which-key "describe function")
         "h v" '(counsel-describe-variable :which-key "describe variable")
         "h s" '(helpful-symbol :which-key "describe symbol")
