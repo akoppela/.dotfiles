@@ -1111,7 +1111,8 @@
         "Enables outline mode for Elm files."
         (progn
           (outline-minor-mode)
-          (setq outline-regexp "--\ ")))
+          (setq outline-regexp "--\ ")
+          (setq elm-imenu-use-categories nil)))
     #+END_SRC
 
 *** Initialization.
