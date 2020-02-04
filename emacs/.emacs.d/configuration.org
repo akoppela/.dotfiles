@@ -1228,6 +1228,11 @@
        :mode "\\.nix\\'"
        :config
        (add-hook 'before-save-hook 'nix-mode-format))
+
+     (use-package company-nixos-options
+       :after (nix-mode nixos-options)
+       :config
+       (add-to-list 'company-backends 'company-nixos-options))
    #+END_SRC
 
 * Communication.
