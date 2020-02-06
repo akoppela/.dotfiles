@@ -618,25 +618,6 @@
      (setq inhibit-startup-screen t)
    #+END_SRC
 
-** Welcome dashboard.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package page-break-lines)
-     (use-package dashboard
-       :after page-break-lines
-       :config
-       (add-to-list 'evil-motion-state-modes 'dashboard-mode)
-       (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-       (setq dashboard-set-navigator t)
-       (setq dashboard-set-init-info t)
-       (setq dashboard-set-footer nil)
-       (setq dashboard-show-shortcuts nil)
-       (setq dashboard-items '((recents . 5)
-                               (projects . 5)
-                               (agenda . 5)))
-       (dashboard-setup-startup-hook))
-   #+END_SRC
-
 ** Enable custom theme.
 
    #+BEGIN_SRC emacs-lisp
