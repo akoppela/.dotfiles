@@ -1092,8 +1092,7 @@
         "Enables outline mode for Elm files."
         (progn
           (outline-minor-mode)
-          (setq outline-regexp "--\ ")
-          (setq elm-imenu-use-categories nil)))
+          (setq outline-regexp "--\ ")))
     #+END_SRC
 
 *** Initialization.
@@ -1104,6 +1103,7 @@
         (setq elm-package-json "elm.json")
         (setq elm-tags-on-save t)
         (setq elm-format-on-save t)
+        (setq elm-imenu-use-categories nil)
         :config
         (remove-hook 'elm-mode-hook 'elm-indent-mode)
         (add-hook 'elm-mode-hook 'flycheck-mode)
