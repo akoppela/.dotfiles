@@ -507,7 +507,7 @@
          "Starts eshell using projectile if possible."
          (interactive)
          (if (projectile-project-p)
-             (projectile-run-eshell)
+             (projectile-run-eshell nil)
            (eshell)))
      #+END_SRC
 
