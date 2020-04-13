@@ -1169,8 +1169,7 @@
         (setq js2-mode-show-strict-warnings nil)
         (setq flycheck-javascript-eslint-executable "eslint_d")
         (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
-        (add-hook 'js2-mode-hook 'flycheck-mode)
-        (flycheck-add-next-checker 'javascript-eslint 'javascript-jshint))
+        (add-hook 'js2-mode-hook 'flycheck-mode))
     #+END_SRC
 
 *** Run `eslint fix` on file save.
