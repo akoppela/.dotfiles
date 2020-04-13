@@ -1121,6 +1121,19 @@
                                  (shell-quote-argument elm-tags-regexps)
                                  " -")))
             (call-process-shell-command (concat etags-command "&") nil 0))))
+
+      (defun my/elm-import ()
+        "Imports a module from prompted string."
+        (interactive)
+        (let ((statement (read-string "Import statement: " "import ")))
+          (save-excursion
+            (goto-char (point-min))
+            (if (re-search-forward "^import " nil t)
+                (beginning-of-line)
+              (forward-line 1)
+              (insert "\n"))
+            (insert (concat statement "\n"))
+            (save-buffer))))
     #+END_SRC
 
 *** Initialization.
@@ -1155,6 +1168,12 @@
         "M-<down>" 'outline-move-subtree-down
         "g k" '(outline-previous-heading :which-key "previous heading")
         "g j" '(outline-next-heading :which-key "next heading"))
+
+      (major-def
+        :keymaps 'elm-mode-map
+        "i" '(my/elm-import :which-key "import")
+        "e" '(elm-expose-at-point :which-key "expose")
+        "d" '(elm-documentation-lookup :which-key "documentation"))
     #+END_SRC
 
 ** =javascript=.
