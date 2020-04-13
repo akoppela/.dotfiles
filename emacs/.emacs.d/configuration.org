@@ -1093,6 +1093,23 @@
         (progn
           (outline-minor-mode)
           (setq outline-regexp "--\ ")))
+
+      (defun elm-mode-generate-tags ()
+        "Generate a TAGS file for the current project."
+        (interactive)
+        (when (elm--has-dependency-file)
+          (let* ((default-directory (elm--find-dependency-file-path))
+                 (find-command "find . -type f -name \"*.elm\" -print")
+                 (exclude-command (if elm-tags-exclude-elm-stuff
+                                      (concat find-command " | egrep -v elm-stuff")
+                                    find-command))
+                 (etags-command (concat
+                                 exclude-command
+                                 " | egrep -v node_modules"
+                                 " | etags --language=none --regex=@"
+                                 (shell-quote-argument elm-tags-regexps)
+                                 " -")))
+            (call-process-shell-command (concat etags-command "&") nil 0))))
     #+END_SRC
 
 *** Initialization.
