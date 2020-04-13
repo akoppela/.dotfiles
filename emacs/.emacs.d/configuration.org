@@ -549,7 +549,8 @@
         "e v" '(flycheck-verify-setup :which-key "verify setup")
         "e n" '(flycheck-next-error :which-key "next")
         "e N" '(flycheck-previous-error :which-key "previous")
-        "e l" '(flycheck-list-errors :which-key "list"))
+        "e l" '(flycheck-list-errors :which-key "list")
+        "e w" '(flyspell-auto-correct-word :which-key "auto correct word"))
     #+END_SRC
 
 *** Git.
