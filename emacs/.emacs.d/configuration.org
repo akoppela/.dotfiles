@@ -936,13 +936,6 @@
         :after (evil-collection magit))
     #+END_SRC
 
-*** Forge.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package forge
-        :after magit)
-    #+END_SRC
-
 ** =org-mode=.
 
 *** Keybindings.
