@@ -26,7 +26,6 @@
                (name "akoppela")
                (comment "Andrey Koppel")
                (group "users")
-
                ;; Adding the account to the "wheel" group
                ;; makes it a sudoer.
                (supplementary-groups '("wheel")))
