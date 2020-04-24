@@ -1,8 +1,5 @@
 #! /bin/sh
 
-# Cleanup
-rm ~/.bashrc
-
 # Create
 touch ~/.secret-profile
 
@@ -10,6 +7,3 @@ touch ~/.secret-profile
 cd ~/.dotfiles && stow bash
 cd ~/.dotfiles && stow emacs
 cd ~/.dotfiles && stow git
-
-# Source profile
-. ~/.bashrc
