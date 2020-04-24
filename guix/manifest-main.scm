@@ -9,12 +9,14 @@
 
    ;; Networking
    "mosh"
-   "wget"
+   "curl"
    "nss-certs"
 
    ;; Development
+   "guix"
+   "guile"
    "node"
-   "nix"
+   "glibc-utf8-locales"
 
    ;; Misc tools
    "stow"))
