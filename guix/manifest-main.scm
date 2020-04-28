@@ -1,6 +1,11 @@
 (specifications->manifest
- '(;;Applications
-   "git"
+ '(;; System
+   "glibc-locales"
+   "lm-sensors"
+   "shepherd"
+
+   ;; Documentation
+   "texinfo"
 
    ;; Emacs
    "emacs-no-x"
@@ -11,12 +16,20 @@
    "mosh"
    "curl"
    "nss-certs"
+   "nginx"
+
+   ;; Text
+   "ripgrep"
 
    ;; Development
-   "guix"
+   "git"
    "guile"
    "node"
-   "glibc-utf8-locales"
+   "elm-compiler"
+
+   ;; Puppeteer
+   "ungoogled-chromium"
+   "font-liberation"
 
    ;; Misc tools
    "stow"))
