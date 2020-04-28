@@ -901,7 +901,7 @@
          "TAB" 'company-complete-common-or-cycle
          "<backtab>" 'my/company-complete-common-or-cycle-backward))
 
-     (add-hook 'after-init-hook 'global-company-mode)
+     (add-hook 'prog-mode-hook 'company-mode)
    #+END_SRC
 
 ** =flycheck= checks syntax.
