@@ -267,18 +267,6 @@
         (global-evil-surround-mode 1))
     #+END_SRC
 
-*** Enable =evil-org=.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-org
-        :after (evil-collection org)
-        :config
-        (add-hook 'org-mode-hook 'evil-org-mode)
-        (add-hook 'evil-org-mode-hook 'evil-org-set-key-theme)
-        (require 'evil-org-agenda)
-        (evil-org-agenda-set-keys))
-    #+END_SRC
-
 *** Enable =evil-commentary=.
 
     #+BEGIN_SRC emacs-lisp
@@ -1065,6 +1053,18 @@
       (setq org-refile-use-outline-path 'file)
       (setq org-outline-path-complete-in-steps nil)
       (setq org-refile-allow-creating-parent-nodes 'confirm)
+    #+END_SRC
+
+*** Enable =evil-org=.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-org
+        :after (evil-collection org)
+        :config
+        (add-hook 'org-mode-hook 'evil-org-mode)
+        (add-hook 'evil-org-mode-hook 'evil-org-set-key-theme)
+        (require 'evil-org-agenda)
+        (evil-org-agenda-set-keys))
     #+END_SRC
 
 ** =harvest=.
