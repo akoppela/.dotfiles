@@ -24,3 +24,6 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Puppeteer
 export PUPPETEER_EXECUTABLE_PATH="$GUIX_PROFILE/bin/chromium"
 export PUPPETEER_SKIP_DOWNLOAD=true
+
+# Conta
+export APPLICATION_ENV=remote
