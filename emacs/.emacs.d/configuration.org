@@ -188,7 +188,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package smartparens
-       :commands smartparens-mode
        :config
        (require 'smartparens-config)
        (add-hook 'prog-mode-hook 'smartparens-mode))
@@ -227,7 +226,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package esup
-       :commands (esup))
+       :commands esup)
    #+END_SRC
 
 * Keybindings.
@@ -272,7 +271,6 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-org
-        :commands evil-org-mode
         :after (evil-collection org)
         :config
         (add-hook 'org-mode-hook 'evil-org-mode)
@@ -804,7 +802,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-mode
-       :commands rainbow-mode
        :config
        (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
@@ -880,8 +877,7 @@
 ** =iedit= to edit multiple regions simultaneously.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package iedit
-       :commands iedit-mode)
+     (use-package iedit)
    #+END_SRC
 
 ** =company= enables auto-completion.
@@ -994,7 +990,6 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
-        :commands org-bullets-mode
         :after org
         :init
         (add-hook 'org-mode-hook 'org-bullets-mode))
