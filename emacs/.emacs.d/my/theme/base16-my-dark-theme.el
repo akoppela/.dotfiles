@@ -19,7 +19,7 @@
 (defvar base16-my-dark-base05 "#e0e0e0")
 (defvar base16-my-dark-base06 "#f5f5f5")
 (defvar base16-my-dark-base07 "#ffffff")
-(defvar base16-my-dark-base08 "#fb0120")
+(defvar base16-my-dark-base08 "#d75f00")
 (defvar base16-my-dark-base09 "#fe8625")
 (defvar base16-my-dark-base0A "#fda331")
 (defvar base16-my-dark-base0B "#a1c659")

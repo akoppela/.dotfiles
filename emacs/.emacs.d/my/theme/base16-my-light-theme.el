@@ -19,7 +19,7 @@
 (defvar base16-my-light-base05 "#4d4d4c")
 (defvar base16-my-light-base06 "#282a2e")
 (defvar base16-my-light-base07 "#1d1f21")
-(defvar base16-my-light-base08 "#c82829")
+(defvar base16-my-light-base08 "#d70000")
 (defvar base16-my-light-base09 "#ff5f00")
 (defvar base16-my-light-base0A "#d78700")
 (defvar base16-my-light-base0B "#5f875f")
