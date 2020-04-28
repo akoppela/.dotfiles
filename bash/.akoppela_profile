@@ -8,7 +8,7 @@ fi
 alias mymacs="emacsclient -a \"\" -nw"
 
 # Secrets
-source ~/.secret_profile
+source ~/.secret-profile
 
 # Guix
 export GUIX_PROFILE="$HOME/.guix-profile"
