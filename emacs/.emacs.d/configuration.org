@@ -118,6 +118,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package vlf
+       :commands vlf
        :config
        (require 'vlf-setup))
    #+END_SRC
@@ -187,6 +188,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package smartparens
+       :commands smartparens-mode
        :config
        (require 'smartparens-config)
        (add-hook 'prog-mode-hook 'smartparens-mode))
@@ -265,6 +267,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-org
+        :commands evil-org-mode
         :after (evil-collection org)
         :config
         (add-hook 'org-mode-hook 'evil-org-mode)
@@ -774,6 +777,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package ibuffer-vc
+       :commands ibuffer-vc-set-filter-groups-by-vc-root
        :config
        (setq ibuffer-formats
              '((mark modified read-only locked vc-status-mini
@@ -795,6 +799,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-mode
+       :commands rainbow-mode
        :config
        (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
@@ -850,13 +855,15 @@
 ** =wgrep= to edit search.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package wgrep)
+     (use-package wgrep
+       :commands ivy-wgrep-change-to-wgrep-mode)
    #+END_SRC
 
 ** =treemacs= file explorer.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package treemacs)
+     (use-package treemacs
+       :commands treemacs)
 
      (use-package treemacs-evil
        :after (treemacs evil-collection))
@@ -868,7 +875,8 @@
 ** =iedit= to edit multiple regions simultaneously.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package iedit)
+     (use-package iedit
+       :commands iedit-mode)
    #+END_SRC
 
 ** =company= enables auto-completion.
@@ -934,6 +942,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package magit
+        :commands magit
         :init
         (setq magit-blame-styles
               '((margin
@@ -980,6 +989,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
+        :commands org-bullets-mode
         :after org
         :init
         (add-hook 'org-mode-hook 'org-bullets-mode))
@@ -1063,6 +1073,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package reaper
+        :commands reaper
         :init
         (setq reaper-hours-timer-mode nil)
         (setq reaper-api-key (getenv "HARVEST_API_KEY"))
@@ -1216,6 +1227,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package eslintd-fix
+        :commands eslintd-fix
         :after js2-mode
         :config
         (add-hook 'js2-mode-hook #'eslintd-fix-mode))
@@ -1226,7 +1238,8 @@
 **** REPL.
 
      #+BEGIN_SRC emacs-lisp
-       (use-package nodejs-repl)
+       (use-package nodejs-repl
+         :commands nodejs-repl)
      #+END_SRC
 
 **** Modules path.
@@ -1391,7 +1404,8 @@
 ** Thesaurus synonyms/antonyms.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package synosaurus)
+     (use-package synosaurus
+       :commands synosaurus-lookup)
    #+END_SRC
 
 ** Functions.
