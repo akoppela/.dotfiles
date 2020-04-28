@@ -922,11 +922,11 @@
       (use-package magit
         :init
         (setq magit-blame-styles
-         '((margin
-            (margin-format " %a - %s%f" " %C" " %H")
-            (margin-width . 42)
-            (margin-face . magit-blame-margin)
-            (margin-body-face magit-blame-dimmed)))))
+              '((margin
+                 (margin-format " %a - %s%f" " %C" " %H")
+                 (margin-width . 42)
+                 (margin-face . magit-blame-margin)
+                 (margin-body-face magit-blame-dimmed)))))
     #+END_SRC
 
 *** Keybindings.
@@ -1197,19 +1197,19 @@
 
 **** REPL.
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package nodejs-repl)
-    #+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (use-package nodejs-repl)
+     #+END_SRC
 
 **** Modules path.
 
-    #+BEGIN_SRC emacs-lisp
-      (use-package add-node-modules-path
-        :after (elm-mode js2-mode)
-        :config
-        (add-hook 'js2-mode-hook #'add-node-modules-path)
-        (add-hook 'elm-mode-hook #'add-node-modules-path))
-    #+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (use-package add-node-modules-path
+         :after (elm-mode js2-mode)
+         :config
+         (add-hook 'js2-mode-hook #'add-node-modules-path)
+         (add-hook 'elm-mode-hook #'add-node-modules-path))
+     #+END_SRC
 
 ** =json=.
 
@@ -1347,7 +1347,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'display-buffer-alist
-      '("*Apropos*" display-buffer-same-window))
+                  '("*Apropos*" display-buffer-same-window))
    #+END_SRC
 
 ** =dash= documentation.
