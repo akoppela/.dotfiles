@@ -192,6 +192,11 @@
        :config
        (require 'smartparens-config)
        (add-hook 'prog-mode-hook 'smartparens-mode))
+
+     (use-package evil-smartparens
+       :after (evil-collection smartparens)
+       :config
+       (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
    #+END_SRC
 
 ** Revert TAGS file without asking.
