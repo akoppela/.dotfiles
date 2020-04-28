@@ -62,12 +62,14 @@
      (setq default-directory "~/")
    #+END_SRC
 
-** Increase garbage collection treshold.
+** Increase garbage collection threshold.
 
    This means GC runs less often, which speeds up some operations.
 
    #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-treshold 20000000)
+     (use-package gcmh
+       :config
+       (gcmh-mode 1))
    #+END_SRC
 
 ** Delete trailing whitespace everytime buffer is saved.
