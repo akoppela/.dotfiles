@@ -695,7 +695,7 @@
         (global-anzu-mode 1))
 
       (use-package evil-anzu
-        :after (evil anzu))
+        :after (evil-collection anzu))
     #+END_SRC
 
 *** Show date and time.
