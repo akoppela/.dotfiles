@@ -637,12 +637,10 @@
        (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
        :config
        (setq my/themes '(base16-my-dark base16-my-light))
-       (run-with-timer 0 (* 15 60)
-                       (lambda ()
-                         (setq my/current-theme
-                               (let ((current-hour (string-to-number (format-time-string "%H"))))
-                                 (if (< 7 current-hour 17) 'base16-my-dark 'base16-my-light)))
-                         (my/next-theme))))
+       (setq my/current-theme
+             (let ((current-hour (string-to-number (format-time-string "%H"))))
+               (if (< 7 current-hour 17) 'base16-my-dark 'base16-my-light)))
+       (my/next-theme))
    #+END_SRC
 
 ** =mode-line= specific.
