@@ -431,16 +431,6 @@
                      (mapcar #'disable-theme custom-enabled-themes)
                      (font-lock-mode)
                      (load-theme new-theme t)
-                     (setq ansi-term-color-vector
-                           [term
-                            term-color-black
-                            term-color-red
-                            term-color-green
-                            term-color-yellow
-                            term-color-blue
-                            term-color-magenta
-                            term-color-cyan
-                            term-color-white])
                      (run-hooks 'my/change-theme-hook)
                      (font-lock-mode)))))))
       #+END_SRC
@@ -819,6 +809,23 @@
        :config
        (leader-def
          "v" '(er/expand-region :which-key "expand region")))
+   #+END_SRC
+
+** Terminal colors.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'my/change-theme-hook
+               (lambda ()
+                 (setq ansi-term-color-vector
+                       [term
+                        term-color-black
+                        term-color-red
+                        term-color-green
+                        term-color-yellow
+                        term-color-blue
+                        term-color-magenta
+                        term-color-cyan
+                        term-color-white])))
    #+END_SRC
 
 * Navigation, search, completion.
