@@ -978,6 +978,20 @@
         (add-hook 'org-mode-hook 'org-bullets-mode))
     #+END_SRC
 
+*** Hide leading stars.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/set-org-hide-face ()
+        "Sets org-hide face based on current theme"
+        (interactive)
+        (face-spec-set 'org-hide
+                       `((t :foreground
+                            ,(symbol-value (intern (format "%s-base00" my/current-theme)))))))
+
+      (setq org-hide-leading-stars t)
+      (add-hook 'my/change-theme-hook 'my/set-org-hide-face)
+    #+END_SRC
+
 *** Change collapsed subtree symbol.
 
     #+BEGIN_SRC emacs-lisp
