@@ -773,7 +773,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package centered-cursor-mode
        :config
-       (global-centered-cursor-mode 1))
+       (add-hook 'prog-mode-hook 'centered-cursor-mode))
    #+END_SRC
 
 ** Buffer list grouping.
