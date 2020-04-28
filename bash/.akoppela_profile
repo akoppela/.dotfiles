@@ -9,3 +9,11 @@ alias mymacs="emacsclient -a \"\" -nw"
 
 # Secrets
 source ~/.secret_profile
+
+# Guix
+export GUIX_PROFILE="$HOME/.guix-profile"
+export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
+
+# Guix Bash completions
+for s in $GUIX_PROFILE/etc/bash_completion.d/*; do source "$s"; done
+for s in $HOME/.config/guix/current/etc/bash_completion.d/*; do source "$s"; done
