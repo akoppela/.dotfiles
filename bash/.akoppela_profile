@@ -20,3 +20,7 @@ for s in $HOME/.config/guix/current/etc/bash_completion.d/*; do source "$s"; don
 
 # NPM
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# Puppeteer
+export PUPPETEER_EXECUTABLE_PATH="$GUIX_PROFILE/bin/chromium"
+export PUPPETEER_SKIP_DOWNLOAD=true
