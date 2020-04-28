@@ -27,3 +27,18 @@ export PUPPETEER_SKIP_DOWNLOAD=true
 
 # Conta
 export APPLICATION_ENV=remote
+
+# System
+update-brightness () {
+    if [ ! -z "$1" ] && [ $1 = 0 ]; then
+        brightness=0
+    else
+        brightness=800
+    fi
+
+    echo $brightness | sudo tee /sys/class/backlight/*/brightness
+}
+
+fan-speed () {
+    sensors | grep RPM
+}
