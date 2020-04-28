@@ -10,6 +10,9 @@ alias mymacs="emacsclient -a \"\" -nw"
 # Secrets
 source ~/.secret-profile
 
+# Emacs
+export TERM=screen-256color
+
 # Guix
 export GUIX_PROFILE="$HOME/.guix-profile"
 export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
