@@ -214,6 +214,13 @@
      (setq imenu-auto-rescan t)
    #+END_SRC
 
+** Startup profiler.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package esup
+       :commands (esup))
+   #+END_SRC
+
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
