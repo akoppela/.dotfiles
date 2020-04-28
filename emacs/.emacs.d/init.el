@@ -21,7 +21,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-nixos-options nix-mode synosaurus synonymous counsel-dash nodejs-repl guix forge eslint-fix add-node-modules-path avy-menu expand-region evil-anzu save-visited-files iedit elfeed-org elfeed benchmark-init helpful which-key json-mode js2-mode flycheck-elm elm-mode emmet-mode web-mode org-bullets flycheck company evil-magit magit counsel-projectile treemacs-projectile treemacs-evil treemacs wgrep multiple-cursors counsel general evil-commentary evil-org evil-surround evil-collection evil rainbow-mode centered-cursor-mode spaceline base16-theme vlf auto-compile use-package)))
+    (gcmh which-key wgrep web-mode vlf use-package treemacs-projectile treemacs-evil synosaurus spaceline smartparens session reaper rainbow-mode org-bullets nodejs-repl nix-mode json-mode js2-mode iedit ibuffer-vc helpful guix general flycheck-elm expand-region evil-surround evil-org evil-magit evil-commentary evil-collection evil-anzu esup eslintd-fix emmet-mode elm-mode elfeed-org counsel-projectile counsel-dash company-nixos-options centered-cursor-mode benchmark-init base16-theme auto-compile add-node-modules-path)))
  '(session-use-package t nil (session)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
