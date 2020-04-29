@@ -5,13 +5,10 @@ then
 fi
 
 # Emacs
-alias mymacs="emacsclient -a \"\" -nw"
+alias mymacs="TERM=screen-256color emacsclient -a \"\" -nw"
 
 # Secrets
 source ~/.secret-profile
-
-# Emacs
-export TERM=screen-256color
 
 # Guix
 export GUIX_PROFILE="$HOME/.guix-profile"
