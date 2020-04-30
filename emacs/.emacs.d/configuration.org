@@ -188,14 +188,17 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package smartparens
+       :commands smartparens-mode
+       :init
+       (add-hook 'prog-mode-hook 'smartparens-mode)
        :config
-       (require 'smartparens-config)
-       (add-hook 'prog-mode-hook 'smartparens-mode))
+       (require 'smartparens-config))
 
      (use-package evil-smartparens
+       :commands smartparens-mode
        :after (evil-collection smartparens)
-       :config
-       (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+       :init
+       (add-hook 'smartparens-enabled-hook 'evil-smartparens-mode))
    #+END_SRC
 
 ** Revert TAGS file without asking.
@@ -760,7 +763,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package centered-cursor-mode
-       :config
+       :commands centered-cursor-mode
+       :init
        (add-hook 'prog-mode-hook 'centered-cursor-mode))
    #+END_SRC
 
@@ -769,6 +773,11 @@
    #+BEGIN_SRC emacs-lisp
      (use-package ibuffer-vc
        :commands ibuffer-vc-set-filter-groups-by-vc-root
+       :init
+       (add-hook 'ibuffer-hook
+                 (lambda ()
+                   (ibuffer-vc-set-filter-groups-by-vc-root)
+                   (ibuffer-do-sort-by-recency)))
        :config
        (setq ibuffer-formats
              '((mark modified read-only locked vc-status-mini
@@ -779,18 +788,15 @@
                      " "
                      (mode 16 16 :left :elide)
                      " "
-                     vc-relative-file)))
-       (add-hook 'ibuffer-hook
-                 (lambda ()
-                   (ibuffer-vc-set-filter-groups-by-vc-root)
-                   (ibuffer-do-sort-by-recency))))
+                     vc-relative-file))))
    #+END_SRC
 
 ** Add color background for hexadecimal strings.
 
    #+BEGIN_SRC emacs-lisp
      (use-package rainbow-mode
-       :config
+       :commands rainbow-mode
+       :init
        (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 
@@ -799,7 +805,8 @@
    #+BEGIN_SRC emacs-lisp
      (use-package expand-region
        :after general
-       :config
+       :commands er/expand-region
+       :init
        (leader-def
          "v" '(er/expand-region :which-key "expand region")))
    #+END_SRC
@@ -865,7 +872,8 @@
 ** =iedit= to edit multiple regions simultaneously.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package iedit)
+     (use-package iedit
+       :commands iedit-mode)
    #+END_SRC
 
 ** =company= enables auto-completion.
@@ -877,32 +885,35 @@
        (company-complete-common-or-cycle -1))
 
      (use-package company
+       :commands company-mode
        :init
        (setq company-idle-delay 0)
        (setq company-require-match nil)
        (setq company-minimum-prefix-length 2)
        (setq company-dabbrev-downcase nil)
        (setq company-dabbrev-ignore-case nil)
+       (add-hook 'prog-mode-hook 'company-mode)
        :config
        (general-def
          :keymaps 'company-active-map
          "TAB" 'company-complete-common-or-cycle
          "<backtab>" 'my/company-complete-common-or-cycle-backward))
-
-     (add-hook 'prog-mode-hook 'company-mode)
    #+END_SRC
 
 ** =flycheck= checks syntax.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package flycheck)
+     (use-package flycheck
+       :config
+       (setq flycheck-check-syntax-automatically '(mode-enabled save)))
    #+END_SRC
 
 ** =flyspell= checks spelling.
 
    #+BEGIN_SRC emacs-lisp
      (use-package flyspell
-       :config
+       :commands flyspell-mode
+       :init
        (add-hook 'text-mode-hook 'flyspell-mode)
        (add-hook 'prog-mode-hook 'flyspell-prog-mode)
        (add-hook 'org-mode-hook 'flyspell-mode)
@@ -979,6 +990,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
         :after org
+        :commands org-bullets-mode
         :init
         (add-hook 'org-mode-hook 'org-bullets-mode))
     #+END_SRC
@@ -1114,11 +1126,12 @@
        ("\\.php\\'" . web-mode))
 
      (use-package emmet-mode
-       :config
-       (emmet-preview-mode 0)
+       :commands emmet-mode
+       :init
        (add-hook 'sgml-mode-hook 'emmet-mode)
        (add-hook 'css-mode-hook 'emmet-mode)
-
+       :config
+       (emmet-preview-mode 0)
        (general-def
          :definer 'minor-mode
          :states 'insert
@@ -1172,6 +1185,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package elm-mode
+        :commands elm-mode
         :init
         (setq elm-package-json "elm.json")
         (setq elm-tags-on-save t)
@@ -1219,18 +1233,17 @@
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
         (setq flycheck-javascript-eslint-executable "eslint_d")
-        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
-        (add-hook 'js2-mode-hook 'flycheck-mode))
+        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
     #+END_SRC
 
 *** Run `eslint fix` on file save.
 
     #+BEGIN_SRC emacs-lisp
       (use-package eslintd-fix
-        :commands eslintd-fix
         :after js2-mode
-        :config
-        (add-hook 'js2-mode-hook #'eslintd-fix-mode))
+        :commands eslintd-fix
+        :init
+        (add-hook 'after-save-hook #'eslintd-fix))
     #+END_SRC
 
 *** =node=.
@@ -1247,7 +1260,8 @@
      #+BEGIN_SRC emacs-lisp
        (use-package add-node-modules-path
          :after (elm-mode js2-mode)
-         :config
+         :commands add-node-modules-path
+         :init
          (add-hook 'js2-mode-hook #'add-node-modules-path)
          (add-hook 'elm-mode-hook #'add-node-modules-path))
      #+END_SRC
@@ -1256,6 +1270,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package json-mode
+       :commands json-mode
        :config
        (major-def
          :keymaps 'json-mode-map
@@ -1298,7 +1313,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package guix
-       :config
+       :commands guix
+       :init
        (leader-def
          "a g" '(guix :which-key "guix")))
    #+END_SRC
@@ -1323,7 +1339,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package elfeed
-       :config
+       :commands elfeed
+       :init
        (leader-def
          "a f" 'elfeed)
        (major-def
@@ -1395,7 +1412,8 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package counsel-dash
-       :config
+       :commands counsel-dash
+       :init
        (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash"))
        (leader-def
          "a d" '(counsel-dash :which-key "dash")))
