@@ -1079,6 +1079,12 @@
         (evil-org-agenda-set-keys))
     #+END_SRC
 
+*** Presentations with =ox-reveal=.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ox-reveal)
+    #+END_SRC
+
 ** =harvest=.
 
 *** Initialize.
