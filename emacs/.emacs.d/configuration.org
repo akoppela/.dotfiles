@@ -820,18 +820,20 @@
 ** Terminal colors.
 
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'my/change-theme-hook
-               (lambda ()
-                 (setq ansi-term-color-vector
-                       [term
-                        term-color-black
-                        term-color-red
-                        term-color-green
-                        term-color-yellow
-                        term-color-blue
-                        term-color-magenta
-                        term-color-cyan
-                        term-color-white])))
+     (defun my/set-asni-term-color-vector ()
+       "Sets correct value for ansi-term-color-vector based on current theme"
+       (setq ansi-term-color-vector
+             [term
+              term-color-black
+              term-color-red
+              term-color-green
+              term-color-yellow
+              term-color-blue
+              term-color-magenta
+              term-color-cyan
+              term-color-white]))
+
+     (add-hook 'my/change-theme-hook 'my/set-asni-term-color-vector)
    #+END_SRC
 
 * Navigation, search, completion.
