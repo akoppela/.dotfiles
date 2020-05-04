@@ -1092,6 +1092,11 @@
         :config
         (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
     #+END_SRC
+
+*** Allow bind keywords for export.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq org-export-allow-bind-keywords t)
     #+END_SRC
 
 ** =harvest=.
