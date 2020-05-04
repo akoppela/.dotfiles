@@ -1249,7 +1249,8 @@
         :after js2-mode
         :commands eslintd-fix
         :init
-        (add-hook 'after-save-hook #'eslintd-fix))
+        (add-hook 'js2-mode-hook
+                  (lambda () (add-hook 'after-save-hook #'eslintd-fix nil 'local))))
     #+END_SRC
 
 *** =node=.
