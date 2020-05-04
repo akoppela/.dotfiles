@@ -232,6 +232,12 @@
        :commands esup)
    #+END_SRC
 
+** Do not lock files.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq create-lockfiles nil)
+   #+END_SRC
+
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
