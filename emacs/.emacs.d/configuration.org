@@ -1088,7 +1088,10 @@
 *** Presentations with =ox-reveal=.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package ox-reveal)
+      (use-package ox-reveal
+        :config
+        (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
+    #+END_SRC
     #+END_SRC
 
 ** =harvest=.
