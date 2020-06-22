@@ -17,6 +17,7 @@
    "curl"
    "nss-certs"
    "nginx"
+   "certbot"
 
    ;; Text
    "ripgrep"
