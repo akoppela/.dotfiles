@@ -1252,7 +1252,7 @@
         (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
     #+END_SRC
 
-*** Run `eslint fix` on file save.
+*** Run =eslint fix= on file save.
 
     #+BEGIN_SRC emacs-lisp
       (use-package eslintd-fix
