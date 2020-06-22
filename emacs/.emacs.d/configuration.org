@@ -1249,6 +1249,7 @@
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
         (setq flycheck-javascript-eslint-executable "eslint_d")
+        (add-hook 'js2-mode-hook 'flycheck-mode)
         (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
     #+END_SRC
 
