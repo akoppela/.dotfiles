@@ -1261,7 +1261,7 @@
         :commands eslintd-fix
         :init
         (add-hook 'js2-mode-hook
-                  (lambda () (add-hook 'after-save-hook #'eslintd-fix nil 'local))))
+                  (lambda () (add-hook 'flycheck-before-syntax-check-hook #'eslintd-fix nil 'local))))
     #+END_SRC
 
 *** =node=.
