@@ -1164,7 +1164,7 @@
         "Enables outline mode for Elm files."
         (progn
           (outline-minor-mode)
-          (setq outline-regexp "-+\ ")))
+          (setq outline-regexp "--+\ ")))
 
       (defun elm-mode-generate-tags ()
         "Generate a TAGS file for the current project."
