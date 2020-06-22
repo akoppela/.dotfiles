@@ -969,7 +969,7 @@
       (defun my/open-notes ()
         "Opens my notes."
         (interactive)
-        (find-file (expand-file-name "~/org/notes.org")))
+        (find-file (expand-file-name "~/Notes/notes.org")))
 
       (leader-def
         "a n" '(my/open-notes :which-key "notes"))
@@ -1057,7 +1057,7 @@
 *** Agenda files.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-agenda-files (list "~/org/notes.org"))
+      (setq org-agenda-files (list "~/Notes/notes.org"))
     #+END_SRC
 
 *** Better =org-refile=.
@@ -1367,7 +1367,7 @@
      (use-package elfeed-org
        :after (elfeed org)
        :init
-       (setq rmh-elfeed-org-files (list "~/org/rss.org"))
+       (setq rmh-elfeed-org-files (list "~/Notes/rss.org"))
        :config
        (elfeed-org))
    #+END_SRC
