@@ -1351,6 +1351,13 @@
        (add-to-list 'company-backends 'company-nixos-options))
    #+END_SRC
 
+** =yaml=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package yaml-mode
+       :mode "\\.yaml\\'")
+   #+END_SRC
+
 * Communication.
 
 ** =elfeed= RSS reader.
