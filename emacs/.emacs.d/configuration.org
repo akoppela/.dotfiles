@@ -487,6 +487,7 @@
          "f s" '(save-buffer :which-key "save")
          "f r" '(rename-file :which-key "rename")
          "f d" '(my/delete-file-and-buffer :which-key "delete")
+         "f c" '(copy-file :which-key "copy")
 
          "f e" '(:ignore t :which-key "emacs")
          "f e c" '(my/open-configuration :which-key "configuration")
