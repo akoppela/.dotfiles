@@ -311,14 +311,34 @@
 
 *** Main menu.
 
+**** Helper functions.
+
+     #+BEGIN_SRC emacs-lisp
+       (defun my/counsel-projectile-rg ()
+         "Calls counsel-projectile-rg with no initial input"
+         (interactive)
+         (progn
+           (setq counsel-projectile-rg-initial-input nil)
+           (counsel-projectile-rg)))
+
+       (defun my/counsel-projectile-rg-at-point ()
+         "Calls counsel-projectile-rg with ivy-at-point"
+         (interactive)
+         (progn
+           (setq counsel-projectile-rg-initial-input (ivy-thing-at-point))
+           (counsel-projectile-rg)))
+     #+END_SRC
+
+**** Keybindings.
+
     #+BEGIN_SRC emacs-lisp
       (leader-def
         "" nil
         "SPC" '(counsel-M-x :which-key "M-x")
         "u" '(universal-argument :which-key "universal argument")
-        "/" '(counsel-projectile-rg :which-key "find in project"))
+        "/" '(my/counsel-projectile-rg :which-key "find in project")
+        "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point"))
     #+END_SRC
-
 *** Buffer.
 
     #+BEGIN_SRC emacs-lisp
