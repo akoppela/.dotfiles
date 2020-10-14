@@ -21,7 +21,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode synosaurus counsel-dash benchmark-init helpful which-key elfeed-org elfeed company-nixos-options nix-mode guix json-mode add-node-modules-path nodejs-repl eslintd-fix js2-mode flycheck-elm elm-mode emmet-mode web-mode reaper ox-reveal evil-org org-bullets evil-magit magit counsel-projectile flycheck company iedit treemacs-projectile treemacs-evil treemacs wgrep counsel expand-region rainbow-mode ibuffer-vc centered-cursor-mode evil-anzu anzu spaceline base16-theme general hydra evil-commentary evil-surround evil-collection evil esup smartparens session vlf gcmh auto-compile use-package)))
+    (vagrant yaml-mode synosaurus counsel-dash benchmark-init helpful which-key elfeed-org elfeed company-nixos-options nix-mode guix json-mode add-node-modules-path nodejs-repl eslintd-fix js2-mode flycheck-elm elm-mode emmet-mode web-mode reaper ox-reveal evil-org org-bullets evil-magit magit counsel-projectile flycheck company iedit treemacs-projectile treemacs-evil treemacs wgrep counsel expand-region rainbow-mode ibuffer-vc centered-cursor-mode evil-anzu anzu spaceline base16-theme general hydra evil-commentary evil-surround evil-collection evil esup smartparens session vlf gcmh auto-compile use-package)))
  '(session-use-package t nil (session)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

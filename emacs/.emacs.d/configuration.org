@@ -1359,6 +1359,12 @@
        :mode "\\.yaml\\'")
    #+END_SRC
 
+** =vagrant=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package vagrant)
+   #+END_SRC
+
 * Communication.
 
 ** =elfeed= RSS reader.
