@@ -831,7 +831,7 @@
      (add-hook 'my/change-theme-hook 'my/set-asni-term-color-vector)
    #+END_SRC
 
-* Navigation, search, completion.
+* Navigation, search and completion.
 
 ** =counsel= completion framework.
 
