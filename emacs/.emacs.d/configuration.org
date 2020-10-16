@@ -244,6 +244,7 @@
         (setq evil-want-C-i-jump nil)
         (setq evil-want-integration t)
         (setq evil-want-keybinding nil)
+        (setq evil-undo-system 'undo-tree)
         :config
         (evil-mode 1))
     #+END_SRC
@@ -941,6 +942,14 @@
        (add-hook 'prog-mode-hook 'flyspell-prog-mode)
        (add-hook 'org-mode-hook 'flyspell-mode)
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
+   #+END_SRC
+
+** =undo-tree=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package undo-tree
+       :config
+       (global-undo-tree-mode))
    #+END_SRC
 
 * Project, time and task management.
