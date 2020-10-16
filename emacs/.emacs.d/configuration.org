@@ -597,13 +597,6 @@
         "n s" '(org-narrow-to-subtree :which-key "subtree"))
     #+END_SRC
 
-*** Macro.
-
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "m" '(counsel-kmacro :which-key "macro"))
-    #+END_SRC
-
 *** Jump.
 
     #+BEGIN_SRC emacs-lisp
