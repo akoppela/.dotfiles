@@ -714,11 +714,12 @@
       (display-time-mode 1)
     #+END_SRC
 
-** Hide menu and tool bars.
+** Hide menu, tool and scroll bars.
 
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode 0)
      (menu-bar-mode 0)
+     (scroll-bar-mode -1)
    #+END_SRC
 
 ** Enable current line highlighting.
@@ -1387,7 +1388,7 @@
      (use-package vagrant)
    #+END_SRC
 
-* Communication.
+* Communication and connection.
 
 ** =elfeed= RSS reader.
 
@@ -1416,6 +1417,35 @@
        :keymaps 'rcirc-mode-map
        "j" '(rcirc-cmd-join :which-key "join"))
    #+END_SRC
+
+** VPN.
+
+*** Helper functions.
+
+    #+BEGIN_SRC emacs-lisp
+      (defconst my/vpn-conf (expand-file-name "~/vpn/do.ovpn"))
+
+      (defun my/connect-vpn ()
+        "Connects to VPN"
+        (interactive)
+        (ovpn-mode-start-vpn-conf my/vpn-conf))
+
+      (defun my/disconnect-vpn ()
+        "Disconnects from VPN"
+        (interactive)
+        (ovpn-mode-stop-vpn-conf my/vpn-conf))
+    #+END_SRC
+
+*** Initialization.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ovpn-mode
+        :init
+        (leader-def
+          "a v" '(:ignore t :which-key "vpn")
+          "a v c" '(my/connect-vpn :which-key "connect")
+          "a v d" '(my/disconnect-vpn :which-key "disconnect")))
+    #+END_SRC
 
 * Help.
 

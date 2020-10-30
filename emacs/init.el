@@ -1,4 +1,4 @@
-(defconst my/configuration-path (expand-file-name "~/.emacs.d/configuration.org"))
+(defconst my/configuration-path (expand-file-name "~/.dotfiles/emacs/configuration.org"))
 
 (defun my/open-configuration ()
   "Opens emacs configuration."
