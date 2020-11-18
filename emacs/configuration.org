@@ -640,42 +640,42 @@
      (setq inhibit-startup-screen t)
    #+END_SRC
 
+** Use =all-the-icons=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons)
+   #+END_SRC
+
 ** Enable custom theme.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package base16-theme
-       :init
-       (setq base16-theme-256-color-source 'colors)
-       (add-to-list 'custom-theme-load-path "~/.emacs.d/my/theme")
+     (use-package doom-themes
        :config
-       (setq my/themes '(base16-my-dark base16-my-light))
-       (setq my/current-theme
-             (let ((current-hour (string-to-number (format-time-string "%H"))))
-               (if (< 7 current-hour 17) 'base16-my-dark 'base16-my-light)))
-       (my/next-theme))
+       ;; Global settings (defaults)
+       (setq doom-themes-enable-bold nil)
+       (setq doom-themes-enable-italic nil)
+
+       ;; Load and enable theme
+       (load-theme 'doom-moonlight t)
+
+       ;; Enable flashing mode-line on errors
+       (doom-themes-visual-bell-config)
+
+       ;; Use the colorful treemacs theme
+       (setq doom-themes-treemacs-theme "doom-colors")
+       (doom-themes-treemacs-config)
+
+       ;; Corrects (and improves) org-mode's native fontification.
+       (doom-themes-org-config))
    #+END_SRC
 
 ** =mode-line= specific.
 
-*** Initialize =spaceline=.
+*** Enable custom modeline.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package spaceline
-        :config
-        (require 'spaceline-config)
-        (spaceline-spacemacs-theme))
-    #+END_SRC
-
-*** Change =mode-line= highlight color based on evil mode.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    #+END_SRC
-
-*** Hide minor modes.
-
-    #+BEGIN_SRC emacs-lisp
-      (spaceline-toggle-minor-modes-off)
+      (use-package doom-modeline
+        :init (doom-modeline-mode 1))
     #+END_SRC
 
 *** Show full names for evil state.
@@ -825,25 +825,6 @@
        :init
        (leader-def
          "v" '(er/expand-region :which-key "expand region")))
-   #+END_SRC
-
-** Terminal colors.
-
-   #+BEGIN_SRC emacs-lisp
-     (defun my/set-asni-term-color-vector ()
-       "Sets correct value for ansi-term-color-vector based on current theme"
-       (setq ansi-term-color-vector
-             [term
-              term-color-black
-              term-color-red
-              term-color-green
-              term-color-yellow
-              term-color-blue
-              term-color-magenta
-              term-color-cyan
-              term-color-white]))
-
-     (add-hook 'my/change-theme-hook 'my/set-asni-term-color-vector)
    #+END_SRC
 
 * Navigation, search and completion.
