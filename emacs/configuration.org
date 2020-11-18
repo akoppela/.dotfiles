@@ -302,11 +302,12 @@
           :states '(normal visual insert motion emacs)
           :keymaps 'override
           :prefix "SPC"
-          :non-normal-prefix "C-SPC")
+          :non-normal-prefix "M-SPC")
         (general-create-definer major-def
-          :states '(normal visual motion emacs)
-          :prefix ","
-          :non-normal-prefix "C-,"))
+          :states '(normal visual insert motion emacs)
+          :keymaps 'override
+          :prefix "SPC m"
+          :non-normal-prefix "M-SPC m"))
     #+END_SRC
 
 *** Main menu.
