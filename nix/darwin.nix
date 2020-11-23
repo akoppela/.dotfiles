@@ -12,6 +12,7 @@ in
   # Allow proprietary packages
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
+    "1password"
   ];
 
   # Overlays
@@ -77,6 +78,7 @@ in
         openvpn
         chrysalis
         # nodejs
+        _1password
       ];
 
       # Emacs
