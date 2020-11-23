@@ -46,6 +46,7 @@ in
       window_gap = window_gap;
       external_bar = "all:0:0";
       split_ratio = 0.5;
+
       # Window
       window_placement = "second_child";
       window_topmost = "on";
