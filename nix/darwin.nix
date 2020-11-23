@@ -12,7 +12,6 @@ in
   # Allow proprietary packages
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
-    "vscode"
   ];
 
   # Overlays
@@ -96,9 +95,6 @@ in
         userEmail = "akoppela@gmail.com";
         userName = "akoppela";
       };
-
-      # VSCode
-      programs.vscode.enable = true;
     };
   };
 
