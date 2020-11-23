@@ -71,13 +71,27 @@ in
     users.akoppela = { pkgs, ... }: {
       # User packages
       home.packages = with pkgs; [
+        # Text
         ripgrep
+        jq
+
+        # Communication
         slack
-        firefox
-        alfred
+
+        # Networking
         openvpn
+        firefox
+
+        # Productivity
+        alfred
+
+        # System
+        htop
+
+        # Keyboard
         chrysalis
-        # nodejs
+
+        # Security
         _1password
       ];
 
