@@ -136,13 +136,6 @@
      (setq browse-url-browser-function 'eww-browse-url)
    #+END_SRC
 
-** Eshell visual commands.
-
-   #+BEGIN_SRC emacs-lisp
-     (require 'em-term)
-     (add-to-list 'eshell-visual-commands "htop")
-   #+END_SRC
-
 ** Make session persistent.
 
    #+BEGIN_SRC emacs-lisp
@@ -837,11 +830,6 @@
        (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
        :config
        (ivy-mode 1)
-       (general-def
-         :keymaps 'ivy-minibuffer-map
-         :states '(normal visual insert)
-         "C-j" 'ivy-next-line
-         "C-k" 'ivy-previous-line)
        (major-def
          :keymaps 'ivy-minibuffer-map
          "o" '(ivy-occur :which-key "occur")
