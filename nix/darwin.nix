@@ -87,9 +87,6 @@ in
         recursive = true;
         source = ../emacs;
       };
-      home.file.".testfile" = {
-        text = "Hello";
-      };
 
       # Git
       programs.git = {
