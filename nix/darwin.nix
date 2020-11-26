@@ -106,6 +106,14 @@ in
         userName = "akoppela";
       };
 
+      programs.direnv = {
+        enable = true;
+        enableNixDirenvIntegration = true;
+        enableBashIntegration = enableBash;
+        enableZshIntegration = enableZsh;
+        enableFishIntegration = enableFish;
+      };
+
       programs.htop = {
         enable = true;
       };
