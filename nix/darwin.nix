@@ -81,9 +81,6 @@ in
         # Productivity
         alfred
 
-        # System
-        htop
-
         # Keyboard
         chrysalis
 
@@ -101,6 +98,10 @@ in
         enable = true;
         userEmail = "akoppela@gmail.com";
         userName = "akoppela";
+      };
+
+      programs.htop = {
+        enable = true;
       };
     };
   };
