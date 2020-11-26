@@ -8,6 +8,8 @@ in
 
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
 
+  nix.trustedUsers = [ "root" "akoppela" ];
+
   nixpkgs.overlays = [ (import ./overlay/apps.nix) ];
 
   # Temporary fix to put user apps to ~/Applications
