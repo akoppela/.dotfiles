@@ -8,11 +8,6 @@ in
 
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "slack"
-    "1password"
-  ];
-
   nixpkgs.overlays = [ (import ./overlay/apps.nix) ];
 
   # Temporary fix to put user apps to ~/Applications
@@ -57,6 +52,11 @@ in
       yabai -m rule --add app='Finder' space=^4
     '';
   };
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "slack"
+    "1password"
+  ];
 
   home-manager = {
     useUserPackages = true;
