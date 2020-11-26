@@ -13,9 +13,7 @@ in
     "1password"
   ];
 
-  nixpkgs.overlays = [
-    (import ./overlay/apps.nix)
-  ];
+  nixpkgs.overlays = [ (import ./overlay/apps.nix) ];
 
   # Temporary fix to put user apps to ~/Applications
   system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
