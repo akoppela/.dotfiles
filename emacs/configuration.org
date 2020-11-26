@@ -225,12 +225,19 @@
      (setq create-lockfiles nil)
    #+END_SRC
 
+** Proper terminal.
+
+   #+BEGIN_SRC emacs-lisp
+     ;; (use-package vterm)
+   #+END_SRC
+
 ** =direnv= support.
 
    #+BEGIN_SRC emacs-lisp
      (use-package envrc
-       :config
-       (envrc-global-mode))
+       :commands envrc-mode
+       :init
+       (add-hook 'prog-mode-hook 'envrc-mode))
    #+END_SRC
 
 * Keybindings.
