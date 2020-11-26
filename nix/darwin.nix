@@ -6,16 +6,13 @@ in
 {
   imports = [ <home-manager/nix-darwin> ];
 
-  # Use a custom configuration.nix location.
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
 
-  # Allow proprietary packages
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "slack"
     "1password"
   ];
 
-  # Overlays
   nixpkgs.overlays = [
     (import ./overlay/apps.nix)
   ];
@@ -27,7 +24,6 @@ in
     pathsToLink = "/Applications";
   });
 
-  # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
 
   # Windor manager
@@ -64,13 +60,11 @@ in
     '';
   };
 
-  # Home manager
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
 
     users.akoppela = { pkgs, ... }: {
-      # User packages
       home.packages = with pkgs; [
         # Text
         ripgrep
@@ -97,14 +91,12 @@ in
         _1password
       ];
 
-      # Emacs
       programs.emacs.enable = true;
       home.file.".emacs.d" = {
         recursive = true;
         source = ../emacs;
       };
 
-      # Git
       programs.git = {
         enable = true;
         userEmail = "akoppela@gmail.com";
