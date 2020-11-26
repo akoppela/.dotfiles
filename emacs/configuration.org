@@ -225,6 +225,14 @@
      (setq create-lockfiles nil)
    #+END_SRC
 
+** =direnv= support.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package envrc
+       :config
+       (envrc-global-mode))
+   #+END_SRC
+
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
