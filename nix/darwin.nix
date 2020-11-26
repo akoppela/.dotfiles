@@ -2,6 +2,9 @@
 
 let
   window_gap = "2";
+  enableBash = false;
+  enableZsh = true;
+  enableFish = false;
 in
 {
   imports = [ <home-manager/nix-darwin> ];
@@ -19,7 +22,10 @@ in
     pathsToLink = "/Applications";
   });
 
-  programs.zsh.enable = true;
+  environment.shells = [ pkgs.zsh ];
+  programs.bash.enable = enableBash;
+  programs.zsh.enable = enableZsh;
+  programs.fish.enable = enableFish;
 
   # Windor manager
   services.yabai = {
