@@ -108,6 +108,7 @@ in
 
       programs.emacs = {
         enable = true;
+        package = pkgs.emacsMacport;
       };
       home.file.".emacs.d" = {
         recursive = true;
