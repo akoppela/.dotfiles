@@ -340,14 +340,14 @@
 
 **** Keybindings.
 
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "" nil
-        "SPC" '(counsel-M-x :which-key "M-x")
-        "u" '(universal-argument :which-key "universal argument")
-        "/" '(my/counsel-projectile-rg :which-key "find in project")
-        "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point"))
-    #+END_SRC
+     #+BEGIN_SRC emacs-lisp
+       (leader-def
+         "" nil
+         "SPC" '(counsel-M-x :which-key "M-x")
+         "u" '(universal-argument :which-key "universal argument")
+         "/" '(my/counsel-projectile-rg :which-key "find in project")
+         "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point"))
+     #+END_SRC
 *** Buffer.
 
     #+BEGIN_SRC emacs-lisp
