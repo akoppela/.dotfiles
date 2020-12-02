@@ -106,7 +106,9 @@ in
         enable = enableZsh;
       };
 
-      programs.emacs.enable = true;
+      programs.emacs = {
+        enable = true;
+      };
       home.file.".emacs.d" = {
         recursive = true;
         source = ../emacs;
