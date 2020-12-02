@@ -1380,7 +1380,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package elfeed
        :commands elfeed
-       :init
+       :config
        (leader-def
          "a f" 'elfeed)
        (major-def
