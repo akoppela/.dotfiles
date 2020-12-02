@@ -98,6 +98,10 @@ in
         enable = enableBash;
       };
 
+      programs.zsh = {
+        enable = enableZsh;
+      };
+
       programs.emacs.enable = true;
       home.file.".emacs.d" = {
         recursive = true;
