@@ -310,12 +310,12 @@
           :states '(normal visual insert motion emacs)
           :keymaps 'override
           :prefix "SPC"
-          :non-normal-prefix "M-SPC")
+          :non-normal-prefix "<C-M-return>")
         (general-create-definer major-def
           :states '(normal visual insert motion emacs)
           :keymaps 'override
-          :prefix "SPC m"
-          :non-normal-prefix "M-SPC m"))
+          :prefix "<C-M-escape>"
+          :non-normal-prefix "<C-M-escape>"))
     #+END_SRC
 
 *** Main menu.
