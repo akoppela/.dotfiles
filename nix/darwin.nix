@@ -2,7 +2,7 @@
 
 let
   window_gap = "2";
-  enableBash = false;
+  enableBash = true;
   enableZsh = true;
   enableFish = false;
 in
@@ -22,7 +22,7 @@ in
     pathsToLink = "/Applications";
   });
 
-  environment.shells = [ pkgs.zsh ];
+  environment.shells = [ pkgs.bash pkgs.zsh ];
   programs.bash.enable = enableBash;
   programs.zsh.enable = enableZsh;
   programs.fish.enable = enableFish;
@@ -93,6 +93,10 @@ in
         # Security
         _1password
       ];
+
+      programs.bash = {
+        enable = enableBash;
+      };
 
       programs.emacs.enable = true;
       home.file.".emacs.d" = {
