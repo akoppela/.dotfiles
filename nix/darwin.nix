@@ -73,7 +73,7 @@ in
     users.akoppela = { pkgs, ... }: {
       home.packages = with pkgs; [
         # Text
-        (aspellWithDicts (dict: [ dict.en ]))
+        (aspellWithDicts (dict: [ dict.en dict.en-computers dict.en-science ]))
         ripgrep
         jq
 
