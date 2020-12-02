@@ -789,7 +789,8 @@
      (use-package centered-cursor-mode
        :commands centered-cursor-mode
        :init
-       (add-hook 'prog-mode-hook 'centered-cursor-mode))
+       (add-hook 'prog-mode-hook 'centered-cursor-mode)
+       (add-hook 'org-mode-hook 'centered-cursor-mode))
    #+END_SRC
 
 ** Buffer list grouping.
