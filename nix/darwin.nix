@@ -92,6 +92,10 @@ in
 
         # Security
         _1password
+
+        # Development
+        docker
+        docker-machine
       ];
 
       programs.bash = {
