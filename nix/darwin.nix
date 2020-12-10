@@ -60,6 +60,7 @@ in
       yabai -m rule --add app='System Preferences' manage=off
       yabai -m rule --add app='Safari' space=^1
       yabai -m rule --add app='Emacs' space=^1
+      yabai -m rule --add app='Firefox' space=^1
       yabai -m rule --add app='Podcasts' space=^2
       yabai -m rule --add app='Mail' space=^3
       yabai -m rule --add app='Slack' space=^3
