@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 let
   window_gap = "2";
   enableBash = true;
@@ -7,13 +6,20 @@ let
   enableFish = false;
 in
 {
-  imports = [ <home-manager/nix-darwin> ];
+  imports = [
+    <home-manager/nix-darwin>
+  ];
 
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
 
-  nix.trustedUsers = [ "root" "akoppela" ];
+  nix.trustedUsers = [
+    "root"
+    "akoppela"
+  ];
 
-  nixpkgs.overlays = [ (import ./overlay/apps.nix) ];
+  nixpkgs.overlays = [
+    (import ./overlay/apps.nix)
+  ];
 
   # Temporary fix to put user apps to ~/Applications
   system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
@@ -22,10 +28,13 @@ in
     pathsToLink = "/Applications";
   });
 
-  environment.shells = [ pkgs.bash pkgs.zsh ];
   programs.bash.enable = enableBash;
   programs.zsh.enable = enableZsh;
   programs.fish.enable = enableFish;
+  environment.shells = [
+    pkgs.bash
+    pkgs.zsh
+  ];
 
   # Windor manager
   services.yabai = {
@@ -33,7 +42,6 @@ in
     package = pkgs.yabai;
     enableScriptingAddition = true;
     config = {
-      # Layout
       layout = "bsp";
       auto_balance = "on";
       top_padding = window_gap;
@@ -43,8 +51,6 @@ in
       window_gap = window_gap;
       external_bar = "all:0:0";
       split_ratio = 0.5;
-
-      # Window
       window_placement = "second_child";
       window_topmost = "on";
       window_shadow = "on";
@@ -61,41 +67,46 @@ in
     '';
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "slack"
-    "1password"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "slack"
+      "1password"
+    ];
 
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
 
     users.akoppela = { pkgs, ... }: {
-      home.packages = with pkgs; [
+      home.packages = [
         # Text
-        (aspellWithDicts (dict: [ dict.en dict.en-computers dict.en-science ]))
-        ripgrep
-        jq
+        (pkgs.aspellWithDicts (dict: [
+          dict.en
+          dict.en-computers
+          dict.en-science
+        ]))
+        pkgs.ripgrep
+        pkgs.jq
 
         # Communication
-        slack
+        pkgs.slack
 
         # Networking
-        openvpn
-        firefox
+        pkgs.openvpn
+        pkgs.firefox
 
         # Productivity
-        alfred
+        pkgs.alfred
 
         # Keyboard
-        chrysalis
+        pkgs.chrysalis
 
         # Security
-        _1password
+        pkgs._1password
 
         # Development
-        docker
-        docker-machine
+        pkgs.docker
+        pkgs.docker-machine
       ];
 
       programs.bash = {

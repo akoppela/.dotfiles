@@ -28,7 +28,7 @@ in
     };
   };
 
-  chrysalis  = installApp rec {
+  chrysalis = installApp rec {
     pname = "Chrysalis";
     version = "0.7.9";
     description = "Chrysalis is a graphical configurator for Kaleidoscope-powered keyboards.";
