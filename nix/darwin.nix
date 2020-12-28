@@ -109,6 +109,9 @@ in
         pkgs.docker
         pkgs.docker-machine
         pkgs.nixpkgs-fmt
+
+        # Gaming
+        pkgs.steam
       ];
 
       programs.bash = {

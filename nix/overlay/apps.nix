@@ -38,4 +38,15 @@ in
       sha256 = "1iznbgh04q7gfh7ndf94yh7z6xnw8jixkncnk594akvbkmpyvwq0";
     };
   };
+
+  steam = installApp rec {
+    pname = "Steam";
+    version = "1.0.0";
+    description = "Steam is the ultimate destination for playing, discussing, and creating games.";
+    homepage = "https://store.steampowered.com";
+    src = {
+      url = "https://cdn.cloudflare.steamstatic.com/client/installer/steam.dmg";
+      sha256 = "1sd0fr9s75zkbl7wfl3w8rsys5k2dfgfx6ib26ca7pgmm4sp2y6s";
+    };
+  };
 }
