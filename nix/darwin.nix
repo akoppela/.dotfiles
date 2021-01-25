@@ -41,6 +41,18 @@ in
     ''
   );
 
+  system.defaults = {
+    ".GlobalPreferences"."com.apple.sound.beep.sound" = "/System/Library/Sounds/Submarine.aiff";
+    NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
+  };
+
+  system.activationScripts.extraUserActivation.text = ''
+    echo >&2 "extra user defaults..."
+
+    defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
+    defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
+  '';
+
   programs.bash.enable = enableBash;
   programs.zsh.enable = enableZsh;
   programs.fish.enable = enableFish;
