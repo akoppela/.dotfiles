@@ -119,6 +119,7 @@ in
 
         # Communication
         pkgs.slack
+        pkgs.telegram
 
         # Networking
         pkgs.openvpn

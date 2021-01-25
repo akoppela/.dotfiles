@@ -60,4 +60,15 @@ in
       sha256 = "0w1blx8l77aa3inrp6kikq0xkwqd3c1ysm5i0nl4ssc0mj6v7l8s";
     };
   };
+
+  telegram = installApp rec {
+    pname = "Telegram";
+    version = "2.5";
+    description = "A new era of messaging";
+    homepage = "https://macos.telegram.org";
+    src = {
+      url = "https://osx.telegram.org/updates/Telegram.dmg";
+      sha256 = "1hgv9yclf9rfai55xhxcq46ab86qpcxj2ayggjr53dp41pazimka";
+    };
+  };
 }
