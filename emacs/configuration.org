@@ -1444,6 +1444,19 @@
           "a v d" '(my/disconnect-vpn :which-key "disconnect")))
     #+END_SRC
 
+** Transmission.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package transmission
+       :commands transmission
+       :init
+       (setq transmission-refresh-modes
+             '(transmission-mode
+               transmission-files-mode))
+       (leader-def
+         "a T" '(transmission :which-key "transmission")))
+   #+END_SRC
+
 * Help.
 
 ** =which-key= shows all available keybindings in a popup.
