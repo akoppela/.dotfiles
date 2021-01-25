@@ -232,6 +232,7 @@
       (use-package evil-collection
         :after evil
         :init
+        (setq evil-collection-setup-minibuffer t)
         (setq evil-collection-outline-bind-tab-p nil)
         (setq evil-collection-company-use-tng nil)
         :config
