@@ -16,9 +16,7 @@ stdenv.mkDerivation {
   version = version;
   src = fetchurl src;
 
-  buildInputs = [
-    undmg
-  ];
+  buildInputs = [ undmg ];
   sourceRoot = sourceRoot;
   phases = [
     "unpackPhase"
@@ -30,8 +28,8 @@ stdenv.mkDerivation {
   '' + postInstall;
 
   meta = {
-    description = stdenv.lib.description;
-    homepage = stdenv.lib.homepage;
+    description = description;
+    homepage = homepage;
     maintainers = [
       stdenv.lib.maintainers.akoppela
     ];
