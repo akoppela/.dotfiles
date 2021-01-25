@@ -823,6 +823,7 @@
      (use-package counsel
        :init
        (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+       (setq counsel-rg-base-command '("rg" "-M" "240" "--hidden" "--with-filename" "--no-heading" "--line-number" "--color" "never" "%s"))
        :config
        (ivy-mode 1)
        (major-def
