@@ -22,12 +22,24 @@ in
     (import ./overlay/pkgs.nix)
   ];
 
-  # Temporary fix to put user apps to ~/Applications
+  # Temporary fix to count user apps from home-manager as well
   system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
     name = "applications";
     paths = config.environment.systemPackages ++ config.home-manager.users.akoppela.home.packages;
     pathsToLink = "/Applications";
   });
+  # Temporary fix to copy all the apps so that spotlight can find them
+  system.activationScripts.applications.text = pkgs.lib.mkForce (
+    ''
+      echo "setting up ~/Applications/Nix Apps..."
+      rm -rf $HOME/Applications/Nix\ Apps
+      mkdir -p $HOME/Applications/Nix\ Apps
+      find ${config.system.build.applications}/Applications -maxdepth 1 -type l | while read app; do
+        src="$(/usr/bin/stat -f%Y "$app")"
+        cp -r "$src" $HOME/Applications/Nix\ Apps
+      done
+    ''
+  );
 
   programs.bash.enable = enableBash;
   programs.zsh.enable = enableZsh;
