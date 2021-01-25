@@ -142,6 +142,7 @@ in
         pkgs.steam
 
         # Audio
+        pkgs.xld
         pkgs.extempore
       ];
 

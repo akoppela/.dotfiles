@@ -49,4 +49,15 @@ in
       sha256 = "1sd0fr9s75zkbl7wfl3w8rsys5k2dfgfx6ib26ca7pgmm4sp2y6s";
     };
   };
+
+  xld = installApp rec {
+    pname = "XLD";
+    version = "20201123";
+    description = "X Lossless Decoder: Lossless audio decoder for Mac OS X";
+    homepage = "https://tmkk.undo.jp/xld";
+    src = {
+      url = "https://udomain.dl.sourceforge.net/project/xld/xld-20201123.dmg";
+      sha256 = "0w1blx8l77aa3inrp6kikq0xkwqd3c1ysm5i0nl4ssc0mj6v7l8s";
+    };
+  };
 }
