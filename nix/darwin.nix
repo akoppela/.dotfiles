@@ -89,10 +89,13 @@ in
       yabai -m rule --add app='Safari' space=^1
       yabai -m rule --add app='Emacs' space=^1
       yabai -m rule --add app='Firefox' space=^1
-      yabai -m rule --add app='Podcasts' space=^2
-      yabai -m rule --add app='Mail' space=^3
-      yabai -m rule --add app='Slack' space=^3
-      yabai -m rule --add app='Finder' space=^4
+      yabai -m rule --add app='Mail' space=^2
+      yabai -m rule --add app='Slack' space=^2
+      yabai -m rule --add app='Telegram' space=^2
+      yabai -m rule --add app='Finder' space=^3
+      yabai -m rule --add app='TotalMix' space=^4 manage=off
+      yabai -m rule --add app='Podcasts' space=^5
+      yabai -m rule --add app='Music' space=^6
     '';
   };
 
