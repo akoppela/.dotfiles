@@ -124,6 +124,7 @@ in
         # Networking
         pkgs.openvpn
         pkgs.firefox
+        pkgs.transmission
 
         # Productivity
         pkgs.alfred
