@@ -196,9 +196,23 @@
 
 ** Proper terminal.
 
-   #+BEGIN_SRC emacs-lisp
-     ;; (use-package vterm)
-   #+END_SRC
+*** Helper functions.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/terminal ()
+        "Starts terminal using projectile if possible."
+        (interactive)
+        (if (projectile-project-p)
+            (projectile-run-vterm nil)
+          (vterm))
+    #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a t" '(my/terminal :which-key "terminal"))
+    #+END_SRC
 
 ** =direnv= support.
 
@@ -506,25 +520,11 @@
 
 *** Application.
 
-**** Helper functions.
-
-     #+BEGIN_SRC emacs-lisp
-       (defun my/eshell ()
-         "Starts eshell using projectile if possible."
-         (interactive)
-         (if (projectile-project-p)
-             (projectile-run-eshell nil)
-           (eshell)))
-     #+END_SRC
-
-**** Keybindings.
-
-     #+BEGIN_SRC emacs-lisp
-       (leader-def
-         "a" '(:ignore t :which-key "application")
-         "a i" '(rcirc :which-key "IRC")
-         "a e" '(my/eshell :which-key "eshell"))
-     #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a" '(:ignore t :which-key "application")
+        "a i" '(rcirc :which-key "IRC"))
+    #+END_SRC
 
 *** Search.
 
