@@ -19,6 +19,7 @@ in
 
   nixpkgs.overlays = [
     (import ./overlay/apps.nix)
+    (import ./overlay/pkgs.nix)
   ];
 
   # Temporary fix to put user apps to ~/Applications
@@ -112,6 +113,9 @@ in
 
         # Gaming
         pkgs.steam
+
+        # Audio
+        pkgs.extempore
       ];
 
       programs.bash = {
