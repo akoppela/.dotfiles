@@ -1362,6 +1362,16 @@
      (use-package vagrant)
    #+END_SRC
 
+** =extempore=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package extempore-mode
+       :commands (extempore-mode)
+       :init
+       (unless (fboundp 'eldoc-beginning-of-sexp)
+         (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
+   #+END_SRC
+
 * Communication and connection.
 
 ** =elfeed= RSS reader.
