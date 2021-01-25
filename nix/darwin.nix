@@ -148,6 +148,11 @@ in
         pkgs.extempore
       ];
 
+      home.sessionVariables = {
+        EDITOR = "emacs";
+        SHELL = pkgs.zsh;
+      };
+
       programs.bash = {
         enable = enableBash;
       };
