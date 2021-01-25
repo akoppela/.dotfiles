@@ -1457,6 +1457,22 @@
         "a t" '(my/terminal :which-key "terminal"))
     #+END_SRC
 
+** Slack.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package slack
+       :commands (slack-start)
+       :init
+       (setq slack-buffer-emojify t)
+       (setq slack-request-timeout 120)
+       (leader-def
+         "a s" '(:ignore t :which-key "slack")
+         "a s s" '(slack-start :which-key "start")
+         "a s i" '(slack-im-select :which-key "instant")
+         "a s u" '(slack-all-unreads :which-key "unreads")
+         "a s t" '(slack-all-threads :which-key "threads")))
+   #+END_SRC
+
 * Help.
 
 ** =which-key= shows all available keybindings in a popup.
@@ -1609,6 +1625,18 @@
        "a c j" '(:ignore t :which-key "javascript")
        "a c j t" '(my/conta-frontend-js-tests :which-key "test")
        "a c j c" '(my/conta-frontend-js-tests-coverage :which-key "coverage"))
+   #+END_SRC
+
+** Slack.
+
+   #+BEGIN_SRC emacs-lisp
+     (slack-register-team
+      :name "Conta"
+      :default t
+      :token (getenv "CONTA_SLACK_TOKEN")
+      :visible-threads t
+      :animate-image t
+      :modeline-enabled t)
    #+END_SRC
 
 * Moontells.
