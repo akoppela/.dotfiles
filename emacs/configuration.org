@@ -1372,6 +1372,19 @@
          (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
    #+END_SRC
 
+** =go=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package go-mode
+       :commands (go-mode)
+       :init
+       (add-hook 'go-mode-hook
+                 (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
+     (use-package flycheck-golangci-lint
+       :after (go-mode)
+       :hook (go-mode . flycheck-golangci-lint-setup))
+   #+END_SRC
+
 * Communication and connection.
 
 ** =elfeed= RSS reader.
