@@ -194,26 +194,6 @@
      (setq create-lockfiles nil)
    #+END_SRC
 
-** Proper terminal.
-
-*** Helper functions.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun my/terminal ()
-        "Starts terminal using projectile if possible."
-        (interactive)
-        (if (projectile-project-p)
-            (projectile-run-vterm nil)
-          (vterm))
-    #+END_SRC
-
-*** Keybindings.
-
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "a t" '(my/terminal :which-key "terminal"))
-    #+END_SRC
-
 ** =direnv= support.
 
    #+BEGIN_SRC emacs-lisp
@@ -1456,6 +1436,26 @@
        (leader-def
          "a T" '(transmission :which-key "transmission")))
    #+END_SRC
+
+** Proper terminal.
+
+*** Helper functions.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/terminal ()
+        "Starts terminal using projectile if possible."
+        (interactive)
+        (if (projectile-project-p)
+            (projectile-run-vterm nil)
+          (vterm)))
+    #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a t" '(my/terminal :which-key "terminal"))
+    #+END_SRC
 
 * Help.
 
