@@ -1336,9 +1336,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package nix-mode
-       :mode "\\.nix\\'"
+       :mode "\\.nix\\'")
+
+     (use-package nixpkgs-fmt
+       :after nix-mode
        :config
-       (add-hook 'before-save-hook 'nix-mode-format))
+       (add-hook 'nix-mode-hook 'nixpkgs-fmt-on-save-mode))
 
      (use-package company-nixos-options
        :after (nix-mode nixos-options)
