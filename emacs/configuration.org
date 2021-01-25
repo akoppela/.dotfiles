@@ -1633,7 +1633,9 @@
      (slack-register-team
       :name "Conta"
       :default t
-      :token (getenv "CONTA_SLACK_TOKEN")
+      :token (auth-source-pick-first-password
+              :host "conta.slack.com"
+              :user "akoppela@gmail.com")
       :visible-threads t
       :animate-image t
       :modeline-enabled t)
