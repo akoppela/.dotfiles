@@ -167,6 +167,9 @@ in
       programs.emacs = {
         enable = true;
         package = pkgs.emacsMacport;
+        extraPackages = epkgs: [
+          epkgs.vterm
+        ];
       };
       home.file.".emacs.d" = {
         recursive = true;
