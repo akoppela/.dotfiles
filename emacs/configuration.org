@@ -1084,6 +1084,12 @@
       (setq org-export-allow-bind-keywords t)
     #+END_SRC
 
+*** Add =org-tempo= back.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-modules 'org-tempo)
+    #+END_SRC
+
 ** =harvest=.
 
 *** Initialize.
