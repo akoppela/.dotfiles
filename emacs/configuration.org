@@ -1360,6 +1360,41 @@
        :hook (go-mode . flycheck-golangci-lint-setup))
    #+END_SRC
 
+** =lsp=.
+
+*** Initialization.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-mode
+        :commands (lsp lsp-deffered)
+        :hook
+        (lsp-mode . lsp-enable-which-key-integration)
+        :config
+        (setq lsp-headerline-breadcrumb-enable nil)
+        (setq lsp-idle-delay 0)
+        (setq lsp-enable-file-watchers nil)
+        (setq lsp-completion-show-detail nil)
+        (setq lsp-completion-show-kind nil)
+        (add-hook 'lsp-mode-hook
+                  (lambda () (add-hook 'before-save-hook #'lsp-format-buffer nil 'local))))
+    #+END_SRC
+
+*** Ivy integration.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-ivy
+        :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol))
+    #+END_SRC
+
+*** Treemacs integration.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-treemacs
+        :init
+        (lsp-treemacs-sync-mode t)
+        :commands (lsp-treemacs-errors-list))
+    #+END_SRC
+
 * Communication and connection.
 
 ** =elfeed= RSS reader.
