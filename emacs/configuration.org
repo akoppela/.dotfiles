@@ -72,6 +72,12 @@
        (gcmh-mode 1))
    #+END_SRC
 
+** Increase read process output.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq read-process-output-max (* 1024 1024 5))
+   #+END_SRC
+
 ** Delete trailing whitespace everytime buffer is saved.
 
    #+BEGIN_SRC emacs-lisp
