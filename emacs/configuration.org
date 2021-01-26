@@ -514,7 +514,7 @@
         "s s" '(swiper-isearch :which-key "buffer")
         "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point")
         "s b" '(eww-search-words :which-key "browser")
-        "s i" '(imenu :which-key "imenu"))
+        "s i" '(counsel-imenu :which-key "imenu"))
     #+END_SRC
 
 *** Error.
