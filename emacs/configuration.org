@@ -1248,17 +1248,6 @@
          :commands nodejs-repl)
      #+END_SRC
 
-**** Modules path.
-
-     #+BEGIN_SRC emacs-lisp
-       (use-package add-node-modules-path
-         :after (elm-mode js2-mode)
-         :commands add-node-modules-path
-         :init
-         (add-hook 'js2-mode-hook #'add-node-modules-path)
-         (add-hook 'elm-mode-hook #'add-node-modules-path))
-     #+END_SRC
-
 ** =json=.
 
    #+BEGIN_SRC emacs-lisp
