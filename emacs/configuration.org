@@ -1147,6 +1147,23 @@
           (outline-minor-mode)
           (setq outline-regexp "--+\ ")))
 
+      (defun elm-mode-generate-tags ()
+        "Generate a TAGS file for the current project."
+        (interactive)
+        (when (elm--has-dependency-file)
+          (let* ((default-directory (elm--find-dependency-file-path))
+                 (find-command "find . -type f -name \"*.elm\" -print")
+                 (exclude-command (if elm-tags-exclude-elm-stuff
+                                      (concat find-command " | egrep -v elm-stuff")
+                                    find-command))
+                 (etags-command (concat
+                                 exclude-command
+                                 " | egrep -v node_modules"
+                                 " | etags --language=none --regex=@"
+                                 (shell-quote-argument elm-tags-regexps)
+                                 " -")))
+            (call-process-shell-command (concat etags-command "&") nil 0))))
+
       (defun my/elm-import ()
         "Imports a module from prompted string."
         (interactive)
@@ -1168,14 +1185,21 @@
         :commands elm-mode
         :init
         (setq elm-package-json "elm.json")
-        (setq elm-tags-on-save nil)
+        (setq elm-tags-on-save t)
+        (setq elm-tags-exclude-elm-stuff t)
         (setq elm-format-on-save nil)
         (setq elm-imenu-use-categories nil)
         :config
         (remove-hook 'elm-mode-hook 'elm-indent-mode)
+        (add-hook 'elm-mode-hook 'flycheck-mode)
         (add-hook 'elm-mode-hook 'my/elm-outline-mode)
         (add-hook 'elm-mode-hook
-                  (lambda () (set (make-local-variable 'company-backends) '(company-capf)))))
+                  (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev)))))
+
+      (use-package flycheck-elm
+        :after (flycheck elm-mode)
+        :config
+        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
     #+END_SRC
 
 *** Keybindings.
@@ -1351,10 +1375,14 @@
         (lsp-mode . lsp-enable-which-key-integration)
         :config
         (setq lsp-headerline-breadcrumb-enable nil)
-        (setq lsp-idle-delay 0)
-        (setq lsp-enable-file-watchers nil)
+        (setq lsp-enable-completion-at-point nil)
         (setq lsp-completion-show-detail nil)
         (setq lsp-completion-show-kind nil)
+        (setq lsp-enable-file-watchers nil)
+        (setq lsp-imenu-show-container-name nil)
+        (setq lsp-diagnostics-disabled-modes '(elm-mode))
+        (setq lsp-modeline-diagnostics-enable nil)
+        (setq lsp-idle-delay 0)
         (add-hook 'lsp-mode-hook
                   (lambda () (add-hook 'before-save-hook #'lsp-format-buffer nil 'local))))
     #+END_SRC
