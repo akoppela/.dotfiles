@@ -1230,10 +1230,10 @@
 *** Helper functions.
 
     #+BEGIN_SRC emacs-lisp
-      (defun my/sort-json-at-point (point)
+      (defun my/sort-json-at-point ()
         "Sort JSON-like structure surrounding the point."
-        (interactive "d")
-        (let ((object-begin (nth 1 (syntax-ppss point))))
+        (interactive)
+        (let ((object-begin (nth 1 (syntax-ppss (point)))))
           (when object-begin
             (save-excursion
               (goto-char object-begin)
