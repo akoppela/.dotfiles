@@ -189,15 +189,6 @@
      (setq create-lockfiles nil)
    #+END_SRC
 
-** =direnv= support.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package envrc
-       :commands envrc-mode
-       :init
-       (add-hook 'prog-mode-hook 'envrc-mode))
-   #+END_SRC
-
 * Keybindings.
 
 ** =evil= provides =vi= keybindings.
@@ -1401,6 +1392,15 @@
        (add-hook 'prog-mode-hook 'smartparens-mode)
        :config
        (require 'smartparens-config))
+   #+END_SRC
+
+** =direnv=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package envrc
+       :commands envrc-mode
+       :init
+       (add-hook 'prog-mode-hook 'envrc-mode))
    #+END_SRC
 
 * Communication and connection.
