@@ -1239,14 +1239,34 @@
 
 ** =json=.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package json-mode
-       :commands json-mode
-       :config
-       (major-def
-         :keymaps 'json-mode-map
-         "p" '(json-mode-show-path :which-key "path")))
-   #+END_SRC
+*** Helper functions.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/sort-json-at-point (point)
+        "Sort JSON-like structure surrounding the point."
+        (interactive "d")
+        (let ((object-begin (nth 1 (syntax-ppss point))))
+          (when object-begin
+            (save-excursion
+              (goto-char object-begin)
+              (forward-list)
+              (json-pretty-print-ordered object-begin (point))
+              (indent-region object-begin (point))))))
+    #+END_SRC
+
+*** Initialization.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package json-mode
+        :commands json-mode
+        :config
+        (setq json-encoding-default-indentation "    ")
+        (add-hook 'json-mode-hook
+                  (lambda () (add-hook 'before-save-hook 'my/sort-json-at-point nil 'local)))
+        (major-def
+          :keymaps 'json-mode-map
+          "p" '(json-mode-show-path :which-key "path")))
+    #+END_SRC
 
 ** =eshell=.
 
