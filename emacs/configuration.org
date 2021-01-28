@@ -1361,7 +1361,6 @@
         (setq lsp-enable-file-watchers nil)
         (setq lsp-imenu-show-container-name nil)
         (setq lsp-diagnostics-disabled-modes '(elm-mode))
-        (setq lsp-modeline-diagnostics-enable nil)
         (setq lsp-idle-delay 0)
         (add-hook 'lsp-mode-hook
                   (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil 'local))))
