@@ -152,17 +152,6 @@
        (add-hook 'after-init-hook 'session-initialize))
    #+END_SRC
 
-** Enable smart parenthesis.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package smartparens
-       :commands smartparens-mode
-       :init
-       (add-hook 'prog-mode-hook 'smartparens-mode)
-       :config
-       (require 'smartparens-config))
-   #+END_SRC
-
 ** Revert TAGS file without asking.
 
    #+BEGIN_SRC emacs-lisp
@@ -1402,6 +1391,17 @@
         (lsp-treemacs-sync-mode t)
         :commands (lsp-treemacs-errors-list))
     #+END_SRC
+
+** =smartparens=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package smartparens
+       :commands smartparens-mode
+       :init
+       (add-hook 'prog-mode-hook 'smartparens-mode)
+       :config
+       (require 'smartparens-config))
+   #+END_SRC
 
 * Communication and connection.
 
