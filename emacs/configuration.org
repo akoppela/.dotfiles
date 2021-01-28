@@ -646,18 +646,6 @@
         :after (evil-collection anzu))
     #+END_SRC
 
-*** Show date and time.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun padDateNumber (stringNumber)
-        (format "%02d" (string-to-number stringNumber)))
-
-      (setq display-time-string-forms
-            '(24-hours ":" minutes " " dayname " "  (padDateNumber day) "/" (padDateNumber month) "/" year))
-
-      (display-time-mode 1)
-    #+END_SRC
-
 ** Hide menu, tool and scroll bars.
 
    #+BEGIN_SRC emacs-lisp
