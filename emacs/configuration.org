@@ -178,7 +178,7 @@
 ** Truncate eshell buffer.
 
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'eshell-output-filter-functions #'eshell-truncate-buffer)
+     (add-hook 'eshell-output-filter-functions 'eshell-truncate-buffer)
    #+END_SRC
 
 ** Automatically rescan =imenu=.
@@ -424,7 +424,7 @@
                      (,fun-name)
                    (progn
                      (setq my/current-theme new-theme)
-                     (mapcar #'disable-theme custom-enabled-themes)
+                     (mapcar 'disable-theme custom-enabled-themes)
                      (font-lock-mode)
                      (load-theme new-theme t)
                      (run-hooks 'my/change-theme-hook)
@@ -1245,7 +1245,7 @@
         :commands eslintd-fix
         :init
         (add-hook 'js2-mode-hook
-                  (lambda () (add-hook 'flycheck-before-syntax-check-hook #'eslintd-fix nil 'local))))
+                  (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslintd-fix nil 'local))))
     #+END_SRC
 
 *** =node=.
@@ -1384,7 +1384,7 @@
         (setq lsp-modeline-diagnostics-enable nil)
         (setq lsp-idle-delay 0)
         (add-hook 'lsp-mode-hook
-                  (lambda () (add-hook 'before-save-hook #'lsp-format-buffer nil 'local))))
+                  (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil 'local))))
     #+END_SRC
 
 *** Ivy integration.
@@ -1536,8 +1536,8 @@
    #+BEGIN_SRC emacs-lisp
      (use-package helpful
        :init
-       (setq counsel-describe-function-function #'helpful-callable)
-       (setq counsel-describe-variable-function #'helpful-variable)
+       (setq counsel-describe-function-function 'helpful-callable)
+       (setq counsel-describe-variable-function 'helpful-variable)
        :config
        (general-def
          :states '(normal visual)
