@@ -1420,8 +1420,8 @@
          "a j" '(jenkins :which-key "jenkins"))
        :config
        (setq jenkins-url "https://ci.conta.no")
-       (setq jenkins-api-token (nth 1 (auth-source-user-and-password "ci.conta.no")))
-       (setq jenkins-username (nth 0 (auth-source-user-and-password "ci.conta.no"))))
+       (setq jenkins-api-token (auth-source-pick-first-password :host "ci.conta.no"))
+       (setq jenkins-username "akoppela"))
    #+END_SRC
 
 ** =vterm=.
