@@ -769,6 +769,13 @@
        (setq alert-default-style 'osx-notifier))
    #+END_SRC
 
+** Show visual indicator for column rule.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq-default display-fill-column-indicator-column 80)
+     (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+   #+END_SRC
+
 * Navigation, search and completion.
 
 ** =counsel= completion framework.
