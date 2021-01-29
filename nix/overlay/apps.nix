@@ -18,9 +18,14 @@ in
 
   firefox = installApp rec {
     pname = "Firefox";
+    binName = super.lib.toLower pname;
     version = "85.0";
     description = "The Firefox web browser";
     homepage = "https://www.mozilla.org/en-GB/firefox";
+    extraBuildInputs = [ super.makeWrapper ];
+    postInstall = ''
+      makeWrapper $out/Applications/${pname}.app/Contents/MacOS/${binName} $out/bin/${binName}
+    '';
     src = {
       name = "Firefox-${version}.dmg";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-GB/Firefox%20${version}.dmg";

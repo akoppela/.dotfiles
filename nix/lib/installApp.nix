@@ -8,6 +8,7 @@
 , homepage
 , postInstall ? ""
 , sourceRoot ? "."
+, extraBuildInputs ? [ ]
 , ...
 }:
 
@@ -16,7 +17,7 @@ stdenv.mkDerivation {
   version = version;
   src = fetchurl src;
 
-  buildInputs = [ undmg ];
+  buildInputs = [ undmg ] ++ extraBuildInputs;
   sourceRoot = sourceRoot;
   phases = [
     "unpackPhase"
