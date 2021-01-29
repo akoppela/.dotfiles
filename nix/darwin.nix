@@ -93,6 +93,14 @@ in
       "1password"
     ];
 
+  fonts = {
+    enableFontDir = true;
+    fonts = [
+      pkgs.jetbrains-mono
+      pkgs.fira-code
+    ];
+  };
+
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
