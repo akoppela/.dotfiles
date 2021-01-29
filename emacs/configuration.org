@@ -1424,7 +1424,25 @@
        :init
        (leader-def
          "a j" '(jenkins :which-key "jenkins"))
+       (add-to-list 'evil-motion-state-modes 'jenkins-mode)
+       (add-to-list 'evil-motion-state-modes 'jenkins-job-view-mode)
+       (add-to-list 'evil-motion-state-modes 'jenkins-console-output-mode)
        :config
+       (general-def
+         :states '(motion)
+         :keymaps 'jenkins-mode-map
+         "g r" 'revert-buffer
+         "RET" 'jenkins-enter-job
+         "b" 'jenkins--call-build-job-from-main-screen
+         "r" 'jenkins--call-rebuild-job-from-main-screen
+         "q" 'kill-buffer-and-window)
+       (general-def
+         :states '(motion)
+         :keymaps 'jenkins-job-view-mode-map
+         "g r" '(jenkins--refresh-job-from-job-screen :which-key "refresh")
+         "RET" 'jenkins--show-console-output-from-job-screen
+         "b" 'jenkins--call-build-job-from-job-screen
+         "r" 'jenkins--call-rebuild-job-from-job-screen)
        (setq jenkins-url "https://ci.conta.no")
        (setq jenkins-api-token (auth-source-pick-first-password :host "ci.conta.no"))
        (setq jenkins-username "akoppela"))
