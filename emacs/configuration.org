@@ -136,10 +136,11 @@
      (setq mode-require-final-newline nil)
    #+END_SRC
 
-** Set =eww= as default browser.
+** Set =Firefox= as default browser.
 
    #+BEGIN_SRC emacs-lisp
-     (setq browse-url-browser-function 'eww-browse-url)
+     (setq browse-url-browser-function 'browse-url-firefox)
+     (setq browse-url-firefox-new-window-is-tab t)
    #+END_SRC
 
 ** Make session persistent.
