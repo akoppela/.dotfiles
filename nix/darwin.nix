@@ -126,7 +126,6 @@ in
 
         # Networking
         pkgs.openvpn
-        pkgs.firefox
         pkgs.transmission
 
         # Productivity
@@ -192,6 +191,11 @@ in
 
       programs.htop = {
         enable = true;
+      };
+
+      programs.firefox = {
+        enable = true;
+        package = pkgs.firefox;
       };
     };
   };

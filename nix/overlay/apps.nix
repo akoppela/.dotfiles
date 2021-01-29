@@ -18,13 +18,13 @@ in
 
   firefox = installApp rec {
     pname = "Firefox";
-    version = "82.0";
+    version = "85.0";
     description = "The Firefox web browser";
     homepage = "https://www.mozilla.org/en-GB/firefox";
     src = {
       name = "Firefox-${version}.dmg";
       url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-GB/Firefox%20${version}.dmg";
-      sha256 = "0hrhwzj2fhashariy7c8xyq4fz08zpxmmi8lk74zxkj7qhlba5mr";
+      sha256 = "0ixdxdpfnp34yxxp3smm17j6hf6bppipc5bsd1qdq18745fgj0pa";
     };
   };
 
