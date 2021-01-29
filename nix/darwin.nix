@@ -141,7 +141,7 @@ in
 
       home.sessionVariables = {
         EDITOR = "emacs";
-        SHELL = pkgs.zsh;
+        SHELL = "${pkgs.zsh}/bin/zsh";
       };
 
       programs.bash = {
