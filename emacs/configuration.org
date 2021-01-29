@@ -594,14 +594,15 @@
 ** Enable custom theme.
 
    #+BEGIN_SRC emacs-lisp
+     (use-package color-theme-sanityinc-tomorrow)
      (use-package doom-themes
        :config
        ;; Global settings (defaults)
-       (setq doom-themes-enable-bold nil)
-       (setq doom-themes-enable-italic nil)
+       (setq doom-themes-enable-bold t)
+       (setq doom-themes-enable-italic t)
 
        ;; Load and enable theme
-       (load-theme 'doom-moonlight t)
+       (load-theme 'sanityinc-tomorrow-eighties t)
 
        ;; Enable flashing mode-line on errors
        (doom-themes-visual-bell-config)
