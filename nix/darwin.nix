@@ -29,17 +29,6 @@ in
     pathsToLink = "/Applications";
   });
   # Temporary fix to copy all the apps so that spotlight can find them
-  system.activationScripts.applications.text = pkgs.lib.mkForce (
-    ''
-      echo "setting up ~/Applications/Nix Apps..."
-      rm -rf $HOME/Applications/Nix\ Apps
-      mkdir -p $HOME/Applications/Nix\ Apps
-      find ${config.system.build.applications}/Applications -maxdepth 1 -type l | while read app; do
-        src="$(/usr/bin/stat -f%Y "$app")"
-        cp -r "$src" $HOME/Applications/Nix\ Apps
-      done
-    ''
-  );
 
   system.defaults = {
     ".GlobalPreferences"."com.apple.sound.beep.sound" = "/System/Library/Sounds/Submarine.aiff";
