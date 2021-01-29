@@ -1533,10 +1533,17 @@
        (leader-def
          "a s" '(:ignore t :which-key "slack")
          "a s s" '(slack-start :which-key "start")
-         "a s i" '(slack-im-select :which-key "instant")
+         "a s c" '(slack-channel-select :which-key "channel")
+         "a s m" '(slack-im-select :which-key "message")
+         "a s r" '(slack-select-rooms :which-key "room")
+         "a s R" '(slack-select-unread-rooms :which-key "unread room")
          "a s u" '(slack-all-unreads :which-key "unreads")
          "a s t" '(slack-all-threads :which-key "threads"))
        :config
+       (general-def
+         :states '(normal visual)
+         :keymaps 'slack-mode-map
+         "q" 'kill-buffer-and-window)
        (slack-register-team
         :name "Conta"
         :default t
