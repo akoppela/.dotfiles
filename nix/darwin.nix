@@ -136,6 +136,7 @@ in
 
         # Security
         pkgs._1password
+        pkgs.gnupg
 
         # Development
         pkgs.docker
