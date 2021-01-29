@@ -28,7 +28,6 @@ in
     paths = config.environment.systemPackages ++ config.home-manager.users.akoppela.home.packages;
     pathsToLink = "/Applications";
   });
-  # Temporary fix to copy all the apps so that spotlight can find them
 
   system.defaults = {
     ".GlobalPreferences"."com.apple.sound.beep.sound" = "/System/Library/Sounds/Submarine.aiff";
