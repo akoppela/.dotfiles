@@ -1424,6 +1424,26 @@
        (setq jenkins-username (nth 0 (auth-source-user-and-password "ci.conta.no"))))
    #+END_SRC
 
+** =vterm=.
+
+*** Helper functions.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun my/terminal ()
+        "Starts terminal using projectile if possible."
+        (interactive)
+        (if (projectile-project-p)
+            (projectile-run-vterm nil)
+          (vterm)))
+    #+END_SRC
+
+*** Keybindings.
+
+    #+BEGIN_SRC emacs-lisp
+      (leader-def
+        "a t" '(my/terminal :which-key "terminal"))
+    #+END_SRC
+
 * Communication and connection.
 
 ** =elfeed= RSS reader.
@@ -1495,26 +1515,6 @@
        (leader-def
          "a T" '(transmission :which-key "transmission")))
    #+END_SRC
-
-** Proper terminal.
-
-*** Helper functions.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun my/terminal ()
-        "Starts terminal using projectile if possible."
-        (interactive)
-        (if (projectile-project-p)
-            (projectile-run-vterm nil)
-          (vterm)))
-    #+END_SRC
-
-*** Keybindings.
-
-    #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "a t" '(my/terminal :which-key "terminal"))
-    #+END_SRC
 
 ** Slack.
 
