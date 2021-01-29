@@ -1446,7 +1446,7 @@
 
 * Communication and connection.
 
-** =elfeed= RSS reader.
+** RSS reader.
 
    #+BEGIN_SRC emacs-lisp
      (use-package elfeed
