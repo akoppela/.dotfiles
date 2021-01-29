@@ -1410,6 +1410,20 @@
        (add-hook 'prog-mode-hook 'envrc-mode))
    #+END_SRC
 
+** =jenkins=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package jenkins
+       :commands (jenkins)
+       :init
+       (leader-def
+         "a j" '(jenkins :which-key "jenkins"))
+       :config
+       (setq jenkins-url "https://ci.conta.no")
+       (setq jenkins-api-token (nth 1 (auth-source-user-and-password "ci.conta.no")))
+       (setq jenkins-username (nth 0 (auth-source-user-and-password "ci.conta.no"))))
+   #+END_SRC
+
 * Communication and connection.
 
 ** =elfeed= RSS reader.
