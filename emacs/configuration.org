@@ -904,13 +904,6 @@
                  (margin-body-face magit-blame-dimmed)))))
     #+END_SRC
 
-*** Keybindings.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package evil-magit
-        :after (evil-collection magit))
-    #+END_SRC
-
 ** =org-mode=.
 
 *** Keybindings.
