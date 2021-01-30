@@ -66,6 +66,14 @@
      (quelpa-use-package-activate-advice)
    #+END_SRC
 
+** Benchmark emacs initialization.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package benchmark-init
+       :config
+       (add-hook 'after-init-hook 'benchmark-init/deactivate))
+   #+END_SRC
+
 ** Always compile packages.
 
    #+BEGIN_SRC emacs-lisp
@@ -1625,14 +1633,6 @@
          :states '(normal visual)
          :keymaps 'helpful-mode-map
          "q" 'kill-buffer-and-window))
-   #+END_SRC
-
-** Benchmark emacs initialization.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package benchmark-init
-       :config
-       (add-hook 'after-init-hook 'benchmark-init/deactivate))
    #+END_SRC
 
 ** Select help window when open.
