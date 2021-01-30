@@ -628,12 +628,6 @@
      (setq inhibit-startup-screen t)
    #+END_SRC
 
-** Use =all-the-icons=.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package all-the-icons)
-   #+END_SRC
-
 ** Load custom theme.
 
    #+BEGIN_SRC emacs-lisp
@@ -1590,7 +1584,6 @@
      (use-package slack
        :commands (slack-start)
        :init
-       (setq slack-buffer-emojify t)
        (setq slack-request-timeout 120)
        (leader-def
          "a s" '(:ignore t :which-key "slack")
