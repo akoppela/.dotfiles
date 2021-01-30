@@ -76,4 +76,18 @@ in
       sha256 = "1hgv9yclf9rfai55xhxcq46ab86qpcxj2ayggjr53dp41pazimka";
     };
   };
+
+  iterm2 = installApp rec {
+    pname = "iTerm2";
+    appname = "iTerm";
+    version = "3.4.3";
+    downloadVersion = super.lib.replaceStrings [ "." ] [ "_" ] version;
+    description = "iTerm2 is a replacement for Terminal and the successor to iTerm.";
+    homepage = "https://iterm2.com";
+    extraBuildInputs = [ super.unzip ];
+    src = {
+      url = "https://iterm2.com/downloads/stable/${pname}-${downloadVersion}.zip";
+      sha256 = "1fgnm2mfp3n14ba8rlvl7y630w9pvbvyadyzxabzgpcbhd23imwy";
+    };
+  };
 }
