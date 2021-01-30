@@ -56,7 +56,7 @@ in
   services.yabai = {
     enable = true;
     package = pkgs.yabai;
-    enableScriptingAddition = true;
+    enableScriptingAddition = false;
     config = {
       layout = "bsp";
       auto_balance = "on";
