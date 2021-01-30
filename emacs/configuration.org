@@ -228,6 +228,13 @@
 
 * Keybindings.
 
+** =evil-fu= for redo.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package undo-fu
+       :commands (undo-fu-only-redo undo-fu-only-undo))
+   #+END_SRC
+
 ** =evil= provides =vi= keybindings.
 
 *** Initialize =evil=.
@@ -238,6 +245,7 @@
         (setq evil-want-C-i-jump nil)
         (setq evil-want-integration t)
         (setq evil-want-keybinding nil)
+        (setq evil-undo-system 'undo-fu) ;; TODO: Change to native undo-redo from Emacs 28
         :config
         (evil-mode 1))
     #+END_SRC
