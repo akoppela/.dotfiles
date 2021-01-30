@@ -626,18 +626,26 @@
      (use-package all-the-icons)
    #+END_SRC
 
-** Enable custom theme.
+** Load custom theme.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package color-theme-sanityinc-tomorrow)
+     (use-package color-theme-sanityinc-tomorrow
+       :quelpa
+       (color-theme-sanityinc-tomorrow
+        :fetcher git
+        :url "https://github.com/akoppela/color-theme-sanityinc-tomorrow.git")
+       :config
+       (load-theme 'sanityinc-tomorrow-akoppela t))
+   #+END_SRC
+
+** Enable Doom theme.
+
+   #+BEGIN_SRC emacs-lisp
      (use-package doom-themes
        :config
        ;; Global settings (defaults)
        (setq doom-themes-enable-bold t)
        (setq doom-themes-enable-italic t)
-
-       ;; Load and enable theme
-       (load-theme 'sanityinc-tomorrow-eighties t)
 
        ;; Enable flashing mode-line on errors
        (doom-themes-visual-bell-config)
