@@ -226,6 +226,12 @@
      (setq create-lockfiles nil)
    #+END_SRC
 
+** Add custom file.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq custom-file "/dev/null")
+   #+END_SRC
+
 * Keybindings.
 
 ** =evil-fu= for redo.
