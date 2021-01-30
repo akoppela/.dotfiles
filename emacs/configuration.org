@@ -11,6 +11,12 @@
 
 * Package management.
 
+** Prefer to load newer version of files.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq load-prefer-newer t)
+   #+END_SRC
+
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives.
 
    #+BEGIN_SRC emacs-lisp
@@ -22,29 +28,51 @@
      (package-initialize)
    #+END_SRC
 
-** Make sure =use-package= is installed.
+** Make sure =quelpa= is installed.
 
    #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
-       (package-refresh-contents)
-       (package-install 'use-package))
+     (unless (package-installed-p 'quelpa)
+       (with-temp-buffer
+         (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+         (eval-buffer)
+         (quelpa-self-upgrade)))
    #+END_SRC
 
-** Initialize =use-package= and set it up to install the package if it's not available yet.
+** Do not install packages from Melpa with =quelpa=.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'use-package)
+     (setq quelpa-checkout-melpa-p nil)
+   #+END_SRC
+
+** Initialize =quelpa-use-package=.
+
+   #+BEGIN_SRC emacs-lisp
+     (quelpa
+      '(quelpa-use-package
+        :fetcher git
+        :url "https://github.com/quelpa/quelpa-use-package.git"))
+     (require 'quelpa-use-package)
+   #+END_SRC
+
+** Make sure packages are always installed.
+
+   #+BEGIN_SRC emacs-lisp
      (setq use-package-always-ensure t)
    #+END_SRC
 
-** Always compile packages, and use the newest version available.
+** Install packages with =quelpa= if requested.
+
+   #+BEGIN_SRC emacs-lisp
+     (quelpa-use-package-activate-advice)
+   #+END_SRC
+
+** Always compile packages.
 
    #+BEGIN_SRC emacs-lisp
      (use-package auto-compile
        :config
-       (auto-compile-on-load-mode 1))
-
-     (setq load-prefer-newer t)
+       (auto-compile-on-load-mode 1)
+       (auto-compile-on-save-mode 1))
    #+END_SRC
 
 * Defaults.
