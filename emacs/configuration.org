@@ -1505,11 +1505,28 @@
           (vterm)))
     #+END_SRC
 
-*** Keybindings.
+*** Initialization.
 
     #+BEGIN_SRC emacs-lisp
-      (leader-def
-        "a t" '(my/terminal :which-key "terminal"))
+      (use-package vterm
+        :commands (vterm)
+        :init
+        (leader-def
+          "a t" '(my/terminal :which-key "terminal"))
+        :config
+        (major-def
+          "c" '(vterm-copy-mode :which-key "copy mode"))
+        (general-def
+          :states '(normal visual)
+          :keymaps 'vterm-mode-map
+          ;; up
+          "M-O A" 'evil-previous-line
+          ;; down
+          "M-O B" 'evil-next-line
+          ;; left
+          "M-O C" 'evil-backward-char
+          ;; right
+          "M-O D" 'evil-forward-char))
     #+END_SRC
 
 * Communication and connection.
