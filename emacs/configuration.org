@@ -290,7 +290,7 @@
 *** Define default normal states.
 
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'evil-normal-state-modes 'rcirc-mode)
+      (evil-set-initial-state 'rcirc-mode 'normal)
     #+END_SRC
 
 ** =hydra=.
@@ -1468,9 +1468,9 @@
        :init
        (leader-def
          "a j" '(jenkins :which-key "jenkins"))
-       (add-to-list 'evil-motion-state-modes 'jenkins-mode)
-       (add-to-list 'evil-motion-state-modes 'jenkins-job-view-mode)
-       (add-to-list 'evil-motion-state-modes 'jenkins-console-output-mode)
+       (evil-set-initial-state 'jenkins-mode 'motion)
+       (evil-set-initial-state 'jenkins-job-view-mode 'motion)
+       (evil-set-initial-state 'jenkins-console-output-mode 'motion)
        :config
        (general-def
          :states '(motion)
