@@ -232,6 +232,24 @@
      (setq custom-file "/dev/null")
    #+end_src
 
+** Copy/paste for MacOS.
+
+   #+begin_src emacs-lisp
+     (defun copy-from-osx ()
+       "Copies content of clipboard from MacOS to Emacs"
+       (shell-command-to-string "pbpaste"))
+
+     (defun paste-to-osx (text &optional push)
+       "Copies content of clipboard from Emacs to MacOS"
+       (let ((process-connection-type nil))
+         (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+           (process-send-string proc text)
+           (process-send-eof proc))))
+
+     (setq interprogram-cut-function 'paste-to-osx)
+     (setq interprogram-paste-function 'copy-from-osx)
+   #+end_src
+
 * Keybindings.
 
 ** =evil-fu= for redo.
