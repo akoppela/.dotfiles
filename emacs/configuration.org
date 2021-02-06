@@ -1213,7 +1213,7 @@
         (setq elm-package-json "elm.json")
         (setq elm-tags-on-save t)
         (setq elm-tags-exclude-elm-stuff t)
-        (setq elm-format-on-save nil)
+        (setq elm-format-on-save t)
         (setq elm-imenu-use-categories nil)
         :config
         (remove-hook 'elm-mode-hook 'elm-indent-mode)
@@ -1430,11 +1430,10 @@
         (setq lsp-completion-show-detail nil)
         (setq lsp-completion-show-kind nil)
         (setq lsp-enable-file-watchers nil)
+        (setq lsp-enable-imenu nil)
         (setq lsp-imenu-show-container-name nil)
         (setq lsp-diagnostics-disabled-modes '(elm-mode))
-        (setq lsp-idle-delay 0)
-        (add-hook 'lsp-mode-hook
-                  (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil 'local))))
+        (setq lsp-idle-delay 0))
     #+end_src
 
 *** Ivy integration.
