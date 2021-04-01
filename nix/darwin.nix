@@ -98,6 +98,10 @@ in
     ];
   };
 
+  programs.gnupg.agent = {
+    enable = true;
+  };
+
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
@@ -130,6 +134,7 @@ in
         # Security
         pkgs._1password
         pkgs.gnupg
+        pkgs.pinentry
 
         # Development
         pkgs.docker
