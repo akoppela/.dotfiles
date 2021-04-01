@@ -48,9 +48,6 @@ in
     pkgs.bash
     pkgs.zsh
   ];
-  environment.interactiveShellInit = ''
-    source "$HOME/.secrets"
-  '';
 
   # Windor manager
   services.yabai = {
