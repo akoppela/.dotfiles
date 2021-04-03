@@ -148,6 +148,7 @@ in
         pkgs.docker-machine
         pkgs.nixpkgs-fmt
         pkgs.chrome-canary
+        pkgs.tokei
 
         # Gaming
         pkgs.steam
