@@ -1541,6 +1541,13 @@
           "M-O D" 'evil-forward-char))
     #+end_src
 
+** =csv/tsv=.
+
+   #+begin_src emacs-lisp
+     (use-package csv-mode
+       :commands (csv-mode tsv-mode))
+   #+end_src
+
 ** =docker=.
 
    #+begin_src emacs-lisp
