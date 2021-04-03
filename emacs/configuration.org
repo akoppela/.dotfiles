@@ -1541,6 +1541,17 @@
           "M-O D" 'evil-forward-char))
     #+end_src
 
+** =docker=.
+
+   #+begin_src emacs-lisp
+     (use-package docker
+       :commands docker
+       :init
+       (leader-def
+         "a D" '(docker :which-key "docker")))
+     (use-package docker-tramp)
+   #+end_src
+
 * Communication and connection.
 
 ** RSS reader.
