@@ -155,6 +155,9 @@ in
         # Audio
         pkgs.xld
         pkgs.extempore
+
+        # Video
+        pkgs.vlc
       ];
 
       home.sessionVariables = {

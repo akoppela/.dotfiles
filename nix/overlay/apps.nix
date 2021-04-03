@@ -102,4 +102,15 @@ in
       sha256 = "01j9p9vvqrwsp6h70mb03jx0wql705y24x0vs5hzapzv4zy847xf";
     };
   };
+
+  vlc = installApp rec {
+    pname = "VLC";
+    version = "3.0.12";
+    description = "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files, and various streaming protocols.";
+    homepage = "https://www.videolan.org/vlc/";
+    src = {
+      url = "https://get.videolan.org/vlc/${version}/macosx/vlc-${version}-intel64.dmg";
+      sha256 = "1lg5kd2b55072lnpq4k1f74cixqp2i6g63b883l4hx0dxrw5m2wv";
+    };
+  };
 }
