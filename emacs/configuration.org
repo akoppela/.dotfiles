@@ -232,14 +232,10 @@
      (setq custom-file "/dev/null")
    #+end_src
 
-** Copy/paste for MacOS.
+** Paste to MacOS clipboard.
 
    #+begin_src emacs-lisp
-     (defun copy-from-osx ()
-       "Copies content of clipboard from MacOS to Emacs"
-       (shell-command-to-string "pbpaste"))
-
-     (defun paste-to-osx (text &optional push)
+     (defun paste-to-osx (text)
        "Copies content of clipboard from Emacs to MacOS"
        (let ((process-connection-type nil))
          (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
@@ -247,7 +243,6 @@
            (process-send-eof proc))))
 
      (setq interprogram-cut-function 'paste-to-osx)
-     (setq interprogram-paste-function 'copy-from-osx)
    #+end_src
 
 * Keybindings.
@@ -1514,6 +1509,11 @@
         (if (projectile-project-p)
             (projectile-run-vterm nil)
           (vterm)))
+
+      (defun copy-from-osx ()
+        "Copies content of clipboard from MacOS to Emacs"
+        (interactive)
+        (vterm-insert (shell-command-to-string "pbpaste")))
     #+end_src
 
 *** Initialization.
@@ -1525,8 +1525,11 @@
         (leader-def
           "a t" '(my/terminal :which-key "terminal"))
         :config
-        (major-def
-          "c" '(vterm-copy-mode :which-key "copy mode"))
+        (general-def
+          :keymaps 'vterm-mode-map
+          [remap xterm-paste] 'copy-from-osx
+          [remap yank] 'copy-from-osx
+          [remap vterm-yank] 'copy-from-osx)
         (general-def
           :states '(normal visual)
           :keymaps 'vterm-mode-map
