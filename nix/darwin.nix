@@ -132,9 +132,6 @@ in
         pkgs.openvpn
         pkgs.transmission
 
-        # Productivity
-        pkgs.alfred
-
         # Keyboard
         pkgs.chrysalis
 
