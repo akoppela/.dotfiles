@@ -20,7 +20,7 @@ in
   nix.buildMachines = [{
     hostName = "nix-docker";
     systems = [ "x86_64-linux" ];
-    maxJobs = 2;
+    maxJobs = 4;
   }];
 
   nixpkgs.overlays = [
