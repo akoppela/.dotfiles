@@ -131,6 +131,7 @@ in
         # Networking
         pkgs.openvpn
         pkgs.transmission
+        pkgs.mosh
 
         # Keyboard
         pkgs.chrysalis
