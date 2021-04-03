@@ -158,6 +158,9 @@ in
 
         # Video
         pkgs.vlc
+
+        # System
+        pkgs.app-zapper
       ];
 
       home.sessionVariables = {

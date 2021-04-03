@@ -113,4 +113,16 @@ in
       sha256 = "1lg5kd2b55072lnpq4k1f74cixqp2i6g63b883l4hx0dxrw5m2wv";
     };
   };
+
+  app-zapper = installApp rec {
+    pname = "AppZapper";
+    version = "203";
+    description = "The uninstaller Apple forgot.";
+    homepage = "https://appzapper.com/";
+    extraBuildInputs = [ super.unzip ];
+    src = {
+      url = "https://appzapper.com/downloads/appzapper${version}.zip";
+      sha256 = "1kbbxwarl2128r7dlila9735m63bmkmldzpfbsllyg2izn4ilm5v";
+    };
+  };
 }
