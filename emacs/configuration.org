@@ -1258,7 +1258,6 @@
         :config
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
-        (setq flycheck-javascript-eslint-executable "eslint_d")
         (add-hook 'js2-mode-hook 'flycheck-mode)
         (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
     #+end_src
@@ -1266,12 +1265,12 @@
 *** Run =eslint fix= on file save.
 
     #+begin_src emacs-lisp
-      (use-package eslintd-fix
+      (use-package eslint-fix
         :after js2-mode
-        :commands eslintd-fix
+        :commands eslint-fix
         :init
         (add-hook 'js2-mode-hook
-                  (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslintd-fix nil 'local))))
+                  (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
     #+end_src
 
 *** =node=.
