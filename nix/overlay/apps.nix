@@ -90,4 +90,16 @@ in
       sha256 = "1fgnm2mfp3n14ba8rlvl7y630w9pvbvyadyzxabzgpcbhd23imwy";
     };
   };
+
+  chrome-canary = installApp rec {
+    pname = "GoogleChromeCanary";
+    appname = "Google Chrome Canary";
+    version = "1.0.0";
+    description = "Nightly build for developers";
+    homepage = "https://www.google.com/intl/en/chrome/canary/";
+    src = {
+      url = "https://dl.google.com/chrome/mac/canary/googlechromecanary.dmg";
+      sha256 = "01j9p9vvqrwsp6h70mb03jx0wql705y24x0vs5hzapzv4zy847xf";
+    };
+  };
 }

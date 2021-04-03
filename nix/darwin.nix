@@ -147,6 +147,7 @@ in
         pkgs.docker
         pkgs.docker-machine
         pkgs.nixpkgs-fmt
+        pkgs.chrome-canary
 
         # Gaming
         pkgs.steam
