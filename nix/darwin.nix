@@ -12,10 +12,9 @@ in
 
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
 
-  nix.trustedUsers = [
-    "root"
-    "akoppela"
-  ];
+  services.nix-daemon.enable = true;
+
+  nix.trustedUsers = [ "root" ];
 
   nix.distributedBuilds = true;
   nix.buildMachines = [{
