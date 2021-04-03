@@ -17,6 +17,13 @@ in
     "akoppela"
   ];
 
+  nix.distributedBuilds = true;
+  nix.buildMachines = [{
+    hostName = "nix-docker";
+    systems = [ "x86_64-linux" ];
+    maxJobs = 2;
+  }];
+
   nixpkgs.overlays = [
     (import ./overlay/apps.nix)
     (import ./overlay/pkgs.nix)
