@@ -647,6 +647,12 @@
      (setq inhibit-startup-screen t)
    #+end_src
 
+** Use =all-the-icons=.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons)
+   #+END_SRC
+
 ** Load custom theme.
 
    #+begin_src emacs-lisp
