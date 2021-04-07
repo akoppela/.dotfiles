@@ -1540,7 +1540,18 @@
           ;; left
           "M-O C" 'evil-backward-char
           ;; right
-          "M-O D" 'evil-forward-char))
+          "M-O D" 'evil-forward-char)
+        (general-def
+          :states 'insert
+          :keymaps 'vterm-mode-map
+          ;; up
+          "M-O A" 'vterm-send-up
+          ;; down
+          "M-O B" 'vterm-send-down
+          ;; left
+          "M-O C" 'vterm-send-left
+          ;; right
+          "M-O D" 'vterm-send-right))
     #+end_src
 
 ** =csv/tsv=.
