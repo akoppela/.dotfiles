@@ -80,7 +80,7 @@ in
       yabai -m rule --add app='Safari' space=^1
       yabai -m rule --add app='Emacs' space=^1
       yabai -m rule --add app='Firefox' space=^1
-      yabai -m rule --add app='Kitty' space=^1
+      yabai -m rule --add app='kitty' space=^1
       yabai -m rule --add app='Mail' space=^2
       yabai -m rule --add app='Slack' space=^2
       yabai -m rule --add app='Telegram' space=^2
