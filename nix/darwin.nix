@@ -11,10 +11,7 @@ in
   ];
 
   environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
-
   services.nix-daemon.enable = true;
-
-  nix.trustedUsers = [ "root" ];
 
   nix.distributedBuilds = true;
   nix.buildMachines = [{
@@ -82,7 +79,6 @@ in
       yabai -m rule --add app='Firefox' space=^1
       yabai -m rule --add app='kitty' space=^1
       yabai -m rule --add app='Mail' space=^2
-      yabai -m rule --add app='Slack' space=^2
       yabai -m rule --add app='Telegram' space=^2
       yabai -m rule --add app='Finder' space=^3
       yabai -m rule --add app='TotalMix' space=^4 manage=off
@@ -91,23 +87,14 @@ in
     '';
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
-      "slack"
-      "1password"
-    ];
-
-  fonts = {
-    enableFontDir = true;
-    fonts = [
-      pkgs.jetbrains-mono
-      pkgs.fira-code
-    ];
-  };
-
   programs.gnupg.agent = {
     enable = true;
   };
+
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "1password"
+    ];
 
   home-manager = {
     useUserPackages = true;
@@ -125,8 +112,7 @@ in
         pkgs.jq
 
         # Communication
-        pkgs.slack
-        pkgs.telegram
+        pkgs.slack-term
 
         # Networking
         pkgs.openvpn
@@ -145,9 +131,7 @@ in
         pkgs.docker
         pkgs.docker-machine
         pkgs.nixpkgs-fmt
-        pkgs.chrome-canary
         pkgs.tokei
-        pkgs.kitty
 
         # Gaming
         pkgs.steam
@@ -161,6 +145,7 @@ in
 
         # System
         pkgs.app-zapper
+        pkgs.htop
       ];
 
       home.sessionVariables = {
@@ -202,13 +187,38 @@ in
         enableFishIntegration = enableFish;
       };
 
-      programs.htop = {
-        enable = true;
-      };
-
       programs.firefox = {
         enable = true;
         package = pkgs.firefox;
+      };
+
+      programs.kitty = {
+        enable = true;
+        font = {
+          package = pkgs.jetbrains-mono;
+          name = "JetBrains Mono";
+          size = 12;
+        };
+        settings = {
+          # Font
+          bold_font = "JetBrains Mono Bold";
+          italic_font = "JetBrains Mono Italic";
+          bold_italic_font = "JetBrains Mono Bold Italic";
+
+          # Mouse
+          mouse_hide_wait = "-1.0";
+
+          # Bell
+          enable_audio_bell = "no";
+
+          # Color scheme
+          background = "#1c1c1c";
+          background_opacity = "1.0";
+
+          # OS specific
+          macos_option_as_alt = "yes";
+          macos_thicken_font = "0.2";
+        };
       };
     };
   };
