@@ -21,10 +21,8 @@ self: super:
     meta = {
       description = "A programming environment for cyberphysical programming";
       homepage = "https://extemporelang.github.io";
-      maintainers = [
-        super.stdenv.lib.maintainers.akoppela
-      ];
-      platforms = super.stdenv.lib.platforms.darwin;
+      maintainers = [ super.lib.maintainers.akoppela ];
+      platforms = super.lib.platforms.darwin;
     };
   };
 }

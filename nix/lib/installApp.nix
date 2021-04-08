@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, undmg, ... }:
+{ stdenv, lib, fetchurl, undmg, ... }:
 
 { pname
 , appname ? pname
@@ -31,9 +31,7 @@ stdenv.mkDerivation {
   meta = {
     description = description;
     homepage = homepage;
-    maintainers = [
-      stdenv.lib.maintainers.akoppela
-    ];
-    platforms = stdenv.lib.platforms.darwin;
+    maintainers = [ lib.maintainers.akoppela ];
+    platforms = lib.platforms.darwin;
   };
 }
