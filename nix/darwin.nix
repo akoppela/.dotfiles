@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   window_gap = "2";
   enableBash = true;
@@ -10,8 +10,13 @@ in
     <home-manager/nix-darwin>
   ];
 
-  environment.darwinConfig = "$HOME/.dotfiles/nix/darwin.nix";
   services.nix-daemon.enable = true;
+  users.nix.configureBuildUsers = true;
+
+  nix.nixPath = lib.mkForce [
+    { darwin-config = "$HOME/.dotfiles/nix/darwin.nix"; }
+    "$HOME/.nix-defexpr/channels"
+  ];
 
   nix.distributedBuilds = true;
   nix.buildMachines = [{
@@ -24,6 +29,7 @@ in
     (import ./overlay/apps.nix)
     (import ./overlay/pkgs.nix)
   ];
+
 
   # Temporary fix to count user apps from home-manager as well
   system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
@@ -51,6 +57,8 @@ in
     pkgs.bash
     pkgs.zsh
   ];
+
+  programs.gnupg.agent.enable = true;
 
   # Windor manager
   services.yabai = {
@@ -87,14 +95,12 @@ in
     '';
   };
 
-  programs.gnupg.agent = {
-    enable = true;
-  };
-
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (pkgs.lib.getName pkg) [
       "1password"
     ];
+
+  users.users.akoppela.home = "/Users/akoppela";
 
   home-manager = {
     useUserPackages = true;
