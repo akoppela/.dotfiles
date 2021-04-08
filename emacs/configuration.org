@@ -2,88 +2,28 @@
 #+author: Andrey Koppel (akoppela)
 #+email: akoppela@gmail.com
 
-* Personal info.
-
-  #+begin_src emacs-lisp
-    (setq user-full-name "Andrey Koppel")
-    (setq user-mail-address "akoppela@gmail.com")
-  #+end_src
-
-* Package management.
-
-** Prefer to load newer version of files.
-
-   #+begin_src emacs-lisp
-     (setq load-prefer-newer t)
-   #+end_src
-
-** Initialize =package.el= and include Org, Gnu and Melpa package archives.
-
-   #+begin_src emacs-lisp
-     (require 'package)
-     (setq package-enable-at-startup nil)
-     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
-                              ("gnu" . "https://elpa.gnu.org/packages/")
-                              ("melpa" . "https://melpa.org/packages/")))
-     (package-initialize)
-   #+end_src
-
-** Make sure =quelpa= is installed.
-
-   #+begin_src emacs-lisp
-     (unless (package-installed-p 'quelpa)
-       (with-temp-buffer
-         (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-         (eval-buffer)
-         (quelpa-self-upgrade)))
-   #+end_src
-
-** Do not install packages from Melpa with =quelpa=.
-
-   #+begin_src emacs-lisp
-     (setq quelpa-checkout-melpa-p nil)
-   #+end_src
-
-** Initialize =quelpa-use-package=.
-
-   #+begin_src emacs-lisp
-     (quelpa
-      '(quelpa-use-package
-        :fetcher git
-        :url "https://github.com/quelpa/quelpa-use-package.git"))
-     (require 'quelpa-use-package)
-   #+end_src
-
-** Make sure packages are always installed.
-
-   #+begin_src emacs-lisp
-     (setq use-package-always-ensure t)
-   #+end_src
-
-** Install packages with =quelpa= if requested.
-
-   #+begin_src emacs-lisp
-     (quelpa-use-package-activate-advice)
-   #+end_src
-
-** Benchmark emacs initialization.
-
-   #+begin_src emacs-lisp
-     (use-package benchmark-init
-       :config
-       (add-hook 'after-init-hook 'benchmark-init/deactivate))
-   #+end_src
-
-** Always compile packages.
-
-   #+begin_src emacs-lisp
-     (use-package auto-compile
-       :config
-       (auto-compile-on-load-mode 1)
-       (auto-compile-on-save-mode 1))
-   #+end_src
-
 * Defaults.
+
+** Increase garbage collection threshold before startup.
+
+   #+begin_src emacs-lisp
+     (setq gc-cons-threshold 402653184)
+     (setq gc-cons-percentage 0.6)
+
+     (add-hook 'after-init-hook
+               (lambda ()
+                 (setq gc-cons-threshold 800000)
+                 (setq gc-cons-percentage 0.1)
+                 (garbage-collect))
+               t)
+   #+end_src
+
+** Personal info.
+
+   #+begin_src emacs-lisp
+     (setq user-full-name "Andrey Koppel")
+     (setq user-mail-address "akoppela@gmail.com")
+   #+end_src
 
 ** Setup encoding to UTF-8.
 
@@ -96,16 +36,6 @@
 
    #+begin_src emacs-lisp
      (setq default-directory "~/")
-   #+end_src
-
-** Increase garbage collection threshold.
-
-   This means GC runs less often, which speeds up some operations.
-
-   #+begin_src emacs-lisp
-     (use-package gcmh
-       :config
-       (gcmh-mode 1))
    #+end_src
 
 ** Increase read process output.
@@ -156,15 +86,6 @@
      (defalias 'yes-or-no-p 'y-or-n-p)
    #+end_src
 
-** Open large files with =vlf=.
-
-   #+begin_src emacs-lisp
-     (use-package vlf
-       :commands vlf
-       :config
-       (require 'vlf-setup))
-   #+end_src
-
 ** Do not add newline at the end of a file.
 
    #+begin_src emacs-lisp
@@ -179,32 +100,10 @@
      (setq browse-url-firefox-new-window-is-tab t)
    #+end_src
 
-** Make session persistent.
-
-   #+begin_src emacs-lisp
-     (use-package session
-       :config
-       (setq session-save-file (expand-file-name ".session" user-emacs-directory))
-       (setq session-save-file-coding-system 'utf-8)
-       (add-hook 'after-init-hook 'session-initialize))
-   #+end_src
-
 ** Revert TAGS file without asking.
 
    #+begin_src emacs-lisp
      (setq tags-revert-without-query t)
-   #+end_src
-
-** Load =dash=.
-
-   #+begin_src emacs-lisp
-     (use-package dash)
-   #+end_src
-
-** Truncate eshell buffer.
-
-   #+begin_src emacs-lisp
-     (add-hook 'eshell-output-filter-functions 'eshell-truncate-buffer)
    #+end_src
 
 ** Automatically rescan =imenu=.
@@ -213,20 +112,13 @@
      (setq imenu-auto-rescan t)
    #+end_src
 
-** Startup profiler.
-
-   #+begin_src emacs-lisp
-     (use-package esup
-       :commands esup)
-   #+end_src
-
 ** Do not lock files.
 
    #+begin_src emacs-lisp
      (setq create-lockfiles nil)
    #+end_src
 
-** Add custom file.
+** Custom file.
 
    #+begin_src emacs-lisp
      (setq custom-file "/dev/null")
@@ -245,9 +137,43 @@
      (setq interprogram-cut-function 'paste-to-osx)
    #+end_src
 
+** =flyspell= spell checking.
+
+   #+begin_src emacs-lisp
+     (add-hook 'text-mode-hook 'flyspell-mode)
+     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+     (add-hook 'org-mode-hook 'flyspell-mode)
+   #+end_src
+
+* Package management.
+
+** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+
+   #+begin_src emacs-lisp
+     (setq package-enable-at-startup nil)
+     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
+                              ("gnu" . "https://elpa.gnu.org/packages/")
+                              ("melpa" . "https://melpa.org/packages/")))
+   #+end_src
+
+** Make sure =use-package= is installed.
+
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+     (require 'use-package)
+   #+END_SRC
+
+** Make sure packages are always installed.
+
+   #+begin_src emacs-lisp
+     (setq use-package-always-ensure t)
+   #+end_src
+
 * Keybindings.
 
-** =evil-fu= for redo.
+** =undo-fu= for redo.
 
    #+begin_src emacs-lisp
      (use-package undo-fu
@@ -256,60 +182,57 @@
 
 ** =evil= provides =vi= keybindings.
 
-*** Initialize =evil=.
+*** Initialize.
 
     #+begin_src emacs-lisp
       (use-package evil
+        :defer t
         :init
         (setq evil-want-C-i-jump nil)
         (setq evil-want-integration t)
         (setq evil-want-keybinding nil)
         (setq evil-undo-system 'undo-fu) ;; TODO: Change to native undo-redo from Emacs 28
-        :config
         (evil-mode 1))
     #+end_src
 
-*** Enable =evil-collection=.
+*** =evil-collection=.
 
     #+begin_src emacs-lisp
       (use-package evil-collection
         :after evil
+        :defer t
         :init
         (setq evil-collection-setup-minibuffer t)
         (setq evil-collection-outline-bind-tab-p nil)
         (setq evil-collection-company-use-tng nil)
-        :config
         (evil-collection-init))
     #+end_src
 
-*** Enable =evil-surround=.
+*** =evil-surround=.
 
     #+begin_src emacs-lisp
       (use-package evil-surround
         :after evil-collection
-        :config
+        :defer t
+        :init
         (global-evil-surround-mode 1))
     #+end_src
 
-*** Enable =evil-commentary=.
+*** =evil-commentary=.
 
     #+begin_src emacs-lisp
       (use-package evil-commentary
         :after evil-collection
-        :config
+        :defer t
+        :init
         (evil-commentary-mode 1))
-    #+end_src
-
-*** Define default normal states.
-
-    #+begin_src emacs-lisp
-      (evil-set-initial-state 'rcirc-mode 'normal)
     #+end_src
 
 ** =hydra=.
 
    #+begin_src emacs-lisp
-     (use-package hydra)
+     (use-package hydra
+       :defer t)
    #+end_src
 
 ** =general= makes it easier to assign keybindings.
@@ -318,6 +241,7 @@
 
     #+begin_src emacs-lisp
       (use-package general
+        :defer t
         :config
         (general-create-definer leader-def
           :states '(normal visual insert motion emacs)
@@ -551,8 +475,7 @@
 
     #+begin_src emacs-lisp
       (leader-def
-        "a" '(:ignore t :which-key "application")
-        "a i" '(rcirc :which-key "IRC"))
+        "a" '(:ignore t :which-key "application"))
     #+end_src
 
 *** Search.
@@ -650,39 +573,17 @@
 ** Use =all-the-icons=.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package all-the-icons)
+     (use-package all-the-icons
+       :defer t)
    #+END_SRC
 
 ** Load custom theme.
 
    #+begin_src emacs-lisp
      (use-package color-theme-sanityinc-tomorrow
-       :quelpa
-       (color-theme-sanityinc-tomorrow
-        :fetcher git
-        :url "https://github.com/akoppela/color-theme-sanityinc-tomorrow.git")
+       :load-path "my/color-theme-sanityinc-tomorrow"
        :config
        (load-theme 'sanityinc-tomorrow-akoppela t))
-   #+end_src
-
-** Enable Doom theme.
-
-   #+begin_src emacs-lisp
-     (use-package doom-themes
-       :config
-       ;; Global settings (defaults)
-       (setq doom-themes-enable-bold t)
-       (setq doom-themes-enable-italic t)
-
-       ;; Enable flashing mode-line on errors
-       (doom-themes-visual-bell-config)
-
-       ;; Use the colorful treemacs theme
-       (setq doom-themes-treemacs-theme "doom-colors")
-       (doom-themes-treemacs-config)
-
-       ;; Corrects (and improves) org-mode's native fontification.
-       (doom-themes-org-config))
    #+end_src
 
 ** =mode-line= specific.
@@ -691,6 +592,7 @@
 
     #+begin_src emacs-lisp
       (use-package doom-modeline
+        :defer t
         :init (doom-modeline-mode 1))
     #+end_src
 
@@ -821,26 +723,6 @@
        (add-hook 'prog-mode-hook 'rainbow-mode))
    #+end_src
 
-** Enable smart expand region.
-
-   #+begin_src emacs-lisp
-     (use-package expand-region
-       :after general
-       :commands er/expand-region
-       :init
-       (leader-def
-         "v" '(er/expand-region :which-key "expand region")))
-   #+end_src
-
-** Enable notifications.
-
-   #+begin_src emacs-lisp
-     (use-package alert
-       :commands (alert)
-       :init
-       (setq alert-default-style 'osx-notifier))
-   #+end_src
-
 ** Show visual indicator for column rule.
 
    #+begin_src emacs-lisp
@@ -885,13 +767,6 @@
        :after (treemacs projectile))
    #+end_src
 
-** =iedit= to edit multiple regions simultaneously.
-
-   #+begin_src emacs-lisp
-     (use-package iedit
-       :commands iedit-mode)
-   #+end_src
-
 ** =company= enables auto-completion.
 
    #+begin_src emacs-lisp
@@ -920,23 +795,25 @@
 
    #+begin_src emacs-lisp
      (use-package flycheck
+       :commands flycheck-mode
        :config
        (setq flycheck-check-syntax-automatically '(mode-enabled save)))
    #+end_src
 
-** =flyspell= checks spelling.
+* Project, time and task management.
+
+** =session=.
+
+   Make session persistent.
 
    #+begin_src emacs-lisp
-     (use-package flyspell
-       :commands flyspell-mode
+     (use-package session
+       :commands session-initialize
        :init
-       (add-hook 'text-mode-hook 'flyspell-mode)
-       (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-       (add-hook 'org-mode-hook 'flyspell-mode)
-       (add-hook 'git-commit-mode-hook 'flyspell-mode))
+       (setq session-save-file (expand-file-name ".session" user-emacs-directory))
+       (setq session-save-file-coding-system 'utf-8)
+       (add-hook 'after-init-hook 'session-initialize))
    #+end_src
-
-* Project, time and task management.
 
 ** =projectile=.
 
@@ -952,14 +829,15 @@
        (counsel-projectile-mode 1))
    #+end_src
 
-** =magit= for Git related stuff.
+** =magit=.
 
 *** Initialization.
 
     #+begin_src emacs-lisp
       (use-package magit
         :commands magit
-        :init
+        :config
+        (add-hook 'git-commit-mode-hook 'flyspell-mode)
         (setq magit-blame-styles
               '((margin
                  (margin-format " %a - %s%f" " %C" " %H")
@@ -1082,8 +960,10 @@
     #+begin_src emacs-lisp
       (use-package evil-org
         :after (evil-collection org)
-        :config
+        :commands evil-org-mode
+        :init
         (add-hook 'org-mode-hook 'evil-org-mode)
+        :config
         (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
         (require 'evil-org-agenda)
         (evil-org-agenda-set-keys))
@@ -1093,6 +973,7 @@
 
     #+begin_src emacs-lisp
       (use-package ox-reveal
+        :commands org-export-dispatch
         :config
         (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
     #+end_src
@@ -1105,41 +986,43 @@
 
 ** =harvest=.
 
-*** Initialize.
 
-    #+begin_src emacs-lisp
-      (use-package reaper
-        :commands reaper
-        :init
-        (setq reaper-hours-timer-mode nil)
-        (setq reaper-api-key (getenv "HARVEST_API_KEY"))
-        (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID")))
-    #+end_src
+   #+begin_src emacs-lisp
+     (use-package reaper
+       :commands reaper
+       :init
+       (leader-def
+         "a h" '(reaper :which-key "harvest"))
+       :config
+       (setq reaper-hours-timer-mode nil)
+       (setq reaper-api-key (getenv "HARVEST_API_KEY"))
+       (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
 
-*** Keybindings.
+       (general-def
+         :states '(normal visual)
+         :keymaps 'reaper-mode-map
+         "q" 'kill-buffer-and-window
+         "g r" '(reaper-refresh :which-key "refresh"))
 
-    #+begin_src emacs-lisp
-      (leader-def
-        "a h" '(reaper :which-key "harvest"))
-
-      (general-def
-        :states '(normal visual)
-        :keymaps 'reaper-mode-map
-        "q" 'kill-buffer-and-window
-        "g r" '(reaper-refresh :which-key "refresh"))
-
-      (major-def
-        :keymaps 'reaper-mode-map
-        "d" '(reaper-goto-date :which-key "date")
-        "s" '(reaper-start-timer :which-key "start timer")
-        "S" '(reaper-stop-timer :which-key "stop timer")
-        "n" '(reaper-start-new-timer :which-key "new timer")
-        "e" '(reaper-edit-entry-time :which-key "edit time")
-        "E" '(reaper-edit-entry :which-key "edit entry")
-        "x" '(reaper-delete-entry :which-key "delete"))
-    #+end_src
+       (major-def
+         :keymaps 'reaper-mode-map
+         "d" '(reaper-goto-date :which-key "date")
+         "s" '(reaper-start-timer :which-key "start timer")
+         "S" '(reaper-stop-timer :which-key "stop timer")
+         "n" '(reaper-start-new-timer :which-key "new timer")
+         "e" '(reaper-edit-entry-time :which-key "edit time")
+         "E" '(reaper-edit-entry :which-key "edit entry")
+         "x" '(reaper-delete-entry :which-key "delete")))
+   #+end_src
 
 * Programming languages and modes.
+
+** =dash=.
+
+   #+begin_src emacs-lisp
+     (use-package dash
+       :defer t)
+   #+end_src
 
 ** =html=.
 
@@ -1221,32 +1104,28 @@
         (add-hook 'elm-mode-hook 'flycheck-mode)
         (add-hook 'elm-mode-hook 'my/elm-outline-mode)
         (add-hook 'elm-mode-hook
-                  (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev)))))
+                  (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
+
+        (general-def
+          :states '(normal visual)
+          :keymaps 'elm-mode-map
+          "TAB" 'org-cycle
+          "<backtab>" 'org-global-cycle
+          "M-<up>" 'outline-move-subtree-up
+          "M-<down>" 'outline-move-subtree-down
+          "g k" '(outline-previous-heading :which-key "previous heading")
+          "g j" '(outline-next-heading :which-key "next heading"))
+
+        (major-def
+          :keymaps 'elm-mode-map
+          "i" '(my/elm-import :which-key "import")
+          "e" '(elm-expose-at-point :which-key "expose")
+          "d" '(elm-documentation-lookup :which-key "documentation")))
 
       (use-package flycheck-elm
         :after (flycheck elm-mode)
         :config
         (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-    #+end_src
-
-*** Keybindings.
-
-    #+begin_src emacs-lisp
-      (general-def
-        :states '(normal visual)
-        :keymaps 'elm-mode-map
-        "TAB" 'org-cycle
-        "<backtab>" 'org-global-cycle
-        "M-<up>" 'outline-move-subtree-up
-        "M-<down>" 'outline-move-subtree-down
-        "g k" '(outline-previous-heading :which-key "previous heading")
-        "g j" '(outline-next-heading :which-key "next heading"))
-
-      (major-def
-        :keymaps 'elm-mode-map
-        "i" '(my/elm-import :which-key "import")
-        "e" '(elm-expose-at-point :which-key "expose")
-        "d" '(elm-documentation-lookup :which-key "documentation"))
     #+end_src
 
 ** =javascript=.
@@ -1388,14 +1267,15 @@
 ** =vagrant=.
 
    #+begin_src emacs-lisp
-     (use-package vagrant)
+     (use-package vagrant
+       :defer t)
    #+end_src
 
 ** =extempore=.
 
    #+begin_src emacs-lisp
      (use-package extempore-mode
-       :commands (extempore-mode)
+       :commands extempore-mode
        :init
        (unless (fboundp 'eldoc-beginning-of-sexp)
          (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
@@ -1405,12 +1285,13 @@
 
    #+begin_src emacs-lisp
      (use-package go-mode
-       :commands (go-mode)
+       :commands go-mode
        :init
        (add-hook 'go-mode-hook
                  (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
+
      (use-package flycheck-golangci-lint
-       :after (go-mode)
+       :after go-mode
        :hook (go-mode . flycheck-golangci-lint-setup))
    #+end_src
 
@@ -1447,9 +1328,9 @@
 
     #+begin_src emacs-lisp
       (use-package lsp-treemacs
+        :commands lsp-treemacs-errors-list
         :init
-        (lsp-treemacs-sync-mode t)
-        :commands (lsp-treemacs-errors-list))
+        (lsp-treemacs-sync-mode t))
     #+end_src
 
 ** =smartparens=.
@@ -1476,14 +1357,14 @@
 
    #+begin_src emacs-lisp
      (use-package jenkins
-       :commands (jenkins)
+       :commands jenkins
        :init
        (leader-def
          "a j" '(jenkins :which-key "jenkins"))
+       :config
        (evil-set-initial-state 'jenkins-mode 'motion)
        (evil-set-initial-state 'jenkins-job-view-mode 'motion)
        (evil-set-initial-state 'jenkins-console-output-mode 'motion)
-       :config
        (general-def
          :states '(motion)
          :keymaps 'jenkins-mode-map
@@ -1526,7 +1407,7 @@
 
     #+begin_src emacs-lisp
       (use-package vterm
-        :commands (vterm)
+        :commands vterm
         :init
         (leader-def
           "a t" '(my/terminal :which-key "terminal"))
@@ -1575,7 +1456,20 @@
        :init
        (leader-def
          "a D" '(docker :which-key "docker")))
-     (use-package docker-tramp)
+
+     (use-package docker-tramp
+       :defer t)
+   #+end_src
+
+** =vlf=.
+
+   Open large files with =vlf=.
+
+   #+begin_src emacs-lisp
+     (use-package vlf
+       :commands vlf
+       :config
+       (require 'vlf-setup))
    #+end_src
 
 * Communication and connection.
@@ -1603,9 +1497,15 @@
 ** IRC.
 
    #+begin_src emacs-lisp
-     (major-def
-       :keymaps 'rcirc-mode-map
-       "j" '(rcirc-cmd-join :which-key "join"))
+     (leader-def
+       "a i" '(rcirc :which-key "IRC"))
+
+     (add-hook 'rcirc-mode-hook
+               (lambda ()
+                 (evil-set-initial-state 'rcirc-mode 'normal)
+                 (major-def
+                   :keymaps 'rcirc-mode-map
+                   "j" '(rcirc-cmd-join :which-key "join"))))
    #+end_src
 
 ** VPN.
@@ -1654,7 +1554,7 @@
 
    #+begin_src emacs-lisp
      (use-package slack
-       :commands (slack-start)
+       :commands slack-start
        :init
        (setq slack-request-timeout 120)
        (leader-def
@@ -1697,6 +1597,7 @@
 
    #+begin_src emacs-lisp
      (use-package helpful
+       :defer t
        :init
        (setq counsel-describe-function-function 'helpful-callable)
        (setq counsel-describe-variable-function 'helpful-variable)
