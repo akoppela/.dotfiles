@@ -4,25 +4,54 @@
 
 * Defaults.
 
-** Increase garbage collection threshold before startup.
-
-   #+begin_src emacs-lisp
-     (setq gc-cons-threshold 402653184)
-     (setq gc-cons-percentage 0.6)
-
-     (add-hook 'after-init-hook
-               (lambda ()
-                 (setq gc-cons-threshold 800000)
-                 (setq gc-cons-percentage 0.1)
-                 (garbage-collect))
-               t)
-   #+end_src
-
 ** Personal info.
 
    #+begin_src emacs-lisp
      (setq user-full-name "Andrey Koppel")
      (setq user-mail-address "akoppela@gmail.com")
+   #+end_src
+
+** Increase garbage collection threshold before startup.
+
+   #+begin_src emacs-lisp
+     (defvar last-file-name-handler-alist file-name-handler-alist)
+     (setq gc-cons-threshold (* 1024 1024 50))
+     (setq gc-cons-percentage 0.6)
+     (setq file-name-handler-alist nil)
+
+     (add-hook 'emacs-startup-hook
+               (lambda ()
+                 (setq gc-cons-threshold (* 1024 1024 2))
+                 (setq gc-cons-percentage 0.1)
+                 (setq file-name-handler-alist last-file-name-handler-alist)))
+   #+end_src
+
+** Measure startup time.
+
+   #+begin_src emacs-lisp
+     (add-hook 'emacs-startup-hook
+               (lambda ()
+                 (message "Emacs ready in %s with %d garbage collections."
+                          (format "%.2f seconds"
+                                  (float-time
+                                   (time-subtract after-init-time before-init-time)))
+                          gcs-done)))
+   #+end_src
+
+** Tangle configuration on save.
+
+   #+begin_src emacs-lisp
+     (defun my/tangle-configuration ()
+       "If the current file is this file, the code blocks are tangled"
+       (when (equal (buffer-file-name) (expand-file-name my/configuration-org))
+         (org-babel-tangle nil my/configuration-el)))
+
+     (add-hook 'after-save-hook 'my/tangle-configuration)
+
+     (defun my/open-configuration ()
+       "Opens emacs configuration."
+       (interactive)
+       (find-file my/configuration-org))
    #+end_src
 
 ** Setup encoding to UTF-8.
@@ -59,7 +88,7 @@
 ** Make sure sentenses does not have two spaces after periods.
 
    #+begin_src emacs-lisp
-     (setq sentense-end-double-space nil)
+     (setq-default sentense-end-double-space nil)
    #+end_src
 
 ** Ask before closing Emacs.
@@ -103,13 +132,13 @@
 ** Revert TAGS file without asking.
 
    #+begin_src emacs-lisp
-     (setq tags-revert-without-query t)
+     (setq-default tags-revert-without-query t)
    #+end_src
 
 ** Automatically rescan =imenu=.
 
    #+begin_src emacs-lisp
-     (setq imenu-auto-rescan t)
+     (setq-default imenu-auto-rescan t)
    #+end_src
 
 ** Do not lock files.
@@ -145,6 +174,13 @@
      (add-hook 'org-mode-hook 'flyspell-mode)
    #+end_src
 
+** Narrow.
+
+   #+begin_src emacs-lisp
+     (put 'narrow-to-region 'disabled nil)
+     (put 'narrow-to-page 'disabled nil)
+   #+end_src
+
 * Package management.
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives.
@@ -162,71 +198,16 @@
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
-     (require 'use-package)
    #+END_SRC
 
 ** Make sure packages are always installed.
 
    #+begin_src emacs-lisp
+     (require 'use-package-ensure)
      (setq use-package-always-ensure t)
    #+end_src
 
 * Keybindings.
-
-** =undo-fu= for redo.
-
-   #+begin_src emacs-lisp
-     (use-package undo-fu
-       :commands (undo-fu-only-redo undo-fu-only-undo))
-   #+end_src
-
-** =evil= provides =vi= keybindings.
-
-*** Initialize.
-
-    #+begin_src emacs-lisp
-      (use-package evil
-        :defer t
-        :init
-        (setq evil-want-C-i-jump nil)
-        (setq evil-want-integration t)
-        (setq evil-want-keybinding nil)
-        (setq evil-undo-system 'undo-fu) ;; TODO: Change to native undo-redo from Emacs 28
-        (evil-mode 1))
-    #+end_src
-
-*** =evil-collection=.
-
-    #+begin_src emacs-lisp
-      (use-package evil-collection
-        :after evil
-        :defer t
-        :init
-        (setq evil-collection-setup-minibuffer t)
-        (setq evil-collection-outline-bind-tab-p nil)
-        (setq evil-collection-company-use-tng nil)
-        (evil-collection-init))
-    #+end_src
-
-*** =evil-surround=.
-
-    #+begin_src emacs-lisp
-      (use-package evil-surround
-        :after evil-collection
-        :defer t
-        :init
-        (global-evil-surround-mode 1))
-    #+end_src
-
-*** =evil-commentary=.
-
-    #+begin_src emacs-lisp
-      (use-package evil-commentary
-        :after evil-collection
-        :defer t
-        :init
-        (evil-commentary-mode 1))
-    #+end_src
 
 ** =hydra=.
 
@@ -235,332 +216,175 @@
        :defer t)
    #+end_src
 
-** =general= makes it easier to assign keybindings.
+** =general=.
 
-*** Initialize.
+   #+begin_src emacs-lisp
+     (defhydra my/hydra-window-resize ()
+       "Resize window"
+       ("[" shrink-window-horizontally "shrink horizontally")
+       ("]" enlarge-window-horizontally "enlarge horizontally")
+       ("{" shrink-window "shrink vertically")
+       ("}" enlarge-window "enlarge vertically"))
 
-    #+begin_src emacs-lisp
-      (use-package general
-        :defer t
-        :config
-        (general-create-definer leader-def
-          :states '(normal visual insert motion emacs)
-          :keymaps 'override
-          :prefix "SPC"
-          :non-normal-prefix "M-SPC")
-        (general-create-definer major-def
-          :states '(normal visual insert motion emacs)
-          :keymaps 'override
-          :prefix ","
-          :non-normal-prefix "M-,"))
-    #+end_src
+     (defun my/split-window-toggle ()
+       "Toggles window split from horizontal to vertical and vice versa."
+       (interactive)
+       (if (= (count-windows) 2)
+           (let* ((this-win-buffer (window-buffer))
+                  (next-win-buffer (window-buffer (next-window)))
+                  (this-win-edges (window-edges (selected-window)))
+                  (next-win-edges (window-edges (next-window)))
+                  (this-win-2nd (not (and (<= (car this-win-edges)
+                                              (car next-win-edges))
+                                          (<= (cadr this-win-edges)
+                                              (cadr next-win-edges)))))
+                  (splitter
+                   (if (= (car this-win-edges) (car (window-edges (next-window))))
+                       'split-window-horizontally
+                     'split-window-vertically)))
+             (delete-other-windows)
+             (let ((first-win (selected-window)))
+               (funcall splitter)
+               (if this-win-2nd (other-window 1))
+               (set-window-buffer (selected-window) this-win-buffer)
+               (set-window-buffer (next-window) next-win-buffer)
+               (select-window first-win)
+               (if this-win-2nd (other-window 1))))))
 
-*** Main menu.
+     (defun my/delete-file-and-buffer ()
+       "Kill the current buffer and delete the file it's visiting."
+       (interactive)
+       (let ((filename (buffer-file-name)))
+         (if filename
+             (if (vc-backend filename)
+                 (vc-delete-file filename)
+               (progn (delete-file filename)
+                      (message "Deleted file %s." filename)
+                      (kill-buffer)))
+           (message "Can't delete file."))))
 
-**** Helper functions.
-
-     #+begin_src emacs-lisp
-       (defun my/counsel-projectile-rg ()
-         "Calls counsel-projectile-rg with no initial input"
-         (interactive)
-         (progn
-           (setq counsel-projectile-rg-initial-input nil)
-           (counsel-projectile-rg)))
-
-       (defun my/counsel-projectile-rg-at-point ()
-         "Calls counsel-projectile-rg with ivy-at-point"
-         (interactive)
-         (progn
-           (setq counsel-projectile-rg-initial-input (ivy-thing-at-point))
-           (counsel-projectile-rg)))
-     #+end_src
-
-**** Keybindings.
-
-     #+begin_src emacs-lisp
+     (use-package general
+       :init
+       (general-create-definer leader-def
+         :states '(normal visual insert motion emacs)
+         :keymaps 'override
+         :prefix "SPC"
+         :non-normal-prefix "M-SPC")
+       (general-create-definer major-def
+         :states '(normal visual insert motion emacs)
+         :keymaps 'override
+         :prefix ","
+         :non-normal-prefix "M-,")
        (leader-def
+         ;; Main menu
          "" nil
-         "SPC" '(counsel-M-x :which-key "M-x")
          "u" '(universal-argument :which-key "universal argument")
-         "/" '(my/counsel-projectile-rg :which-key "find in project")
-         "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point"))
-     #+end_src
-*** Buffer.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "b" '(:ignore t :which-key "buffer")
-        "b b" '(ivy-switch-buffer :which-key "switch")
-        "b l" '(ibuffer :which-key "list")
-        "b d" '(kill-current-buffer :which-key "delete")
-        "b x" '(kill-buffer-and-window :which-key "delete with window")
-        "b s" '(save-some-buffers :which-key "save")
-        "b e" '(eval-buffer :which-key "eval")
-        "b r" '(rename-buffer :which-key "rename")
-        "b R" '(revert-buffer :which-key "revert"))
-
-      (general-def
-        :states '(normal visual)
-        :keymaps 'ibuffer-mode-map
-        "q" 'kill-buffer-and-window)
-    #+end_src
-
-*** Window.
-
-**** Helper functions.
-
-***** Resize hydra.
-
-      #+begin_src emacs-lisp
-        (defhydra hydra-window-resize ()
-          "Resize window"
-          ("[" shrink-window-horizontally "shrink horizontally")
-          ("]" enlarge-window-horizontally "enlarge horizontally")
-          ("{" shrink-window "shrink vertically")
-          ("}" enlarge-window "enlarge vertically"))
-      #+end_src
-
-***** Toggle split from horizontal to vertical and vice versa.
-
-      #+begin_src emacs-lisp
-        (defun my/split-window-toggle ()
-          "Toggles window split from horizontal to vertical and vice versa."
-          (interactive)
-          (if (= (count-windows) 2)
-              (let* ((this-win-buffer (window-buffer))
-                     (next-win-buffer (window-buffer (next-window)))
-                     (this-win-edges (window-edges (selected-window)))
-                     (next-win-edges (window-edges (next-window)))
-                     (this-win-2nd (not (and (<= (car this-win-edges)
-                                                 (car next-win-edges))
-                                             (<= (cadr this-win-edges)
-                                                 (cadr next-win-edges)))))
-                     (splitter
-                      (if (= (car this-win-edges)
-                             (car (window-edges (next-window))))
-                          'split-window-horizontally
-                        'split-window-vertically)))
-                (delete-other-windows)
-                (let ((first-win (selected-window)))
-                  (funcall splitter)
-                  (if this-win-2nd (other-window 1))
-                  (set-window-buffer (selected-window) this-win-buffer)
-                  (set-window-buffer (next-window) next-win-buffer)
-                  (select-window first-win)
-                  (if this-win-2nd (other-window 1))))))
-      #+end_src
-
-**** Keybindings.
-
-     #+begin_src emacs-lisp
-       (leader-def
+         ;; Buffer
+         "b" '(:ignore t :which-key "buffer")
+         "b l" '(ibuffer :which-key "list")
+         "b d" '(kill-current-buffer :which-key "delete")
+         "b x" '(kill-buffer-and-window :which-key "delete with window")
+         "b s" '(save-some-buffers :which-key "save")
+         "b e" '(eval-buffer :which-key "eval")
+         "b r" '(rename-buffer :which-key "rename")
+         "b R" '(revert-buffer :which-key "revert")
+         ;; Window
          "w" '(:ignore t :which-key "window")
          "w TAB" '(other-window :which-key "next")
          "w d" '(delete-window :which-key "delete")
          "w D" '(delete-other-windows :which-key "delete other")
-         "w r" '(hydra-window-resize/body :which-key "resize")
-         "w a" '(ace-window :which-key "ace")
-
+         "w r" '(my/hydra-window-resize/body :which-key "resize")
          "w s" '(:ignore t :which-key "split")
          "w s h" '(split-window-below :which-key "horizontally")
          "w s v" '(split-window-right :which-key "vertically")
-         "w s t" '(my/split-window-toggle :which-key "toggle"))
-     #+end_src
-
-*** Theme.
-
-**** Helper functions.
-
-***** Change theme.
-
-      #+begin_src emacs-lisp
-        (defvar my/change-theme-hook nil
-          "Hooks to run after theme is changed.")
-
-        (defmacro my/change-theme (fun-name fun-description themes get-new-theme get-rest-themes sort-themes)
-          "Changes theme based on given data"
-          `(defun ,fun-name ()
-             ,fun-description
-             (interactive)
-             (let* ((new-theme (,get-new-theme ,themes))
-                    (rest-themes (,get-rest-themes ,themes))
-                    (new-available-themes (funcall (,sort-themes 'append) rest-themes (list new-theme))))
-               (progn
-                 (setq ,themes new-available-themes)
-                 (if (eq new-theme my/current-theme)
-                     (,fun-name)
-                   (progn
-                     (setq my/current-theme new-theme)
-                     (mapcar 'disable-theme custom-enabled-themes)
-                     (font-lock-mode)
-                     (load-theme new-theme t)
-                     (run-hooks 'my/change-theme-hook)
-                     (font-lock-mode)))))))
-      #+end_src
-
-***** Next theme.
-
-      #+begin_src emacs-lisp
-        (my/change-theme my/next-theme "Changes theme to next one" my/themes car cdr identity)
-      #+end_src
-
-***** Previous theme.
-
-      #+begin_src emacs-lisp
-        (my/change-theme my/previous-theme "Changes theme to previous one" my/themes -last-item butlast -flip)
-      #+end_src
-
-***** Theme hydra.
-
-      #+begin_src emacs-lisp
-        (defhydra hydra-change-theme ()
-          "Change theme"
-          ("n" my/next-theme "next")
-          ("N" my/previous-theme "previous"))
-      #+end_src
-
-**** Keybindings.
-
-     #+begin_src emacs-lisp
-       (leader-def
-         "t" '(hydra-change-theme/body :which-key "theme"))
-     #+end_src
-
-*** File.
-
-**** Helper functions.
-
-     #+begin_src emacs-lisp
-       (defun my/delete-file-and-buffer ()
-         "Kill the current buffer and delete the file it's visiting."
-         (interactive)
-         (let ((filename (buffer-file-name)))
-           (if filename
-               (if (vc-backend filename)
-                   (vc-delete-file filename)
-                 (progn (delete-file filename)
-                        (message "Deleted file %s." filename)
-                        (kill-buffer)))
-             (message "Can't delete file."))))
-     #+end_src
-
-**** Bindings.
-
-     #+begin_src emacs-lisp
-       (leader-def
+         "w s t" '(my/split-window-toggle :which-key "toggle")
+         ;; File
          "f" '(:ignore t :which-key "file")
-         "f f" '(counsel-find-file :which-key "find")
          "f s" '(save-buffer :which-key "save")
          "f r" '(rename-file :which-key "rename")
          "f d" '(my/delete-file-and-buffer :which-key "delete")
          "f c" '(copy-file :which-key "copy")
-
          "f e" '(:ignore t :which-key "emacs")
          "f e c" '(my/open-configuration :which-key "configuration")
-         "f e r" '(my/load-configuration :which-key "reload configuration"))
-     #+end_src
+         ;; Project
+         "p" '(:ignore t :which-key "project")
+         ;; Application
+         "a" '(:ignore t :which-key "application")
+         ;; Search
+         "s" '(:ignore t :which-key "search")
+         ;; Error
+         "e" '(:ignore t :which-key "error")
+         "e w" '(flyspell-auto-correct-word :which-key "auto correct word")
+         ;; Narrow
+         "n" '(:ignore t :which-key "narrow")
+         "n f" '(narrow-to-defun :which-key "function")
+         "n r" '(narrow-to-region :which-key "region")
+         "n w" '(widen :which-key "widen")
+         ;; Jump
+         "j" '(:ignore t :which-key "jump")
+         ;; Help
+         "h" '(:ignore t :which-key "help")
+         "h P" '(describe-package :which-key "package")
+         "h m" '(describe-mode :which-key "describe mode")
+         "h i" '(info :which-key "info")
+         ;; Quit
+         "q" '(:ignore t :which-key "quit")
+         "q q" '(save-buffers-kill-terminal :which-key "client")
+         "q Q" '(save-buffers-kill-emacs :which-key "server"))
+       (general-def
+         :states '(normal visual)
+         :keymaps 'ibuffer-mode-map
+         "q" 'kill-buffer-and-window))
+   #+end_src
 
-*** Project.
+** =evil=.
 
-    #+begin_src emacs-lisp
-      (leader-def
-        "p" '(:ignore t :which-key "project")
-        "p f" '(counsel-projectile-find-file :which-key "find file")
-        "p p" '(counsel-projectile-switch-project :which-key "switch")
-        "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer")
-        "p t" '(treemacs :which-key "treemacs"))
-    #+end_src
+   #+begin_src emacs-lisp
+     (use-package evil
+       :init
+       (setq evil-want-C-i-jump nil)
+       (setq evil-want-integration t)
+       (setq evil-want-keybinding nil)
+       (setq evil-undo-system 'undo-fu) ;; TODO: Change to native undo-redo from Emacs 28
+       (setq evil-normal-state-tag "N")
+       (setq evil-insert-state-tag "I")
+       (setq evil-visual-state-tag "V")
+       (setq evil-replace-state-tag "R")
+       (setq evil-operator-state-tag "O")
+       (setq evil-motion-state-tag "M")
+       (setq evil-emacs-state-tag "E")
+       :config
+       (evil-mode 1))
 
-*** Application.
+     (use-package evil-collection
+       :after evil
+       :init
+       (setq evil-collection-setup-minibuffer t)
+       (setq-default evil-collection-outline-bind-tab-p nil)
+       (setq-default evil-collection-company-use-tng nil)
+       :config
+       (evil-collection-init))
 
-    #+begin_src emacs-lisp
-      (leader-def
-        "a" '(:ignore t :which-key "application"))
-    #+end_src
+     (use-package evil-surround
+       :hook
+       ((evil-visual-state-entry . turn-on-evil-surround-mode)
+        (evil-operator-state-entry . turn-on-evil-surround-mode)))
 
-*** Search.
+     (use-package evil-commentary
+       :commands (evil-commentary evil-commentary-yank)
+       :init
+       (general-def
+         :states 'normal
+         "g c" 'evil-commentary
+         "g r" 'evil-commentary-yank))
 
-    #+begin_src emacs-lisp
-      (leader-def
-        "s" '(:ignore t :which-key "search")
-        "s s" '(swiper-isearch :which-key "buffer")
-        "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point")
-        "s b" '(eww-search-words :which-key "browser")
-        "s i" '(counsel-imenu :which-key "imenu"))
-    #+end_src
-
-*** Error.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "e" '(:ignore t :which-key "error")
-        "e v" '(flycheck-verify-setup :which-key "verify setup")
-        "e n" '(flycheck-next-error :which-key "next")
-        "e N" '(flycheck-previous-error :which-key "previous")
-        "e l" '(flycheck-list-errors :which-key "list")
-        "e w" '(flyspell-auto-correct-word :which-key "auto correct word"))
-    #+end_src
-
-*** Git.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "g" '(:ignore t :which-key "git")
-        "g s" '(magit-status :which-key "status")
-        "g b" '(magit-blame-addition :which-key "blame")
-        "g c" '(magit-clone :which-key "clone")
-        "g h" '(magit-log-buffer-file :which-key "history"))
-    #+end_src
-
-*** Narrow.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "n" '(:ignore t :which-key "narrow")
-        "n f" '(narrow-to-defun :which-key "function")
-        "n r" '(narrow-to-region :which-key "region")
-        "n p" '(narrow-to-page :which-key "page")
-        "n w" '(widen :which-key "widen"))
-
-      (leader-def
-        :keymaps '(org-mode-map outline-minor-mode-map)
-        "n s" '(org-narrow-to-subtree :which-key "subtree"))
-    #+end_src
-
-*** Jump.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "j" '(:ignore t :which-key "jump")
-        "j s" '(avy-goto-subword-1 :which-key "subword")
-        "j w" '(avy-goto-word-1 :which-key "word"))
-    #+end_src
-
-*** Help.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "h" '(:ignore t :which-key "help")
-        "h a" '(counsel-apropos :which-key "apropos")
-        "h p" '(helpful-at-point :which-key "at point")
-        "h P" '(describe-package :which-key "package")
-        "h f" '(counsel-describe-function :which-key "describe function")
-        "h v" '(counsel-describe-variable :which-key "describe variable")
-        "h s" '(helpful-symbol :which-key "describe symbol")
-        "h k" '(helpful-key :which-key "describe key")
-        "h m" '(describe-mode :which-key "describe mode")
-        "h i" '(info :which-key "info")
-        "h b" '(benchmark-init/show-durations-tabulated :which-key "benchmark emacs initialization"))
-    #+end_src
-
-*** Quit.
-
-    #+begin_src emacs-lisp
-      (leader-def
-        "q" '(:ignore t :which-key "quit")
-        "q q" '(save-buffers-kill-terminal :which-key "client")
-        "q Q" '(save-buffers-kill-emacs :which-key "server"))
-    #+end_src
+     (use-package evil-anzu
+       :after evil
+       :init
+       (setq anzu-cons-mode-line-p nil)
+       :config
+       (global-anzu-mode 1))
+   #+end_src
 
 * Appearance.
 
@@ -569,13 +393,6 @@
    #+begin_src emacs-lisp
      (setq inhibit-startup-screen t)
    #+end_src
-
-** Use =all-the-icons=.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package all-the-icons
-       :defer t)
-   #+END_SRC
 
 ** Load custom theme.
 
@@ -586,45 +403,18 @@
        (load-theme 'sanityinc-tomorrow-akoppela t))
    #+end_src
 
-** =mode-line= specific.
+** =modeline= specific.
 
-*** Enable custom modeline.
-
-    #+begin_src emacs-lisp
-      (use-package doom-modeline
-        :defer t
-        :init (doom-modeline-mode 1))
-    #+end_src
-
-*** Show full names for evil state.
-
-    #+begin_src emacs-lisp
-      (setq evil-normal-state-tag "N")
-      (setq evil-insert-state-tag "I")
-      (setq evil-visual-state-tag "V")
-      (setq evil-replace-state-tag "R")
-      (setq evil-operator-state-tag "O")
-      (setq evil-motion-state-tag "M")
-      (setq evil-emacs-state-tag "E")
-    #+end_src
-
-*** Show match info.
-
-    #+begin_src emacs-lisp
-      (use-package anzu
-        :config
-        (setq anzu-cons-mode-line-p nil)
-        (global-anzu-mode 1))
-
-      (use-package evil-anzu
-        :after (evil-collection anzu))
-    #+end_src
+   #+begin_src emacs-lisp
+     (use-package doom-modeline
+       :config (doom-modeline-mode 1))
+   #+end_src
 
 ** Hide menu, tool and scroll bars.
 
    #+begin_src emacs-lisp
      (tool-bar-mode 0)
-     (scroll-bar-mode 0)
+     (when (display-graphic-p) (scroll-bar-mode 0))
      (menu-bar-mode (if (display-graphic-p) 1 0))
    #+end_src
 
@@ -644,7 +434,7 @@
 
    #+begin_src emacs-lisp
      (show-paren-mode 1)
-     (setq show-paren-delay 0.0)
+     (setq-default show-paren-delay 0.0)
    #+end_src
 
 ** Flash screen on invalid operation.
@@ -659,8 +449,8 @@
 
    #+begin_src emacs-lisp
      (global-display-line-numbers-mode)
-     (setq display-line-numbers-type 'visual)
-     (setq display-line-numbers-width-start t)
+     (setq-default display-line-numbers-type 'visual)
+     (setq-default display-line-numbers-width-start t)
    #+end_src
 
 ** Always indent with spaces
@@ -685,23 +475,17 @@
 
    #+begin_src emacs-lisp
      (use-package centered-cursor-mode
-       :commands centered-cursor-mode
-       :init
-       (add-hook 'prog-mode-hook 'centered-cursor-mode)
-       (add-hook 'org-mode-hook 'centered-cursor-mode))
+       :hook (prog-mode org-mode))
    #+end_src
 
 ** Buffer list grouping.
 
    #+begin_src emacs-lisp
      (use-package ibuffer-vc
-       :commands ibuffer-vc-set-filter-groups-by-vc-root
+       :hook
+       ((ibuffer . ibuffer-vc-set-filter-groups-by-vc-root)
+        (ibuffer . ibuffer-do-sort-by-recency))
        :init
-       (add-hook 'ibuffer-hook
-                 (lambda ()
-                   (ibuffer-vc-set-filter-groups-by-vc-root)
-                   (ibuffer-do-sort-by-recency)))
-       :config
        (setq ibuffer-formats
              '((mark modified read-only locked vc-status-mini
                      " "
@@ -712,15 +496,6 @@
                      (mode 16 16 :left :elide)
                      " "
                      vc-relative-file))))
-   #+end_src
-
-** Add color background for hexadecimal strings.
-
-   #+begin_src emacs-lisp
-     (use-package rainbow-mode
-       :commands rainbow-mode
-       :init
-       (add-hook 'prog-mode-hook 'rainbow-mode))
    #+end_src
 
 ** Show visual indicator for column rule.
@@ -735,16 +510,43 @@
 ** =counsel= completion framework.
 
    #+begin_src emacs-lisp
-     (use-package counsel
+     (use-package ivy
        :init
        (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-       (setq counsel-rg-base-command '("rg" "-M" "240" "--hidden" "--with-filename" "--no-heading" "--line-number" "--color" "never" "%s"))
-       :config
-       (ivy-mode 1)
+       (setq ivy-use-selectable-prompt t)
+       (setq counsel-rg-base-command
+             '("rg"
+               "-M" "240"
+               "--hidden"
+               "--with-filename"
+               "--no-heading"
+               "--line-number"
+               "--color" "never"
+               "%s"))
        (major-def
          :keymaps 'ivy-minibuffer-map
          "o" '(ivy-occur :which-key "occur")
-         "a" '(ivy-read-action :which-key "action")))
+         "a" '(ivy-read-action :which-key "action"))
+       (leader-def
+         "SPC" '(counsel-M-x :which-key "M-x")
+         ;; Buffer
+         "b b" '(ivy-switch-buffer :which-key "switch")
+         ;; File
+         "f f" '(counsel-find-file :which-key "find")
+         "f l" '(counsel-find-library :which-key "library")
+         ;; Search
+         "s s" '(swiper-isearch :which-key "buffer")
+         "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point")
+         "s i" '(counsel-imenu :which-key "imenu")
+         ;; Jump
+         "j m" '(counsel-mark-ring :which-key "mark")
+         ;; Help
+         "h a" '(counsel-apropos :which-key "apropos")
+         "h b" '(counsel-descbinds :which-key "bindings")
+         "h f" '(counsel-describe-function :which-key "describe function")
+         "h v" '(counsel-describe-variable :which-key "describe variable"))
+       :config
+       (ivy-mode 1))
    #+end_src
 
 ** =wgrep= to edit search.
@@ -758,13 +560,16 @@
 
    #+begin_src emacs-lisp
      (use-package treemacs
-       :commands treemacs)
+       :commands treemacs
+       :init
+       (leader-def
+         "p t" '(treemacs :which-key "treemacs")))
 
      (use-package treemacs-evil
-       :after (treemacs evil-collection))
+       :after treemacs)
 
      (use-package treemacs-projectile
-       :after (treemacs projectile))
+       :after treemacs)
    #+end_src
 
 ** =company= enables auto-completion.
@@ -776,14 +581,13 @@
        (company-complete-common-or-cycle -1))
 
      (use-package company
-       :commands company-mode
+       :hook (prog-mode . company-mode)
        :init
        (setq company-idle-delay 0)
        (setq company-require-match nil)
        (setq company-minimum-prefix-length 1)
        (setq company-dabbrev-downcase nil)
        (setq company-dabbrev-ignore-case nil)
-       (add-hook 'prog-mode-hook 'company-mode)
        :config
        (general-def
          :keymaps 'company-active-map
@@ -796,55 +600,131 @@
    #+begin_src emacs-lisp
      (use-package flycheck
        :commands flycheck-mode
+       :init
+       (setq flycheck-check-syntax-automatically '(mode-enabled save))
        :config
-       (setq flycheck-check-syntax-automatically '(mode-enabled save)))
+       (leader-def
+         "e v" '(flycheck-verify-setup :which-key "verify setup")
+         "e n" '(flycheck-next-error :which-key "next")
+         "e N" '(flycheck-previous-error :which-key "previous")
+         "e l" '(flycheck-list-errors :which-key "list")))
+   #+end_src
+
+** =ace-window=.
+
+   #+begin_src emacs-lisp
+     (use-package ace-window
+       :commands ace-window
+       :init
+       (leader-def
+         "w a" '(ace-window :which-key "ace")))
+   #+end_src
+
+** =avy=.
+
+   #+Begin_src emacs-lisp
+     (use-package avy
+       :commands (avy-goto-subword-1 avy-goto-word-1)
+       :init
+       (leader-def
+         "j s" '(avy-goto-subword-1 :which-key "subword")
+         "j w" '(avy-goto-word-1 :which-key "word")))
+   #+end_src
+
+** =engine-mode= to search on the web.
+
+   #+begin_src emacs-lisp
+     (use-package engine-mode
+       :commands (engine/search-google engine/search-wikipedia)
+       :init
+       (defengine google
+         "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s")
+       (defengine wikipedia
+         "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+       (leader-def
+         "s b" '(engine/search-google :which-key "browser")
+         "s w" '(engine/search-wikipedia :which-key "wiki")))
    #+end_src
 
 * Project, time and task management.
 
 ** =session=.
 
-   Make session persistent.
+   Make sessions persistent.
 
    #+begin_src emacs-lisp
      (use-package session
-       :commands session-initialize
+       :hook (after-init . session-initialize)
        :init
        (setq session-save-file (expand-file-name ".session" user-emacs-directory))
-       (setq session-save-file-coding-system 'utf-8)
-       (add-hook 'after-init-hook 'session-initialize))
+       (setq session-save-file-coding-system 'utf-8))
    #+end_src
 
 ** =projectile=.
 
    #+begin_src emacs-lisp
+     (defun my/counsel-projectile-rg ()
+       "Calls counsel-projectile-rg with no initial input"
+       (interactive)
+       (progn
+         (setq-default counsel-projectile-rg-initial-input nil)
+         (counsel-projectile-rg)))
+
+     (defun my/counsel-projectile-rg-at-point ()
+       "Calls counsel-projectile-rg with ivy-at-point"
+       (interactive)
+       (progn
+         (setq-default counsel-projectile-rg-initial-input (ivy-thing-at-point))
+         (counsel-projectile-rg)))
+
      (use-package projectile
+       :commands
+       (counsel-projectile-rg
+        counsel-projectile-find-file
+        counsel-projectile-switch-project
+        counsel-projectile-switch-to-buffer)
+       :init
+       (setq projectile-completion-system 'ivy)
+       (leader-def
+         "/" '(my/counsel-projectile-rg :which-key "find in project")
+         "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point")
+         "p f" '(counsel-projectile-find-file :which-key "find file")
+         "p p" '(counsel-projectile-switch-project :which-key "switch")
+         "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer"))
        :config
-       (projectile-mode 1)
-       (setq projectile-completion-system 'ivy))
+       (projectile-mode 1))
 
      (use-package counsel-projectile
-       :after (projectile counsel)
+       :after projectile
        :config
        (counsel-projectile-mode 1))
    #+end_src
 
 ** =magit=.
 
-*** Initialization.
-
-    #+begin_src emacs-lisp
-      (use-package magit
-        :commands magit
-        :config
-        (add-hook 'git-commit-mode-hook 'flyspell-mode)
-        (setq magit-blame-styles
-              '((margin
-                 (margin-format " %a - %s%f" " %C" " %H")
-                 (margin-width . 42)
-                 (margin-face . magit-blame-margin)
-                 (margin-body-face magit-blame-dimmed)))))
-    #+end_src
+   #+begin_src emacs-lisp
+     (use-package magit
+       :commands
+       (magit-status
+        magit-blame-addition
+        magit-clone
+        magit-log-buffer-file)
+       :init
+       (setq magit-blame-styles
+             '((margin
+                (margin-format " %a - %s%f" " %C" " %H")
+                (margin-width . 42)
+                (margin-face . magit-blame-margin)
+                (margin-body-face magit-blame-dimmed))))
+       (leader-def
+         "g" '(:ignore t :which-key "git")
+         "g s" '(magit-status :which-key "status")
+         "g b" '(magit-blame-addition :which-key "blame")
+         "g c" '(magit-clone :which-key "clone")
+         "g h" '(magit-log-buffer-file :which-key "history"))
+       :config
+       (add-hook 'git-commit-mode-hook 'flyspell-mode))
+   #+end_src
 
 ** =org-mode=.
 
@@ -858,6 +738,10 @@
 
       (leader-def
         "a n" '(my/open-notes :which-key "notes"))
+
+      (leader-def
+        :keymaps '(org-mode-map outline-minor-mode-map)
+        "n s" '(org-narrow-to-subtree :which-key "subtree"))
 
       (major-def
         :keymaps 'org-mode-map
@@ -873,28 +757,23 @@
         "s r" '(org-refile :which-key "refile"))
     #+end_src
 
+*** Agenda files.
+
+    #+begin_src emacs-lisp
+      (setq org-agenda-files (list "~/Notes/notes.org"))
+    #+end_src
+
 *** Show bullets instead of stars.
 
     #+begin_src emacs-lisp
       (use-package org-bullets
-        :after org
-        :commands org-bullets-mode
-        :init
-        (add-hook 'org-mode-hook 'org-bullets-mode))
+        :hook (org-mode . org-bullets-mode))
     #+end_src
 
 *** Hide leading stars.
 
     #+begin_src emacs-lisp
-      (defun my/set-org-hide-face ()
-        "Sets org-hide face based on current theme"
-        (interactive)
-        (face-spec-set 'org-hide
-                       `((t :foreground
-                            ,(symbol-value (intern (format "%s-base00" my/current-theme)))))))
-
       (setq org-hide-leading-stars t)
-      (add-hook 'my/change-theme-hook 'my/set-org-hide-face)
     #+end_src
 
 *** Change collapsed subtree symbol.
@@ -912,57 +791,26 @@
 *** Custom TODO keywords.
 
     #+begin_src emacs-lisp
-      (defun my/set-org-todo-keyword-faces ()
-        "Sets org todo keyword faces based on current theme"
-        (interactive)
-        (setq org-todo-keyword-faces
-              `(("TODO" . (:background
-                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                           :foreground
-                           ,(symbol-value (intern (format "%s-base08" my/current-theme)))
-                           :weight
-                           bold))
-                ("PROG" . (:background
-                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                           :foreground
-                           ,(symbol-value (intern (format "%s-base0D" my/current-theme)))
-                           :weight
-                           bold))
-                ("DONE" . (:background
-                           ,(symbol-value (intern (format "%s-base01" my/current-theme)))
-                           :foreground
-                           ,(symbol-value (intern (format "%s-base0B" my/current-theme)))
-                           :weight
-                           bold)))))
-
       (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
       (setq org-log-done t)
-      (add-hook 'my/change-theme-hook 'my/set-org-todo-keyword-faces)
-    #+end_src
-
-*** Agenda files.
-
-    #+begin_src emacs-lisp
-      (setq org-agenda-files (list "~/Notes/notes.org"))
     #+end_src
 
 *** Better =org-refile=.
 
     #+begin_src emacs-lisp
-      (setq org-refile-targets '((org-agenda-files :maxlevel . 2) (my/configuration-path :maxlevel . 2)))
-      (setq org-refile-use-outline-path 'file)
-      (setq org-outline-path-complete-in-steps nil)
-      (setq org-refile-allow-creating-parent-nodes 'confirm)
+      (setq-default org-refile-targets
+                    '((org-agenda-files :maxlevel . 2)
+                      (my/configuration-path :maxlevel . 2)))
+      (setq-default org-refile-use-outline-path 'file)
+      (setq-default org-outline-path-complete-in-steps nil)
+      (setq-default org-refile-allow-creating-parent-nodes 'confirm)
     #+end_src
 
 *** Enable =evil-org=.
 
     #+begin_src emacs-lisp
       (use-package evil-org
-        :after (evil-collection org)
-        :commands evil-org-mode
-        :init
-        (add-hook 'org-mode-hook 'evil-org-mode)
+        :hook (org-mode . evil-org-mode)
         :config
         (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
         (require 'evil-org-agenda)
@@ -986,24 +834,21 @@
 
 ** =harvest=.
 
-
    #+begin_src emacs-lisp
      (use-package reaper
        :commands reaper
        :init
+       (setq-default reaper-hours-timer-mode nil)
+       (setq reaper-api-key (getenv "HARVEST_API_KEY"))
+       (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
        (leader-def
          "a h" '(reaper :which-key "harvest"))
        :config
-       (setq reaper-hours-timer-mode nil)
-       (setq reaper-api-key (getenv "HARVEST_API_KEY"))
-       (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
-
        (general-def
          :states '(normal visual)
          :keymaps 'reaper-mode-map
          "q" 'kill-buffer-and-window
          "g r" '(reaper-refresh :which-key "refresh"))
-
        (major-def
          :keymaps 'reaper-mode-map
          "d" '(reaper-goto-date :which-key "date")
@@ -1017,11 +862,11 @@
 
 * Programming languages and modes.
 
-** =dash=.
+** =undo-fu=.
 
    #+begin_src emacs-lisp
-     (use-package dash
-       :defer t)
+     (use-package undo-fu
+       :commands (undo-fu-only-redo undo-fu-only-undo))
    #+end_src
 
 ** =html=.
@@ -1033,12 +878,8 @@
        ("\\.php\\'" . web-mode))
 
      (use-package emmet-mode
-       :commands emmet-mode
-       :init
-       (add-hook 'sgml-mode-hook 'emmet-mode)
-       (add-hook 'css-mode-hook 'emmet-mode)
+       :hook (sgml-mode css-mode)
        :config
-       (emmet-preview-mode 0)
        (general-def
          :definer 'minor-mode
          :states 'insert
@@ -1046,198 +887,137 @@
          "TAB" 'emmet-expand-line))
    #+end_src
 
+** =css=.
+
+   #+begin_src emacs-lisp
+     (use-package counsel-css
+       :hook (css-mode . counsel-css-imenu-setup))
+   #+end_src
+
 ** =elm=.
 
-*** Helper functions.
+   #+begin_src emacs-lisp
+     (defun my/elm-outline-mode ()
+       "Enables outline mode for Elm files."
+       (progn
+         (outline-minor-mode)
+         (setq outline-regexp "--+\ ")))
 
-    #+begin_src emacs-lisp
-      (defun my/elm-outline-mode ()
-        "Enables outline mode for Elm files."
-        (progn
-          (outline-minor-mode)
-          (setq outline-regexp "--+\ ")))
+     ;; Override function to ignore node_modules
+     (defun elm-mode-generate-tags ()
+       "Generate a TAGS file for the current project."
+       (interactive)
+       (when (elm--has-dependency-file)
+         (let* ((default-directory (elm--find-dependency-file-path))
+                (find-command "find . -type f -name \"*.elm\" -print")
+                (exclude-command (if elm-tags-exclude-elm-stuff
+                                     (concat find-command " | egrep -v elm-stuff")
+                                   find-command))
+                (etags-command (concat
+                                exclude-command
+                                " | egrep -v node_modules"
+                                " | etags --language=none --regex=@"
+                                (shell-quote-argument elm-tags-regexps)
+                                " -")))
+           (call-process-shell-command (concat etags-command "&") nil 0))))
 
-      (defun elm-mode-generate-tags ()
-        "Generate a TAGS file for the current project."
-        (interactive)
-        (when (elm--has-dependency-file)
-          (let* ((default-directory (elm--find-dependency-file-path))
-                 (find-command "find . -type f -name \"*.elm\" -print")
-                 (exclude-command (if elm-tags-exclude-elm-stuff
-                                      (concat find-command " | egrep -v elm-stuff")
-                                    find-command))
-                 (etags-command (concat
-                                 exclude-command
-                                 " | egrep -v node_modules"
-                                 " | etags --language=none --regex=@"
-                                 (shell-quote-argument elm-tags-regexps)
-                                 " -")))
-            (call-process-shell-command (concat etags-command "&") nil 0))))
+     (defun my/elm-import ()
+       "Imports a module from prompted string."
+       (interactive)
+       (let ((statement (read-string "Import statement: " "import ")))
+         (save-excursion
+           (goto-char (point-min))
+           (if (re-search-forward "^import " nil t)
+               (beginning-of-line)
+             (forward-line 1)
+             (insert "\n"))
+           (insert (concat statement "\n"))
+           (save-buffer))))
 
-      (defun my/elm-import ()
-        "Imports a module from prompted string."
-        (interactive)
-        (let ((statement (read-string "Import statement: " "import ")))
-          (save-excursion
-            (goto-char (point-min))
-            (if (re-search-forward "^import " nil t)
-                (beginning-of-line)
-              (forward-line 1)
-              (insert "\n"))
-            (insert (concat statement "\n"))
-            (save-buffer))))
-    #+end_src
+     (use-package elm-mode
+       :commands elm-mode
+       :init
+       (setq elm-package-json "elm.json")
+       (setq elm-tags-on-save t)
+       (setq elm-tags-exclude-elm-stuff t)
+       (setq elm-format-on-save t)
+       (setq elm-imenu-use-categories nil)
+       :config
+       (remove-hook 'elm-mode-hook 'elm-indent-mode)
+       (add-hook 'elm-mode-hook 'flycheck-mode)
+       (add-hook 'elm-mode-hook 'my/elm-outline-mode)
+       (add-hook 'elm-mode-hook
+                 (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
+       (general-def
+         :states '(normal visual)
+         :keymaps 'elm-mode-map
+         "TAB" 'org-cycle
+         "<backtab>" 'org-global-cycle
+         "M-<up>" 'outline-move-subtree-up
+         "M-<down>" 'outline-move-subtree-down
+         "g k" '(outline-previous-heading :which-key "previous heading")
+         "g j" '(outline-next-heading :which-key "next heading"))
+       (major-def
+         :keymaps 'elm-mode-map
+         "i" '(my/elm-import :which-key "import")
+         "e" '(elm-expose-at-point :which-key "expose")
+         "d" '(elm-documentation-lookup :which-key "documentation")))
 
-*** Initialization.
-
-    #+begin_src emacs-lisp
-      (use-package elm-mode
-        :commands elm-mode
-        :init
-        (setq elm-package-json "elm.json")
-        (setq elm-tags-on-save t)
-        (setq elm-tags-exclude-elm-stuff t)
-        (setq elm-format-on-save t)
-        (setq elm-imenu-use-categories nil)
-        :config
-        (remove-hook 'elm-mode-hook 'elm-indent-mode)
-        (add-hook 'elm-mode-hook 'flycheck-mode)
-        (add-hook 'elm-mode-hook 'my/elm-outline-mode)
-        (add-hook 'elm-mode-hook
-                  (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
-
-        (general-def
-          :states '(normal visual)
-          :keymaps 'elm-mode-map
-          "TAB" 'org-cycle
-          "<backtab>" 'org-global-cycle
-          "M-<up>" 'outline-move-subtree-up
-          "M-<down>" 'outline-move-subtree-down
-          "g k" '(outline-previous-heading :which-key "previous heading")
-          "g j" '(outline-next-heading :which-key "next heading"))
-
-        (major-def
-          :keymaps 'elm-mode-map
-          "i" '(my/elm-import :which-key "import")
-          "e" '(elm-expose-at-point :which-key "expose")
-          "d" '(elm-documentation-lookup :which-key "documentation")))
-
-      (use-package flycheck-elm
-        :after (flycheck elm-mode)
-        :config
-        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-    #+end_src
+     (use-package flycheck-elm
+       :after elm-mode
+       :config
+       (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
+   #+end_src
 
 ** =javascript=.
 
-*** Initialization.
+   #+begin_src emacs-lisp
+     (use-package js2-mode
+       :mode ("\\.js\\'" . js2-mode)
+       :config
+       (setq js2-mode-show-parse-errors nil)
+       (setq js2-mode-show-strict-warnings nil)
+       (add-hook 'js2-mode-hook 'flycheck-mode)
+       (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
-    #+begin_src emacs-lisp
-      (use-package js2-mode
-        :mode ("\\.js\\'" . js2-mode)
-        :config
-        (setq js2-mode-show-parse-errors nil)
-        (setq js2-mode-show-strict-warnings nil)
-        (add-hook 'js2-mode-hook 'flycheck-mode)
-        (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
-    #+end_src
+     (use-package eslint-fix
+       :commands eslint-fix
+       :init
+       (add-hook 'js2-mode-hook
+                 (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
 
-*** Run =eslint fix= on file save.
-
-    #+begin_src emacs-lisp
-      (use-package eslint-fix
-        :after js2-mode
-        :commands eslint-fix
-        :init
-        (add-hook 'js2-mode-hook
-                  (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
-    #+end_src
-
-*** =node=.
-
-**** REPL.
-
-     #+begin_src emacs-lisp
-       (use-package nodejs-repl
-         :commands nodejs-repl)
-     #+end_src
+     (use-package nodejs-repl
+       :commands nodejs-repl)
+   #+end_src
 
 ** =json=.
 
-*** Helper functions.
-
-    #+begin_src emacs-lisp
-      (defun my/json-sort-setup ()
-        "Sets JSON sorting before save if requested"
-        (interactive)
-        (when (y-or-n-p "Enable JSON sorting?")
-          (add-hook 'before-save-hook 'my/json-sort-at-point nil 'local)))
-
-      (defun my/json-sort-at-point ()
-        "Sort JSON-like structure surrounding the point."
-        (interactive)
-        (let ((object-begin (nth 1 (syntax-ppss (point)))))
-          (when object-begin
-            (save-excursion
-              (goto-char object-begin)
-              (forward-list)
-              (json-pretty-print-ordered object-begin (point))
-              (indent-region object-begin (point))))))
-    #+end_src
-
-*** Initialization.
-
-    #+begin_src emacs-lisp
-      (use-package json-mode
-        :commands json-mode
-        :config
-        (setq json-encoding-default-indentation "    ")
-        (add-hook 'json-mode-hook 'my/json-sort-setup)
-        (major-def
-          :keymaps 'json-mode-map
-          "p" '(json-mode-show-path :which-key "path")))
-    #+end_src
-
-** =eshell=.
-
    #+begin_src emacs-lisp
-     (advice-add 'ansi-color-apply-on-region :before 'my/ansi-color-apply-on-region)
+     (defun my/json-sort-setup ()
+       "Sets JSON sorting before save if requested"
+       (interactive)
+       (when (y-or-n-p "Enable JSON sorting?")
+         (add-hook 'before-save-hook 'my/json-sort-at-point nil 'local)))
 
-     (defun my/ansi-color-apply-on-region (begin end)
-       "Fix progress bars for e.g. apt(8). Display progress in the mode line instead."
-       (let ((end-marker (copy-marker end)) mb)
-         (save-excursion
-           (goto-char (copy-marker begin))
-           (while (re-search-forward "\0337" end-marker t)
-             (setq mb (match-beginning 0))
-             (when (re-search-forward "\0338" end-marker t)
-               (let ((progress (buffer-substring-no-properties
-                                (+ mb 2) (- (point) 2))))
-                 (delete-region mb (point))
-                 (my/apt-progress-message progress)))))))
+     (defun my/json-sort-at-point ()
+       "Sort JSON-like structure surrounding the point."
+       (interactive)
+       (let ((object-begin (nth 1 (syntax-ppss (point)))))
+         (when object-begin
+           (save-excursion
+             (goto-char object-begin)
+             (forward-list)
+             (json-pretty-print-ordered object-begin (point))
+             (indent-region object-begin (point))))))
 
-     (defun my/apt-progress-message (progress)
-       (message
-        (replace-regexp-in-string
-         "%" "%%"
-         (ansi-color-apply progress))))
-
-     (add-hook 'eshell-mode-hook
-               (lambda () (general-def
-                            :keymaps 'eshell-mode-map
-                            :states '(normal visual insert)
-                            "C-j" 'eshell-next-input
-                            "C-k" 'eshell-previous-input)))
-   #+end_src
-
-** =guix=.
-
-   #+begin_src emacs-lisp
-     (use-package guix
-       :commands guix
-       :init
-       (leader-def
-         "a g" '(guix :which-key "guix")))
+     (use-package json-mode
+       :commands json-mode
+       :config
+       (setq json-encoding-default-indentation "    ")
+       (add-hook 'json-mode-hook 'my/json-sort-setup)
+       (major-def
+         :keymaps 'json-mode-map
+         "p" '(json-mode-show-path :which-key "path")))
    #+end_src
 
 ** =nix=.
@@ -1247,12 +1027,10 @@
        :mode "\\.nix\\'")
 
      (use-package nixpkgs-fmt
-       :after nix-mode
-       :config
-       (add-hook 'nix-mode-hook 'nixpkgs-fmt-on-save-mode))
+       :hook (nix-mode . nixpkgs-fmt-on-save-mode))
 
      (use-package company-nixos-options
-       :after (nix-mode nixos-options)
+       :after nix-mode
        :config
        (add-to-list 'company-backends 'company-nixos-options))
    #+end_src
@@ -1262,13 +1040,6 @@
    #+begin_src emacs-lisp
      (use-package yaml-mode
        :mode "\\.yaml\\'")
-   #+end_src
-
-** =vagrant=.
-
-   #+begin_src emacs-lisp
-     (use-package vagrant
-       :defer t)
    #+end_src
 
 ** =extempore=.
@@ -1286,60 +1057,46 @@
    #+begin_src emacs-lisp
      (use-package go-mode
        :commands go-mode
-       :init
+       :config
        (add-hook 'go-mode-hook
                  (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
 
      (use-package flycheck-golangci-lint
-       :after go-mode
        :hook (go-mode . flycheck-golangci-lint-setup))
    #+end_src
 
 ** =lsp=.
 
-*** Initialization.
+   #+begin_src emacs-lisp
+     (use-package lsp-mode
+       :hook
+       (elm-mode . lsp-deferred)
+       (lsp-mode . lsp-enable-which-key-integration)
+       :config
+       (setq lsp-headerline-breadcrumb-enable nil)
+       (setq lsp-completion-enable nil)
+       (setq lsp-completion-show-detail nil)
+       (setq lsp-completion-show-kind nil)
+       (setq lsp-enable-file-watchers nil)
+       (setq lsp-enable-imenu nil)
+       (setq lsp-imenu-show-container-name nil)
+       (setq lsp-idle-delay 0)
+       (setq-default lsp-diagnostics-disabled-modes '(elm-mode)))
 
-    #+begin_src emacs-lisp
-      (use-package lsp-mode
-        :commands (lsp lsp-deffered)
-        :hook
-        (elm-mode . lsp-deferred)
-        (lsp-mode . lsp-enable-which-key-integration)
-        :config
-        (setq lsp-headerline-breadcrumb-enable nil)
-        (setq lsp-enable-completion-at-point nil)
-        (setq lsp-completion-show-detail nil)
-        (setq lsp-completion-show-kind nil)
-        (setq lsp-enable-file-watchers nil)
-        (setq lsp-enable-imenu nil)
-        (setq lsp-imenu-show-container-name nil)
-        (setq lsp-diagnostics-disabled-modes '(elm-mode))
-        (setq lsp-idle-delay 0))
-    #+end_src
+     (use-package lsp-ivy
+       :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol))
 
-*** Ivy integration.
-
-    #+begin_src emacs-lisp
-      (use-package lsp-ivy
-        :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol))
-    #+end_src
-
-*** Treemacs integration.
-
-    #+begin_src emacs-lisp
-      (use-package lsp-treemacs
-        :commands lsp-treemacs-errors-list
-        :init
-        (lsp-treemacs-sync-mode t))
-    #+end_src
+     (use-package lsp-treemacs
+       :commands lsp-treemacs-errors-list
+       :config
+       (lsp-treemacs-sync-mode t))
+   #+end_src
 
 ** =smartparens=.
 
    #+begin_src emacs-lisp
      (use-package smartparens
-       :commands smartparens-mode
-       :init
-       (add-hook 'prog-mode-hook 'smartparens-mode)
+       :hook (prog-mode . smartparens-mode)
        :config
        (require 'smartparens-config))
    #+end_src
@@ -1348,9 +1105,7 @@
 
    #+begin_src emacs-lisp
      (use-package envrc
-       :commands envrc-mode
-       :init
-       (add-hook 'prog-mode-hook 'envrc-mode))
+       :hook (prog-mode . envrc-mode))
    #+end_src
 
 ** =jenkins=.
@@ -1387,59 +1142,53 @@
 
 ** =vterm=.
 
-*** Helper functions.
+   #+begin_src emacs-lisp
+     (defun my/terminal ()
+       "Starts terminal using projectile if possible."
+       (interactive)
+       (if (projectile-project-p)
+           (projectile-run-vterm nil)
+         (vterm)))
 
-    #+begin_src emacs-lisp
-      (defun my/terminal ()
-        "Starts terminal using projectile if possible."
-        (interactive)
-        (if (projectile-project-p)
-            (projectile-run-vterm nil)
-          (vterm)))
+     (defun copy-from-osx ()
+       "Copies content of clipboard from MacOS to Emacs"
+       (interactive)
+       (vterm-insert (shell-command-to-string "pbpaste")))
 
-      (defun copy-from-osx ()
-        "Copies content of clipboard from MacOS to Emacs"
-        (interactive)
-        (vterm-insert (shell-command-to-string "pbpaste")))
-    #+end_src
-
-*** Initialization.
-
-    #+begin_src emacs-lisp
-      (use-package vterm
-        :commands vterm
-        :init
-        (leader-def
-          "a t" '(my/terminal :which-key "terminal"))
-        :config
-        (general-def
-          :keymaps 'vterm-mode-map
-          [remap xterm-paste] 'copy-from-osx
-          [remap yank] 'copy-from-osx
-          [remap vterm-yank] 'copy-from-osx)
-        (general-def
-          :states '(normal visual)
-          :keymaps 'vterm-mode-map
-          ;; up
-          "M-O A" 'evil-previous-line
-          ;; down
-          "M-O B" 'evil-next-line
-          ;; left
-          "M-O C" 'evil-backward-char
-          ;; right
-          "M-O D" 'evil-forward-char)
-        (general-def
-          :states 'insert
-          :keymaps 'vterm-mode-map
-          ;; up
-          "M-O A" 'vterm-send-up
-          ;; down
-          "M-O B" 'vterm-send-down
-          ;; left
-          "M-O C" 'vterm-send-left
-          ;; right
-          "M-O D" 'vterm-send-right))
-    #+end_src
+     (use-package vterm
+       :commands vterm
+       :init
+       (leader-def
+         "a t" '(my/terminal :which-key "terminal"))
+       :config
+       (general-def
+         :keymaps 'vterm-mode-map
+         [remap xterm-paste] 'copy-from-osx
+         [remap yank] 'copy-from-osx
+         [remap vterm-yank] 'copy-from-osx)
+       (general-def
+         :states '(normal visual)
+         :keymaps 'vterm-mode-map
+         ;; up
+         "M-O A" 'evil-previous-line
+         ;; down
+         "M-O B" 'evil-next-line
+         ;; left
+         "M-O C" 'evil-backward-char
+         ;; right
+         "M-O D" 'evil-forward-char)
+       (general-def
+         :states 'insert
+         :keymaps 'vterm-mode-map
+         ;; up
+         "M-O A" 'vterm-send-up
+         ;; down
+         "M-O B" 'vterm-send-down
+         ;; left
+         "M-O C" 'vterm-send-left
+         ;; right
+         "M-O D" 'vterm-send-right))
+   #+end_src
 
 ** =csv/tsv=.
 
@@ -1487,7 +1236,7 @@
          "u" '(elfeed-update :which-key "update")))
 
      (use-package elfeed-org
-       :after (elfeed org)
+       :after elfeed
        :init
        (setq rmh-elfeed-org-files (list "~/Notes/rss.org"))
        :config
@@ -1500,42 +1249,37 @@
      (leader-def
        "a i" '(rcirc :which-key "IRC"))
 
+     (major-def
+       :keymaps 'rcirc-mode-map
+       "j" '(rcirc-cmd-join :which-key "join"))
+
      (add-hook 'rcirc-mode-hook
-               (lambda ()
-                 (evil-set-initial-state 'rcirc-mode 'normal)
-                 (major-def
-                   :keymaps 'rcirc-mode-map
-                   "j" '(rcirc-cmd-join :which-key "join"))))
+               (lambda () (evil-set-initial-state 'rcirc-mode 'normal)))
    #+end_src
 
 ** VPN.
 
-*** Helper functions.
+   #+begin_src emacs-lisp
+     (defconst my/vpn-conf (expand-file-name "~/vpn/do.ovpn"))
 
-    #+begin_src emacs-lisp
-      (defconst my/vpn-conf (expand-file-name "~/vpn/do.ovpn"))
+     (defun my/connect-vpn ()
+       "Connects to VPN"
+       (interactive)
+       (ovpn-mode-start-vpn-conf my/vpn-conf))
 
-      (defun my/connect-vpn ()
-        "Connects to VPN"
-        (interactive)
-        (ovpn-mode-start-vpn-conf my/vpn-conf))
+     (defun my/disconnect-vpn ()
+       "Disconnects from VPN"
+       (interactive)
+       (ovpn-mode-stop-vpn-conf my/vpn-conf))
 
-      (defun my/disconnect-vpn ()
-        "Disconnects from VPN"
-        (interactive)
-        (ovpn-mode-stop-vpn-conf my/vpn-conf))
-    #+end_src
-
-*** Initialization.
-
-    #+begin_src emacs-lisp
-      (use-package ovpn-mode
-        :init
-        (leader-def
-          "a v" '(:ignore t :which-key "vpn")
-          "a v c" '(my/connect-vpn :which-key "connect")
-          "a v d" '(my/disconnect-vpn :which-key "disconnect")))
-    #+end_src
+     (use-package ovpn-mode
+       :commands (ovpn-mode-start-vpn-conf ovpn-mode-start-vpn-conf)
+       :init
+       (leader-def
+         "a v" '(:ignore t :which-key "vpn")
+         "a v c" '(my/connect-vpn :which-key "connect")
+         "a v d" '(my/disconnect-vpn :which-key "disconnect")))
+   #+end_src
 
 ** Transmission.
 
@@ -1589,19 +1333,27 @@
 
    #+begin_src emacs-lisp
      (use-package which-key
-       :config
-       (which-key-mode 1))
+       :hook (emacs-startup . which-key-mode))
    #+end_src
 
 ** =helpful= provides *Help* buffer on steroids.
 
    #+begin_src emacs-lisp
      (use-package helpful
-       :defer t
+       :commands
+       (helpful-symbol
+        helpful-key
+        helpful-at-point
+        helpful-callable
+        helpful-variable)
        :init
+       (leader-def
+         "h s" '(helpful-symbol :which-key "describe symbol")
+         "h k" '(helpful-key :which-key "describe key")
+         "h p" '(helpful-at-point :which-key "at point"))
+       :config
        (setq counsel-describe-function-function 'helpful-callable)
        (setq counsel-describe-variable-function 'helpful-variable)
-       :config
        (general-def
          :states '(normal visual)
          :keymaps 'helpful-mode-map
@@ -1627,9 +1379,10 @@
      (use-package counsel-dash
        :commands counsel-dash
        :init
-       (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash"))
        (leader-def
-         "a d" '(counsel-dash :which-key "dash")))
+         "a d" '(counsel-dash :which-key "dash"))
+       :config
+       (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash")))
    #+end_src
 
 ** Thesaurus synonyms/antonyms.

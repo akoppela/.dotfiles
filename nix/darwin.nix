@@ -169,7 +169,7 @@ in
 
       programs.emacs = {
         enable = true;
-        package = pkgs.emacsMacport;
+        package = pkgs.emacs-nox;
         extraPackages = epkgs: [
           epkgs.vterm
         ];

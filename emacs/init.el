@@ -1,13 +1,6 @@
-(defconst my/configuration-path (expand-file-name "~/.dotfiles/emacs/configuration.org"))
+(defconst my/configuration-org "~/.dotfiles/emacs/configuration.org")
+(defconst my/configuration-el "~/.dotfiles/emacs/configuration.el")
 
-(defun my/open-configuration ()
-  "Opens emacs configuration."
-  (interactive)
-  (find-file my/configuration-path))
-
-(defun my/load-configuration ()
-  "Loads/reloads emacs configuration at runtime."
-  (interactive)
-  (org-babel-load-file my/configuration-path))
-
-(my/load-configuration)
+(if (file-exists-p my/configuration-el)
+  (load-file my/configuration-el)
+  (org-babel-load-file my/configuration-org))
