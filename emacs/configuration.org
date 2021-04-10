@@ -169,7 +169,7 @@
      (add-hook 'org-mode-hook 'flyspell-mode)
    #+end_src
 
-** Narrow defaults
+** Narrow
 
    #+begin_src emacs-lisp
      (put 'narrow-to-region 'disabled nil)
