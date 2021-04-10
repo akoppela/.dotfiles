@@ -2,16 +2,16 @@
 #+author: Andrey Koppel (akoppela)
 #+email: akoppela@gmail.com
 
-* Defaults.
+* Defaults
 
-** Personal info.
+** Personal info
 
    #+begin_src emacs-lisp
      (setq user-full-name "Andrey Koppel")
      (setq user-mail-address "akoppela@gmail.com")
    #+end_src
 
-** Increase garbage collection threshold before startup.
+** Increase garbage collection threshold before startup
 
    #+begin_src emacs-lisp
      (defvar last-file-name-handler-alist file-name-handler-alist)
@@ -26,7 +26,7 @@
                  (setq file-name-handler-alist last-file-name-handler-alist)))
    #+end_src
 
-** Measure startup time.
+** Measure startup time
 
    #+begin_src emacs-lisp
      (add-hook 'emacs-startup-hook
@@ -38,7 +38,7 @@
                           gcs-done)))
    #+end_src
 
-** Tangle configuration on save.
+** Tangle configuration on save
 
    #+begin_src emacs-lisp
      (defun my/tangle-configuration ()
@@ -54,106 +54,101 @@
        (find-file my/configuration-org))
    #+end_src
 
-** Setup encoding to UTF-8.
+** Setup encoding to UTF-8
 
    #+begin_src emacs-lisp
      (setq coding-system-for-read 'utf-8)
      (setq coding-system-for-write 'utf-8)
    #+end_src
 
-** Start with users home directory by default.
+** Start with users home directory by default
 
    #+begin_src emacs-lisp
      (setq default-directory "~/")
    #+end_src
 
-** Increase read process output.
+** Increase read process output
 
    #+begin_src emacs-lisp
      (setq read-process-output-max (* 1024 1024 5))
    #+end_src
 
-** Delete trailing whitespace everytime buffer is saved.
+** Delete trailing whitespace everytime buffer is saved
 
    #+begin_src emacs-lisp
      (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+end_src
 
-** Always follow symlinks when opening a file.
+** Always follow symlinks when opening a file
 
    #+begin_src emacs-lisp
      (setq vc-follow-symlinks t)
    #+end_src
 
-** Make sure sentenses does not have two spaces after periods.
+** Make sure sentenses does not have two spaces after periods
 
    #+begin_src emacs-lisp
      (setq-default sentense-end-double-space nil)
    #+end_src
 
-** Ask before closing Emacs.
+** Ask before closing Emacs
 
    #+begin_src emacs-lisp
      (setq confirm-kill-emacs 'y-or-n-p)
    #+end_src
 
-** Set backup files directory.
+** Set backup and auto save files directory
 
    #+begin_src emacs-lisp
      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-   #+end_src
-
-** Set auto save files directory.
-
-   #+begin_src emacs-lisp
      (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
    #+end_src
 
-** Shorten yes/no answers.
+** Shorten yes/no answers
 
    #+begin_src emacs-lisp
      (defalias 'yes-or-no-p 'y-or-n-p)
    #+end_src
 
-** Do not add newline at the end of a file.
+** Do not add newline at the end of a file
 
    #+begin_src emacs-lisp
      (setq require-final-newline nil)
      (setq mode-require-final-newline nil)
    #+end_src
 
-** Set =Firefox= as default browser.
+** Set =Firefox= as default browser
 
    #+begin_src emacs-lisp
      (setq browse-url-browser-function 'browse-url-firefox)
      (setq browse-url-firefox-new-window-is-tab t)
    #+end_src
 
-** Revert TAGS file without asking.
+** Revert TAGS file without asking
 
    #+begin_src emacs-lisp
      (setq-default tags-revert-without-query t)
    #+end_src
 
-** Automatically rescan =imenu=.
+** Automatically rescan =imenu=
 
    #+begin_src emacs-lisp
      (setq-default imenu-auto-rescan t)
    #+end_src
 
-** Do not lock files.
+** Do not lock files
 
    #+begin_src emacs-lisp
      (setq create-lockfiles nil)
    #+end_src
 
-** Custom file.
+** Do not create custom file
 
    #+begin_src emacs-lisp
      (setq custom-file "/dev/null")
    #+end_src
 
-** Paste to MacOS clipboard.
+** Paste to MacOS clipboard
 
    #+begin_src emacs-lisp
      (defun paste-to-osx (text)
@@ -166,7 +161,7 @@
      (setq interprogram-cut-function 'paste-to-osx)
    #+end_src
 
-** =flyspell= spell checking.
+** =flyspell=
 
    #+begin_src emacs-lisp
      (add-hook 'text-mode-hook 'flyspell-mode)
@@ -174,16 +169,16 @@
      (add-hook 'org-mode-hook 'flyspell-mode)
    #+end_src
 
-** Narrow.
+** Narrow defaults
 
    #+begin_src emacs-lisp
      (put 'narrow-to-region 'disabled nil)
      (put 'narrow-to-page 'disabled nil)
    #+end_src
 
-* Package management.
+* Package management
 
-** Initialize =package.el= and include Org, Gnu and Melpa package archives.
+** Initialize =package.el= and include Org, Gnu and Melpa package archives
 
    #+begin_src emacs-lisp
      (setq package-enable-at-startup nil)
@@ -192,7 +187,7 @@
                               ("melpa" . "https://melpa.org/packages/")))
    #+end_src
 
-** Make sure =use-package= is installed.
+** Make sure =use-package= is installed
 
    #+BEGIN_SRC emacs-lisp
      (unless (package-installed-p 'use-package)
@@ -200,23 +195,23 @@
        (package-install 'use-package))
    #+END_SRC
 
-** Make sure packages are always installed.
+** Make sure packages are always installed
 
    #+begin_src emacs-lisp
      (require 'use-package-ensure)
      (setq use-package-always-ensure t)
    #+end_src
 
-* Keybindings.
+* Keybindings
 
-** =hydra=.
+** =hydra=
 
    #+begin_src emacs-lisp
      (use-package hydra
        :defer t)
    #+end_src
 
-** =general=.
+** =general=
 
    #+begin_src emacs-lisp
      (defhydra my/hydra-window-resize ()
@@ -337,7 +332,7 @@
          "q" 'kill-buffer-and-window))
    #+end_src
 
-** =evil=.
+** =evil=
 
    #+begin_src emacs-lisp
      (use-package evil
@@ -386,15 +381,15 @@
        (global-anzu-mode 1))
    #+end_src
 
-* Appearance.
+* Appearance
 
-** Hide default Emacs screen.
+** Hide default Emacs screen
 
    #+begin_src emacs-lisp
      (setq inhibit-startup-screen t)
    #+end_src
 
-** Load custom theme.
+** Load custom theme
 
    #+begin_src emacs-lisp
      (use-package color-theme-sanityinc-tomorrow
@@ -403,14 +398,14 @@
        (load-theme 'sanityinc-tomorrow-akoppela t))
    #+end_src
 
-** =modeline= specific.
+** =modeline= specific
 
    #+begin_src emacs-lisp
      (use-package doom-modeline
        :config (doom-modeline-mode 1))
    #+end_src
 
-** Hide menu, tool and scroll bars.
+** Hide menu, tool and scroll bars
 
    #+begin_src emacs-lisp
      (tool-bar-mode 0)
@@ -418,32 +413,32 @@
      (menu-bar-mode (if (display-graphic-p) 1 0))
    #+end_src
 
-** Enable current line highlighting.
+** Enable current line highlighting
 
    #+begin_src emacs-lisp
      (global-hl-line-mode 1)
    #+end_src
 
-** Turn on syntax highlighting whenever possible.
+** Turn on syntax highlighting whenever possible
 
    #+begin_src emacs-lisp
      (global-font-lock-mode 1)
    #+end_src
 
-** Visually indicate matching parentheses.
+** Visually indicate matching parentheses
 
    #+begin_src emacs-lisp
      (show-paren-mode 1)
      (setq-default show-paren-delay 0.0)
    #+end_src
 
-** Flash screen on invalid operation.
+** Flash screen on invalid operation
 
    #+begin_src emacs-lisp
      (setq visible-bell t)
    #+end_src
 
-** Display visual line numbers.
+** Display visual line numbers
 
    Visual lines are relative screen lines.
 
@@ -459,26 +454,26 @@
      (setq-default indent-tabs-mode nil)
    #+end_src
 
-** Use 4 spaces for tabs.
+** Use 4 spaces for tabs
 
    #+begin_src emacs-lisp
      (setq-default tab-width 4)
    #+end_src
 
-** Smooth scroll.
+** Smooth scroll
 
    #+begin_src emacs-lisp
      (setq scroll-conservatively 100)
    #+end_src
 
-** Center cursor vertically.
+** Center cursor vertically
 
    #+begin_src emacs-lisp
      (use-package centered-cursor-mode
        :hook (prog-mode org-mode))
    #+end_src
 
-** Buffer list grouping.
+** Buffer list grouping
 
    #+begin_src emacs-lisp
      (use-package ibuffer-vc
@@ -498,16 +493,16 @@
                      vc-relative-file))))
    #+end_src
 
-** Show visual indicator for column rule.
+** Show visual indicator for column rule
 
    #+begin_src emacs-lisp
      (setq-default display-fill-column-indicator-column 80)
      (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
    #+end_src
 
-* Navigation, search and completion.
+* Navigation, search and completion
 
-** =counsel= completion framework.
+** =counsel= completion framework
 
    #+begin_src emacs-lisp
      (use-package ivy
@@ -549,14 +544,14 @@
        (ivy-mode 1))
    #+end_src
 
-** =wgrep= to edit search.
+** =wgrep= to edit search
 
    #+begin_src emacs-lisp
      (use-package wgrep
        :commands ivy-wgrep-change-to-wgrep-mode)
    #+end_src
 
-** =treemacs= file explorer.
+** =treemacs= file explorer
 
    #+begin_src emacs-lisp
      (use-package treemacs
@@ -572,7 +567,7 @@
        :after treemacs)
    #+end_src
 
-** =company= enables auto-completion.
+** =company= enables auto-completion
 
    #+begin_src emacs-lisp
      (defun my/company-complete-common-or-cycle-backward ()
@@ -595,7 +590,7 @@
          "<backtab>" 'my/company-complete-common-or-cycle-backward))
    #+end_src
 
-** =flycheck= checks syntax.
+** =flycheck= checks syntax
 
    #+begin_src emacs-lisp
      (use-package flycheck
@@ -610,7 +605,7 @@
          "e l" '(flycheck-list-errors :which-key "list")))
    #+end_src
 
-** =ace-window=.
+** =ace-window=
 
    #+begin_src emacs-lisp
      (use-package ace-window
@@ -620,7 +615,7 @@
          "w a" '(ace-window :which-key "ace")))
    #+end_src
 
-** =avy=.
+** =avy=
 
    #+Begin_src emacs-lisp
      (use-package avy
@@ -631,7 +626,7 @@
          "j w" '(avy-goto-word-1 :which-key "word")))
    #+end_src
 
-** =engine-mode= to search on the web.
+** =engine-mode= to search on the web
 
    #+begin_src emacs-lisp
      (use-package engine-mode
@@ -646,9 +641,9 @@
          "s w" '(engine/search-wikipedia :which-key "wiki")))
    #+end_src
 
-* Project, time and task management.
+* Project, time and task management
 
-** =session=.
+** =session=
 
    Make sessions persistent.
 
@@ -660,7 +655,7 @@
        (setq session-save-file-coding-system 'utf-8))
    #+end_src
 
-** =projectile=.
+** =projectile=
 
    #+begin_src emacs-lisp
      (defun my/counsel-projectile-rg ()
@@ -700,7 +695,7 @@
        (counsel-projectile-mode 1))
    #+end_src
 
-** =magit=.
+** =magit=
 
    #+begin_src emacs-lisp
      (use-package magit
@@ -726,9 +721,9 @@
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
    #+end_src
 
-** =org-mode=.
+** =org-mode=
 
-*** Keybindings.
+*** Keybindings
 
     #+begin_src emacs-lisp
       (defun my/open-notes ()
@@ -757,45 +752,45 @@
         "s r" '(org-refile :which-key "refile"))
     #+end_src
 
-*** Agenda files.
+*** Agenda files
 
     #+begin_src emacs-lisp
       (setq org-agenda-files (list "~/Notes/notes.org"))
     #+end_src
 
-*** Show bullets instead of stars.
+*** Show bullets instead of stars
 
     #+begin_src emacs-lisp
       (use-package org-bullets
         :hook (org-mode . org-bullets-mode))
     #+end_src
 
-*** Hide leading stars.
+*** Hide leading stars
 
     #+begin_src emacs-lisp
       (setq org-hide-leading-stars t)
     #+end_src
 
-*** Change collapsed subtree symbol.
+*** Change collapsed subtree symbol
 
     #+begin_src emacs-lisp
       (setq org-ellipsis " ↴")
     #+end_src
 
-*** Make TAB act natively for code blocks.
+*** Make TAB act natively for code blocks
 
     #+begin_src emacs-lisp
       (setq org-src-tab-acts-natively t)
     #+end_src
 
-*** Custom TODO keywords.
+*** Custom TODO keywords
 
     #+begin_src emacs-lisp
       (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
       (setq org-log-done t)
     #+end_src
 
-*** Better =org-refile=.
+*** Better =org-refile=
 
     #+begin_src emacs-lisp
       (setq-default org-refile-targets
@@ -806,7 +801,7 @@
       (setq-default org-refile-allow-creating-parent-nodes 'confirm)
     #+end_src
 
-*** Enable =evil-org=.
+*** Enable =evil-org=
 
     #+begin_src emacs-lisp
       (use-package evil-org
@@ -817,7 +812,7 @@
         (evil-org-agenda-set-keys))
     #+end_src
 
-*** Presentations with =ox-reveal=.
+*** Presentations with =ox-reveal=
 
     #+begin_src emacs-lisp
       (use-package ox-reveal
@@ -826,13 +821,13 @@
         (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
     #+end_src
 
-*** Allow bind keywords for export.
+*** Allow bind keywords for export
 
     #+begin_src emacs-lisp
       (setq org-export-allow-bind-keywords t)
     #+end_src
 
-** =harvest=.
+** =harvest=
 
    #+begin_src emacs-lisp
      (use-package reaper
@@ -860,16 +855,16 @@
          "x" '(reaper-delete-entry :which-key "delete")))
    #+end_src
 
-* Programming languages and modes.
+* Programming languages and modes
 
-** =undo-fu=.
+** =undo-fu=
 
    #+begin_src emacs-lisp
      (use-package undo-fu
        :commands (undo-fu-only-redo undo-fu-only-undo))
    #+end_src
 
-** =html=.
+** =html=
 
    #+begin_src emacs-lisp
      (use-package web-mode
@@ -887,14 +882,14 @@
          "TAB" 'emmet-expand-line))
    #+end_src
 
-** =css=.
+** =css=
 
    #+begin_src emacs-lisp
      (use-package counsel-css
        :hook (css-mode . counsel-css-imenu-setup))
    #+end_src
 
-** =elm=.
+** =elm=
 
    #+begin_src emacs-lisp
      (defun my/elm-outline-mode ()
@@ -969,7 +964,7 @@
        (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
    #+end_src
 
-** =javascript=.
+** =javascript=
 
    #+begin_src emacs-lisp
      (use-package js2-mode
@@ -990,7 +985,7 @@
        :commands nodejs-repl)
    #+end_src
 
-** =json=.
+** =json=
 
    #+begin_src emacs-lisp
      (defun my/json-sort-setup ()
@@ -1020,7 +1015,7 @@
          "p" '(json-mode-show-path :which-key "path")))
    #+end_src
 
-** =nix=.
+** =nix=
 
    #+begin_src emacs-lisp
      (use-package nix-mode
@@ -1035,14 +1030,14 @@
        (add-to-list 'company-backends 'company-nixos-options))
    #+end_src
 
-** =yaml=.
+** =yaml=
 
    #+begin_src emacs-lisp
      (use-package yaml-mode
        :mode "\\.yaml\\'")
    #+end_src
 
-** =extempore=.
+** =extempore=
 
    #+begin_src emacs-lisp
      (use-package extempore-mode
@@ -1052,7 +1047,7 @@
          (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
    #+end_src
 
-** =go=.
+** =go=
 
    #+begin_src emacs-lisp
      (use-package go-mode
@@ -1065,7 +1060,7 @@
        :hook (go-mode . flycheck-golangci-lint-setup))
    #+end_src
 
-** =lsp=.
+** =lsp=
 
    #+begin_src emacs-lisp
      (use-package lsp-mode
@@ -1092,7 +1087,7 @@
        (lsp-treemacs-sync-mode t))
    #+end_src
 
-** =smartparens=.
+** =smartparens=
 
    #+begin_src emacs-lisp
      (use-package smartparens
@@ -1101,14 +1096,14 @@
        (require 'smartparens-config))
    #+end_src
 
-** =direnv=.
+** =direnv=
 
    #+begin_src emacs-lisp
      (use-package envrc
        :hook (prog-mode . envrc-mode))
    #+end_src
 
-** =jenkins=.
+** =jenkins=
 
    #+begin_src emacs-lisp
      (use-package jenkins
@@ -1140,7 +1135,7 @@
        (setq jenkins-username "akoppela"))
    #+end_src
 
-** =vterm=.
+** =vterm=
 
    #+begin_src emacs-lisp
      (defun my/terminal ()
@@ -1190,14 +1185,14 @@
          "M-O D" 'vterm-send-right))
    #+end_src
 
-** =csv/tsv=.
+** =csv/tsv=
 
    #+begin_src emacs-lisp
      (use-package csv-mode
        :commands (csv-mode tsv-mode))
    #+end_src
 
-** =docker=.
+** =docker=
 
    #+begin_src emacs-lisp
      (use-package docker
@@ -1210,7 +1205,7 @@
        :defer t)
    #+end_src
 
-** =vlf=.
+** =vlf=
 
    Open large files with =vlf=.
 
@@ -1221,9 +1216,9 @@
        (require 'vlf-setup))
    #+end_src
 
-* Communication and connection.
+* Communication and connection
 
-** RSS reader.
+** RSS reader
 
    #+begin_src emacs-lisp
      (use-package elfeed
@@ -1243,7 +1238,7 @@
        (elfeed-org))
    #+end_src
 
-** IRC.
+** IRC
 
    #+begin_src emacs-lisp
      (leader-def
@@ -1257,7 +1252,7 @@
                (lambda () (evil-set-initial-state 'rcirc-mode 'normal)))
    #+end_src
 
-** VPN.
+** VPN
 
    #+begin_src emacs-lisp
      (defconst my/vpn-conf (expand-file-name "~/vpn/do.ovpn"))
@@ -1281,7 +1276,7 @@
          "a v d" '(my/disconnect-vpn :which-key "disconnect")))
    #+end_src
 
-** Transmission.
+** Transmission
 
    #+begin_src emacs-lisp
      (use-package transmission
@@ -1294,7 +1289,7 @@
          "a T" '(transmission :which-key "transmission")))
    #+end_src
 
-** Slack.
+** Slack
 
    #+begin_src emacs-lisp
      (use-package slack
@@ -1327,16 +1322,16 @@
         :modeline-enabled t))
    #+end_src
 
-* Help.
+* Help
 
-** =which-key= shows all available keybindings in a popup.
+** =which-key= shows all available keybindings in a popup
 
    #+begin_src emacs-lisp
      (use-package which-key
        :hook (emacs-startup . which-key-mode))
    #+end_src
 
-** =helpful= provides *Help* buffer on steroids.
+** =helpful= provides *Help* buffer on steroids
 
    #+begin_src emacs-lisp
      (use-package helpful
@@ -1360,20 +1355,20 @@
          "q" 'kill-buffer-and-window))
    #+end_src
 
-** Select help window when open.
+** Select help window when open
 
    #+begin_src emacs-lisp
      (setq help-window-select t)
    #+end_src
 
-** Display =apropos= buffer in same window.
+** Display =apropos= buffer in same window
 
    #+begin_src emacs-lisp
      (add-to-list 'display-buffer-alist
                   '("*Apropos*" display-buffer-same-window))
    #+end_src
 
-** =dash= documentation.
+** =dash= documentation
 
    #+begin_src emacs-lisp
      (use-package counsel-dash
@@ -1385,7 +1380,7 @@
        (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash")))
    #+end_src
 
-** Thesaurus synonyms/antonyms.
+** Thesaurus synonyms/antonyms
 
    #+begin_src emacs-lisp
      (use-package synosaurus
