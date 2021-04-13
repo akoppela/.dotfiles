@@ -1026,11 +1026,6 @@
 
      (use-package nixpkgs-fmt
        :hook (nix-mode . nixpkgs-fmt-on-save-mode))
-
-     (use-package company-nixos-options
-       :after nix-mode
-       :config
-       (add-to-list 'company-backends 'company-nixos-options))
    #+end_src
 
 ** =yaml=
