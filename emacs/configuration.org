@@ -182,9 +182,9 @@
 
    #+begin_src emacs-lisp
      (setq package-enable-at-startup nil)
-     (setq package-archives '(("org" . "https://orgmode.org/elpa/")
-                              ("gnu" . "https://elpa.gnu.org/packages/")
-                              ("melpa" . "https://melpa.org/packages/")))
+     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                              ("melpa" . "https://melpa.org/packages/")
+                              ("melpa-stable" . "https://stable.melpa.org/packages/")))
    #+end_src
 
 ** Make sure =use-package= is installed
