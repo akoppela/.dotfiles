@@ -787,10 +787,9 @@
       (setq org-src-tab-acts-natively t)
     #+end_src
 
-*** Custom TODO keywords
+*** Log TODO's done progress
 
     #+begin_src emacs-lisp
-      (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE")))
       (setq org-log-done t)
     #+end_src
 
