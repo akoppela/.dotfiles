@@ -1380,7 +1380,9 @@
 
    #+begin_src emacs-lisp
      (use-package which-key
-       :hook (emacs-startup . which-key-mode))
+       :defer 2
+       :config
+       (which-key-mode))
    #+end_src
 
 ** =helpful= provides *Help* buffer on steroids
