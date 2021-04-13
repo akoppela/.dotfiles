@@ -177,10 +177,11 @@ in
           epkgs.vterm
         ];
       };
-      home.file.".emacs.d" = {
-        recursive = true;
-        source = ../emacs;
-      };
+      home.activation.linkEmacsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if [ ! -e $HOME/.emacs.d ]; then
+          $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
+        fi
+      '';
 
       programs.git = {
         enable = true;
