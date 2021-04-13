@@ -1396,13 +1396,13 @@
         helpful-callable
         helpful-variable)
        :init
+       (setq counsel-describe-function-function 'helpful-callable)
+       (setq counsel-describe-variable-function 'helpful-variable)
        (leader-def
          "h s" '(helpful-symbol :which-key "describe symbol")
          "h k" '(helpful-key :which-key "describe key")
          "h p" '(helpful-at-point :which-key "at point"))
        :config
-       (setq counsel-describe-function-function 'helpful-callable)
-       (setq counsel-describe-variable-function 'helpful-variable)
        (general-def
          :states '(normal visual)
          :keymaps 'helpful-mode-map
