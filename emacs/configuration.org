@@ -677,7 +677,8 @@
        (counsel-projectile-rg
         counsel-projectile-find-file
         counsel-projectile-switch-project
-        counsel-projectile-switch-to-buffer)
+        counsel-projectile-switch-to-buffer
+        projectile-project-p)
        :init
        (setq projectile-completion-system 'ivy)
        (leader-def
