@@ -152,6 +152,9 @@ in
         # System
         pkgs.app-zapper
         pkgs.htop
+
+        # Finance
+        pkgs.ledger
       ];
 
       home.sessionVariables = {
