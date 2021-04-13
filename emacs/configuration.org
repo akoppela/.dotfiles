@@ -1214,6 +1214,54 @@
        (require 'vlf-setup))
    #+end_src
 
+** =ledger=.
+
+   #+begin_src emacs-lisp
+     (defun my/open-ledger ()
+       "Opens my ledger."
+       (interactive)
+       (find-file (expand-file-name "~/Notes/my.ledger")))
+
+     (use-package ledger-mode
+       :commands ledger-mode
+       :init
+       (setq ledger-default-date-format "%Y-%m-%d")
+       (setq ledger-report-use-strict t)
+       (leader-def
+         "a l" '(my/open-ledger :which-key "ledger"))
+       :config
+       (add-hook 'ledger-mode-hook
+                 (lambda () (add-hook 'before-save-hook
+                                      (lambda ()
+                                        (progn
+                                          (ledger-mode-clean-buffer)
+                                          (ledger-sort-buffer)))
+                                      nil
+                                      'local)))
+       (major-def
+         :keymaps 'ledger-mode-map
+         "r" '(ledger-report :which-key "report")
+         "a" '(ledger-add-transaction :which-key "add transaction"))
+       (general-def
+         :states 'normal
+         :keymaps 'ledger-report-mode-map
+         "e" 'ledger-report-edit-report
+         "s" 'ledger-report-save
+         "q" 'ledger-report-quit))
+
+     (use-package flycheck-ledger
+       :after ledger-mode
+       :config
+       (add-hook 'ledger-mode-hook 'flycheck-mode))
+
+     (use-package company-ledger
+       :after (company ledger-mode)
+       :init
+       (add-hook 'ledger-mode-hook 'company-mode)
+       :config
+       (add-to-list 'company-backends 'company-ledger))
+   #+end_src
+
 * Communication and connection
 
 ** RSS reader
