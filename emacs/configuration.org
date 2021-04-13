@@ -744,7 +744,10 @@
         "'" '(org-edit-special :which-key "src editor")
         "e" '(org-export-dispatch :which-key "export")
         "a" '(org-agenda :which-key "agenda")
-        "t" '(org-insert-structure-template :which-key "template")
+        "t" '(org-todo :which-key "toggle todo")
+
+        "i" '(:ignore t :which-key "insert")
+        "i t" '(org-insert-structure-template :which-key "template")
 
         "d" '(:ignore t :which-key "date")
         "d s" '(org-schedule :which-key "schedule")
