@@ -1342,6 +1342,8 @@
        :commands slack-start
        :init
        (setq slack-request-timeout 120)
+       (setq slack-enable-global-mode-string t)
+       (setq slack-buffer-emojify t)
        (leader-def
          "a s" '(:ignore t :which-key "slack")
          "a s s" '(slack-start :which-key "start")
@@ -1350,13 +1352,18 @@
          "a s r" '(slack-select-rooms :which-key "room")
          "a s R" '(slack-select-unread-rooms :which-key "unread room")
          "a s f" '(slack-upload-file :which-key "upload file")
-         "a s u" '(slack-all-unreads :which-key "unreads")
          "a s t" '(slack-all-threads :which-key "threads"))
        :config
        (general-def
          :states '(normal visual)
-         :keymaps 'slack-mode-map
+         :keymaps
+         '(slack-mode-map
+           slack-all-threads-buffer-mode-map
+           slack-file-info-buffer-mode-map)
          "q" 'kill-buffer-and-window)
+       (major-def
+         :keymaps 'slack-message-buffer-mode-map
+         "e" '(slack-message-edit :which-key "edit"))
        (slack-register-team
         :name "Conta"
         :default t
@@ -1364,7 +1371,6 @@
                 :host "conta.slack.com"
                 :user "akoppela@gmail.com")
         :visible-threads t
-        :animate-image t
         :modeline-enabled t))
    #+end_src
 
