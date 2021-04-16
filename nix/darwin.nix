@@ -32,7 +32,7 @@ in
 
 
   # Temporary fix to count user apps from home-manager as well
-  system.build.applications = pkgs.lib.mkForce (pkgs.buildEnv {
+  system.build.applications = lib.mkForce (pkgs.buildEnv {
     name = "applications";
     paths = config.environment.systemPackages ++ config.home-manager.users.akoppela.home.packages;
     pathsToLink = "/Applications";
@@ -99,7 +99,7 @@ in
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
+    builtins.elem (lib.getName pkg) [
       "1password"
     ];
 
@@ -109,7 +109,7 @@ in
     useUserPackages = true;
     useGlobalPkgs = true;
 
-    users.akoppela = { pkgs, ... }: {
+    users.akoppela = { pkgs, lib, ... }: {
       home.packages = [
         # Text
         (pkgs.aspellWithDicts (dict: [
