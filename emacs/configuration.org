@@ -882,7 +882,7 @@
        ("\\.php\\'" . web-mode))
 
      (use-package emmet-mode
-       :hook (sgml-mode css-mode)
+       :hook (sgml-mode css-mode web-mode)
        :config
        (general-def
          :definer 'minor-mode
