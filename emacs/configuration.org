@@ -830,6 +830,12 @@
       (setq org-export-allow-bind-keywords t)
     #+end_src
 
+*** Enter with overview fold.
+
+    #+begin_src emacs-lisp
+      (setq org-startup-folded t)
+    #+end_src
+
 ** =harvest=
 
    #+begin_src emacs-lisp
