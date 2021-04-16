@@ -1376,7 +1376,12 @@
         :token (auth-source-pick-first-password
                 :host "conta.slack.com"
                 :user "akoppela@gmail.com")
-        :modeline-enabled t))
+        :modeline-enabled t)
+       (slack-register-team
+        :name "Elm"
+        :token (auth-source-pick-first-password
+                :host "elmlang.slack.com"
+                :user "akoppela@gmail.com")))
    #+end_src
 
 * Help
