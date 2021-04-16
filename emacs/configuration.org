@@ -1356,7 +1356,7 @@
          "a s m" '(slack-im-select :which-key "message")
          "a s r" '(slack-select-rooms :which-key "room")
          "a s R" '(slack-select-unread-rooms :which-key "unread room")
-         "a s f" '(slack-upload-file :which-key "upload file")
+         "a s f" '(slack-file-upload :which-key "upload file")
          "a s t" '(slack-all-threads :which-key "threads"))
        :config
        (general-def
