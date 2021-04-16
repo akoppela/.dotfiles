@@ -1376,7 +1376,6 @@
         :token (auth-source-pick-first-password
                 :host "conta.slack.com"
                 :user "akoppela@gmail.com")
-        :visible-threads t
         :modeline-enabled t))
    #+end_src
 
