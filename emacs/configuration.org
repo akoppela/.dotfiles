@@ -1231,7 +1231,7 @@
      (use-package ledger-mode
        :commands ledger-mode
        :init
-       (setq ledger-default-date-format "%Y-%m-%d")
+       (setq ledger-default-date-format "%Y/%m/%d")
        (setq ledger-report-use-strict t)
        (leader-def
          "a l" '(my/open-ledger :which-key "ledger"))
