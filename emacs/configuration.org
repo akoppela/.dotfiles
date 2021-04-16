@@ -1349,7 +1349,6 @@
        :init
        (setq slack-request-timeout 120)
        (setq slack-enable-global-mode-string t)
-       (setq slack-buffer-emojify t)
        (leader-def
          "a s" '(:ignore t :which-key "slack")
          "a s s" '(slack-start :which-key "start")
