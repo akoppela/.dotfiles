@@ -58,7 +58,10 @@ in
     pkgs.zsh
   ];
 
-  programs.gnupg.agent.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # Windor manager
   services.yabai = {
