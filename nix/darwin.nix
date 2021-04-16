@@ -119,6 +119,7 @@ in
         ]))
         pkgs.ripgrep
         pkgs.jq
+        pkgs.texlive.combined.scheme-full
 
         # Communication
         pkgs.slack-term
