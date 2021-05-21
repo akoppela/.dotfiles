@@ -1379,7 +1379,10 @@
          "q" 'kill-buffer-and-window)
        (major-def
          :keymaps 'slack-message-buffer-mode-map
-         "e" '(slack-message-edit :which-key "edit"))
+         "e" '(slack-message-edit :which-key "edit")
+         "m" '(:ignore t :which-key "mention")
+         "m u" '(slack-message-embed-mention :which-key "user")
+         "m c" '(slack-message-embed-channel :which-key "channel"))
        (slack-register-team
         :name "Conta"
         :default t
