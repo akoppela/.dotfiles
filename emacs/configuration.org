@@ -251,11 +251,12 @@
        (interactive)
        (let ((filename (buffer-file-name)))
          (if filename
-             (if (vc-backend filename)
-                 (vc-delete-file filename)
-               (progn (delete-file filename)
-                      (message "Deleted file %s." filename)
-                      (kill-buffer)))
+             (when (y-or-n-p (concat "Delete file: " filename "?"))
+               (if (vc-backend filename)
+                   (vc-delete-file filename)
+                 (progn (delete-file filename)
+                        (message "Deleted file %s." filename)
+                        (kill-buffer))))
            (message "Can't delete file."))))
 
      (use-package general
