@@ -752,6 +752,7 @@
 
         "d" '(:ignore t :which-key "date")
         "d s" '(org-schedule :which-key "schedule")
+        "d d" '(org-deadline :which-key "deadline")
 
         "s" '(:ignore t :which-key "subtree")
         "s r" '(org-refile :which-key "refile"))
