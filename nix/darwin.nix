@@ -121,9 +121,6 @@ in
         pkgs.jq
         pkgs.texlive.combined.scheme-full
 
-        # Communication
-        pkgs.slack-term
-
         # Networking
         pkgs.openvpn
         pkgs.transmission
