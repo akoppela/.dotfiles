@@ -974,7 +974,8 @@
          :keymaps 'elm-mode-map
          "i" '(my/elm-import :which-key "import")
          "e" '(elm-expose-at-point :which-key "expose")
-         "d" '(elm-documentation-lookup :which-key "documentation")))
+         "d" '(elm-documentation-lookup :which-key "documentation")
+         "r" '(lsp-rename :which-key "rename")))
 
      (use-package flycheck-elm
        :after elm-mode
