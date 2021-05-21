@@ -1375,7 +1375,8 @@
          '(slack-mode-map
            slack-all-threads-buffer-mode-map
            slack-thread-message-buffer-mode-map
-           slack-file-info-buffer-mode-map)
+           slack-file-info-buffer-mode-map
+           slack-search-result-buffer-mode-map)
          "q" 'kill-buffer-and-window)
        (major-def
          :keymaps 'slack-message-buffer-mode-map
