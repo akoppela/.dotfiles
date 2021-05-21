@@ -755,7 +755,7 @@
         "d d" '(org-deadline :which-key "deadline")
 
         "s" '(:ignore t :which-key "subtree")
-        "s r" '(org-refile :which-key "refile"))
+        "s r" '(my/org-refile :which-key "refile"))
     #+end_src
 
 *** Agenda files
@@ -804,6 +804,13 @@
       (setq-default org-refile-use-outline-path 'file)
       (setq-default org-outline-path-complete-in-steps nil)
       (setq-default org-refile-allow-creating-parent-nodes 'confirm)
+      (add-hook 'org-after-refile-insert-hook 'org-update-parent-todo-statistics)
+      (defun my/org-refile ()
+        "My custom org-refile"
+        (interactive)
+        (progn
+          (org-refile)
+          (org-update-parent-todo-statistics)))
     #+end_src
 
 *** Enable =evil-org=
