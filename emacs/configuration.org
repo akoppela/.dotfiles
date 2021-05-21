@@ -1338,7 +1338,7 @@
          "a v d" '(my/disconnect-vpn :which-key "disconnect")))
    #+end_src
 
-** Transmission
+** Torrent
 
    #+begin_src emacs-lisp
      (use-package transmission
