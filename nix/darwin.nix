@@ -30,7 +30,6 @@ in
     (import ./overlay/pkgs.nix)
   ];
 
-
   # Temporary fix to count user apps from home-manager as well
   system.build.applications = lib.mkForce (pkgs.buildEnv {
     name = "applications";
