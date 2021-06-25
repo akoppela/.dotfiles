@@ -1278,6 +1278,14 @@
        (add-to-list 'company-backends 'company-ledger))
    #+end_src
 
+** =rust=
+
+   #+begin_src emacs-lisp
+     (use-package rust-mode
+       :init
+       (setq rust-format-on-save t))
+   #+end_src
+
 * Communication and connection
 
 ** RSS reader
