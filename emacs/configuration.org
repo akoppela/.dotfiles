@@ -185,13 +185,20 @@
      (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                               ("melpa" . "https://melpa.org/packages/")
                               ("melpa-stable" . "https://stable.melpa.org/packages/")))
+     (package-initialize)
+   #+end_src
+
+** Make sure package archive exist
+
+   #+begin_src emacs-lisp
+     (unless package-archive-contents
+       (package-refresh-contents))
    #+end_src
 
 ** Make sure =use-package= is installed
 
    #+BEGIN_SRC emacs-lisp
      (unless (package-installed-p 'use-package)
-       (package-refresh-contents)
        (package-install 'use-package))
    #+END_SRC
 
