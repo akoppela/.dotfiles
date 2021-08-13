@@ -153,10 +153,11 @@
    #+begin_src emacs-lisp
      (defun paste-to-osx (text)
        "Copies content of clipboard from Emacs to MacOS"
-       (let ((process-connection-type nil))
-         (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-           (process-send-string proc text)
-           (process-send-eof proc))))
+       (when (equal system-type 'darwin)
+         (let ((process-connection-type nil))
+           (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+             (process-send-string proc text)
+             (process-send-eof proc)))))
 
      (setq interprogram-cut-function 'paste-to-osx)
    #+end_src
@@ -1169,7 +1170,8 @@
      (defun copy-from-osx ()
        "Copies content of clipboard from MacOS to Emacs"
        (interactive)
-       (vterm-insert (shell-command-to-string "pbpaste")))
+       (when (equal system-type 'darwin)
+         (vterm-insert (shell-command-to-string "pbpaste"))))
 
      (use-package vterm
        :commands vterm
