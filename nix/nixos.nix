@@ -3,6 +3,7 @@
 {
   imports = [
     ./do-hardware-configuration.nix
+    ./wireguard.nix
     <home-manager/nixos>
   ];
 
@@ -34,9 +35,12 @@
   };
   programs.mosh.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
-  
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
+  };
+
   users.users.akoppela = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -61,6 +65,9 @@
         ]))
         pkgs.ripgrep
         pkgs.vim
+
+        # Networking
+        pkgs.wireguard
       ];
 
       programs.emacs = {
