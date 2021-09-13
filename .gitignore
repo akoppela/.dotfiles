@@ -6,3 +6,6 @@ emacs/*
 
 # Bash
 bash/.secret_profile
+
+# Direnv
+.direnv
