@@ -41,9 +41,11 @@
     allowedUDPPorts = [ ];
   };
 
+  virtualisation.docker.enable = true;
+
   users.users.akoppela = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     shell = pkgs.bashInteractive;
     openssh.authorizedKeys.keyFiles = [
       ../keys/mac-mini.pub
