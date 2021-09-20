@@ -650,6 +650,17 @@
          "s w" '(engine/search-wikipedia :which-key "wiki")))
    #+end_src
 
+** =exwm=
+
+   #+begin_src emacs-lisp
+     (use-package exwm
+       :init
+       (when (eq window-system 'x)
+         (require 'exwm-config)
+         (exwm-config-default)
+         (require 'exwm-randr)))
+   #+end_src
+
 * Project, time and task management
 
 ** =session=
