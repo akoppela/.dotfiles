@@ -444,7 +444,7 @@
 ** Flash screen on invalid operation
 
    #+begin_src emacs-lisp
-     (setq visible-bell t)
+     (setq visible-bell nil)
    #+end_src
 
 ** Display visual line numbers
