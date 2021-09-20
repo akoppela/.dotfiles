@@ -1,63 +1,99 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  userName = "akoppela";
+
+  cfg = config."${userName}";
+
+  emacs = pkgs.emacsWithPackages (epkgs: [
+    epkgs.vterm
+  ]);
+
+  packages = [
+    # Text
+    (pkgs.aspellWithDicts (dict: [
+      dict.en
+      dict.en-computers
+      dict.en-science
+    ]))
+    pkgs.ripgrep
+    pkgs.vim
+  ];
+
+  xPackages =
+    if cfg.enableX then
+      [
+        pkgs.firefox
+      ]
+    else
+      [ ];
+in
 {
   imports = [
     <home-manager/nixos>
   ];
 
-  users.users.akoppela = {
-    password = "123";
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    shell = pkgs.bashInteractive;
-    openssh.authorizedKeys.keyFiles = [
-      ../../../keys/mac-mini.pub
-      ../../../keys/ipad.pub
-    ];
+  options."${userName}" = {
+    enableX = lib.mkEnableOption "Enable GUI";
   };
 
-  home-manager = {
-    useUserPackages = true;
-    useGlobalPkgs = true;
+  config = {
+    nix.trustedUsers = [ userName ];
 
-    users.akoppela = { pkgs, lib, ... }: {
-      home.packages = [
-        # Text
-        (pkgs.aspellWithDicts (dict: [
-          dict.en
-          dict.en-computers
-          dict.en-science
-        ]))
-        pkgs.ripgrep
-        pkgs.vim
+    # Enable graphical interface
+    services.xserver = lib.mkIf cfg.enableX {
+      enable = true;
+      libinput.enable = true;
+      displayManager.lightdm.enable = true;
+      windowManager.session = lib.singleton {
+        name = "exwm";
+        start = "${emacs}/bin/emacs";
+      };
+    };
+
+    users.users."${userName}" = {
+      password = "123";
+      isNormalUser = true;
+      extraGroups = [ "wheel" ];
+      shell = pkgs.bashInteractive;
+      openssh.authorizedKeys.keyFiles = [
+        ../../../keys/mac-mini.pub
+        ../../../keys/ipad.pub
       ];
+    };
 
-      programs.emacs = {
-        enable = true;
-        extraPackages = epkgs: [
-          epkgs.vterm
-        ];
-      };
-      home.activation.linkEmacsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [ ! -e $HOME/.emacs.d ]; then
-          $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
-        fi
-      '';
+    home-manager = {
+      useUserPackages = true;
+      useGlobalPkgs = true;
 
-      programs.git = {
-        enable = true;
-        userEmail = "akoppela@gmail.com";
-        userName = "akoppela";
-      };
+      users.akoppela = { lib, ... }: {
+        home.packages = packages ++ xPackages;
 
-      programs.direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-        enableBashIntegration = true;
-      };
+        programs.emacs = {
+          enable = true;
+          package = emacs;
+        };
+        home.activation.linkEmacsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          if [ ! -e $HOME/.emacs.d ]; then
+            $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
+          fi
+        '';
 
-      programs.bash = {
-        enable = true;
+        programs.git = {
+          enable = true;
+          userEmail = "akoppela@gmail.com";
+          userName = "akoppela";
+        };
+
+        programs.direnv = {
+          enable = true;
+          nix-direnv.enable = true;
+          enableBashIntegration = true;
+        };
+
+        programs.bash = {
+          enable = true;
+        };
       };
     };
   };

@@ -16,7 +16,7 @@ in
       default = "/etc/nixos/configuration.nix";
     };
 
-    timeZone  = lib.mkOption {
+    timeZone = lib.mkOption {
       description = "Machine time zone";
       type = lib.types.str;
     };
@@ -37,6 +37,6 @@ in
     time.timeZone = cfg.timeZone;
 
     # The NixOS release to be compatible with for stateful data such as databases.
-    system.stateVersion = lib.mkOptionDefault "20.03";
+    system.stateVersion = lib.mkDefault "20.03";
   };
 }

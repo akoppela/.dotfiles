@@ -4,9 +4,9 @@ let
   cfg = config.networking.do;
 in
 {
-  imports =
-    [ ../../config/networking.nix
-    ];
+  imports = [
+    ../../config/networking.nix
+  ];
 
   options.networking.do = {
     enable = lib.mkEnableOption "Default DO networking configuration";

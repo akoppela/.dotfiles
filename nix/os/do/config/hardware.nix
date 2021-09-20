@@ -1,7 +1,7 @@
 {
-  imports =
-    [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
-    ];
+  imports = [
+    <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
+  ];
 
   boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sd_mod" "virtio_blk" ];
   boot.initrd.kernelModules = [ ];
@@ -12,12 +12,12 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/vda";
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-label/swap"; }
-    ];
+  swapDevices = [{
+    device = "/dev/disk/by-label/swap";
+  }];
 }

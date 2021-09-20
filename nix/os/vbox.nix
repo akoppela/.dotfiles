@@ -1,12 +1,12 @@
 { config, pkgs, lib, ... }:
 
 {
-  imports =
-    [ ./default.nix
-      <nixpkgs/nixos/modules/installer/virtualbox-demo.nix>
-      ./config/networking.nix
-      ./users/akoppela.nix
-    ];
+  imports = [
+    <nixpkgs/nixos/modules/virtualisation/virtualbox-image.nix>
+    ./default.nix
+    ./config/networking.nix
+    ./users/akoppela.nix
+  ];
 
   my-os = {
     hostName = "vbox-nixos";
@@ -14,15 +14,23 @@
     configPath = "/home/akoppela/.dotfiles/nix/os/vbox.nix";
   };
 
-  nix.trustedUsers = [ "demo" "akoppela" ];
+  # Enable GUI
+  akoppela.enableX = true;
 
-  # By default, the NixOS VirtualBox demo image includes SDDM and Plasma.
-  # If you prefer another desktop manager or display manager, you may want
-  # to disable the default.
-  services.xserver.desktopManager.plasma5.enable = lib.mkForce false;
-  services.xserver.displayManager.sddm.enable = lib.mkForce false;
+  # FIXME: UUID detection is currently broken
+  boot.loader.grub.fsIdentifier = "provided";
 
-  # Enable EXWM and StartX
-  services.xserver.windowManager.exwm.enable = true;
-  # services.xserver.displayManager.startx.enable = true;
+  # Allow mounting of shared folders.
+  users.users.akoppela.extraGroups = [ "vboxsf" ];
+
+  # Add some more video drivers to give X11 a shot at working in VMware and QEMU.
+  services.xserver.videoDrivers = lib.mkOverride 40 [
+    "virtualbox"
+    "vmware"
+    "cirrus"
+    "vesa"
+    "modesetting"
+  ];
+
+  powerManagement.enable = false;
 }
