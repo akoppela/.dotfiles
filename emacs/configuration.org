@@ -658,7 +658,9 @@
        (when (eq window-system 'x)
          (require 'exwm-config)
          (exwm-config-default)
-         (require 'exwm-randr)))
+         (require 'exwm-randr)
+         (setq exwm-randr-workspace-output-plist '(0 "Virtual-1"))))
+         ;; (add-hook exwm-randr-screen-change-hook)))
    #+end_src
 
 * Project, time and task management
