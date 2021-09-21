@@ -4,8 +4,5 @@ emacs/*
 !emacs/configuration.org
 !emacs/my
 
-# Bash
-bash/.secret_profile
-
 # Direnv
 .direnv
