@@ -53,10 +53,6 @@ in
   programs.bash.enable = enableBash;
   programs.zsh.enable = enableZsh;
   programs.fish.enable = enableFish;
-  environment.shells = [
-    pkgs.bash
-    pkgs.zsh
-  ];
 
   programs.gnupg.agent = {
     enable = true;
