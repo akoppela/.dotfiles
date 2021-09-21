@@ -152,7 +152,7 @@ in
 
         # System
         pkgs.app-zapper
-        pkgs.htop
+        pkgs.bottom
 
         # Finance
         pkgs.ledger
