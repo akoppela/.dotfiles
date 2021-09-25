@@ -444,7 +444,7 @@
 ** Flash screen on invalid operation
 
    #+begin_src emacs-lisp
-     (setq visible-bell t)
+     (setq visible-bell nil)
    #+end_src
 
 ** Display visual line numbers
@@ -648,6 +648,19 @@
        (leader-def
          "s b" '(engine/search-google :which-key "browser")
          "s w" '(engine/search-wikipedia :which-key "wiki")))
+   #+end_src
+
+** =exwm=
+
+   #+begin_src emacs-lisp
+     (use-package exwm
+       :init
+       (when (eq window-system 'x)
+         (require 'exwm-config)
+         (exwm-config-default)
+         (require 'exwm-randr)
+         (setq exwm-randr-workspace-output-plist '(0 "Virtual-1"))))
+         ;; (add-hook exwm-randr-screen-change-hook)))
    #+end_src
 
 * Project, time and task management

@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }:
+
 let
   window_gap = "2";
   enableBash = true;
