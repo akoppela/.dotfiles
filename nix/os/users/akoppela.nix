@@ -52,7 +52,6 @@ in
     };
 
     users.users."${userName}" = {
-      password = "123";
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.bashInteractive;
