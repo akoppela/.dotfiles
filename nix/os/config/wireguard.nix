@@ -8,7 +8,7 @@ in
     ./networking.nix
   ];
 
-  options.my-wireguard = {
+  options.networking.my-wireguard = {
     enable = lib.mkEnableOption "My WireGuard configuration";
 
     externalInterface = lib.mkOption {

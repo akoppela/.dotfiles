@@ -8,5 +8,5 @@
   ];
 
   # Enable default DO networking
-  networking.networking.do.enable = true;
+  networking.do.enable = true;
 }
