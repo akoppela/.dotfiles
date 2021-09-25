@@ -3,8 +3,8 @@
 let
   window_gap = "2";
   enableBash = true;
-  enableZsh = true;
   enableFish = false;
+  enableZsh = true;
 in
 {
   imports = [
@@ -51,8 +51,11 @@ in
   '';
 
   programs.bash.enable = enableBash;
-  programs.zsh.enable = enableZsh;
   programs.fish.enable = enableFish;
+  programs.zsh = {
+    enable = enableZsh;
+    promptInit = ""; # Disable prompt init here. It will be done per user basis.
+  };
 
   programs.gnupg.agent = {
     enable = true;
@@ -159,12 +162,21 @@ in
         SHELL = "${pkgs.zsh}/bin/zsh";
       };
 
-      programs.bash = {
-        enable = enableBash;
-      };
-
+      programs.bash.enable = enableBash;
+      programs.fish.enable = enableFish;
       programs.zsh = {
         enable = enableZsh;
+        dotDir = ".config/zsh";
+        enableAutosuggestions = true;
+        history = {
+          expireDuplicatesFirst = true;
+          extended = true;
+        };
+        oh-my-zsh = {
+          enable = true;
+          theme = "robbyrussell";
+          plugins = [ ];
+        };
       };
 
       programs.emacs = {
@@ -190,8 +202,8 @@ in
         enable = true;
         nix-direnv.enable = true;
         enableBashIntegration = enableBash;
-        enableZshIntegration = enableZsh;
         enableFishIntegration = enableFish;
+        enableZshIntegration = enableZsh;
       };
 
       programs.firefox = {
