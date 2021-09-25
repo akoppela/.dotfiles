@@ -50,6 +50,11 @@ in
           publicKey = "bxkrVLoDBuLlqIwsq4hAln8l4BJ9mB83GM/PQviqpS8=";
           allowedIPs = [ "10.100.0.3/32" ];
         }
+        # Mac Mini
+        {
+          publicKey = "887qybTrWu/c+HkqnATB5ZkrdSai1IbyJhBpO6MeW0Y=";
+          allowedIPs = [ "10.100.0.4/32" ];
+        }
       ];
     };
   };
