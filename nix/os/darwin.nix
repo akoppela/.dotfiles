@@ -15,7 +15,7 @@ in
   users.nix.configureBuildUsers = true;
 
   nix.nixPath = lib.mkForce [
-    { darwin-config = "$HOME/.dotfiles/nix/darwin.nix"; }
+    { darwin-config = "$HOME/.dotfiles/nix/os/darwin.nix"; }
     "$HOME/.nix-defexpr/channels"
   ];
 
@@ -27,8 +27,8 @@ in
   }];
 
   nixpkgs.overlays = [
-    (import ./overlay/apps.nix)
-    (import ./overlay/pkgs.nix)
+    (import ../overlay/apps.nix)
+    (import ../overlay/pkgs.nix)
   ];
 
   # Temporary fix to count user apps from home-manager as well
