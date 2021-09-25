@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   cfg = config.my-os;
@@ -30,6 +30,11 @@ in
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
+
+    nix.package = pkgs.nixUnstable;
+    nix.extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
 
     console.keyMap = "us";
     i18n.defaultLocale = "en_US.UTF-8";
