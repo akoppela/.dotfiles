@@ -44,7 +44,7 @@ in
     services.xserver = lib.mkIf cfg.enableX {
       enable = true;
       libinput.enable = true;
-      displayManager.lightdm.enable = true;
+      displayManager.gdm.enable = true;
       windowManager.session = lib.singleton {
         name = "exwm";
         start = "${emacs}/bin/emacs";
