@@ -390,24 +390,24 @@
 ** Audio
 
    #+begin_src emacs-lisp
-     (defconst volume-modifier "4")
+     (defconst my/volume-modifier "4")
 
-     (defun audio/mute ()
+     (defun my/audio-mute ()
        (interactive)
        (start-process "audio-mute" nil "pulsemixer" "--toggle-mute"))
 
-     (defun audio/raise-volume ()
+     (defun my/audio-raise-volume ()
        (interactive)
-       (start-process "raise-volume" nil "pulsemixer" "--change-volume" (concat "+" volume-modifier)))
+       (start-process "raise-volume" nil "pulsemixer" "--change-volume" (concat "+" my/volume-modifier)))
 
-     (defun audio/lower-volume ()
+     (defun my/audio-lower-volume ()
        (interactive)
-       (start-process "lower-volume" nil "pulsemixer" "--change-volume" (concat "-" volume-modifier)))
+       (start-process "lower-volume" nil "pulsemixer" "--change-volume" (concat "-" my/volume-modifier)))
 
      (general-def
-       "<XF86AudioMute>" 'audio/mute
-       "<XF86AudioRaiseVolume>" 'audio/raise-volume
-       "<XF86AudioLowerVolume>" 'audio/lower-volume)
+       "<XF86AudioMute>" 'my/audio-mute
+       "<XF86AudioRaiseVolume>" 'my/audio-raise-volume
+       "<XF86AudioLowerVolume>" 'my/audio-lower-volume)
    #+end_src
 
 * Appearance
