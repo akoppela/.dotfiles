@@ -50,7 +50,7 @@ in
       displayManager.gdm.enable = true;
       windowManager.session = lib.singleton {
         name = "exwm";
-        start = "${emacs}/bin/emacs";
+        start = "${emacs}/bin/emacs -mm";
       };
     };
 
