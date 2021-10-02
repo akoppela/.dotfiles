@@ -18,6 +18,9 @@ let
     ]))
     pkgs.ripgrep
     pkgs.vim
+
+    # Audio
+    pkgs.pulsemixer
   ];
 
   xPackages =

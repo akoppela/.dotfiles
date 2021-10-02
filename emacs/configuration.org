@@ -388,6 +388,29 @@
        (global-anzu-mode 1))
    #+end_src
 
+** Audio
+
+   #+begin_src emacs-lisp
+     (defconst volume-modifier "4")
+
+     (defun audio/mute ()
+       (interactive)
+       (start-process "audio-mute" nil "pulsemixer" "--toggle-mute"))
+
+     (defun audio/raise-volume ()
+       (interactive)
+       (start-process "raise-volume" nil "pulsemixer" "--change-volume" (concat "+" volume-modifier)))
+
+     (defun audio/lower-volume ()
+       (interactive)
+       (start-process "lower-volume" nil "pulsemixer" "--change-volume" (concat "-" volume-modifier)))
+
+     (general-def
+       "<XF86AudioMute>" 'audio/mute
+       "<XF86AudioRaiseVolume>" 'audio/raise-volume
+       "<XF86AudioLowerVolume>" 'audio/lower-volume)
+   #+end_src
+
 * Appearance
 
 ** Hide default Emacs screen
@@ -668,9 +691,10 @@
        (when (eq window-system 'x)
          (require 'exwm-config)
          (exwm-config-default)
-         (require 'exwm-randr)
-         (setq exwm-randr-workspace-output-plist '(0 "Virtual-1"))))
-         ;; (add-hook exwm-randr-screen-change-hook)))
+         (dolist (keys '(XF86AudioLowerVolume
+                         XF86AudioRaiseVolume
+                         XF86AudioMute))
+           (cl-pushnew keys exwm-input-prefix-keys))))
    #+end_src
 
 * Project, time and task management
