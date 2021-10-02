@@ -1370,6 +1370,13 @@
      (add-hook 'org-mode-hook 'flyspell-mode)
    #+end_src
 
+** =haskell=
+
+   #+begin_src emacs-lisp
+     (use-package haskell-mode
+       :commands haskell-mode)
+   #+end_src
+
 * Communication and connection
 
 ** RSS reader
