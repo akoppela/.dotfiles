@@ -73,7 +73,7 @@
      (setq read-process-output-max (* 1024 1024 5))
    #+end_src
 
-** Delete trailing whitespace everytime buffer is saved
+** Delete trailing whitespace every time buffer is saved
 
    #+begin_src emacs-lisp
      (add-hook 'before-save-hook 'delete-trailing-whitespace)
