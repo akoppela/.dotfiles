@@ -507,6 +507,18 @@
      (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
    #+end_src
 
+** Show battery status
+
+   #+begin_src emacs-lisp
+     (display-battery-mode 1)
+   #+end_src
+
+** Show current time
+
+   #+begin_src emacs-lisp
+     (display-time-mode 1)
+   #+end_src
+
 * Navigation, search and completion
 
 ** =counsel= completion framework
