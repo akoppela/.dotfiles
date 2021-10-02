@@ -52,6 +52,7 @@ in
         name = "exwm";
         start = "${emacs}/bin/emacs -mm";
       };
+      layout = "us";
     };
 
     users.users."${userName}" = {
