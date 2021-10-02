@@ -162,14 +162,6 @@
      (setq interprogram-cut-function 'paste-to-osx)
    #+end_src
 
-** =flyspell=
-
-   #+begin_src emacs-lisp
-     (add-hook 'text-mode-hook 'flyspell-mode)
-     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-     (add-hook 'org-mode-hook 'flyspell-mode)
-   #+end_src
-
 ** Narrow
 
    #+begin_src emacs-lisp
@@ -1313,6 +1305,14 @@
    #+begin_src emacs-lisp
      (use-package haskell-mode
        :commands haskell-mode)
+   #+end_src
+
+** =flyspell=
+
+   #+begin_src emacs-lisp
+     (add-hook 'text-mode-hook 'flyspell-mode)
+     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+     (add-hook 'org-mode-hook 'flyspell-mode)
    #+end_src
 
 * Communication and connection
