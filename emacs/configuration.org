@@ -693,15 +693,37 @@
 ** =exwm=
 
    #+begin_src emacs-lisp
+     (defun my/launch-program (command)
+       "Starts program from shell command"
+       (interactive (list (read-shell-command "$ ")))
+       (start-process-shell-command command nil command))
+
+     (defun my/use-class-name ()
+       "Renames workspace buffer with class name"
+       (exwm-workspace-rename-buffer exwm-class-name))
+
      (use-package exwm
        :init
        (when (eq window-system 'x)
-         (require 'exwm-config)
-         (exwm-config-default)
-         (dolist (keys '(XF86AudioLowerVolume
-                         XF86AudioRaiseVolume
-                         XF86AudioMute))
-           (cl-pushnew keys exwm-input-prefix-keys))))
+         (setq exwm-workspace-number 1)
+         (setq exwm-input-prefix-keys
+               '(XF86AudioLowerVolume
+                 XF86AudioRaiseVolume
+                 XF86AudioMute
+                 s-left
+                 s-right
+                 s-up
+                 s-down
+                 ?\M-\ ))
+         (add-hook 'exwm-update-class-hook 'my/use-class-name)
+         (require 'exwm-randr)
+         (exwm-randr-enable)
+         (exwm-enable))
+       :config
+       (evil-set-initial-state 'exwm-mode 'emacs)
+       (leader-def
+         :states '(normal visual)
+         "a L" '(my/launch-program :which-key "launch")))
    #+end_src
 
 * Project, time and task management
