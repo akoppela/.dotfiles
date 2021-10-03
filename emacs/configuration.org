@@ -333,6 +333,12 @@
          "q q" '(save-buffers-kill-terminal :which-key "client")
          "q Q" '(save-buffers-kill-emacs :which-key "server"))
        (general-def
+         :states '(normal visual insert motion emacs)
+         "<s-left>" 'windmove-left
+         "<s-right>" 'windmove-right
+         "<s-up>" 'windmove-up
+         "<s-down>" 'windmove-down)
+       (general-def
          :states '(normal visual)
          :keymaps 'ibuffer-mode-map
          "q" 'kill-buffer-and-window))
