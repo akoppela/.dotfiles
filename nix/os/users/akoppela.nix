@@ -19,8 +19,10 @@ let
     pkgs.ripgrep
     pkgs.vim
 
-    # Audio
-    pkgs.pulsemixer
+    # Desktop
+    pkgs.brightnessctl # Brightness
+    pkgs.scrot # Screenshots
+    pkgs.slock # Screen lock
   ];
 
   xPackages =
@@ -42,6 +44,8 @@ in
 
   config = {
     nix.trustedUsers = [ userName ];
+
+    security.wrappers.slock.source = "${pkgs.slock.out}/bin/slock";
 
     # Enable graphical interface
     services.xserver = lib.mkIf cfg.enableX {
