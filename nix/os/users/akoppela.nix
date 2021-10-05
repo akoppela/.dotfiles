@@ -51,8 +51,8 @@ in
     services.xserver = lib.mkIf cfg.enableX {
       enable = true;
       libinput.enable = true;
-      displayManager.gdm.enable = true;
       libinput.touchpad.naturalScrolling = true;
+      displayManager.lightdm.enable = true;
       windowManager.session = lib.singleton {
         name = "exwm";
         start = "${emacs}/bin/emacs -mm --debug-init";
