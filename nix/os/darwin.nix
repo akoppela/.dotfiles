@@ -142,7 +142,6 @@ in
         # Development
         pkgs.docker
         pkgs.docker-machine
-        pkgs.nixpkgs-fmt
         pkgs.tokei
 
         # Gaming
