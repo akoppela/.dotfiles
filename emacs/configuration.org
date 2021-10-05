@@ -1299,7 +1299,7 @@
        (require 'vlf-setup))
    #+end_src
 
-** =ledger=.
+** =ledger=
 
    #+begin_src emacs-lisp
      (defun my/open-ledger ()
