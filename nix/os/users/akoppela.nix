@@ -10,29 +10,6 @@ let
   emacs = pkgs.emacsWithPackages (epkgs: [
     epkgs.vterm
   ]);
-
-  packages = [
-    # Text
-    (pkgs.aspellWithDicts (dict: [
-      dict.en
-      dict.en-computers
-      dict.en-science
-    ]))
-    pkgs.ripgrep
-    pkgs.vim
-
-    # Desktop
-    pkgs.brightnessctl # Brightness
-    pkgs.scrot # Screenshots
-  ];
-
-  xPackages =
-    if xEnabled then
-      [
-        pkgs.firefox
-      ]
-    else
-      [ ];
 in
 {
   imports = [
@@ -70,7 +47,21 @@ in
       useGlobalPkgs = true;
 
       users.akoppela = { lib, ... }: {
-        home.packages = packages ++ xPackages;
+        home.packages = [
+          # Text
+          (pkgs.aspellWithDicts (dict: [
+            dict.en
+            dict.en-computers
+            dict.en-science
+          ]))
+          pkgs.ripgrep
+          pkgs.vim
+
+          # Desktop
+          pkgs.brightnessctl # Brightness
+          pkgs.scrot # Screenshots
+
+        ];
 
         programs.emacs = {
           enable = true;
@@ -113,6 +104,10 @@ in
 
         programs.bash = {
           enable = bashEnabled;
+        };
+
+        programs.firefox = {
+          enable = xEnabled;
         };
       };
     };
