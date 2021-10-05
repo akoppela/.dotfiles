@@ -26,6 +26,12 @@ in
     maxJobs = 4;
   }];
 
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "nixFlakes" ''
+      exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
+    '')
+  ];
+
   nixpkgs.overlays = [
     (import ../overlay/apps.nix)
     (import ../overlay/pkgs.nix)
