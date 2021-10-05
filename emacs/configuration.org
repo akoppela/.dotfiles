@@ -579,6 +579,10 @@
                "--line-number"
                "--color" "never"
                "%s"))
+       (general-def
+         :states '(normal visual)
+         "/" 'swiper-isearch
+         "*" 'swiper-isearch-thing-at-point)
        (major-def
          :keymaps 'ivy-minibuffer-map
          "o" '(ivy-occur :which-key "occur")
@@ -591,8 +595,6 @@
          "f f" '(counsel-find-file :which-key "find")
          "f l" '(counsel-find-library :which-key "library")
          ;; Search
-         "s s" '(swiper-isearch :which-key "buffer")
-         "s S" '(swiper-isearch-thing-at-point :which-key "buffer with thing at point")
          "s i" '(counsel-imenu :which-key "imenu")
          ;; Jump
          "j m" '(counsel-mark-ring :which-key "mark")
