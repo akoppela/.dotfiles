@@ -45,6 +45,7 @@ in
 
     # Enable graphical interface
     services.xserver = lib.mkIf xEnabled {
+      xkbOptions = "caps:swapescape";
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
       displayManager.lightdm.enable = true;
