@@ -555,6 +555,13 @@
        (desktop-environment-mode))
    #+end_src
 
+** Set default font
+
+   #+begin_src emacs-lisp
+     (when (member "JetBrains Mono" (font-family-list))
+       (set-frame-font "JetBrains Mono" t t))
+   #+end_src
+
 * Navigation, search and completion
 
 ** =counsel= completion framework
