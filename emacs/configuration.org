@@ -393,15 +393,6 @@
        (global-anzu-mode 1))
    #+end_src
 
-** =desktop-environmet=
-
-   #+begin_src emacs-lisp
-     (use-package desktop-environment
-       :after exwm
-       :config
-       (desktop-environment-mode))
-   #+end_src
-
 * Appearance
 
 ** Hide default Emacs screen
@@ -533,6 +524,16 @@
 
    #+begin_src emacs-lisp
      (display-time-mode 1)
+   #+end_src
+
+** Enable =desktop-environmet=
+
+   #+begin_src emacs-lisp
+
+     (use-package desktop-environment
+       :after exwm
+       :config
+       (desktop-environment-mode))
    #+end_src
 
 * Navigation, search and completion
