@@ -109,6 +109,34 @@ in
         programs.firefox = {
           enable = xEnabled;
         };
+
+        programs.kitty = {
+          enable = true;
+          font = {
+            name = "JetBrains Mono";
+            size = 16;
+          };
+          settings = {
+            # Font
+            bold_font = "JetBrains Mono Bold";
+            italic_font = "JetBrains Mono Italic";
+            bold_italic_font = "JetBrains Mono Bold Italic";
+
+            # Mouse
+            mouse_hide_wait = "-1.0";
+
+            # Bell
+            enable_audio_bell = "no";
+
+            # Color scheme
+            background = "#1c1c1c";
+            background_opacity = "1.0";
+
+            # OS specific
+            macos_option_as_alt = "yes";
+            macos_thicken_font = "0.2";
+          };
+        };
       };
     };
   };
