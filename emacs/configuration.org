@@ -578,6 +578,7 @@
          "h a" '(counsel-apropos :which-key "apropos")
          "h b" '(counsel-descbinds :which-key "bindings")
          "h f" '(counsel-describe-function :which-key "describe function")
+         "h F" '(counsel-describe-face :which-key "face")
          "h v" '(counsel-describe-variable :which-key "describe variable"))
        :config
        (ivy-mode 1))
