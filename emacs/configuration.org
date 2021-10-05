@@ -711,7 +711,7 @@
        (evil-set-initial-state 'exwm-mode 'emacs)
        (leader-def
          :states '(normal visual)
-         "a L" '(my/launch-program :which-key "launch")))
+         "a l" '(my/launch-program :which-key "launch")))
    #+end_src
 
 * Project, time and task management
@@ -1317,7 +1317,7 @@
        (setq ledger-default-date-format "%Y/%m/%d")
        (setq ledger-report-use-strict t)
        (leader-def
-         "a l" '(my/open-ledger :which-key "ledger"))
+         "a L" '(my/open-ledger :which-key "ledger"))
        :config
        (add-hook 'ledger-mode-hook
                  (lambda () (add-hook 'before-save-hook
