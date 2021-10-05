@@ -3,7 +3,7 @@
 let
   userName = "akoppela";
 
-  cfg = config."${userName}";
+  xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
     epkgs.vterm
@@ -25,7 +25,7 @@ let
   ];
 
   xPackages =
-    if cfg.enableX then
+    if xEnabled then
       [
         pkgs.firefox
       ]
@@ -42,7 +42,7 @@ in
 
 
     # Enable graphical interface
-    services.xserver = lib.mkIf config.services.xserver.enable {
+    services.xserver = lib.mkIf xEnabled {
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
       displayManager.lightdm.enable = true;
