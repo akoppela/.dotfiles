@@ -57,9 +57,10 @@ in
           pkgs.ripgrep
           pkgs.vim
 
-          # Desktop
+          # System
           pkgs.brightnessctl # Brightness
           pkgs.scrot # Screenshots
+          pkgs.bottom # Monitoring
 
         ];
 
