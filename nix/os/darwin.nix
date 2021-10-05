@@ -26,6 +26,8 @@ in
     maxJobs = 4;
   }];
 
+  nix.trustedUsers = [ "root" "akoppela" ];
+
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "nixFlakes" ''
       exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
