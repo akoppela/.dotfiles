@@ -7,11 +7,10 @@
     ../config/wireguard.nix
   ];
 
-  my-os = {
-    hostName = "remote-nixos";
-    configPath = "/home/akoppela/.dotfiles/nix/os/do/remote-nixos.nix";
-    timeZone = "Europe/Amsterdam";
-  };
+  # General
+  my-os.configPath = "/home/akoppela/.dotfiles/nix/os/do/remote-nixos.nix";
+  networking.hostName = "remote-nixos";
+  time.timeZone = "Europe/Amsterdam";
 
   # Enable my WireGuard configuration
   networking.my-wireguard = {

@@ -8,11 +8,10 @@
     ./users/akoppela.nix
   ];
 
-  my-os = {
-    hostName = "vbox-nixos";
-    timeZone = "Europe/Moscow";
-    configPath = "/home/akoppela/.dotfiles/nix/os/vbox.nix";
-  };
+  # General
+  my-os.configPath = "/home/akoppela/.dotfiles/nix/os/vbox.nix";
+  networking.hostName = "vbox-nixos";
+  time.timeZone = "Europe/Moscow";
 
   # Enable GUI
   akoppela.enableX = true;

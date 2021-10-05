@@ -5,26 +5,14 @@ let
 in
 {
   options.my-os = {
-    hostName = lib.mkOption {
-      description = "OS host name";
-      type = lib.types.str;
-    };
-
     configPath = lib.mkOption {
       description = "Path to the OS configuration";
       type = lib.types.str;
       default = "/etc/nixos/configuration.nix";
     };
-
-    timeZone = lib.mkOption {
-      description = "Machine time zone";
-      type = lib.types.str;
-    };
   };
 
   config = {
-    networking.hostName = cfg.hostName;
-
     nix.maxJobs = lib.mkDefault 1;
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"
@@ -39,10 +27,10 @@ in
       '')
     ];
 
-    # Set locales and time zone
-    console.keyMap = "us";
+    # Set locales and key maps
     i18n.defaultLocale = "en_US.UTF-8";
-    time.timeZone = cfg.timeZone;
+    console.keyMap = lib.mkDefault "us";
+    console.useXkbConfig = true;
 
     # The NixOS release to be compatible with for stateful data such as databases.
     system.stateVersion = lib.mkDefault "20.03";

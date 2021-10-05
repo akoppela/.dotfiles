@@ -7,11 +7,10 @@
     ../users/akoppela.nix
   ];
 
-  my-os = {
-    hostName = "nano";
-    configPath = "/home/akoppela/.dotfiles/nix/os/nano/default.nix";
-    timeZone = "Europe/Moscow";
-  };
+  # General
+  my-os.configPath = "/home/akoppela/.dotfiles/nix/os/nano/default.nix";
+  networking.hostName = "nano";
+  time.timeZone = "Europe/Moscow";
 
   # Enable X server
   services.xserver.enable = true;
