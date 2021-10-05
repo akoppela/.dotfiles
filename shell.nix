@@ -8,5 +8,5 @@ pkgs.mkShell {
     pkgs.nixops
   ];
 
-  DIGITAL_OCEAN_AUTH_TOKEN = builtins.readFile ./nix/os/do/auth-token;
+  DIGITAL_OCEAN_AUTH_TOKEN = builtins.readFile ./secret/do-auth-token;
 }

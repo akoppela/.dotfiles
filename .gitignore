@@ -8,4 +8,4 @@ emacs/*
 .direnv
 
 # Secter
-auth-token
+secret
