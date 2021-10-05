@@ -213,6 +213,12 @@
      (setq use-package-always-ensure t)
    #+end_src
 
+** Gather stats
+
+   #+begin_src emacs-lisp
+     (setq use-package-compute-statistics t)
+   #+end_src
+
 * Keybindings
 
 ** =hydra=
@@ -337,6 +343,7 @@
          "h P" '(describe-package :which-key "package")
          "h m" '(describe-mode :which-key "describe mode")
          "h i" '(info :which-key "info")
+         "h r" '(use-package-report "report")
          ;; Quit
          "q" '(:ignore t :which-key "quit")
          "q q" '(save-buffers-kill-terminal :which-key "client")
