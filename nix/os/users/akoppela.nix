@@ -3,6 +3,8 @@
 let
   userName = "akoppela";
 
+  bashEnabled = true;
+  zshEnabled = true;
   xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
@@ -89,11 +91,27 @@ in
           enable = true;
           nix-direnv.enable = true;
           nix-direnv.enableFlakes = true;
-          enableBashIntegration = true;
+          enableBashIntegration = bashEnabled;
+          enableZshIntegration = zshEnabled;
+        };
+
+        programs.zsh = {
+          enable = zshEnabled;
+          dotDir = ".config/zsh";
+          enableAutosuggestions = true;
+          history = {
+            expireDuplicatesFirst = true;
+            extended = true;
+          };
+          oh-my-zsh = {
+            enable = true;
+            theme = "robbyrussell";
+            plugins = [ ];
+          };
         };
 
         programs.bash = {
-          enable = true;
+          enable = bashEnabled;
         };
       };
     };
