@@ -62,9 +62,6 @@ in
           pkgs.scrot # Screenshots
           pkgs.bottom # Monitoring
 
-
-          # Finance
-          pkgs.ledger
         ];
 
         programs.emacs = {
