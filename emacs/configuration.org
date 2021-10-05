@@ -694,19 +694,19 @@
        (exwm-workspace-rename-buffer exwm-class-name))
 
      (use-package exwm
+       :if (eq window-system 'x)
        :init
-       (when (eq window-system 'x)
-         (setq exwm-workspace-number 1)
-         (setq exwm-input-prefix-keys
-               '(s-left
-                 s-right
-                 s-up
-                 s-down
-                 ?\C-\ ))
-         (add-hook 'exwm-update-class-hook 'my/use-class-name)
-         (require 'exwm-randr)
-         (exwm-randr-enable)
-         (exwm-enable))
+       (setq exwm-workspace-number 1)
+       (setq exwm-input-prefix-keys
+             '(s-left
+               s-right
+               s-up
+               s-down
+               ?\C-\ ))
+       (add-hook 'exwm-update-class-hook 'my/use-class-name)
+       (require 'exwm-randr)
+       (exwm-randr-enable)
+       (exwm-enable)
        :config
        (evil-set-initial-state 'exwm-mode 'emacs)
        (leader-def
