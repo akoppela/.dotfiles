@@ -37,17 +37,12 @@ in
     <home-manager/nixos>
   ];
 
-  options."${userName}" = {
-    enableX = lib.mkEnableOption "Enable GUI";
-  };
-
   config = {
     nix.trustedUsers = [ userName ];
 
 
     # Enable graphical interface
-    services.xserver = lib.mkIf cfg.enableX {
-      enable = true;
+    services.xserver = lib.mkIf config.services.xserver.enable {
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
       displayManager.lightdm.enable = true;

@@ -13,7 +13,8 @@
     timeZone = "Europe/Moscow";
   };
 
-  akoppela.enableX = true;
+  # Enable X server
+  services.xserver.enable = true;
 
   # Enable auto screen lock
   services.physlock.enable = true;
