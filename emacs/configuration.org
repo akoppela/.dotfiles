@@ -313,6 +313,9 @@
          "f c" '(copy-file :which-key "copy")
          "f e" '(:ignore t :which-key "emacs")
          "f e c" '(my/open-configuration :which-key "configuration")
+         ;; Region
+         "r" '(:ignore t :which-key "region")
+         "r e" '(eval-region :which-key "eval")
          ;; Project
          "p" '(:ignore t :which-key "project")
          ;; Application
