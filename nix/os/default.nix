@@ -23,8 +23,9 @@ in
   };
 
   config = {
-    nix.maxJobs = lib.mkDefault 1;
+    networking.hostName = cfg.hostName;
 
+    nix.maxJobs = lib.mkDefault 1;
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
@@ -38,9 +39,9 @@ in
       '')
     ];
 
+    # Set locales and time zone
     console.keyMap = "us";
     i18n.defaultLocale = "en_US.UTF-8";
-    networking.hostName = cfg.hostName;
     time.timeZone = cfg.timeZone;
 
     # The NixOS release to be compatible with for stateful data such as databases.
