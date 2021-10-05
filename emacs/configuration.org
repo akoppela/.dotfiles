@@ -416,7 +416,10 @@
      (use-package doom-modeline
        :config
        (doom-modeline-mode 1)
-       (setq doom-modeline-height 35))
+       (setq doom-modeline-height 35)
+       :custom-face
+       (doom-modeline-evil-insert-state
+        ((t (:inherit (font-lock-type-face bold))))))
    #+end_src
 
 ** Hide menu, tool and scroll bars
