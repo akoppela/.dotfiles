@@ -31,10 +31,12 @@ in
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
 
-    nix.package = pkgs.nixUnstable;
-    nix.extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+    # Enable Nix Flakes
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "nixFlakes" ''
+        exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
+      '')
+    ];
 
     console.keyMap = "us";
     i18n.defaultLocale = "en_US.UTF-8";
