@@ -32,11 +32,6 @@ in
     console.keyMap = lib.mkDefault "us";
     console.useXkbConfig = true;
 
-    # Extra fonts
-    fonts.fonts = [
-      pkgs.jetbrains-mono
-    ];
-
     # The NixOS release to be compatible with for stateful data such as databases.
     system.stateVersion = lib.mkDefault "20.03";
   };

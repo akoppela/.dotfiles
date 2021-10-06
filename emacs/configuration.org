@@ -441,7 +441,7 @@
      (use-package doom-modeline
        :config
        (doom-modeline-mode 1)
-       (setq doom-modeline-height 35)
+       (setq doom-modeline-height 40)
        :custom-face
        (doom-modeline-evil-insert-state
         ((t (:inherit (font-lock-type-face bold))))))
@@ -554,11 +554,13 @@
      (display-time-mode 1)
    #+end_src
 
-** Set default font
+** Default font
 
    #+begin_src emacs-lisp
-     (when (member "JetBrains Mono" (font-family-list))
-       (set-frame-font "JetBrains Mono" t t))
+     (setq my/font (getenv "MY_FONT"))
+
+     (when (member my/font (font-family-list))
+       (set-frame-font my/font t t))
    #+end_src
 
 ** Enable ligatures
@@ -570,17 +572,10 @@
        (global-ligature-mode 1)
        (ligature-set-ligatures
         'prog-mode
-        '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
-          "/>" "//" "/*" "*>" "***" "*/" "<-" "<<-" "<=>" "<=" "<|" "<||"
-          "<|||" "<|>" "<:" "<>" "<-<" "<<<" "<==" "<<=" "<=<" "<==>" "<-|"
-          "<<" "<~>" "<=|" "<~~" "<~" "<$>" "<$" "<+>" "<+" "</>" "</" "<*"
-          "<*>" "<->" "<!--" ":>" ":<" ":::" "::" ":?" ":?>" ":=" "::=" "=>>"
-          "==>" "=/=" "=!=" "=>" "===" "=:=" "==" "!==" "!!" "!=" ">]" ">:"
-          ">>-" ">>=" ">=>" ">>>" ">-" ">=" "&&&" "&&" "|||>" "||>" "|>" "|]"
-          "|}" "|=>" "|->" "|=" "||-" "|-" "||=" "||" ".." ".?" ".=" ".-" "..<"
-          "..." "+++" "+>" "++" "[||]" "[<" "[|" "{|" "??" "?." "?=" "?:" "##"
-          "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
-          "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#")))
+        '("<---" "<--"  "<<-" "<-" "->" "-->" "--->" "<->" "<-->" "<--->" "<---->" "<!--"
+          "<==" "<===" "<=" "=>" "=>>" "==>" "===>" ">=" "<=>" "<==>" "<===>" "<====>" "<!---"
+          "<~~" "<~" "~>" "~~>" "::" ":::" "==" "!=" "===" "!=="
+          ":=" ":-" ":+" "<*" "<*>" "*>" "<|" "<|>" "|>" "+:" "-:" "=:" "<******>" "++" "+++")))
    #+end_src
 
 * Navigation, search and completion
@@ -898,7 +893,7 @@
 *** Change collapsed subtree symbol
 
     #+begin_src emacs-lisp
-      (setq org-ellipsis " ↴")
+      (setq org-ellipsis " ⤵")
     #+end_src
 
 *** Make TAB act natively for code blocks

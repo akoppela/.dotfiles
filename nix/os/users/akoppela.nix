@@ -5,6 +5,7 @@ let
 
   bashEnabled = true;
   zshEnabled = true;
+  MY_FONT = "Iosevka";
   xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
@@ -32,14 +33,18 @@ in
       };
     };
 
+    environment.variables = {
+      MY_FONT = MY_FONT;
+    };
+
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      shell = pkgs.bashInteractive;
       openssh.authorizedKeys.keyFiles = [
         ../../../keys/mac-mini.pub
         ../../../keys/ipad.pub
       ];
+      shell = "${pkgs.zsh}/bin/zsh";
     };
 
     home-manager = {
@@ -56,6 +61,9 @@ in
           ]))
           pkgs.ripgrep
           pkgs.vim
+
+          # Fonts
+          pkgs.iosevka
 
           # System
           pkgs.brightnessctl # Brightness
@@ -114,14 +122,14 @@ in
         programs.kitty = {
           enable = true;
           font = {
-            name = "JetBrains Mono";
+            name = MY_FONT;
             size = 16;
           };
           settings = {
             # Font
-            bold_font = "JetBrains Mono Bold";
-            italic_font = "JetBrains Mono Italic";
-            bold_italic_font = "JetBrains Mono Bold Italic";
+            bold_font = "${MY_FONT} Bold";
+            italic_font = "${MY_FONT} Italic";
+            bold_italic_font = "${MY_FONT} Bold Italic";
 
             # Mouse
             mouse_hide_wait = "-1.0";
