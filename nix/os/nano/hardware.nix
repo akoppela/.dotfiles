@@ -4,11 +4,8 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./hardware/power-management.nix
+    ../config/efi.nix
   ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # Kernel modules
   boot.initrd.availableKernelModules = [
