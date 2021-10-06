@@ -2,9 +2,6 @@
 
 let
   userName = "akoppela";
-
-  bashEnabled = true;
-  zshEnabled = true;
   MY_FONT = "Iosevka";
   xEnabled = config.services.xserver.enable;
 
@@ -51,7 +48,7 @@ in
       useUserPackages = true;
       useGlobalPkgs = true;
 
-      users.akoppela = { lib, ... }: {
+      users.akoppela = { config, lib, ... }: {
         home.packages = [
           # Text
           (pkgs.aspellWithDicts (dict: [
@@ -92,12 +89,12 @@ in
           enable = true;
           nix-direnv.enable = true;
           nix-direnv.enableFlakes = true;
-          enableBashIntegration = bashEnabled;
-          enableZshIntegration = zshEnabled;
+          enableBashIntegration = config.programs.bash.enable;
+          enableZshIntegration = config.programs.zsh.enable;
         };
 
         programs.zsh = {
-          enable = zshEnabled;
+          enable = true;
           dotDir = ".config/zsh";
           enableAutosuggestions = true;
           history = {
@@ -112,7 +109,7 @@ in
         };
 
         programs.bash = {
-          enable = bashEnabled;
+          enable = true;
         };
 
         programs.firefox = {
