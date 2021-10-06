@@ -1,3 +1,6 @@
 [submodule "color-theme-sanityinc-tomorrow"]
-  path = emacs/my/color-theme-sanityinc-tomorrow
-  url = https://github.com/akoppela/color-theme-sanityinc-tomorrow
+    path = emacs/my/color-theme-sanityinc-tomorrow
+    url = https://github.com/akoppela/color-theme-sanityinc-tomorrow
+[submodule "ligature"]
+	path = emacs/my/ligature
+	url = https://github.com/mickeynp/ligature.el
