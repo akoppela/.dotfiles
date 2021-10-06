@@ -56,8 +56,8 @@ in
             dict.en-computers
             dict.en-science
           ]))
-          pkgs.ripgrep
           pkgs.vim
+          pkgs.ripgrep
 
           # Fonts
           pkgs.iosevka
@@ -81,8 +81,8 @@ in
 
         programs.git = {
           enable = true;
-          userEmail = "akoppela@gmail.com";
           userName = "akoppela";
+          userEmail = "akoppela@gmail.com";
         };
 
         programs.direnv = {
