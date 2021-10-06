@@ -30,8 +30,5 @@ in
     # Set locales and key maps
     i18n.defaultLocale = "en_US.UTF-8";
     console.keyMap = lib.mkDefault "us";
-
-    # The NixOS release to be compatible with for stateful data such as databases.
-    system.stateVersion = lib.mkDefault "20.03";
   };
 }
