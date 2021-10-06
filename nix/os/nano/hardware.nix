@@ -3,6 +3,7 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    ./hardware/power-management.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -31,9 +32,6 @@
     fsType = "vfat";
   };
   swapDevices = [ ];
-
-  # Enable powersave mode
-  powerManagement.cpuFreqGovernor = "powersave";
 
   # Enable high-resolution display
   hardware.video.hidpi.enable = true;

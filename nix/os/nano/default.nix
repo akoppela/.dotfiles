@@ -1,7 +1,6 @@
 {
   imports = [
     ./hardware.nix
-    ./power-management.nix
     ./networking.nix
     ../default.nix
     ../users/akoppela.nix

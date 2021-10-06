@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
 {
   # Include acpi_call for battery recalibrations
@@ -7,4 +7,5 @@
 
   # Enable power management
   services.tlp.enable = true;
+  powerManagement.cpuFreqGovernor = "powersave";
 }
