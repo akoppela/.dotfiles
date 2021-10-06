@@ -2,7 +2,7 @@
 
 let
   userName = "akoppela";
-  MY_FONT = "Iosevka";
+  userFont = "Iosevka";
   xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
@@ -30,8 +30,9 @@ in
       };
     };
 
+    # Global environment variables
     environment.variables = {
-      MY_FONT = MY_FONT;
+      MY_FONT = userFont;
     };
 
     users.users."${userName}" = {
@@ -119,14 +120,14 @@ in
         programs.kitty = {
           enable = true;
           font = {
-            name = MY_FONT;
+            name = userFont;
             size = 16;
           };
           settings = {
             # Font
-            bold_font = "${MY_FONT} Bold";
-            italic_font = "${MY_FONT} Italic";
-            bold_italic_font = "${MY_FONT} Bold Italic";
+            bold_font = "${userFont} Bold";
+            italic_font = "${userFont} Italic";
+            bold_italic_font = "${userFont} Bold Italic";
 
             # Mouse
             mouse_hide_wait = "-1.0";
