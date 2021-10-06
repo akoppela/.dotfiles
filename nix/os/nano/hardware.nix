@@ -22,7 +22,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # File system
+  # File systems and swap
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
