@@ -560,7 +560,7 @@
      (setq my/font (getenv "MY_FONT"))
 
      (when (member my/font (font-family-list))
-       (set-frame-font my/font t t))
+       (set-frame-font (concat my/font " 12") t t))
    #+end_src
 
 ** Enable ligatures

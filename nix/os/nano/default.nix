@@ -13,7 +13,7 @@
 
   # Enable X server
   services.xserver.enable = true;
-  services.xserver.dpi = 175;
+  services.xserver.dpi = 160;
 
   # Enable auto screen lock
   services.physlock.enable = true;
