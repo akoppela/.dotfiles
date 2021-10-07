@@ -2,7 +2,7 @@
 
 let
   userName = "akoppela";
-  userFont = "Iosevka";
+  userFont = "Iosevka Term";
   xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
@@ -16,6 +16,10 @@ in
 
   config = {
     nix.trustedUsers = [ userName ];
+
+    nixpkgs.overlays = [
+      (import ../../overlay/pkgs.nix)
+    ];
 
 
     # Enable graphical interface
@@ -62,7 +66,7 @@ in
           pkgs.ripgrep
 
           # Fonts
-          pkgs.iosevka
+          pkgs.iosevka-term
 
           # System
           pkgs.brightnessctl # Brightness

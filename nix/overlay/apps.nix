@@ -1,4 +1,5 @@
 self: super:
+
 let
   installApp = import ../lib/installApp.nix super;
 in

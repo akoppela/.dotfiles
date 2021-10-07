@@ -1,4 +1,5 @@
 self: super:
+
 {
   extempore = super.stdenv.mkDerivation rec {
     pname = "extempore";
@@ -23,6 +24,20 @@ self: super:
       homepage = "https://extemporelang.github.io";
       maintainers = [ super.lib.maintainers.akoppela ];
       platforms = super.lib.platforms.darwin;
+    };
+  };
+
+  iosevka-term = self.iosevka.override {
+    set = "term";
+    privateBuildPlan = {
+      family = "Iosevka Term";
+      spacing = "term";
+      serifs = "sans";
+      no-cv-ss = true;
+
+      ligations = {
+        inherits = "dlig";
+      };
     };
   };
 }
