@@ -751,7 +751,6 @@
        :config
        (evil-set-initial-state 'exwm-mode 'emacs)
        (leader-def
-         :states '(normal visual)
          "a l" '(my/launch-program :which-key "launch")))
    #+end_src
 
