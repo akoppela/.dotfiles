@@ -4,3 +4,6 @@
 [submodule "ligature"]
 	path = emacs/my/ligature
 	url = https://github.com/mickeynp/ligature.el
+[submodule "nix-emacs"]
+	path = emacs/my/nix-emacs
+	url = https://github.com/travisbhartwell/nix-emacs.git

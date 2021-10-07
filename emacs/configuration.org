@@ -1155,6 +1155,13 @@
 
      (use-package nixpkgs-fmt
        :hook (nix-mode . nixpkgs-fmt-on-save-mode))
+
+     (use-package ivy-nixos-options
+       :load-path "my/nix-emacs"
+       :commands ivy-nixos-options
+       :init
+       (leader-def
+         "h n" '(ivy-nixos-options :which-key "nixos options")))
    #+end_src
 
 ** =yaml=
