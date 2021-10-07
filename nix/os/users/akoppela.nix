@@ -129,6 +129,7 @@ in
             bold_font = "${userFont} Bold";
             italic_font = "${userFont} Italic";
             bold_italic_font = "${userFont} Bold Italic";
+            disable_ligatures = "always";
 
             # Mouse
             mouse_hide_wait = "-1.0";
