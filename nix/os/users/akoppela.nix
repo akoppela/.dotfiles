@@ -15,7 +15,6 @@ in
   ];
 
   config = {
-    nix.maxJobs = 8;
     nix.trustedUsers = [ userName ];
 
     nixpkgs.overlays = [
