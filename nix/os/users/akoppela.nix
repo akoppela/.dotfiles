@@ -126,7 +126,7 @@ in
           enable = true;
           font = {
             name = userFont;
-            size = 18;
+            size = 19;
           };
           settings = {
             # Font
