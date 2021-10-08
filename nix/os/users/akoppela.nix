@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 
 let
+  xEnabled = config.services.xserver.enable;
   userName = "akoppela";
   userFont = "Iosevka Term";
-  xEnabled = config.services.xserver.enable;
 
   emacs = pkgs.emacsWithPackages (epkgs: [
     epkgs.vterm
@@ -40,6 +40,9 @@ in
       MY_FONT = userFont;
     };
 
+    # Enable screen saver
+    programs.slock.enable = true;
+
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
@@ -54,7 +57,7 @@ in
       useUserPackages = true;
       useGlobalPkgs = true;
 
-      users.akoppela = { config, lib, ... }: {
+      users.akoppela = hmModule: {
         home.packages = [
           # Text
           (pkgs.aspellWithDicts (dict: [
@@ -75,11 +78,17 @@ in
 
         ];
 
+        services.screen-locker = {
+          enable = true;
+          xautolock.enable = false; # Disable in favor of xset setting screen saver
+          lockCmd = "${config.security.wrapperDir}/slock";
+        };
+
         programs.emacs = {
           enable = true;
           package = emacs;
         };
-        home.activation.linkEmacsConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e $HOME/.emacs.d ]; then
             $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
           fi
@@ -95,8 +104,8 @@ in
           enable = true;
           nix-direnv.enable = true;
           nix-direnv.enableFlakes = true;
-          enableBashIntegration = config.programs.bash.enable;
-          enableZshIntegration = config.programs.zsh.enable;
+          enableBashIntegration = hmModule.config.programs.bash.enable;
+          enableZshIntegration = hmModule.config.programs.zsh.enable;
         };
 
         programs.zsh = {
