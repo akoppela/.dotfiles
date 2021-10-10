@@ -22,7 +22,6 @@ in
 
 
     # Enable graphical interface
-    console.useXkbConfig = true;
     services.xserver = lib.mkIf config.services.xserver.enable {
       xkbOptions = "caps:swapescape";
       libinput.enable = true;

@@ -30,5 +30,6 @@ in
     # Set locales and key maps
     i18n.defaultLocale = "en_US.UTF-8";
     console.keyMap = lib.mkDefault "us";
+    console.useXkbConfig = config.services.xserver.enable;
   };
 }
