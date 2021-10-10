@@ -108,23 +108,7 @@ in
           enable = true;
           nix-direnv.enable = true;
           nix-direnv.enableFlakes = true;
-          enableBashIntegration = hmModule.config.programs.bash.enable;
-          enableZshIntegration = hmModule.config.programs.zsh.enable;
-        };
-
-        programs.zsh = {
-          enable = true;
-          dotDir = ".config/zsh";
-          enableAutosuggestions = true;
-          history = {
-            expireDuplicatesFirst = true;
-            extended = true;
-          };
-          oh-my-zsh = {
-            enable = true;
-            theme = "robbyrussell";
-            plugins = [ ];
-          };
+          enableBashIntegration = true;
         };
 
         programs.bash = {
