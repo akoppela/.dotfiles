@@ -326,6 +326,7 @@
          "p" '(:ignore t :which-key "project")
          ;; Application
          "a" '(:ignore t :which-key "application")
+         "a p" '(proced :which-key "processes")
          ;; Search
          "s" '(:ignore t :which-key "search")
          ;; Error
