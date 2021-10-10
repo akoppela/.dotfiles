@@ -38,9 +38,9 @@ in
       description = "Locks the screen on sleep";
       before = [ "sleep.target" ];
       wantedBy = [ "sleep.target" ];
+      script = "${config.security.wrapperDir}/slock";
       serviceConfig = {
         User = userName;
-        ExecStart = "${config.security.wrapperDir}/slock";
       };
       environment = {
         DISPLAY = ":${toString config.services.xserver.display}";
