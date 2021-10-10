@@ -26,20 +26,26 @@ in
       xkbOptions = "caps:swapescape";
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
-      displayManager.lightdm.enable = true;
-      windowManager.session = lib.singleton {
-        name = "exwm";
-        start = "${emacs}/bin/emacs -mm --debug-init";
+      displayManager.startx.enable = true;
+      serverFlagsSection = ''
+        Option "DontVTSwitch" "True"
+      '';
+    };
+
+    # Enable screen locker
+    programs.slock.enable = true;
+    systemd.services.my-sleep-locker = {
+      description = "Locks the screen on sleep";
+      before = [ "sleep.target" ];
+      wantedBy = [ "sleep.target" ];
+      serviceConfig = {
+        User = userName;
+        ExecStart = "${config.security.wrapperDir}/slock";
+      };
+      environment = {
+        DISPLAY = ":${toString config.services.xserver.display}";
       };
     };
-
-    # Global environment variables
-    environment.variables = {
-      MY_FONT = userFont;
-    };
-
-    # Enable screen saver
-    programs.slock.enable = true;
 
     users.users."${userName}" = {
       isNormalUser = true;
@@ -56,6 +62,12 @@ in
       useGlobalPkgs = true;
 
       users.akoppela = hmModule: {
+        home.sessionVariables = {
+          EDITOR = "${emacs}/bin/emacs";
+          SHELL = "${pkgs.bashInteractive}/bin/bash";
+          MY_FONT = userFont;
+        };
+
         home.packages = [
           # Text
           (pkgs.aspellWithDicts (dict: [
@@ -75,12 +87,6 @@ in
           pkgs.bottom # Monitoring
 
         ];
-
-        services.screen-locker = {
-          enable = true;
-          xautolock.enable = false; # Disable in favor of xset setting screen saver
-          lockCmd = "${config.security.wrapperDir}/slock";
-        };
 
         programs.emacs = {
           enable = true;
@@ -123,6 +129,7 @@ in
 
         programs.bash = {
           enable = true;
+          initExtra = "[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ${emacs}/bin/emacs -mm --debug-init";
         };
 
         programs.firefox = {
