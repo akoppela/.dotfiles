@@ -50,10 +50,6 @@ in
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keyFiles = [
-        ../../../keys/mac-mini.pub
-        ../../../keys/ipad.pub
-      ];
     };
 
     home-manager = {
