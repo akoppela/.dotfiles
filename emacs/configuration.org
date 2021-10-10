@@ -440,9 +440,10 @@
 
    #+begin_src emacs-lisp
      (use-package doom-modeline
+       :init
+       (setq doom-modeline-height 40)
        :config
        (doom-modeline-mode 1)
-       (setq doom-modeline-height 40)
        :custom-face
        (doom-modeline-evil-insert-state
         ((t (:inherit (font-lock-type-face bold))))))
