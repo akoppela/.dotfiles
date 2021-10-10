@@ -344,7 +344,7 @@
          "h P" '(describe-package :which-key "package")
          "h m" '(describe-mode :which-key "describe mode")
          "h i" '(info :which-key "info")
-         "h r" '(use-package-report "report")
+         "h r" '(use-package-report :which-key "report")
          ;; Quit
          "q" '(:ignore t :which-key "quit")
          "q q" '(save-buffers-kill-terminal :which-key "client")
