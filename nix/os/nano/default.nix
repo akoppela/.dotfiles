@@ -13,8 +13,10 @@
   nix.maxJobs = 6;
 
   # Enable X server
-  services.xserver.enable = true;
-  services.xserver.dpi = 160;
+  services.xserver = {
+    enable = true;
+    dpi = 160;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
