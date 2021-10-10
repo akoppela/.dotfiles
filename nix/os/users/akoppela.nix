@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  xEnabled = config.services.xserver.enable;
   userName = "akoppela";
   userFont = "Iosevka Term";
 
@@ -24,7 +23,7 @@ in
 
     # Enable graphical interface
     console.useXkbConfig = true;
-    services.xserver = lib.mkIf xEnabled {
+    services.xserver = lib.mkIf config.services.xserver.enable {
       xkbOptions = "caps:swapescape";
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
@@ -128,7 +127,7 @@ in
         };
 
         programs.firefox = {
-          enable = xEnabled;
+          enable = true;
         };
 
         programs.kitty = {
