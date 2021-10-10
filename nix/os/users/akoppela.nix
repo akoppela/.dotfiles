@@ -54,7 +54,6 @@ in
         ../../../keys/mac-mini.pub
         ../../../keys/ipad.pub
       ];
-      shell = "${pkgs.zsh}/bin/zsh";
     };
 
     home-manager = {
