@@ -416,10 +416,22 @@
 ** Load custom theme
 
    #+begin_src emacs-lisp
-     (use-package color-theme-sanityinc-tomorrow
-       :load-path "my/color-theme-sanityinc-tomorrow"
+     (use-package doom-themes
+       :init
+       (setq doom-themes-enable-bold t)
+       (setq doom-themes-enable-italic t)
+       (setq doom-themes-treemacs-theme "doom-colors")
        :config
-       (load-theme 'sanityinc-tomorrow-akoppela t))
+       (doom-themes-visual-bell-config)
+       (doom-themes-treemacs-config)
+       (doom-themes-org-config)
+       (load-theme 'doom-dracula t))
+
+     (use-package solaire-mode
+       :if my/window-system-x
+       :after doom-themes
+       :config
+       (solaire-global-mode +1))
    #+end_src
 
 ** =modeline= specific
@@ -429,10 +441,7 @@
        :init
        (setq doom-modeline-height 40)
        :config
-       (doom-modeline-mode 1)
-       :custom-face
-       (doom-modeline-evil-insert-state
-        ((t (:inherit (font-lock-type-face bold))))))
+       (doom-modeline-mode 1))
    #+end_src
 
 ** Hide menu, tool and scroll bars
@@ -441,12 +450,6 @@
      (tool-bar-mode 0)
      (when (display-graphic-p) (scroll-bar-mode 0))
      (menu-bar-mode 0)
-   #+end_src
-
-** Enable current line highlighting
-
-   #+begin_src emacs-lisp
-     (global-hl-line-mode 1)
    #+end_src
 
 ** Turn on syntax highlighting whenever possible
