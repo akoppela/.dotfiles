@@ -401,6 +401,8 @@
    #+begin_src emacs-lisp
      (use-package desktop-environment
        :after exwm
+       :init
+       (setq desktop-environment-screenlock-command "systemctl suspend")
        :config
        (desktop-environment-mode))
    #+end_src
