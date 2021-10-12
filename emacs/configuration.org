@@ -556,8 +556,9 @@
    #+begin_src emacs-lisp
      (use-package ligature
        :load-path "my/ligature"
+       :commands ligature-mode
        :config
-       (global-ligature-mode 1)
+       (add-hook 'prog-mode-hook 'ligature-mode)
        (ligature-set-ligatures
         'prog-mode
         '("-<<" "-<" "-<-" "<--" "<---" "<<-" "<-" "->" "->>" "-->" "--->" "->-" ">-" ">>-"
