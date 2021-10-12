@@ -592,6 +592,7 @@
                "--line-number"
                "--color" "never"
                "%s"))
+       (setq counsel-linux-app-format-function 'counsel-linux-app-format-function-name-only)
        (general-def
          :states '(normal visual)
          "/" 'swiper-isearch
@@ -721,10 +722,9 @@
 ** =exwm=
 
    #+begin_src emacs-lisp
-     (defun my/launch-program (command)
-       "Starts program from shell command"
-       (interactive (list (read-shell-command "$ ")))
-       (start-process-shell-command command nil command))
+     (defun my/run-in-background (command)
+       (let ((command-parts (split-string command "[ ]+")))
+         (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
      (defun my/use-class-name ()
        "Renames workspace buffer with class name"
@@ -747,7 +747,7 @@
        :config
        (evil-set-initial-state 'exwm-mode 'emacs)
        (leader-def
-         "a l" '(my/launch-program :which-key "launch")))
+         "a l" '(counsel-linux-app :which-key "launch")))
    #+end_src
 
 * Project, time and task management
