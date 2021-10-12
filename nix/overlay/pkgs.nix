@@ -27,7 +27,7 @@ self: super:
     };
   };
 
-  iosevka-term = self.iosevka.override {
+  iosevka-term = super.iosevka.override {
     set = "term";
     privateBuildPlan = {
       family = "Iosevka Term";
