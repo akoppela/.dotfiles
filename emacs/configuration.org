@@ -153,20 +153,6 @@
      (setq custom-file "/dev/null")
    #+end_src
 
-** Paste to MacOS clipboard
-
-   #+begin_src emacs-lisp
-     (defun paste-to-osx (text)
-       "Copies content of clipboard from Emacs to MacOS"
-       (when (equal system-type 'darwin)
-         (let ((process-connection-type nil))
-           (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-             (process-send-string proc text)
-             (process-send-eof proc)))))
-
-     (setq interprogram-cut-function 'paste-to-osx)
-   #+end_src
-
 ** Narrow
 
    #+begin_src emacs-lisp
@@ -1282,23 +1268,34 @@
            (projectile-run-vterm nil)
          (vterm)))
 
-     (defun copy-from-osx ()
-       "Copies content of clipboard from MacOS to Emacs"
+     (defun paste-to-os (text)
+       "Copies content of clipboard from Emacs to OS"
+       (if (equal system-type 'darwin)
+           (let ((process-connection-type nil))
+             (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+               (process-send-string proc text)
+               (process-send-eof proc)))
+         (gui-select-text text)))
+
+     (defun copy-from-os ()
+       "Copies content of clipboard from OS to Emacs"
        (interactive)
-       (when (equal system-type 'darwin)
-         (vterm-insert (shell-command-to-string "pbpaste"))))
+       (if (equal system-type 'darwin)
+           (vterm-insert (shell-command-to-string "pbpaste"))
+         (vterm-yank)))
 
      (use-package vterm
        :commands vterm
        :init
+       (setq interprogram-cut-function 'paste-to-os)
        (leader-def
          "a t" '(my/terminal :which-key "terminal"))
        :config
        (general-def
          :keymaps 'vterm-mode-map
-         [remap xterm-paste] 'copy-from-osx
-         [remap yank] 'copy-from-osx
-         [remap vterm-yank] 'copy-from-osx)
+         [remap xterm-paste] 'copy-from-os
+         [remap yank] 'copy-from-os
+         [remap vterm-yank] 'copy-from-os)
        (general-def
          :states '(normal visual)
          :keymaps 'vterm-mode-map
