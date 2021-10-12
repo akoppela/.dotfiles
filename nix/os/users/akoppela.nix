@@ -20,6 +20,11 @@ in
       (import ../../overlay/pkgs.nix)
     ];
 
+    # Allowed unfree packages
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "1password"
+      "slack"
+    ];
 
     # Enable graphical interface
     services.xserver = lib.mkIf config.services.xserver.enable {
@@ -81,6 +86,11 @@ in
           pkgs.scrot # Screenshots
           pkgs.bottom # Monitoring
 
+          # Security
+          pkgs._1password-gui
+
+          # Communication
+          pkgs.slack
         ];
 
         programs.emacs = {
