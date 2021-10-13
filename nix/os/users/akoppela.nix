@@ -118,7 +118,9 @@ in
 
         programs.bash = {
           enable = true;
-          initExtra = "[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ${emacs}/bin/emacs -mm --debug-init";
+          initExtra = ''
+            [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ${emacs}/bin/emacs -mm --debug-init
+          '';
         };
 
         programs.firefox = {
