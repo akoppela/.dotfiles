@@ -732,6 +732,12 @@
        "Renames workspace buffer based on title"
        (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
+     (defun my/exwm-float-toggle ()
+       "Toggles window floating state. When floating modeline is hidden."
+       (interactive)
+       (exwm-floating-toggle-floating)
+       (exwm-layout-toggle-mode-line))
+
      (use-package exwm
        :if my/window-system-x
        :init
@@ -752,7 +758,8 @@
        :config
        (evil-set-initial-state 'exwm-mode 'emacs)
        (leader-def
-         "a l" '(counsel-linux-app :which-key "launch")))
+         "a l" '(counsel-linux-app :which-key "launch")
+         "w f" '(my/exwm-float-toggle :which-key "float")))
    #+end_src
 
 * Project, time and task management
