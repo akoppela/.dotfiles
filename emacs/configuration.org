@@ -749,14 +749,15 @@
                s-down
                ?\C-\ ))
 
+       (evil-set-initial-state 'exwm-mode 'emacs)
+
        (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
        (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
 
        (require 'exwm-randr)
        (exwm-randr-enable)
        (exwm-enable)
-       :config
-       (evil-set-initial-state 'exwm-mode 'emacs)
+
        (leader-def
          "a l" '(counsel-linux-app :which-key "launch")
          "w f" '(my/exwm-float-toggle :which-key "float")))
