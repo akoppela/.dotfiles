@@ -727,9 +727,9 @@
        (let ((command-parts (split-string command "[ ]+")))
          (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-     (defun my/use-class-name ()
-       "Renames workspace buffer with class name"
-       (exwm-workspace-rename-buffer exwm-class-name))
+     (defun my/exwm-rename-workspace ()
+       "Renames workspace buffer based on title"
+       (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
      (use-package exwm
        :if my/window-system-x
@@ -741,7 +741,10 @@
                s-up
                s-down
                ?\C-\ ))
-       (add-hook 'exwm-update-class-hook 'my/use-class-name)
+
+       (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
+       (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
+
        (require 'exwm-randr)
        (exwm-randr-enable)
        (exwm-enable)
