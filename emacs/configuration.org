@@ -562,8 +562,9 @@
      (use-package ligature
        :load-path "my/ligature"
        :commands ligature-mode
-       :config
+       :init
        (add-hook 'prog-mode-hook 'ligature-mode)
+       :config
        (ligature-set-ligatures
         'prog-mode
         '("-<<" "-<" "-<-" "<--" "<---" "<<-" "<-" "->" "->>" "-->" "--->" "->-" ">-" ">>-"
