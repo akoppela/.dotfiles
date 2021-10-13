@@ -724,6 +724,7 @@
 
    #+begin_src emacs-lisp
      (defun my/run-in-background (command)
+       "Runs command in the background"
        (let ((command-parts (split-string command "[ ]+")))
          (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
