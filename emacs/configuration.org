@@ -155,10 +155,12 @@
      (put 'narrow-to-page 'disabled nil)
    #+end_src
 
-** Check for X window system
+** Set system values
 
    #+begin_src emacs-lisp
      (setq my/window-system-x (eq window-system 'x))
+     (setq my/system-linux (eq system-type 'gnu/linux))
+     (setq my/system-mac (eq system-type 'darwin))
    #+end_src
 
 * Package management
@@ -406,6 +408,7 @@
 
    #+begin_src emacs-lisp
      (use-package desktop-environment
+       :if my/system-linux
        :after exwm
        :init
        (setq desktop-environment-screenlock-command "systemctl suspend")
@@ -436,7 +439,7 @@
        (load-theme 'doom-dracula t))
 
      (use-package solaire-mode
-       :if my/window-system-x
+       :if (display-graphic-p)
        :after doom-themes
        :config
        (solaire-global-mode +1))
@@ -599,7 +602,6 @@
                "--line-number"
                "--color" "never"
                "%s"))
-       (setq counsel-linux-app-format-function 'counsel-linux-app-format-function-name-only)
        (general-def
          :states '(normal visual)
          "/" 'swiper-isearch
@@ -1294,7 +1296,7 @@
 
      (defun paste-to-os (text)
        "Copies content of clipboard from Emacs to OS"
-       (if (equal system-type 'darwin)
+       (if my/system-mac
            (let ((process-connection-type nil))
              (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
                (process-send-string proc text)
@@ -1304,7 +1306,7 @@
      (defun copy-from-os ()
        "Copies content of clipboard from OS to Emacs"
        (interactive)
-       (if (equal system-type 'darwin)
+       (if my/system-mac
            (vterm-insert (shell-command-to-string "pbpaste"))
          (vterm-yank)))
 
