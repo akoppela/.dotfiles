@@ -494,12 +494,6 @@
      (setq-default show-paren-delay 0.0)
    #+end_src
 
-** Flash screen on invalid operation
-
-   #+begin_src emacs-lisp
-     (setq visible-bell nil)
-   #+end_src
-
 ** Display visual line numbers
 
    Visual lines are relative screen lines.
