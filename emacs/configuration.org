@@ -454,7 +454,7 @@
        (doom-themes-visual-bell-config)
        (doom-themes-treemacs-config)
        (doom-themes-org-config)
-       (load-theme 'doom-dracula t))
+       (load-theme 'doom-one t))
 
      (use-package solaire-mode
        :if (display-graphic-p)
