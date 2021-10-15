@@ -892,7 +892,7 @@
 *** Change collapsed subtree symbol
 
     #+begin_src emacs-lisp
-      (setq org-ellipsis " ⤵")
+      (setq org-ellipsis " ▼")
     #+end_src
 
 *** Make TAB act natively for code blocks
