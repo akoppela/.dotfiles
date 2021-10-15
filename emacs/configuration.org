@@ -916,7 +916,9 @@
       (setq-default org-refile-use-outline-path 'file)
       (setq-default org-outline-path-complete-in-steps nil)
       (setq-default org-refile-allow-creating-parent-nodes 'confirm)
+
       (add-hook 'org-after-refile-insert-hook 'org-update-parent-todo-statistics)
+
       (defun my/org-refile ()
         "My custom org-refile"
         (interactive)
@@ -972,6 +974,7 @@
        (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
        (leader-def
          "a h" '(reaper :which-key "harvest"))
+
        :config
        (general-def
          :states '(normal visual)
