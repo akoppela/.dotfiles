@@ -47,11 +47,6 @@
          (org-babel-tangle nil my/configuration-el)))
 
      (add-hook 'after-save-hook 'my/tangle-configuration)
-
-     (defun my/open-configuration ()
-       "Opens emacs configuration."
-       (interactive)
-       (find-file my/configuration-org))
    #+end_src
 
 ** Setup encoding to UTF-8
@@ -224,6 +219,11 @@
        ("{" shrink-window "shrink vertically")
        ("}" enlarge-window "enlarge vertically"))
 
+     (defun my/open-emacs-configuration ()
+       "Opens emacs configuration."
+       (interactive)
+       (find-file my/configuration-org))
+
      (defun my/split-window-toggle ()
        "Toggles window split from horizontal to vertical and vice versa."
        (interactive)
@@ -304,7 +304,7 @@
          "f d" '(my/delete-file-and-buffer :which-key "delete")
          "f c" '(copy-file :which-key "copy")
          "f e" '(:ignore t :which-key "emacs")
-         "f e c" '(my/open-configuration :which-key "configuration")
+         "f e c" '(my/open-emacs-configuration :which-key "configuration")
          ;; Region
          "r" '(:ignore t :which-key "region")
          "r e" '(eval-region :which-key "eval")
