@@ -538,18 +538,6 @@
      (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
    #+end_src
 
-** Show battery status
-
-   #+begin_src emacs-lisp
-     (display-battery-mode 1)
-   #+end_src
-
-** Show current time
-
-   #+begin_src emacs-lisp
-     (display-time-mode 1)
-   #+end_src
-
 ** Default font
 
    #+begin_src emacs-lisp
