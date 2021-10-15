@@ -867,8 +867,7 @@
         "d s" '(org-schedule :which-key "schedule")
         "d d" '(org-deadline :which-key "deadline")
 
-        "s" '(:ignore t :which-key "subtree")
-        "s r" '(my/org-refile :which-key "refile"))
+        "s" '(:ignore t :which-key "subtree"))
     #+end_src
 
 *** Agenda files
@@ -924,6 +923,10 @@
         (progn
           (org-refile)
           (org-update-parent-todo-statistics)))
+
+      (major-def
+        :keymaps 'org-mode-map
+        "s r" '(my/org-refile :which-key "refile"))
     #+end_src
 
 *** Enable =evil-org=
