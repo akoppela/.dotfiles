@@ -705,8 +705,11 @@
          "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s")
        (defengine wikipedia
          "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+       (defengine youtube
+         "http://www.youtube.com/results?aq=f&oq=&search_query=%s")
        (leader-def
          "s b" '(engine/search-google :which-key "browser")
+         "s y" '(engine/search-youtube :which-key "youtube")
          "s w" '(engine/search-wikipedia :which-key "wiki")))
    #+end_src
 
