@@ -723,6 +723,11 @@
 ** =exwm=
 
    #+begin_src emacs-lisp
+     (defun my/launch-program (command)
+       "Starts program from shell command"
+       (interactive (list (read-shell-command "$ ")))
+       (start-process-shell-command command nil command))
+
      (defun my/run-in-background (command)
        "Runs command in the background"
        (let ((command-parts (split-string command "[ ]+")))
@@ -759,7 +764,7 @@
        (exwm-enable)
 
        (leader-def
-         "a l" '(counsel-linux-app :which-key "launch")
+         "a l" '(my/launch-program :which-key "launch")
          "w f" '(my/exwm-float-toggle :which-key "float")))
    #+end_src
 
