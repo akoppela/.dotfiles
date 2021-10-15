@@ -262,6 +262,11 @@
                         (kill-buffer))))
            (message "Can't delete file."))))
 
+     (defun my/launch-program (command)
+       "Starts program from shell command"
+       (interactive (list (read-shell-command "$ ")))
+       (start-process-shell-command command nil command))
+
      (use-package general
        :init
        (general-create-definer leader-def
@@ -312,6 +317,7 @@
          "p" '(:ignore t :which-key "project")
          ;; Application
          "a" '(:ignore t :which-key "application")
+         "a l" '(my/launch-program :which-key "launch")
          "a p" '(proced :which-key "processes")
          ;; Search
          "s" '(:ignore t :which-key "search")
@@ -723,11 +729,6 @@
 ** =exwm=
 
    #+begin_src emacs-lisp
-     (defun my/launch-program (command)
-       "Starts program from shell command"
-       (interactive (list (read-shell-command "$ ")))
-       (start-process-shell-command command nil command))
-
      (defun my/run-in-background (command)
        "Runs command in the background"
        (let ((command-parts (split-string command "[ ]+")))
@@ -764,7 +765,6 @@
        (exwm-enable)
 
        (leader-def
-         "a l" '(my/launch-program :which-key "launch")
          "w f" '(my/exwm-float-toggle :which-key "float")))
    #+end_src
 
