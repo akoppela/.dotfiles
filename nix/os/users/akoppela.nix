@@ -24,6 +24,9 @@ in
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "1password"
       "slack"
+      "steam"
+      "steam-original"
+      "steam-runtime"
     ];
 
     # Enable graphical interface
@@ -52,6 +55,8 @@ in
       };
     };
 
+    # Enable Steam for gaming
+    programs.steam.enable = true;
 
     # Set user
     users.users."${userName}" = {
