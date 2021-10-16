@@ -93,6 +93,7 @@ in
           pkgs.brightnessctl # Brightness
           pkgs.scrot # Screenshots
           pkgs.bottom # Monitoring
+          pkgs.bluez # Bluetooth
 
           # Security
           pkgs._1password-gui
