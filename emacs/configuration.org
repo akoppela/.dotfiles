@@ -501,7 +501,7 @@
    Visual lines are relative screen lines.
 
    #+begin_src emacs-lisp
-     (global-display-line-numbers-mode)
+     (add-hook 'prog-mode 'display-line-numbers-mode)
      (setq-default display-line-numbers-type 'visual)
      (setq-default display-line-numbers-width-start t)
    #+end_src
