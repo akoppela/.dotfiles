@@ -68,6 +68,7 @@ in
           EDITOR = "${emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
           MY_FONT = userFont;
+          MY_MU4E_PATH = "${pkgs.mu}/share/emacs/site-lisp/mu4e";
         };
 
         home.packages = [
@@ -155,6 +156,34 @@ in
             # OS specific
             macos_option_as_alt = "yes";
             macos_thicken_font = "0.2";
+          };
+        };
+
+        programs.mbsync.enable = true;
+        programs.mu.enable = true;
+
+        accounts.email.accounts = {
+          akoppela = {
+            primary = true;
+            flavor = "gmail.com";
+            address = "akoppela@gmail.com";
+            userName = "akoppela@gmail.com";
+            realName = "Andrey Koppel (akoppela)";
+            passwordCommand = "${pkgs.coreutils}/bin/cat $HOME/.dotfiles/secret/akoppela-gmail";
+            signature = {
+              showSignature = "append";
+              text = ''
+                Thank you,
+                Andrey.
+              '';
+            };
+            mbsync = {
+              enable = true;
+              create = "both";
+            };
+            mu.enable = true;
+            imap.tls.enable = true;
+            smtp.tls.enable = true;
           };
         };
       };
