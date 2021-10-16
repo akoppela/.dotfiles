@@ -549,6 +549,24 @@
        (set-frame-font (concat my/font " 12") t t))
    #+end_src
 
+** Show battery status
+
+   #+begin_src emacs-lisp
+     (when my/system-linux (display-battery-mode 1))
+   #+end_src
+
+** Show current time
+
+   #+begin_src emacs-lisp
+     (defun padDateNumber (stringNumber)
+       (format "%02d" (string-to-number stringNumber)))
+
+     (setq display-time-string-forms
+           '(dayname " " (padDateNumber day) ", " 24-hours ":" minutes))
+
+     (when my/system-linux (display-time-mode 1))
+   #+end_src
+
 ** Enable ligatures
 
    #+begin_src emacs-lisp
