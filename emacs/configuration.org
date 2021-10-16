@@ -465,7 +465,7 @@
        (solaire-global-mode +1))
    #+end_src
 
-** =modeline= specific
+** Load custom =modeline=
 
    #+begin_src emacs-lisp
      (use-package doom-modeline
