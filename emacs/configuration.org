@@ -312,6 +312,8 @@
          "b e" '(eval-buffer :which-key "eval")
          "b r" '(rename-buffer :which-key "rename")
          "b R" '(revert-buffer :which-key "revert")
+         ;; Device
+         "d" '(:ignore t :which-key "device")
          ;; Window
          "w" '(:ignore t :which-key "window")
          "w TAB" '(other-window :which-key "next")
@@ -1557,6 +1559,35 @@
         :token (auth-source-pick-first-password
                 :host "elmlang.slack.com"
                 :user "akoppela@gmail.com")))
+   #+end_src
+
+** Bluetooth
+
+   #+begin_src emacs-lisp
+     (use-package bluetooth
+       :commands bluetooth-list-devices
+       :init
+       (leader-def
+         "d b" '(bluetooth-list-devices :which-key "bluetooth"))
+       :config
+       (evil-set-initial-state 'bluetooth-mode 'motion)
+       (general-def
+         :states 'motion
+         :keymaps 'bluetooth-mode-map
+         "c" 'bluetooth-connect
+         "C" 'bluetooth-connect-profile
+         "d" 'bluetooth-disconnect
+         "D" 'bluetooth-disconnect-profile
+         "p" 'bluetooth-pair
+         "P" 'bluetooth-toggle-pairable
+         "x" 'bluetooth-toggle-powered
+         "t" 'bluetooth-toggle-trusted
+         "b" 'bluetooth-toggle-blocked
+         "i" 'bluetooth-show-device-info
+         "r" 'bluetooth-remove-device
+         "a" 'bluetooth-set-alias
+         "s" 'bluetooth-start-discovery
+         "S" 'bluetooth-stop-discovery))
    #+end_src
 
 * Help
