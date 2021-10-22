@@ -427,11 +427,28 @@
 ** =desktop-environmet=
 
    #+begin_src emacs-lisp
+     (defun my/mic-volume-increase ()
+       "Increases mic volume"
+       (interactive)
+       (message "%s" (shell-command-to-string "amixer set Capture 5%+")))
+
+     (defun my/mic-volume-decrease ()
+       "Decreases mic volume"
+       (interactive)
+       (message "%s" (shell-command-to-string "amixer set Capture 5%-")))
+
+     (defhydra my/hydra-mic-volume ()
+       "Controls mic volume"
+       ("+" my/mic-volume-increase "increase volume")
+       ("-" my/mic-volume-decrease "decrease volume"))
+
      (use-package desktop-environment
        :if my/system-linux
        :after exwm
        :init
        (setq desktop-environment-screenlock-command "systemctl suspend")
+       (leader-def
+         "d m" '(my/hydra-mic-volume/body :which-key "mic"))
        :config
        (desktop-environment-mode))
    #+end_src
