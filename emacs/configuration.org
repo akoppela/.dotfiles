@@ -622,6 +622,9 @@
                "--color" "never"
                "%s"))
        (general-def
+         :states '(normal visual insert motion emacs)
+         "<s-tab>" 'ivy-switch-buffer)
+       (general-def
          :states '(normal visual)
          "/" 'swiper-isearch
          "*" 'swiper-isearch-thing-at-point)
@@ -631,8 +634,6 @@
          "a" '(ivy-read-action :which-key "action"))
        (leader-def
          "SPC" '(counsel-M-x :which-key "M-x")
-         ;; Buffer
-         "b b" '(ivy-switch-buffer :which-key "switch")
          ;; File
          "f f" '(counsel-find-file :which-key "find")
          "f l" '(counsel-find-library :which-key "library")
@@ -777,6 +778,7 @@
                s-right
                s-up
                s-down
+               s-tab
                ?\C-\ ))
 
        (evil-set-initial-state 'exwm-mode 'emacs)
