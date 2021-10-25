@@ -563,7 +563,7 @@
      (setq my/font (getenv "MY_FONT"))
 
      (when (member my/font (font-family-list))
-       (set-frame-font (concat my/font " 12") t t))
+       (set-frame-font (concat my/font " 13") t t))
    #+end_src
 
 ** Show battery status
