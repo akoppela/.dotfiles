@@ -437,18 +437,15 @@
        (interactive)
        (message "%s" (shell-command-to-string "amixer set Capture 5%-")))
 
-     (defhydra my/hydra-mic-volume ()
-       "Controls mic volume"
-       ("+" my/mic-volume-increase "increase volume")
-       ("-" my/mic-volume-decrease "decrease volume"))
-
      (use-package desktop-environment
        :if my/system-linux
        :after exwm
        :init
        (setq desktop-environment-screenlock-command "systemctl suspend")
-       (leader-def
-         "d m" '(my/hydra-mic-volume/body :which-key "mic"))
+       (general-def
+         :states '(normal visual insert motion emacs)
+         "<S-XF86AudioLowerVolume>" 'my/mic-volume-decrease
+         "<S-XF86AudioRaiseVolume>" 'my/mic-volume-increase)
        :config
        (desktop-environment-mode))
    #+end_src
