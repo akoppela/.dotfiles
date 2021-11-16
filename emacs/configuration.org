@@ -1631,30 +1631,38 @@
      (setq my/mu4e-path (getenv "MY_MU4E_PATH"))
 
      (use-package mu4e
+       :defer 20
        :commands mu4e
        :load-path my/mu4e-path
        :init
        (setq mu4e-change-filenames-when-moving t)
-       (setq mu4e-update-interval (* 5 60))
-       (setq mu4e-get-mail-command "mbsync -a")
+       (setq mu4e-update-interval (* 10 60))
+       (setq mu4e-get-mail-command "mbsync -a -V")
        (setq mu4e-display-update-status-in-modeline t)
-       (setq mu4e-drafts-folder "/akoppela/Drafts")
-       (setq mu4e-sent-folder   "/akoppela/Sent Mail")
-       (setq mu4e-refile-folder "/akoppela/All Mail")
-       (setq mu4e-trash-folder  "/akoppela/Trash")
+       (setq mu4e-drafts-folder "/akoppela@gmail.com/Drafts")
+       (setq mu4e-sent-folder   "/akoppela@gmail.com/Sent")
+       (setq mu4e-refile-folder "/akoppela@gmail.com/All Mail")
+       (setq mu4e-trash-folder  "/akoppela@gmail.com/Trash")
        (setq mu4e-maildir-shortcuts
-             '(("/akoppela/Inbox" . ?i)
-               ("/akoppela/Sent Mail" . ?s)
-               ("/akoppela/Trash" . ?t)
-               ("/akoppela/Drafts" . ?d)
-               ("/akoppela/All Mail" . ?a)))
+             '(("/akoppela@gmail.com/Inbox" . ?i)
+               ("/akoppela@gmail.com/Sent" . ?s)
+               ("/akoppela@gmail.com/Starred" . ?*)
+               ("/akoppela@gmail.com/Spam" . ?S)
+               ("/akoppela@gmail.com/Trash" . ?t)
+               ("/akoppela@gmail.com/Drafts" . ?d)
+               ("/akoppela@gmail.com/All Mail" . ?a)))
        (leader-def
          "a m" '(mu4e :which-key "email"))
+       :config
        (mu4e t))
 
      (use-package evil-mu4e
        :after (evil mu4e)
        :commands mu4e)
+
+     (use-package mu4e-alert
+       :init
+       (mu4e-alert-enable-mode-line-display))
    #+end_src
 
 * Help
