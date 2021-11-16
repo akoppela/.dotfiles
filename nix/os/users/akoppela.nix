@@ -138,6 +138,8 @@ in
           enable = true;
         };
 
+        programs.chromium.enable = true;
+
         programs.kitty = {
           enable = true;
           font = {
