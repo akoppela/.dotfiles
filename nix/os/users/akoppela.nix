@@ -87,6 +87,7 @@ in
           ]))
           pkgs.vim
           pkgs.ripgrep
+          pkgs.texlive.combined.scheme-full
 
           # Fonts
           pkgs.iosevka-term
