@@ -174,7 +174,7 @@ in
         programs.mu.enable = true;
 
         accounts.email.accounts = {
-          akoppela = {
+          "akoppela@gmail.com" = {
             primary = true;
             flavor = "gmail.com";
             address = "akoppela@gmail.com";
@@ -188,13 +188,73 @@ in
                 Andrey.
               '';
             };
-            mbsync = {
-              enable = true;
-              create = "both";
-            };
             mu.enable = true;
             imap.tls.enable = true;
             smtp.tls.enable = true;
+            mbsync = {
+              enable = true;
+              groups.akoppela-gmail.channels = {
+                inbox = {
+                  farPattern = "INBOX";
+                  nearPattern = "Inbox";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+
+                sent = {
+                  farPattern = "[Gmail]/Sent Mail";
+                  nearPattern = "Sent";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+
+                drafts = {
+                  farPattern = "[Gmail]/Drafts";
+                  nearPattern = "Drafts";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+
+                trash = {
+                  farPattern = "[Gmail]/Trash";
+                  nearPattern = "Trash";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+
+                spam = {
+                  farPattern = "[Gmail]/Spam";
+                  nearPattern = "Spam";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+
+                starred = {
+                  farPattern = "[Gmail]/Starred";
+                  nearPattern = "Starred";
+                  extraConfig = {
+                    Create = "Both";
+                    Expunge = "Both";
+                    SyncState = "*";
+                  };
+                };
+              };
+            };
           };
         };
       };
