@@ -175,7 +175,6 @@ in
 
         programs.mbsync.enable = true;
         programs.mu.enable = true;
-
         accounts.email.accounts = {
           "akoppela@gmail.com" = {
             primary = true;
