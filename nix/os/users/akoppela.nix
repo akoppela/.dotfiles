@@ -101,6 +101,9 @@ in
           pkgs.bottom # Monitoring
           pkgs.bluez # Bluetooth
 
+          # Tools
+          pkgs.unzip
+
           # Security
           pkgs._1password-gui
 
