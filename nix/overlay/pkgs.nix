@@ -27,19 +27,15 @@ self: super:
     };
   };
 
-  iosevka-term = super.iosevka.override {
-    set = "term";
-    privateBuildPlan = {
-      family = "Iosevka Term";
-      spacing = "term";
-      serifs = "sans";
-      no-cv-ss = true;
-
-      ligations = {
-        inherits = "dlig";
+  pragmatapro =
+    import
+      (builtins.fetchGit {
+        url = "git@github.com:akoppela/pragmata-pro.git";
+        ref = "refs/tags/0.829.5";
+      })
+      {
+        pkgs = super;
       };
-    };
-  };
 
   emacs =
     let

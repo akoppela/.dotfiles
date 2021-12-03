@@ -2,7 +2,7 @@
 
 let
   userName = "akoppela";
-  userFont = "Iosevka Term";
+  userFont = "PragmataPro Mono";
 in
 {
   imports = [
@@ -79,6 +79,8 @@ in
           ${pkgs.emacs}/bin/emacs -mm --debug-init
         '';
 
+        fonts.fontconfig.enable = true;
+
         home.packages = [
           # Text
           (pkgs.aspellWithDicts (dict: [
@@ -91,7 +93,7 @@ in
           pkgs.texlive.combined.scheme-full
 
           # Fonts
-          pkgs.iosevka-term
+          pkgs.pragmatapro
 
           # System
           pkgs.brightnessctl # Brightness
@@ -146,7 +148,7 @@ in
           enable = true;
           font = {
             name = userFont;
-            size = 19;
+            size = 17;
           };
           settings = {
             # Font
