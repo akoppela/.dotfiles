@@ -1,4 +1,8 @@
 {
+  imports = [
+    ../config/networking.nix
+  ];
+
   # Enables wireless support via wpa_supplicant.
   networking.wireless.enable = true;
   networking.wireless.interfaces = [ "wlp0s20f3" ];
