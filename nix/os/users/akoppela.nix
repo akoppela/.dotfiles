@@ -3,10 +3,6 @@
 let
   userName = "akoppela";
   userFont = "Iosevka Term";
-
-  emacs = pkgs.emacsWithPackages (epkgs: [
-    epkgs.vterm
-  ]);
 in
 {
   imports = [
@@ -72,11 +68,16 @@ in
 
       users.akoppela = hmModule: {
         home.sessionVariables = {
-          EDITOR = "${emacs}/bin/emacs";
+          EDITOR = "${pkgs.emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
           MY_FONT = userFont;
           MY_MU4E_PATH = "${pkgs.mu}/share/emacs/site-lisp/mu4e";
         };
+
+        home.file.".xinitrc".text = ''
+          xrandr --output eDP-1 --primary --mode 2160x1350 --pos 0x0 --rotate normal
+          ${pkgs.emacs}/bin/emacs -mm --debug-init
+        '';
 
         home.packages = [
           # Text
@@ -107,7 +108,7 @@ in
 
         programs.emacs = {
           enable = true;
-          package = emacs;
+          package = pkgs.emacs;
         };
         home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e $HOME/.emacs.d ]; then
@@ -131,7 +132,7 @@ in
         programs.bash = {
           enable = true;
           initExtra = ''
-            [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ${emacs}/bin/emacs -mm --debug-init
+            [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
           '';
         };
 
