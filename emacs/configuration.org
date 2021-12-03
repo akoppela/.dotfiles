@@ -466,6 +466,7 @@
        (setq doom-themes-enable-bold t)
        (setq doom-themes-enable-italic t)
        (setq doom-themes-treemacs-theme "doom-colors")
+       (setq doom-themes-treemacs-enable-variable-pitch nil)
        :config
        (doom-themes-visual-bell-config)
        (doom-themes-treemacs-config)
