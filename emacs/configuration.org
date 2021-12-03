@@ -1581,6 +1581,7 @@
        (setq lsp-idle-delay 0)
        (setq lsp-modeline-diagnostics-enable nil)
        (setq lsp-lens-enable nil)
+       (setq lsp-elm-disable-elmls-diagnostics t)
        (setq-default lsp-diagnostics-disabled-modes '(elm-mode)))
 
      (use-package lsp-ivy
