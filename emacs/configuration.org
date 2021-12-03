@@ -1580,6 +1580,7 @@
        (setq lsp-imenu-show-container-name nil)
        (setq lsp-idle-delay 0)
        (setq lsp-modeline-diagnostics-enable nil)
+       (setq lsp-lens-enable nil)
        (setq-default lsp-diagnostics-disabled-modes '(elm-mode)))
 
      (use-package lsp-ivy
