@@ -9,7 +9,7 @@
   # General
   my-os.configPath = "/home/akoppela/.dotfiles/nix/os/nano/default.nix";
   networking.hostName = "nano";
-  time.timeZone = "Asia/Tbilisi";
+  time.timeZone = "Europe/Podgorica";
   nix.maxJobs = 6;
 
   # Enable X server
