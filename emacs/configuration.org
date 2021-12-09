@@ -904,6 +904,7 @@
        (general-def
          :states '(normal visual)
          "/" 'swiper-isearch
+         "?" 'swiper-isearch-backward
          "*" 'swiper-isearch-thing-at-point)
        (major-def
          :keymaps 'ivy-minibuffer-map
