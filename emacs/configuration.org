@@ -869,14 +869,15 @@
                           (memq (char-syntax (or (char-after end) ?\s)) syntaxes-end)
                           (nth 3 (syntax-ppss))))))))
 
-     ;; main hook fn, just add to text-mode/prog-mode
-     (defun my/prettify-hook ()
+     (defun my/prettify-pragmatapro ()
+       "Prettifies PragmataPro"
+       (interactive)
        (my/add-pragmatapro-prettify-symbols-alist)
        (my/setup-compose-predicate)
        (prettify-symbols-mode -1)
        (prettify-symbols-mode +1))
 
-     (add-hook 'prog-mode-hook 'my/prettify-hook)
+     (add-hook 'prog-mode-hook 'my/prettify-pragmatapro)
    #+end_src
 
 * Navigation, search and completion
