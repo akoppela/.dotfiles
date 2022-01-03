@@ -117,11 +117,10 @@
      (setq mode-require-final-newline nil)
    #+end_src
 
-** Set =Firefox= as default browser
+** Set =Chromium= as default browser
 
    #+begin_src emacs-lisp
-     (setq browse-url-browser-function 'browse-url-firefox)
-     (setq browse-url-firefox-new-window-is-tab t)
+     (setq browse-url-browser-function 'browse-url-chromium)
    #+end_src
 
 ** Revert TAGS file without asking
