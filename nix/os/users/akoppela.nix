@@ -101,6 +101,8 @@ in
           pkgs.scrot # Screenshots
           pkgs.bottom # Monitoring
           pkgs.bluez # Bluetooth
+          pkgs.htop
+          pkgs.killall
 
           # Tools
           pkgs.unzip
