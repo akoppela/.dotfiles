@@ -1458,7 +1458,7 @@
          "i" '(my/elm-import :which-key "import")
          "e" '(elm-expose-at-point :which-key "expose")
          "d" '(elm-documentation-lookup :which-key "documentation")
-         "r" '(lsp-rename :which-key "rename")))
+         "r" '(eglot-rename :which-key "rename")))
 
      (use-package flycheck-elm
        :after elm-mode
@@ -1567,31 +1567,11 @@
 ** =lsp=
 
    #+begin_src emacs-lisp
-     (use-package lsp-mode
+     (use-package eglot
        :hook
-       (elm-mode . lsp-deferred)
-       (lsp-mode . lsp-enable-which-key-integration)
+       (elm-mode . eglot-ensure)
        :config
-       (setq lsp-headerline-breadcrumb-enable nil)
-       (setq lsp-completion-enable nil)
-       (setq lsp-completion-show-detail nil)
-       (setq lsp-completion-show-kind nil)
-       (setq lsp-enable-file-watchers nil)
-       (setq lsp-enable-imenu nil)
-       (setq lsp-imenu-show-container-name nil)
-       (setq lsp-idle-delay 0)
-       (setq lsp-modeline-diagnostics-enable nil)
-       (setq lsp-lens-enable nil)
-       (setq lsp-elm-disable-elmls-diagnostics t)
-       (setq-default lsp-diagnostics-disabled-modes '(elm-mode)))
-
-     (use-package lsp-ivy
-       :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol))
-
-     (use-package lsp-treemacs
-       :commands lsp-treemacs-errors-list
-       :config
-       (lsp-treemacs-sync-mode t))
+       (setq eglot-managed-mode-hook (lambda () (flymake-mode -1))))
    #+end_src
 
 ** =smartparens=
