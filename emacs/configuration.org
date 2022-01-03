@@ -1967,10 +1967,10 @@
        (mu4e t))
 
      (use-package evil-mu4e
-       :after (evil mu4e)
-       :commands mu4e)
+       :after (evil mu4e))
 
      (use-package mu4e-alert
+       :after mu4e
        :init
        (mu4e-alert-enable-mode-line-display))
    #+end_src
