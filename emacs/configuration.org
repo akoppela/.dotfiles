@@ -1941,7 +1941,6 @@
      (setq my/mu4e-path (getenv "MY_MU4E_PATH"))
 
      (use-package mu4e
-       :defer 20
        :commands mu4e
        :load-path my/mu4e-path
        :init
