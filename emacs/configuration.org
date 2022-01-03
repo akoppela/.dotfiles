@@ -877,6 +877,7 @@
        (prettify-symbols-mode +1))
 
      (add-hook 'prog-mode-hook 'my/prettify-pragmatapro)
+     (add-hook 'magit-mode-hook 'my/prettify-pragmatapro)
    #+end_src
 
 * Navigation, search and completion
