@@ -23,6 +23,7 @@ in
       "steam"
       "steam-original"
       "steam-runtime"
+      "zoom"
     ];
 
     # Enable graphical interface
@@ -109,6 +110,7 @@ in
 
           # Communication
           pkgs.slack
+          pkgs.zoom-us
         ];
 
         programs.emacs = {
