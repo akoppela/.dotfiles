@@ -48,6 +48,6 @@ self: super:
         });
     in
     (super.emacsPackagesNgGen emacsNoCairo).emacsWithPackages (epkgs: [
-      epkgs.vterm
+      epkgs.vterm # Add VTerm integration
     ]);
 }
