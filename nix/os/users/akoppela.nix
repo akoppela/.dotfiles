@@ -109,6 +109,7 @@ in
 
           # Security
           pkgs._1password-gui
+          pkgs.pinentry-gtk2
 
           # Communication
           pkgs.slack
@@ -124,6 +125,11 @@ in
             $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
           fi
         '';
+
+        programs.gpg.enable = true;
+        services.gpg-agent = {
+          enable = true;
+        };
 
         programs.git = {
           enable = true;
