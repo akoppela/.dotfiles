@@ -1961,17 +1961,7 @@
                ("/akoppela@gmail.com/Drafts" . ?d)
                ("/akoppela@gmail.com/All Mail" . ?a)))
        (leader-def
-         "a m" '(mu4e :which-key "email"))
-       :config
-       (mu4e t))
-
-     (use-package evil-mu4e
-       :after (evil mu4e))
-
-     (use-package mu4e-alert
-       :after mu4e
-       :init
-       (mu4e-alert-enable-mode-line-display))
+         "a m" '(mu4e :which-key "email")))
    #+end_src
 
 * Help
