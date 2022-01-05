@@ -1944,6 +1944,7 @@
        :commands mu4e
        :load-path my/mu4e-path
        :init
+       (setq mu4e-headers-show-threads nil)
        (setq shr-use-colors nil)
        (setq mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
        (setq mm-discouraged-alternatives '("text/html"))
