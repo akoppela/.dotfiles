@@ -1794,9 +1794,10 @@
    #+begin_src emacs-lisp
      (use-package elfeed
        :commands elfeed
-       :config
+       :init
        (leader-def
          "a f" 'elfeed)
+       :config
        (major-def
          :keymaps 'elfeed-search-mode-map
          "u" '(elfeed-update :which-key "update")))
