@@ -1015,7 +1015,7 @@
 
    #+begin_src emacs-lisp
      (use-package engine-mode
-       :commands (engine/search-google engine/search-wikipedia)
+       :commands (engine/search-google engine/search-youtube engine/search-wikipedia)
        :init
        (defengine google
          "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s")
