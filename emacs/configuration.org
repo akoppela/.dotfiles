@@ -1029,49 +1029,6 @@
          "s w" '(engine/search-wikipedia :which-key "wiki")))
    #+end_src
 
-** =exwm=
-
-   #+begin_src emacs-lisp
-     (defun my/run-in-background (command)
-       "Runs command in the background"
-       (let ((command-parts (split-string command "[ ]+")))
-         (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
-
-     (defun my/exwm-rename-workspace ()
-       "Renames workspace buffer based on title"
-       (exwm-workspace-rename-buffer (format "%s" exwm-title)))
-
-     (defun my/exwm-float-toggle ()
-       "Toggles window floating state. When floating modeline is hidden."
-       (interactive)
-       (exwm-floating-toggle-floating)
-       (exwm-layout-toggle-mode-line))
-
-     (use-package exwm
-       :if my/window-system-x
-       :init
-       (setq exwm-workspace-number 1)
-       (setq exwm-input-prefix-keys
-             '(s-left
-               s-right
-               s-up
-               s-down
-               s-tab
-               ?\C-\ ))
-
-       (evil-set-initial-state 'exwm-mode 'emacs)
-
-       (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
-       (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
-
-       (require 'exwm-randr)
-       (exwm-randr-enable)
-       (exwm-enable)
-
-       (leader-def
-         "w f" '(my/exwm-float-toggle :which-key "float")))
-   #+end_src
-
 ** =char-mode= to insert Unicode characters
 
    #+begin_src emacs-lisp
@@ -1785,6 +1742,49 @@
    #+begin_src emacs-lisp
      (use-package haskell-mode
        :commands haskell-mode)
+   #+end_src
+
+** =exwm=
+
+   #+begin_src emacs-lisp
+     (defun my/run-in-background (command)
+       "Runs command in the background"
+       (let ((command-parts (split-string command "[ ]+")))
+         (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+
+     (defun my/exwm-rename-workspace ()
+       "Renames workspace buffer based on title"
+       (exwm-workspace-rename-buffer (format "%s" exwm-title)))
+
+     (defun my/exwm-float-toggle ()
+       "Toggles window floating state. When floating modeline is hidden."
+       (interactive)
+       (exwm-floating-toggle-floating)
+       (exwm-layout-toggle-mode-line))
+
+     (use-package exwm
+       :if my/window-system-x
+       :init
+       (setq exwm-workspace-number 1)
+       (setq exwm-input-prefix-keys
+             '(s-left
+               s-right
+               s-up
+               s-down
+               s-tab
+               ?\C-\ ))
+
+       (evil-set-initial-state 'exwm-mode 'emacs)
+
+       (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
+       (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
+
+       (require 'exwm-randr)
+       (exwm-randr-enable)
+       (exwm-enable)
+
+       (leader-def
+         "w f" '(my/exwm-float-toggle :which-key "float")))
    #+end_src
 
 * Communication and connection
