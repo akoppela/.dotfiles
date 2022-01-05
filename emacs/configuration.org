@@ -1292,11 +1292,10 @@
        :commands reaper
        :init
        (setq-default reaper-hours-timer-mode nil)
-       (setq reaper-api-key (getenv "HARVEST_API_KEY"))
-       (setq reaper-account-id (getenv "HARVEST_ACCOUNT_ID"))
+       (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
+       (setq reaper-account-id (auth-source-pick-first-password :host "conta.harvest.id"))
        (leader-def
          "a h" '(reaper :which-key "harvest"))
-
        :config
        (general-def
          :states '(normal visual)
