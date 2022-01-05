@@ -1724,6 +1724,7 @@
 
    #+begin_src emacs-lisp
      (use-package rust-mode
+       :commands rust-mode
        :init
        (setq rust-format-on-save t))
    #+end_src
