@@ -186,6 +186,12 @@
      (server-start)
    #+end_src
 
+** Set auth sources
+
+   #+begin_src emacs-lisp
+     (setq auth-sources '("~/.authinfo.gpg"))
+   #+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
