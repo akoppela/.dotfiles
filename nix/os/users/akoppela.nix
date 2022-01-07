@@ -191,7 +191,7 @@ in
             address = "akoppela@gmail.com";
             userName = "akoppela@gmail.com";
             realName = "Andrey Koppel (akoppela)";
-            passwordCommand = "${pkgs.coreutils}/bin/cat $HOME/.dotfiles/secret/akoppela-gmail";
+            passwordCommand = "emacsclient -e '(auth-source-pick-first-password :host \"smtp.gmail.com\")' | cut -d '\"' -f2";
             mu.enable = true;
             imap.tls.enable = true;
             smtp.tls.enable = true;
