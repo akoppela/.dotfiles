@@ -180,6 +180,12 @@
      (setq scroll-conservatively 100)
    #+end_src
 
+** Start Emacs server
+
+   #+begin_src emacs-lisp
+     (server-start)
+   #+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
