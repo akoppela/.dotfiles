@@ -192,13 +192,6 @@ in
             userName = "akoppela@gmail.com";
             realName = "Andrey Koppel (akoppela)";
             passwordCommand = "${pkgs.coreutils}/bin/cat $HOME/.dotfiles/secret/akoppela-gmail";
-            signature = {
-              showSignature = "append";
-              text = ''
-                Thank you,
-                Andrey.
-              '';
-            };
             mu.enable = true;
             imap.tls.enable = true;
             smtp.tls.enable = true;
