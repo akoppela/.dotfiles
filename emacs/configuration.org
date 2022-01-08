@@ -1836,7 +1836,7 @@
      (use-package elfeed-org
        :after elfeed
        :init
-       (setq rmh-elfeed-org-files '("~/Notes/rss.org"))
+       (setq rmh-elfeed-org-files '("~/.emacs.d/rss.org"))
        :config
        (elfeed-org))
    #+end_src
