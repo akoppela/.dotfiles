@@ -115,6 +115,8 @@
    #+begin_src emacs-lisp
      (setq require-final-newline nil)
      (setq mode-require-final-newline nil)
+     (setq c-require-final-newline nil)
+     (setq log-edit-require-final-newline nil)
    #+end_src
 
 ** Set =Chromium= as default browser
