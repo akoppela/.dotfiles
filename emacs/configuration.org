@@ -1224,7 +1224,7 @@
 *** Agenda files
 
     #+begin_src emacs-lisp
-      (setq org-agenda-files (list "~/Notes/notes.org"))
+      (setq org-agenda-files '("~/Notes/notes.org"))
     #+end_src
 
 *** Show bullets instead of stars
@@ -1834,7 +1834,7 @@
      (use-package elfeed-org
        :after elfeed
        :init
-       (setq rmh-elfeed-org-files (list "~/Notes/rss.org"))
+       (setq rmh-elfeed-org-files '("~/Notes/rss.org"))
        :config
        (elfeed-org))
    #+end_src
