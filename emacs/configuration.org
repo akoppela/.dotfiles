@@ -1309,7 +1309,7 @@
       (setq org-export-allow-bind-keywords t)
     #+end_src
 
-*** Enter with overview fold.
+*** Enter with overview folded
 
     #+begin_src emacs-lisp
       (setq org-startup-folded t)
