@@ -192,6 +192,12 @@
      (setq auth-sources '("~/.authinfo.gpg"))
    #+end_src
 
+** Never save auth sources
+
+   #+begin_src emacs-lisp
+     (setq auth-source-save-behavior nil)
+   #+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
