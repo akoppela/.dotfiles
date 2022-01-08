@@ -188,19 +188,19 @@
      (server-start)
    #+end_src
 
-** Set auth sources
+** Set authentication sources
 
    #+begin_src emacs-lisp
      (setq auth-sources '("~/.authinfo.gpg"))
    #+end_src
 
-** Never save auth sources
+** Never save authentication sources
 
    #+begin_src emacs-lisp
      (setq auth-source-save-behavior nil)
    #+end_src
 
-** Helper function to run shell commands with sudo
+** Helper function to run shell commands with =sudo=
 
    #+begin_src emacs-lisp
      (defun my/sudo-shell-command (command)
