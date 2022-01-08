@@ -28,6 +28,7 @@ in
       ../config/wireguard.nix
     ];
 
+    nix.autoOptimiseStore = true;
     networking.hostName = "aws-psyberia";
     time.timeZone = "Asia/Singapore";
 
