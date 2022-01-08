@@ -198,6 +198,17 @@
      (setq auth-source-save-behavior nil)
    #+end_src
 
+** Helper function to run shell commands with sudo
+
+   #+begin_src emacs-lisp
+     (defun my/sudo-shell-command (command)
+       "Run shell command with sudo"
+       (interactive "MShell command (root): ")
+       (with-temp-buffer
+         (cd "/sudo::/")
+         (shell-command-to-string command)))
+   #+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
@@ -1845,25 +1856,22 @@
 ** VPN
 
    #+begin_src emacs-lisp
-     (defconst my/vpn-conf (expand-file-name "~/vpn/do.ovpn"))
-
      (defun my/connect-vpn ()
        "Connects to VPN"
        (interactive)
-       (ovpn-mode-start-vpn-conf my/vpn-conf))
+       (my/sudo-shell-command "systemctl start wg-quick-wg0.service")
+       (message "VPN connected"))
 
      (defun my/disconnect-vpn ()
        "Disconnects from VPN"
        (interactive)
-       (ovpn-mode-stop-vpn-conf my/vpn-conf))
+       (my/sudo-shell-command "systemctl stop wg-quick-wg0.service")
+       (message "VPN disconnected"))
 
-     (use-package ovpn-mode
-       :commands (ovpn-mode-start-vpn-conf ovpn-mode-start-vpn-conf)
-       :init
-       (leader-def
-         "a v" '(:ignore t :which-key "vpn")
-         "a v c" '(my/connect-vpn :which-key "connect")
-         "a v d" '(my/disconnect-vpn :which-key "disconnect")))
+     (leader-def
+       "a v" '(:ignore t :which-key "vpn")
+       "a v c" '(my/connect-vpn :which-key "connect")
+       "a v d" '(my/disconnect-vpn :which-key "disconnect"))
    #+end_src
 
 ** Torrent
