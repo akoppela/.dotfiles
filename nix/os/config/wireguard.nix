@@ -2,6 +2,20 @@
 
 let
   cfg = config.networking.my-wireguard;
+
+  peerOpts = {
+    options = {
+      publicKey = lib.mkOption {
+        description = "The base64 public key of the peer";
+        type = lib.types.str;
+      };
+
+      allowedIPs = lib.mkOption {
+        description = "List of IP (v4 or v6) addresses with CIDR masks";
+        type = lib.types.listOf lib.types.str;
+      };
+    };
+  };
 in
 {
   imports = [
@@ -27,6 +41,11 @@ in
       type = lib.types.int;
       default = 51820;
     };
+
+    peers = lib.mkOption {
+      description = "List of allowed peers";
+      type = lib.types.listOf (lib.types.submodule peerOpts);
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -41,48 +60,30 @@ in
     # Enable WireGuard
     networking.wireguard = {
       enable = true;
-      interfaces = {
-        "${cfg.internalInterface}" = {
-          # Determines the IP address and subnet of the server's end of the tunnel interface
-          ips = [ "10.100.0.1/24" ];
+      interfaces."${cfg.internalInterface}" = {
+        # Determines the IP address and subnet of the server's end of the tunnel interface
+        ips = [ "10.100.0.1/24" ];
 
-          # The port that WireGuard listens to. Must be accessible by the client
-          listenPort = cfg.port;
+        # The port that WireGuard listens to. Must be accessible by the client
+        listenPort = cfg.port;
 
-          # This allows the WireGuard server to route your traffic to the internet and hence be like a VPN
-          # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
-          postSetup = ''
-            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ${cfg.externalInterface} -j MASQUERADE
-          '';
+        # This allows the WireGuard server to route your traffic to the internet and hence be like a VPN
+        # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
+        postSetup = ''
+          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o ${cfg.externalInterface} -j MASQUERADE
+        '';
 
-          # This undoes the above command
-          postShutdown = ''
-            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ${cfg.externalInterface} -j MASQUERADE
-          '';
+        # This undoes the above command
+        postShutdown = ''
+          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o ${cfg.externalInterface} -j MASQUERADE
+        '';
 
-          # Path to the private key file
-          privateKeyFile = "${/root/.config/wireguard/private}";
-          generatePrivateKeyFile = true;
+        # Path to the private key file
+        privateKeyFile = "/root/.config/wireguard/private";
+        generatePrivateKeyFile = true;
 
-          # List of allowed peers
-          peers = [
-            # iPad
-            {
-              publicKey = "V89k5btlMR1IVokswq45ARLRfkeFG6wFkW7RwKWG6lM=";
-              allowedIPs = [ "10.100.0.2/32" ];
-            }
-            # Zi's phone
-            {
-              publicKey = "bxkrVLoDBuLlqIwsq4hAln8l4BJ9mB83GM/PQviqpS8=";
-              allowedIPs = [ "10.100.0.3/32" ];
-            }
-            # Mac Mini
-            {
-              publicKey = "887qybTrWu/c+HkqnATB5ZkrdSai1IbyJhBpO6MeW0Y=";
-              allowedIPs = [ "10.100.0.4/32" ];
-            }
-          ];
-        };
+        # List of allowed peers
+        peers = cfg.peers;
       };
     };
   };
