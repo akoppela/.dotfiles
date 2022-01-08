@@ -7,3 +7,6 @@
 [submodule "nix-emacs"]
 	path = emacs/my/nix-emacs
 	url = https://github.com/travisbhartwell/nix-emacs.git
+[submodule "reaper"]
+	path = emacs/my/reaper
+	url = https://github.com/akoppela/reaper.git

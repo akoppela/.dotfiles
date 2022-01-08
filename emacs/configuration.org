@@ -1320,6 +1320,7 @@
    #+begin_src emacs-lisp
      (use-package reaper
        :commands reaper
+       :load-path "my/reaper"
        :init
        (setq-default reaper-hours-timer-mode nil)
        (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
@@ -1331,10 +1332,10 @@
          :states '(normal visual)
          :keymaps 'reaper-mode-map
          "q" 'kill-buffer-and-window
-         "g r" '(reaper-refresh :which-key "refresh"))
-       (major-def
-         :keymaps 'reaper-mode-map
-         "d" '(reaper-goto-date :which-key "date")
+         "g r" '(reaper-refresh :which-key "refresh")
+         "d" '(:ignore t :which-key "date")
+         "d n" '(reaper-goto-date+1 :which-key "next")
+         "d p" '(reaper-goto-date-1 :which-key "previous")
          "s" '(reaper-start-timer :which-key "start timer")
          "S" '(reaper-stop-timer :which-key "stop timer")
          "n" '(reaper-start-new-timer :which-key "new timer")
