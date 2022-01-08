@@ -13,4 +13,7 @@
   };
   programs.ssh.startAgent = true;
   programs.mosh.enable = true;
+
+  # Set DNS
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 }
