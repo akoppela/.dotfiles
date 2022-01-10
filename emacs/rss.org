@@ -1,2 +1,5 @@
-* Podcasts
-** http://feeds.rucast.net/radio-t
+* Blogs                                                              :elfeed:
+** Podcasts                                                         :podcast:
+*** http://feeds.rucast.net/radio-t
+** Emacs                                                              :emacs:
+*** http://oremacs.com/atom.xml
