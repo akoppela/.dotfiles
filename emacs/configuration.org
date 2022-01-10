@@ -1836,15 +1836,32 @@
 ** RSS reader
 
    #+begin_src emacs-lisp
+     (defun my/elfeed-db-remove-entry (id)
+       "Removes the entry for ID"
+       (avl-tree-delete elfeed-db-index id)
+       (remhash id elfeed-db-entries))
+
+     (defun my/elfeed-search-remove-selected ()
+       "Remove selected entries from database"
+       (interactive)
+       (let* ((entries (elfeed-search-selected))
+              (count (length entries)))
+         (when (y-or-n-p (format "Delete %d entires?" count))
+           (cl-loop for entry in entries
+                    do (my/elfeed-db-remove-entry (elfeed-entry-id entry)))))
+       (elfeed-search-update--force))
+
      (use-package elfeed
        :commands elfeed
        :init
        (leader-def
          "a f" 'elfeed)
        :config
-       (major-def
+       (general-def
+         :states '(normal visual)
          :keymaps 'elfeed-search-mode-map
-         "u" '(elfeed-update :which-key "update")))
+         "u" 'elfeed-update
+         "d" 'my/elfeed-search-remove-selected))
 
      (use-package elfeed-org
        :after elfeed
