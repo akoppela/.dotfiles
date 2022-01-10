@@ -200,6 +200,12 @@
      (setq auth-source-save-behavior nil)
    #+end_src
 
+** Clear authentication sources cache
+
+   #+begin_src emacs-lisp
+     (auth-source-forget-all-cached)
+   #+end_src
+
 ** Helper function to run shell commands with =sudo=
 
    #+begin_src emacs-lisp
