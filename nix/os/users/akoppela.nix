@@ -89,6 +89,7 @@ in
             dict.en-computers
             dict.en-science
           ]))
+          pkgs.wordnet
           pkgs.vim
           pkgs.ripgrep
           pkgs.texlive.combined.scheme-full
