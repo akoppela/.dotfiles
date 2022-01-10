@@ -1324,15 +1324,20 @@
 ** =harvest=
 
    #+begin_src emacs-lisp
+     (defun my/reaper ()
+       "Set's reaper variables first and then starts it"
+       (interactive)
+       (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
+       (setq reaper-account-id (auth-source-pick-first-password :host "conta.harvest.id"))
+       (reaper))
+
      (use-package reaper
        :commands reaper
        :load-path "my/reaper"
        :init
        (setq-default reaper-hours-timer-mode nil)
-       (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
-       (setq reaper-account-id (auth-source-pick-first-password :host "conta.harvest.id"))
        (leader-def
-         "a h" '(reaper :which-key "harvest"))
+         "a h" '(my/reaper :which-key "harvest"))
        :config
        (general-def
          :states '(normal visual)
