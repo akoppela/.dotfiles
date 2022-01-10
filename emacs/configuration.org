@@ -386,6 +386,7 @@
          "n f" '(narrow-to-defun :which-key "function")
          "n r" '(narrow-to-region :which-key "region")
          "n w" '(widen :which-key "widen")
+         "i" '(:ignore t :which-key "insert")
          ;; Jump
          "j" '(:ignore t :which-key "jump")
          ;; Help
@@ -394,6 +395,7 @@
          "h m" '(describe-mode :which-key "describe mode")
          "h i" '(info :which-key "info")
          "h r" '(use-package-report :which-key "report")
+         "h w" '(:ignore t :which-key "word")
          ;; Quit
          "q" '(:ignore t :which-key "quit")
          "q q" '(save-buffers-kill-terminal :which-key "client")
