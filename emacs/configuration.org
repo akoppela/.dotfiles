@@ -2111,4 +2111,15 @@
          "h w s" '(synosaurus-lookup :which-key "synonyms")))
    #+end_src
 
+** =define-word=
+
+   #+begin_src emacs-lisp
+     (use-package define-word
+       :commands (define-word define-word-at-point)
+       :init
+       (leader-def
+         "h w d" '(define-word :which-key "define")
+         "h w p" '(define-word-at-point :which-key "define at point")))
+   #+end_src
+
 * The End!
