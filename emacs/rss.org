@@ -2,4 +2,8 @@
 ** Podcasts                                                         :podcast:
 *** http://feeds.rucast.net/radio-t
 ** Emacs                                                              :emacs:
-*** http://oremacs.com/atom.xml
+*** https://planet.emacslife.com/atom.xml
+*** http://www.masteringemacs.org/feed
+** Security                                                        :security:
+** Fun                                                                  :fun:
+*** https://xkcd.com/atom.xml
