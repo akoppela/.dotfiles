@@ -1948,8 +1948,8 @@
                 :host "conta.slack.com"
                 :user "akoppela@gmail.com")
         :cookie (auth-source-pick-first-password
-                :host "conta.slack.com^cookie"
-                :user "akoppela@gmail.com^cookie")
+                 :host "conta.slack.com^cookie"
+                 :user "akoppela@gmail.com^cookie")
         :modeline-enabled t))
    #+end_src
 
