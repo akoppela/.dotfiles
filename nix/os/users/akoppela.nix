@@ -109,6 +109,7 @@ in
           pkgs.vim
           pkgs.unzip
           pkgs.ripgrep
+          pkgs.gcc
 
           # Security
           pkgs._1password-gui
