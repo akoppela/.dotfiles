@@ -1166,6 +1166,11 @@
          "g h" '(magit-log-buffer-file :which-key "history"))
        :config
        (add-hook 'git-commit-mode-hook 'flyspell-mode))
+
+     (use-package forge
+       :after magit
+       :config
+       (setq forge-topic-list-limit '(60 . -1)))
    #+end_src
 
 ** =org-mode=
