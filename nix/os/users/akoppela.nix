@@ -2,6 +2,8 @@
 
 let
   userName = "akoppela";
+  userEmail = "akoppela@gmail.com";
+  realName = "Andrey Koppel (${userName})";
   userFont = "PragmataPro Mono";
 in
 {
@@ -67,7 +69,7 @@ in
       useUserPackages = true;
       useGlobalPkgs = true;
 
-      users.akoppela = hmModule: {
+      users."${userName}" = hmModule: {
         home.sessionVariables = {
           EDITOR = "${pkgs.emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
@@ -134,8 +136,11 @@ in
 
         programs.git = {
           enable = true;
-          userName = "akoppela";
-          userEmail = "akoppela@gmail.com";
+          userName = userName;
+          userEmail = userEmail;
+          extraConfig = {
+            github.user = userName;
+          };
         };
 
         programs.direnv = {
@@ -186,19 +191,19 @@ in
         programs.mbsync.enable = true;
         programs.mu.enable = true;
         accounts.email.accounts = {
-          "akoppela@gmail.com" = {
+          "${userEmail}" = {
             primary = true;
             flavor = "gmail.com";
-            address = "akoppela@gmail.com";
-            userName = "akoppela@gmail.com";
-            realName = "Andrey Koppel (akoppela)";
+            address = userEmail;
+            userName = userEmail;
+            realName = realName;
             passwordCommand = "emacsclient -e '(auth-source-pick-first-password :host \"smtp.gmail.com\")' | cut -d '\"' -f2";
             mu.enable = true;
             imap.tls.enable = true;
             smtp.tls.enable = true;
             mbsync = {
               enable = true;
-              groups.akoppela-gmail.channels = {
+              groups."${userName}-gmail".channels = {
                 inbox = {
                   farPattern = "INBOX";
                   nearPattern = "Inbox";
