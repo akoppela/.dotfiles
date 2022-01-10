@@ -92,8 +92,6 @@ in
             dict.en-science
           ]))
           pkgs.wordnet
-          pkgs.vim
-          pkgs.ripgrep
           pkgs.texlive.combined.scheme-full
 
           # Fonts
@@ -108,7 +106,9 @@ in
           pkgs.killall
 
           # Tools
+          pkgs.vim
           pkgs.unzip
+          pkgs.ripgrep
 
           # Security
           pkgs._1password-gui
