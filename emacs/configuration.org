@@ -1348,7 +1348,7 @@
          "g r" '(reaper-refresh :which-key "refresh")
          "d" '(:ignore t :which-key "date")
          "d n" '(reaper-goto-date+1 :which-key "next")
-         "d p" '(reaper-goto-date-1 :which-key "previous")
+         "d N" '(reaper-goto-date-1 :which-key "previous")
          "s" '(reaper-start-timer :which-key "start timer")
          "S" '(reaper-stop-timer :which-key "stop timer")
          "n" '(reaper-start-new-timer :which-key "new timer")
