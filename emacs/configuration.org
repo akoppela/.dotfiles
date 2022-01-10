@@ -1171,6 +1171,9 @@
        :after magit
        :config
        (setq forge-topic-list-limit '(60 . -1)))
+
+     (use-package code-review
+       :after magit)
    #+end_src
 
 ** =org-mode=
