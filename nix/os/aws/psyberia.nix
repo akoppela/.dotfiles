@@ -106,6 +106,11 @@ in
           publicKey = "ZnXsoUG4lNbIG8P4RNXT1IIqqsivb0upSSZ4lnSAoHw=";
           allowedIPs = [ "10.100.0.6/32" ];
         }
+        # Tima's phone
+        {
+          publicKey = "HloR2iQkA1eTM60ksn3mvmClIHSGNCD8T8dfYSBpyh4=";
+          allowedIPs = [ "10.100.0.7/32" ];
+        }
       ];
     };
 
