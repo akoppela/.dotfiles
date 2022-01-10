@@ -217,6 +217,12 @@
          (shell-command-to-string command)))
    #+end_src
 
+** Use Emacs for =pinentry=
+
+   #+begin_src emacs-lisp
+     (setq epg-pinentry-mode 'loopback)
+   #+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
