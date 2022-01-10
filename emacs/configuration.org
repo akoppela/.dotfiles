@@ -328,6 +328,16 @@
        (interactive (list (read-shell-command "$ ")))
        (start-process-shell-command command nil command))
 
+     (defun my/launch-1password ()
+       "Starts 1Password"
+       (interactive)
+       (my/launch-program "1password"))
+
+     (defun my/launch-browser ()
+       "Starts browser"
+       (interactive)
+       (my/launch-program "chromium"))
+
      (use-package general
        :init
        (general-create-definer leader-def
@@ -382,6 +392,8 @@
          "a" '(:ignore t :which-key "application")
          "a l" '(my/launch-program :which-key "launch")
          "a p" '(proced :which-key "processes")
+         "a 1" '(my/launch-1password :which-key "1Password")
+         "a b" '(my/launch-browser :which-key "browser")
          ;; Search
          "s" '(:ignore t :which-key "search")
          ;; Error
@@ -1882,6 +1894,11 @@
 ** Slack
 
    #+begin_src emacs-lisp
+     (defun my/launch-slack ()
+       "Starts Slack"
+       (interactive)
+       (my/launch-program "slack"))
+
      (use-package slack
        :commands slack-start
        :init
@@ -1890,6 +1907,7 @@
        (setq slack-buffer-emojify t)
        (leader-def
          "a s" '(:ignore t :which-key "slack")
+         "a s a" '(my/launch-slack :which-key "app")
          "a s s" '(slack-start :which-key "start")
          "a s c" '(slack-channel-select :which-key "channel")
          "a s m" '(slack-im-select :which-key "message")
