@@ -2139,4 +2139,13 @@
          "h w p" '(define-word-at-point :which-key "define at point")))
    #+end_src
 
+* Fun
+
+** =fireplace=
+
+   #+begin_src emacs-lisp
+     (use-package fireplace
+       :commands fireplace)
+   #+end_src
+
 * The End!
