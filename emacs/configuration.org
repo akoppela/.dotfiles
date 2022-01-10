@@ -1985,6 +1985,20 @@
    #+begin_src emacs-lisp
      (setq my/mu4e-path (getenv "MY_MU4E_PATH"))
 
+     (defun my/mu4e-next-link ()
+       "Move forward to the next link based of mu4e message view mode"
+       (interactive)
+       (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
+           (shr-next-link)
+         (org-next-link)))
+
+     (defun my/mu4e-previous-link ()
+       "Move forward to the next link based of mu4e message view mode"
+       (interactive)
+       (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
+           (shr-previous-link)
+         (org-previous-link)))
+
      (use-package mu4e
        :commands mu4e
        :load-path my/mu4e-path
@@ -2016,7 +2030,12 @@
                ("/akoppela@gmail.com/Drafts" . ?d)
                ("/akoppela@gmail.com/All Mail" . ?a)))
        (leader-def
-         "a m" '(mu4e :which-key "email")))
+         "a m" '(mu4e :which-key "email"))
+       (general-def
+         :states 'normal
+         :keymaps 'mu4e-view-mode-map
+         "<tab>" 'my/mu4e-next-link
+         "<backtab>" 'my/mu4e-previous-link))
    #+end_src
 
 * Help
