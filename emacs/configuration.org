@@ -1933,7 +1933,12 @@
          "e" '(slack-message-edit :which-key "edit")
          "m" '(:ignore t :which-key "mention")
          "m u" '(slack-message-embed-mention :which-key "user")
-         "m c" '(slack-message-embed-channel :which-key "channel"))
+         "m c" '(slack-message-embed-channel :which-key "channel")
+         "r" '(slack-message-add-reaction :which-key "reaction")
+         "p" '(:ignore t :which-key "pin")
+         "p a" '(slack-message-pins-add :which-key "add")
+         "p r" '(slack-message-pins-remove :which-key "remove")
+         "d" '(slack-message-delete :which-key "delete"))
        (slack-register-team
         :name "Conta"
         :default t
