@@ -1169,8 +1169,9 @@
 
      (use-package forge
        :after magit
-       :config
-       (setq forge-topic-list-limit '(60 . -1)))
+       :init
+       (setq forge-topic-list-limit '(60 . -1))
+       (setq forge-add-default-bindings nil))
 
      (use-package code-review
        :after magit)
