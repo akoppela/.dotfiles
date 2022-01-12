@@ -111,6 +111,11 @@ in
           publicKey = "HloR2iQkA1eTM60ksn3mvmClIHSGNCD8T8dfYSBpyh4=";
           allowedIPs = [ "10.100.0.7/32" ];
         }
+        # Zi's iPad
+        {
+          publicKey = "4bpHKkn25wTswP7uEon886GcfEUHJAiw9EL9q9M5ZCI=";
+          allowedIPs = [ "10.100.0.8/32" ];
+        }
       ];
     };
 
