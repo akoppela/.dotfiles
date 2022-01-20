@@ -7,3 +7,7 @@
 ** Security                                                        :security:
 ** Fun                                                                  :fun:
 *** https://xkcd.com/atom.xml
+** Nix                                                                  :nix:
+*** https://weekly.nixos.org/feeds/all.rss.xml
+*** https://grahamc.com/feed
+*** https://christine.website/blog.atom
