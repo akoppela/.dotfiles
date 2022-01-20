@@ -1859,15 +1859,17 @@
 ** IRC
 
    #+begin_src emacs-lisp
+     (setq erc-prompt-for-password nil)
+     (setq erc-nick user-login-name)
+     (setq erc-user-full-name user-full-name)
+
+     (defun my/erc ()
+       "Connect to IRC"
+       (interactive)
+       (erc :server "irc.libera.chat" :port "6667"))
+
      (leader-def
-       "a i" '(rcirc :which-key "IRC"))
-
-     (major-def
-       :keymaps 'rcirc-mode-map
-       "j" '(rcirc-cmd-join :which-key "join"))
-
-     (add-hook 'rcirc-mode-hook
-               (lambda () (evil-set-initial-state 'rcirc-mode 'normal)))
+       "a i" '(my/erc :which-key "IRC"))
    #+end_src
 
 ** VPN
