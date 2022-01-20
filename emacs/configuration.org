@@ -2021,7 +2021,6 @@
        (setq smtpmail-stream-type 'ssl)
        (setq mu4e-compose-signature "Thank you,\nAndrey")
        (setq mu4e-compose-format-flowed t)
-       (setq mu4e-headers-show-threads nil)
        (setq shr-use-colors nil)
        (setq mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
        (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
