@@ -8,5 +8,6 @@ pkgs.mkShell {
     pkgs.nixops
   ];
 
+  AWS_SHARED_CREDENTIALS_FILE = "~/.config/aws/credentials";
   DIGITAL_OCEAN_AUTH_TOKEN = builtins.readFile ./secret/do-auth-token;
 }
