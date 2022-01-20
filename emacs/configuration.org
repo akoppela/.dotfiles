@@ -1553,6 +1553,8 @@
      (use-package eglot
        :hook
        (elm-mode . eglot-ensure)
+       :init
+       (setq eglot-ignored-server-capabilities '(:hoverProvider))
        :config
        (setq eglot-managed-mode-hook (lambda () (flymake-mode -1))))
    #+end_src
