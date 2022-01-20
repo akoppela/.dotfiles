@@ -156,6 +156,7 @@ in
         programs.bash = {
           enable = true;
           historyControl = [ "ignoredups" ];
+          historyFile = "$HOME/.config/bash/history";
           initExtra = ''
             [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
           '';
