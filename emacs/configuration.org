@@ -1838,6 +1838,7 @@
      (use-package elfeed
        :commands elfeed
        :init
+       (setq elfeed-db-directory "~/.config/elfeed")
        (leader-def
          "a f" 'elfeed)
        :config
