@@ -102,6 +102,7 @@ in
           pkgs.scrot # Screenshots
           pkgs.bottom # Monitoring
           pkgs.bluez # Bluetooth
+          pkgs.pavucontrol # Audio
           pkgs.htop
           pkgs.killall
 
