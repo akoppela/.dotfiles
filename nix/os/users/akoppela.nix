@@ -62,7 +62,7 @@ in
     # Set user
     users.users."${userName}" = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" "audio" ];
     };
 
     home-manager = {
