@@ -2015,6 +2015,7 @@
        :commands mu4e
        :load-path my/mu4e-path
        :init
+       (setq mu4e-split-view 'vertical)
        (setq message-send-mail-function 'smtpmail-send-it)
        (setq smtpmail-smtp-server "smtp.gmail.com")
        (setq smtpmail-smtp-service 465)
