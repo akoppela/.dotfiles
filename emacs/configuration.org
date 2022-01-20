@@ -1170,7 +1170,7 @@
      (use-package forge
        :after magit
        :init
-       (setq forge-topic-list-limit '(60 . -1))
+       (setq forge-topic-list-limit '(60 . 6))
        (setq forge-add-default-bindings nil))
 
      (use-package code-review
