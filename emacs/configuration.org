@@ -191,7 +191,7 @@
 ** Set authentication sources
 
    #+begin_src emacs-lisp
-     (setq auth-sources '("~/.authinfo.gpg"))
+     (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
    #+end_src
 
 ** Never save authentication sources
