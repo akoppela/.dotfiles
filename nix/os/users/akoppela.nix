@@ -105,10 +105,12 @@ in
           pkgs.htop
           pkgs.killall
 
-          # Tools
+          # Development
           pkgs.vim
-          pkgs.unzip
           pkgs.ripgrep
+
+          # Tools
+          pkgs.unzip
           pkgs.gcc
 
           # Security
