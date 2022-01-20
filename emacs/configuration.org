@@ -2041,6 +2041,10 @@
                ("/akoppela@gmail.com/Trash" . ?t)
                ("/akoppela@gmail.com/Drafts" . ?d)
                ("/akoppela@gmail.com/All Mail" . ?a)))
+       (setq mu4e-bookmarks
+             '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key 117)
+               (:name "Today's messages" :query "date:today..now" :key 116)
+               (:name "Last 7 days" :query "date:7d..now" :key 119)))
        (leader-def
          "a m" '(mu4e :which-key "email"))
        (general-def
