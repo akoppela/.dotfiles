@@ -107,6 +107,7 @@ in
 
           # Development
           pkgs.vim
+          pkgs.tokei
           pkgs.ripgrep
 
           # Tools
