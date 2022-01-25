@@ -1180,7 +1180,14 @@
        (setq forge-add-default-bindings nil))
 
      (use-package code-review
-       :after magit)
+       :after forge
+       :init
+       (general-def
+         :keymaps 'forge-pullreq-section-map
+         [remap magit-visit-thing] 'code-review-forge-pr-at-point)
+       (general-def
+         :keymaps 'forge-pullreq-list-mode-map
+         [remap forge-visit-topic] 'code-review-forge-pr-at-point))
    #+end_src
 
 ** =org-mode=
