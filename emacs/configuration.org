@@ -338,6 +338,11 @@
        (interactive)
        (my/launch-program "chromium"))
 
+     (defun my/launch-pavucontrol ()
+       "Starts Audio control GUI"
+       (interactive)
+       (my/launch-program "pavucontrol"))
+
      (use-package general
        :init
        (general-create-definer leader-def
@@ -394,6 +399,7 @@
          "a p" '(proced :which-key "processes")
          "a 1" '(my/launch-1password :which-key "1Password")
          "a b" '(my/launch-browser :which-key "browser")
+         "a a" '(my/launch-pavucontrol :which-key "audio")
          ;; Search
          "s" '(:ignore t :which-key "search")
          ;; Error
