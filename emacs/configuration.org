@@ -339,7 +339,7 @@
        (my/launch-program "chromium"))
 
      (defun my/launch-pavucontrol ()
-       "Starts Audio control GUI"
+       "Starts Volume Control GUI"
        (interactive)
        (my/launch-program "pavucontrol"))
 
