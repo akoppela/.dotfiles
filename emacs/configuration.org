@@ -1790,12 +1790,6 @@
        "Renames workspace buffer based on title"
        (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
-     (defun my/exwm-float-toggle ()
-       "Toggles window floating state. When floating modeline is hidden."
-       (interactive)
-       (exwm-floating-toggle-floating)
-       (exwm-layout-toggle-mode-line))
-
      (use-package exwm
        :if my/window-system-x
        :init
@@ -1818,7 +1812,8 @@
        (exwm-enable)
 
        (leader-def
-         "w f" '(my/exwm-float-toggle :which-key "float")))
+         "w f" '(exwm-floating-toggle-floating :which-key "float")
+         "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line")))
    #+end_src
 
 * Communication and connection
