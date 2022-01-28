@@ -1698,6 +1698,12 @@
        (leader-def
          "a D" '(docker :which-key "docker")))
 
+     (use-package dockerfile-mode
+       :mode "Dockerfile\\'")
+
+     (use-package docker-compose-mode
+       :commands docker-compose-mode)
+
      (use-package docker-tramp
        :defer t)
    #+end_src
