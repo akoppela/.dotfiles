@@ -59,10 +59,13 @@ in
     # Enable Steam for gaming
     programs.steam.enable = true;
 
+    # Enable Docker
+    virtualisation.docker.enable = true;
+
     # Set user
     users.users."${userName}" = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "audio" ];
+      extraGroups = [ "wheel" "audio" "docker" ];
     };
 
     home-manager = {
