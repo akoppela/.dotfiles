@@ -13,7 +13,7 @@ in
   };
 
   config = {
-    nix.maxJobs = lib.mkDefault 1;
+    nix.settings.max-jobs = lib.mkDefault 1;
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"

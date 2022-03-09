@@ -12,7 +12,7 @@ in
   ];
 
   config = {
-    nix.trustedUsers = [ userName ];
+    nix.settings.trusted-users = [ userName ];
 
     nixpkgs.overlays = [
       (import ../../overlay/pkgs.nix)

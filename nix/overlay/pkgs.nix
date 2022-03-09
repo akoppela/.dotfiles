@@ -47,7 +47,7 @@ self: super:
             (old.configureFlags or [ ]);
         });
     in
-    (super.emacsPackagesNgGen emacsNoCairo).emacsWithPackages (epkgs: [
+    (super.emacsPackagesFor emacsNoCairo).emacsWithPackages (epkgs: [
       epkgs.vterm # Add VTerm integration
     ]);
 }
