@@ -1917,7 +1917,7 @@
              '(transmission-mode
                transmission-files-mode))
        (leader-def
-         "a T" '(transmission :which-key "transmission")))
+         "a T" '(transmission :which-key "torrent")))
    #+end_src
 
 ** Slack
