@@ -35,10 +35,7 @@
 
   # Enable sound
   sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudio-hsphfpd;
-  };
+  hardware.pulseaudio.enable = true;
 
   # Enable Bluetooth
   hardware.bluetooth = {
