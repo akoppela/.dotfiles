@@ -1,5 +1,5 @@
 let
-  pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-21.11") { };
+  pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-22.05") { };
 in
 pkgs.mkShell {
   buildInputs = [
