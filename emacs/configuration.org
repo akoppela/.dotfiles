@@ -1508,9 +1508,11 @@
        :config
        (setq json-encoding-default-indentation "    ")
        (add-hook 'json-mode-hook 'my/json-sort-setup)
+       (add-hook 'json-mode-hook 'hs-minor-mode)
        (major-def
          :keymaps 'json-mode-map
-         "p" '(json-mode-show-path :which-key "path")))
+         "p" '(json-mode-show-path :which-key "path")
+         "h" '(hs-toggle-hiding :which "toggle hiding")))
    #+end_src
 
 ** =nix=
