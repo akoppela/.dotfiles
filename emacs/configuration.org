@@ -223,6 +223,11 @@
      (setq epg-pinentry-mode 'loopback)
    #+end_src
 
+** Show warnings buffer only on errors
+
+#+begin_src emacs-lisp
+  (setq warning-minimum-level :error)
+#+end_src
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
