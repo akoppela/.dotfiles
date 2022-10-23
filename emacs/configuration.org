@@ -6,222 +6,222 @@
 
 ** Personal info
 
-   #+begin_src emacs-lisp
-     (setq user-full-name "Andrey Koppel")
-     (setq user-mail-address "akoppela@gmail.com")
-   #+end_src
+#+begin_src emacs-lisp
+  (setq user-full-name "Andrey Koppel")
+  (setq user-mail-address "akoppela@gmail.com")
+#+end_src
 
 ** Increase garbage collection threshold before startup
 
-   #+begin_src emacs-lisp
-     (defvar last-file-name-handler-alist file-name-handler-alist)
-     (setq gc-cons-threshold (* 1024 1024 50))
-     (setq gc-cons-percentage 0.6)
-     (setq file-name-handler-alist nil)
+#+begin_src emacs-lisp
+  (defvar last-file-name-handler-alist file-name-handler-alist)
+  (setq gc-cons-threshold (* 1024 1024 50))
+  (setq gc-cons-percentage 0.6)
+  (setq file-name-handler-alist nil)
 
-     (add-hook 'emacs-startup-hook
-               (lambda ()
-                 (setq gc-cons-threshold (* 1024 1024 2))
-                 (setq gc-cons-percentage 0.1)
-                 (setq file-name-handler-alist last-file-name-handler-alist)))
-   #+end_src
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-threshold (* 1024 1024 2))
+              (setq gc-cons-percentage 0.1)
+              (setq file-name-handler-alist last-file-name-handler-alist)))
+#+end_src
 
 ** Measure startup time
 
-   #+begin_src emacs-lisp
-     (add-hook 'emacs-startup-hook
-               (lambda ()
-                 (message "Emacs ready in %s with %d garbage collections."
-                          (format "%.2f seconds"
-                                  (float-time
-                                   (time-subtract after-init-time before-init-time)))
-                          gcs-done)))
-   #+end_src
+#+begin_src emacs-lisp
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+#+end_src
 
 ** Tangle configuration on save
 
-   #+begin_src emacs-lisp
-     (defun my/tangle-configuration ()
-       "If the current file is this file, the code blocks are tangled"
-       (when (equal (buffer-file-name) (expand-file-name my/configuration-org))
-         (org-babel-tangle nil my/configuration-el)))
+#+begin_src emacs-lisp
+  (defun my/tangle-configuration ()
+    "If the current file is this file, the code blocks are tangled"
+    (when (equal (buffer-file-name) (expand-file-name my/configuration-org))
+      (org-babel-tangle nil my/configuration-el)))
 
-     (add-hook 'after-save-hook 'my/tangle-configuration)
-   #+end_src
+  (add-hook 'after-save-hook 'my/tangle-configuration)
+#+end_src
 
 ** Setup encoding to UTF-8
 
-   #+begin_src emacs-lisp
-     (setq coding-system-for-read 'utf-8)
-     (setq coding-system-for-write 'utf-8)
-     (setq locale-coding-system 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-     (set-selection-coding-system 'utf-8)
-     (prefer-coding-system 'utf-8)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq coding-system-for-read 'utf-8)
+  (setq coding-system-for-write 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+#+end_src
 
 ** Start with users home directory by default
 
-   #+begin_src emacs-lisp
-     (setq default-directory "~/")
-   #+end_src
+#+begin_src emacs-lisp
+  (setq default-directory "~/")
+#+end_src
 
 ** Increase read process output
 
-   #+begin_src emacs-lisp
-     (setq read-process-output-max (* 1024 1024 5))
-   #+end_src
+#+begin_src emacs-lisp
+  (setq read-process-output-max (* 1024 1024 5))
+#+end_src
 
 ** Delete trailing whitespace every time buffer is saved
 
-   #+begin_src emacs-lisp
-     (add-hook 'before-save-hook 'delete-trailing-whitespace)
-   #+end_src
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
 
 ** Always follow symlinks when opening a file
 
-   #+begin_src emacs-lisp
-     (setq vc-follow-symlinks t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq vc-follow-symlinks t)
+#+end_src
 
 ** Make sure sentenses does not have two spaces after periods
 
-   #+begin_src emacs-lisp
-     (setq-default sentense-end-double-space nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default sentense-end-double-space nil)
+#+end_src
 
 ** Ask before closing Emacs
 
-   #+begin_src emacs-lisp
-     (setq confirm-kill-emacs 'y-or-n-p)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq confirm-kill-emacs 'y-or-n-p)
+#+end_src
 
 ** Set backup and auto save files directory
 
-   #+begin_src emacs-lisp
-     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-     (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-   #+end_src
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+#+end_src
 
 ** Shorten yes/no answers
 
-   #+begin_src emacs-lisp
-     (defalias 'yes-or-no-p 'y-or-n-p)
-   #+end_src
+#+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
 
 ** Do not add newline at the end of a file
 
-   #+begin_src emacs-lisp
-     (setq require-final-newline nil)
-     (setq mode-require-final-newline nil)
-     (setq c-require-final-newline nil)
-     (setq log-edit-require-final-newline nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq require-final-newline nil)
+  (setq mode-require-final-newline nil)
+  (setq c-require-final-newline nil)
+  (setq log-edit-require-final-newline nil)
+#+end_src
 
 ** Set =Chromium= as default browser
 
-   #+begin_src emacs-lisp
-     (setq browse-url-browser-function 'browse-url-chromium)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq browse-url-browser-function 'browse-url-chromium)
+#+end_src
 
 ** Revert TAGS file without asking
 
-   #+begin_src emacs-lisp
-     (setq-default tags-revert-without-query t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default tags-revert-without-query t)
+#+end_src
 
 ** Automatically rescan =imenu=
 
-   #+begin_src emacs-lisp
-     (setq-default imenu-auto-rescan t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default imenu-auto-rescan t)
+#+end_src
 
 ** Do not lock files
 
-   #+begin_src emacs-lisp
-     (setq create-lockfiles nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq create-lockfiles nil)
+#+end_src
 
 ** Do not create custom file
 
-   #+begin_src emacs-lisp
-     (setq custom-file "/dev/null")
-   #+end_src
+#+begin_src emacs-lisp
+  (setq custom-file "/dev/null")
+#+end_src
 
 ** Narrow
 
-   #+begin_src emacs-lisp
-     (put 'narrow-to-region 'disabled nil)
-     (put 'narrow-to-page 'disabled nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+#+end_src
 
 ** Set system values
 
-   #+begin_src emacs-lisp
-     (setq my/window-system-x (eq window-system 'x))
-     (setq my/system-linux (eq system-type 'gnu/linux))
-     (setq my/system-mac (eq system-type 'darwin))
-   #+end_src
+#+begin_src emacs-lisp
+  (setq my/window-system-x (eq window-system 'x))
+  (setq my/system-linux (eq system-type 'gnu/linux))
+  (setq my/system-mac (eq system-type 'darwin))
+#+end_src
 
 ** Always indent with spaces
 
-   #+begin_src emacs-lisp
-     (setq-default indent-tabs-mode nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+end_src
 
 ** Use 4 spaces for tabs
 
-   #+begin_src emacs-lisp
-     (setq-default tab-width 4)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default tab-width 4)
+#+end_src
 
 ** Smooth scroll
 
-   #+begin_src emacs-lisp
-     (setq scroll-conservatively 100)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq scroll-conservatively 100)
+#+end_src
 
 ** Start Emacs server
 
-   #+begin_src emacs-lisp
-     (server-start)
-   #+end_src
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src
 
 ** Set authentication sources
 
-   #+begin_src emacs-lisp
-     (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
-   #+end_src
+#+begin_src emacs-lisp
+  (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+#+end_src
 
 ** Never save authentication sources
 
-   #+begin_src emacs-lisp
-     (setq auth-source-save-behavior nil)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq auth-source-save-behavior nil)
+#+end_src
 
 ** Clear authentication sources cache
 
-   #+begin_src emacs-lisp
-     (auth-source-forget-all-cached)
-   #+end_src
+#+begin_src emacs-lisp
+  (auth-source-forget-all-cached)
+#+end_src
 
 ** Helper function to run shell commands with =sudo=
 
-   #+begin_src emacs-lisp
-     (defun my/sudo-shell-command (command)
-       "Run shell command with sudo"
-       (interactive "MShell command (root): ")
-       (with-temp-buffer
-         (cd "/sudo::/")
-         (shell-command-to-string command)))
-   #+end_src
+#+begin_src emacs-lisp
+  (defun my/sudo-shell-command (command)
+    "Run shell command with sudo"
+    (interactive "MShell command (root): ")
+    (with-temp-buffer
+      (cd "/sudo::/")
+      (shell-command-to-string command)))
+#+end_src
 
 ** Use Emacs for =pinentry=
 
-   #+begin_src emacs-lisp
-     (setq epg-pinentry-mode 'loopback)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq epg-pinentry-mode 'loopback)
+#+end_src
 
 ** Show warnings buffer only on errors
 
@@ -232,1937 +232,1937 @@
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
 
-   #+begin_src emacs-lisp
-     (setq package-enable-at-startup nil)
-     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                              ("melpa" . "https://melpa.org/packages/")))
-     (package-initialize)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
+  (package-initialize)
+#+end_src
 
 ** Make sure package archive exist
 
-   #+begin_src emacs-lisp
-     (unless package-archive-contents
-       (package-refresh-contents))
-   #+end_src
+#+begin_src emacs-lisp
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+end_src
 
 ** Make sure =use-package= is installed
 
-   #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
-       (package-install 'use-package))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+#+END_SRC
 
 ** Make sure packages are always installed
 
-   #+begin_src emacs-lisp
-     (require 'use-package-ensure)
-     (setq use-package-always-ensure t)
-   #+end_src
+#+begin_src emacs-lisp
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+end_src
 
 ** Gather stats
 
-   #+begin_src emacs-lisp
-     (setq use-package-compute-statistics t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq use-package-compute-statistics t)
+#+end_src
 
 * Keybindings
 
 ** =hydra=
 
-   #+begin_src emacs-lisp
-     (use-package hydra
-       :defer t)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package hydra
+    :defer t)
+#+end_src
 
 ** =general=
 
-   #+begin_src emacs-lisp
-     (defhydra my/hydra-window-resize ()
-       "Resize window"
-       ("[" shrink-window-horizontally "shrink horizontally")
-       ("]" enlarge-window-horizontally "enlarge horizontally")
-       ("{" shrink-window "shrink vertically")
-       ("}" enlarge-window "enlarge vertically"))
+#+begin_src emacs-lisp
+  (defhydra my/hydra-window-resize ()
+    "Resize window"
+    ("[" shrink-window-horizontally "shrink horizontally")
+    ("]" enlarge-window-horizontally "enlarge horizontally")
+    ("{" shrink-window "shrink vertically")
+    ("}" enlarge-window "enlarge vertically"))
 
-     (defun my/open-emacs-configuration ()
-       "Opens emacs configuration."
-       (interactive)
-       (find-file my/configuration-org))
+  (defun my/open-emacs-configuration ()
+    "Opens emacs configuration."
+    (interactive)
+    (find-file my/configuration-org))
 
-     (defun my/split-window-toggle ()
-       "Toggles window split from horizontal to vertical and vice versa."
-       (interactive)
-       (if (= (count-windows) 2)
-           (let* ((this-win-buffer (window-buffer))
-                  (next-win-buffer (window-buffer (next-window)))
-                  (this-win-edges (window-edges (selected-window)))
-                  (next-win-edges (window-edges (next-window)))
-                  (this-win-2nd (not (and (<= (car this-win-edges)
-                                              (car next-win-edges))
-                                          (<= (cadr this-win-edges)
-                                              (cadr next-win-edges)))))
-                  (splitter
-                   (if (= (car this-win-edges) (car (window-edges (next-window))))
-                       'split-window-horizontally
-                     'split-window-vertically)))
-             (delete-other-windows)
-             (let ((first-win (selected-window)))
-               (funcall splitter)
-               (if this-win-2nd (other-window 1))
-               (set-window-buffer (selected-window) this-win-buffer)
-               (set-window-buffer (next-window) next-win-buffer)
-               (select-window first-win)
-               (if this-win-2nd (other-window 1))))))
+  (defun my/split-window-toggle ()
+    "Toggles window split from horizontal to vertical and vice versa."
+    (interactive)
+    (if (= (count-windows) 2)
+        (let* ((this-win-buffer (window-buffer))
+               (next-win-buffer (window-buffer (next-window)))
+               (this-win-edges (window-edges (selected-window)))
+               (next-win-edges (window-edges (next-window)))
+               (this-win-2nd (not (and (<= (car this-win-edges)
+                                           (car next-win-edges))
+                                       (<= (cadr this-win-edges)
+                                           (cadr next-win-edges)))))
+               (splitter
+                (if (= (car this-win-edges) (car (window-edges (next-window))))
+                    'split-window-horizontally
+                  'split-window-vertically)))
+          (delete-other-windows)
+          (let ((first-win (selected-window)))
+            (funcall splitter)
+            (if this-win-2nd (other-window 1))
+            (set-window-buffer (selected-window) this-win-buffer)
+            (set-window-buffer (next-window) next-win-buffer)
+            (select-window first-win)
+            (if this-win-2nd (other-window 1))))))
 
-     (defun my/delete-file-and-buffer ()
-       "Kill the current buffer and delete the file it's visiting."
-       (interactive)
-       (let ((filename (buffer-file-name)))
-         (if filename
-             (when (y-or-n-p (concat "Delete file: " filename "?"))
-               (if (vc-backend filename)
-                   (vc-delete-file filename)
-                 (progn (delete-file filename)
-                        (message "Deleted file %s." filename)
-                        (kill-buffer))))
-           (message "Can't delete file."))))
+  (defun my/delete-file-and-buffer ()
+    "Kill the current buffer and delete the file it's visiting."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (if filename
+          (when (y-or-n-p (concat "Delete file: " filename "?"))
+            (if (vc-backend filename)
+                (vc-delete-file filename)
+              (progn (delete-file filename)
+                     (message "Deleted file %s." filename)
+                     (kill-buffer))))
+        (message "Can't delete file."))))
 
-     (defun my/launch-program (command)
-       "Starts program from shell command"
-       (interactive (list (read-shell-command "$ ")))
-       (start-process-shell-command command nil command))
+  (defun my/launch-program (command)
+    "Starts program from shell command"
+    (interactive (list (read-shell-command "$ ")))
+    (start-process-shell-command command nil command))
 
-     (defun my/launch-1password ()
-       "Starts 1Password"
-       (interactive)
-       (my/launch-program "1password"))
+  (defun my/launch-1password ()
+    "Starts 1Password"
+    (interactive)
+    (my/launch-program "1password"))
 
-     (defun my/launch-browser ()
-       "Starts browser"
-       (interactive)
-       (my/launch-program "chromium"))
+  (defun my/launch-browser ()
+    "Starts browser"
+    (interactive)
+    (my/launch-program "chromium"))
 
-     (defun my/launch-pavucontrol ()
-       "Starts Volume Control GUI"
-       (interactive)
-       (my/launch-program "pavucontrol"))
+  (defun my/launch-pavucontrol ()
+    "Starts Volume Control GUI"
+    (interactive)
+    (my/launch-program "pavucontrol"))
 
-     (use-package general
-       :init
-       (general-create-definer leader-def
-         :states '(normal visual insert motion emacs)
-         :keymaps 'override
-         :prefix "SPC"
-         :non-normal-prefix "C-SPC")
-       (general-create-definer major-def
-         :states '(normal visual insert motion emacs)
-         :keymaps 'override
-         :prefix ","
-         :non-normal-prefix "C-,")
-       (leader-def
-         ;; Main menu
-         "" nil
-         "u" '(universal-argument :which-key "universal argument")
-         ;; Buffer
-         "b" '(:ignore t :which-key "buffer")
-         "b l" '(ibuffer :which-key "list")
-         "b d" '(kill-current-buffer :which-key "delete")
-         "b x" '(kill-buffer-and-window :which-key "delete with window")
-         "b s" '(save-some-buffers :which-key "save")
-         "b e" '(eval-buffer :which-key "eval")
-         "b r" '(rename-buffer :which-key "rename")
-         "b R" '(revert-buffer :which-key "revert")
-         ;; Device
-         "d" '(:ignore t :which-key "device")
-         ;; Window
-         "w" '(:ignore t :which-key "window")
-         "w TAB" '(other-window :which-key "next")
-         "w d" '(delete-window :which-key "delete")
-         "w D" '(delete-other-windows :which-key "delete other")
-         "w r" '(my/hydra-window-resize/body :which-key "resize")
-         "w s" '(:ignore t :which-key "split")
-         "w s h" '(split-window-below :which-key "horizontally")
-         "w s v" '(split-window-right :which-key "vertically")
-         "w s t" '(my/split-window-toggle :which-key "toggle")
-         ;; File
-         "f" '(:ignore t :which-key "file")
-         "f s" '(save-buffer :which-key "save")
-         "f r" '(rename-file :which-key "rename")
-         "f d" '(my/delete-file-and-buffer :which-key "delete")
-         "f c" '(copy-file :which-key "copy")
-         "f e" '(:ignore t :which-key "emacs")
-         "f e c" '(my/open-emacs-configuration :which-key "configuration")
-         ;; Region
-         "r" '(:ignore t :which-key "region")
-         "r e" '(eval-region :which-key "eval")
-         ;; Project
-         "p" '(:ignore t :which-key "project")
-         ;; Application
-         "a" '(:ignore t :which-key "application")
-         "a l" '(my/launch-program :which-key "launch")
-         "a p" '(proced :which-key "processes")
-         "a 1" '(my/launch-1password :which-key "1Password")
-         "a b" '(my/launch-browser :which-key "browser")
-         "a a" '(my/launch-pavucontrol :which-key "audio")
-         ;; Search
-         "s" '(:ignore t :which-key "search")
-         ;; Error
-         "e" '(:ignore t :which-key "error")
-         "e w" '(flyspell-auto-correct-word :which-key "auto correct word")
-         ;; Narrow
-         "n" '(:ignore t :which-key "narrow")
-         "n f" '(narrow-to-defun :which-key "function")
-         "n r" '(narrow-to-region :which-key "region")
-         "n w" '(widen :which-key "widen")
-         ;; Insert
-         "i" '(:ignore t :which-key "insert")
-         "i c" '(insert-char :which-key "char")
-         ;; Jump
-         "j" '(:ignore t :which-key "jump")
-         ;; Help
-         "h" '(:ignore t :which-key "help")
-         "h P" '(describe-package :which-key "package")
-         "h m" '(describe-mode :which-key "describe mode")
-         "h i" '(info :which-key "info")
-         "h r" '(use-package-report :which-key "report")
-         "h w" '(:ignore t :which-key "word")
-         ;; Quit
-         "q" '(:ignore t :which-key "quit")
-         "q q" '(save-buffers-kill-terminal :which-key "client")
-         "q Q" '(save-buffers-kill-emacs :which-key "server"))
-       (general-def
-         :states '(normal visual insert motion emacs)
-         "<s-left>" 'windmove-left
-         "<s-right>" 'windmove-right
-         "<s-up>" 'windmove-up
-         "<s-down>" 'windmove-down)
-       (general-def
-         :states '(normal visual)
-         :keymaps 'ibuffer-mode-map
-         "q" 'kill-buffer-and-window))
-   #+end_src
+  (use-package general
+    :init
+    (general-create-definer leader-def
+      :states '(normal visual insert motion emacs)
+      :keymaps 'override
+      :prefix "SPC"
+      :non-normal-prefix "C-SPC")
+    (general-create-definer major-def
+      :states '(normal visual insert motion emacs)
+      :keymaps 'override
+      :prefix ","
+      :non-normal-prefix "C-,")
+    (leader-def
+      ;; Main menu
+      "" nil
+      "u" '(universal-argument :which-key "universal argument")
+      ;; Buffer
+      "b" '(:ignore t :which-key "buffer")
+      "b l" '(ibuffer :which-key "list")
+      "b d" '(kill-current-buffer :which-key "delete")
+      "b x" '(kill-buffer-and-window :which-key "delete with window")
+      "b s" '(save-some-buffers :which-key "save")
+      "b e" '(eval-buffer :which-key "eval")
+      "b r" '(rename-buffer :which-key "rename")
+      "b R" '(revert-buffer :which-key "revert")
+      ;; Device
+      "d" '(:ignore t :which-key "device")
+      ;; Window
+      "w" '(:ignore t :which-key "window")
+      "w TAB" '(other-window :which-key "next")
+      "w d" '(delete-window :which-key "delete")
+      "w D" '(delete-other-windows :which-key "delete other")
+      "w r" '(my/hydra-window-resize/body :which-key "resize")
+      "w s" '(:ignore t :which-key "split")
+      "w s h" '(split-window-below :which-key "horizontally")
+      "w s v" '(split-window-right :which-key "vertically")
+      "w s t" '(my/split-window-toggle :which-key "toggle")
+      ;; File
+      "f" '(:ignore t :which-key "file")
+      "f s" '(save-buffer :which-key "save")
+      "f r" '(rename-file :which-key "rename")
+      "f d" '(my/delete-file-and-buffer :which-key "delete")
+      "f c" '(copy-file :which-key "copy")
+      "f e" '(:ignore t :which-key "emacs")
+      "f e c" '(my/open-emacs-configuration :which-key "configuration")
+      ;; Region
+      "r" '(:ignore t :which-key "region")
+      "r e" '(eval-region :which-key "eval")
+      ;; Project
+      "p" '(:ignore t :which-key "project")
+      ;; Application
+      "a" '(:ignore t :which-key "application")
+      "a l" '(my/launch-program :which-key "launch")
+      "a p" '(proced :which-key "processes")
+      "a 1" '(my/launch-1password :which-key "1Password")
+      "a b" '(my/launch-browser :which-key "browser")
+      "a a" '(my/launch-pavucontrol :which-key "audio")
+      ;; Search
+      "s" '(:ignore t :which-key "search")
+      ;; Error
+      "e" '(:ignore t :which-key "error")
+      "e w" '(flyspell-auto-correct-word :which-key "auto correct word")
+      ;; Narrow
+      "n" '(:ignore t :which-key "narrow")
+      "n f" '(narrow-to-defun :which-key "function")
+      "n r" '(narrow-to-region :which-key "region")
+      "n w" '(widen :which-key "widen")
+      ;; Insert
+      "i" '(:ignore t :which-key "insert")
+      "i c" '(insert-char :which-key "char")
+      ;; Jump
+      "j" '(:ignore t :which-key "jump")
+      ;; Help
+      "h" '(:ignore t :which-key "help")
+      "h P" '(describe-package :which-key "package")
+      "h m" '(describe-mode :which-key "describe mode")
+      "h i" '(info :which-key "info")
+      "h r" '(use-package-report :which-key "report")
+      "h w" '(:ignore t :which-key "word")
+      ;; Quit
+      "q" '(:ignore t :which-key "quit")
+      "q q" '(save-buffers-kill-terminal :which-key "client")
+      "q Q" '(save-buffers-kill-emacs :which-key "server"))
+    (general-def
+      :states '(normal visual insert motion emacs)
+      "<s-left>" 'windmove-left
+      "<s-right>" 'windmove-right
+      "<s-up>" 'windmove-up
+      "<s-down>" 'windmove-down)
+    (general-def
+      :states '(normal visual)
+      :keymaps 'ibuffer-mode-map
+      "q" 'kill-buffer-and-window))
+#+end_src
 
 ** =evil=
 
-   #+begin_src emacs-lisp
-     (use-package evil
-       :init
-       (setq evil-want-C-i-jump nil)
-       (setq evil-want-integration t)
-       (setq evil-want-keybinding nil)
-       (setq evil-undo-system 'undo-tree) ;; TODO: Change to native undo-redo from Emacs 28
-       (setq evil-normal-state-tag "N")
-       (setq evil-insert-state-tag "I")
-       (setq evil-visual-state-tag "V")
-       (setq evil-replace-state-tag "R")
-       (setq evil-operator-state-tag "O")
-       (setq evil-motion-state-tag "M")
-       (setq evil-emacs-state-tag "E")
-       :config
-       (evil-mode 1))
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-C-i-jump nil)
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-undo-system 'undo-tree) ;; TODO: Change to native undo-redo from Emacs 28
+    (setq evil-normal-state-tag "N")
+    (setq evil-insert-state-tag "I")
+    (setq evil-visual-state-tag "V")
+    (setq evil-replace-state-tag "R")
+    (setq evil-operator-state-tag "O")
+    (setq evil-motion-state-tag "M")
+    (setq evil-emacs-state-tag "E")
+    :config
+    (evil-mode 1))
 
-     (use-package evil-collection
-       :after evil
-       :init
-       (setq evil-collection-setup-minibuffer t)
-       (setq-default evil-collection-outline-bind-tab-p nil)
-       (setq-default evil-collection-company-use-tng nil)
-       :config
-       (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :init
+    (setq evil-collection-setup-minibuffer t)
+    (setq-default evil-collection-outline-bind-tab-p nil)
+    (setq-default evil-collection-company-use-tng nil)
+    :config
+    (evil-collection-init))
 
-     (use-package evil-surround
-       :hook
-       ((evil-visual-state-entry . turn-on-evil-surround-mode)
-        (evil-operator-state-entry . turn-on-evil-surround-mode)))
+  (use-package evil-surround
+    :hook
+    ((evil-visual-state-entry . turn-on-evil-surround-mode)
+     (evil-operator-state-entry . turn-on-evil-surround-mode)))
 
-     (use-package evil-commentary
-       :commands (evil-commentary evil-commentary-yank)
-       :init
-       (general-def
-         :states 'normal
-         "g c" 'evil-commentary
-         "g r" 'evil-commentary-yank))
+  (use-package evil-commentary
+    :commands (evil-commentary evil-commentary-yank)
+    :init
+    (general-def
+      :states 'normal
+      "g c" 'evil-commentary
+      "g r" 'evil-commentary-yank))
 
-     (use-package evil-anzu
-       :after evil
-       :init
-       (setq anzu-cons-mode-line-p nil)
-       :config
-       (global-anzu-mode 1))
-   #+end_src
+  (use-package evil-anzu
+    :after evil
+    :init
+    (setq anzu-cons-mode-line-p nil)
+    :config
+    (global-anzu-mode 1))
+#+end_src
 
 ** =desktop-environmet=
 
-   #+begin_src emacs-lisp
-     (defun my/mic-volume-increase ()
-       "Increases mic volume"
-       (interactive)
-       (message "%s" (shell-command-to-string "amixer set Capture 5%+")))
+#+begin_src emacs-lisp
+  (defun my/mic-volume-increase ()
+    "Increases mic volume"
+    (interactive)
+    (message "%s" (shell-command-to-string "amixer set Capture 5%+")))
 
-     (defun my/mic-volume-decrease ()
-       "Decreases mic volume"
-       (interactive)
-       (message "%s" (shell-command-to-string "amixer set Capture 5%-")))
+  (defun my/mic-volume-decrease ()
+    "Decreases mic volume"
+    (interactive)
+    (message "%s" (shell-command-to-string "amixer set Capture 5%-")))
 
-     (use-package desktop-environment
-       :if my/system-linux
-       :after exwm
-       :init
-       (setq desktop-environment-screenlock-command "systemctl suspend")
-       (general-def
-         :states '(normal visual insert motion emacs)
-         "<S-XF86AudioLowerVolume>" 'my/mic-volume-decrease
-         "<S-XF86AudioRaiseVolume>" 'my/mic-volume-increase)
-       :config
-       (desktop-environment-mode))
-   #+end_src
+  (use-package desktop-environment
+    :if my/system-linux
+    :after exwm
+    :init
+    (setq desktop-environment-screenlock-command "systemctl suspend")
+    (general-def
+      :states '(normal visual insert motion emacs)
+      "<S-XF86AudioLowerVolume>" 'my/mic-volume-decrease
+      "<S-XF86AudioRaiseVolume>" 'my/mic-volume-increase)
+    :config
+    (desktop-environment-mode))
+#+end_src
 
 * Appearance
 
 ** Hide default Emacs screen
 
-   #+begin_src emacs-lisp
-     (setq inhibit-startup-screen t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq inhibit-startup-screen t)
+#+end_src
 
 ** Load custom theme
 
-   #+begin_src emacs-lisp
-     (use-package doom-themes
-       :init
-       (setq doom-themes-enable-bold t)
-       (setq doom-themes-enable-italic t)
-       (setq doom-themes-treemacs-theme "doom-colors")
-       (setq doom-themes-treemacs-enable-variable-pitch nil)
-       :config
-       (doom-themes-visual-bell-config)
-       (doom-themes-treemacs-config)
-       (doom-themes-org-config)
-       (load-theme 'doom-one t))
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :init
+    (setq doom-themes-enable-bold t)
+    (setq doom-themes-enable-italic t)
+    (setq doom-themes-treemacs-theme "doom-colors")
+    (setq doom-themes-treemacs-enable-variable-pitch nil)
+    :config
+    (doom-themes-visual-bell-config)
+    (doom-themes-treemacs-config)
+    (doom-themes-org-config)
+    (load-theme 'doom-one t))
 
-     (use-package solaire-mode
-       :if (display-graphic-p)
-       :after doom-themes
-       :config
-       (solaire-global-mode +1))
-   #+end_src
+  (use-package solaire-mode
+    :if (display-graphic-p)
+    :after doom-themes
+    :config
+    (solaire-global-mode +1))
+#+end_src
 
 ** Load custom =modeline=
 
-   #+begin_src emacs-lisp
-     (use-package doom-modeline
-       :init
-       (setq doom-modeline-height 40)
-       :config
-       (doom-modeline-mode 1))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :init
+    (setq doom-modeline-height 40)
+    :config
+    (doom-modeline-mode 1))
+#+end_src
 
 ** Hide menu, tool and scroll bars
 
-   #+begin_src emacs-lisp
-     (tool-bar-mode 0)
-     (when (display-graphic-p) (scroll-bar-mode 0))
-     (menu-bar-mode 0)
-   #+end_src
+#+begin_src emacs-lisp
+  (tool-bar-mode 0)
+  (when (display-graphic-p) (scroll-bar-mode 0))
+  (menu-bar-mode 0)
+#+end_src
 
 ** Turn on syntax highlighting whenever possible
 
-   #+begin_src emacs-lisp
-     (global-font-lock-mode 1)
-   #+end_src
+#+begin_src emacs-lisp
+  (global-font-lock-mode 1)
+#+end_src
 
 ** Visually indicate matching parentheses
 
-   #+begin_src emacs-lisp
-     (show-paren-mode 1)
-     (setq-default show-paren-delay 0.0)
-   #+end_src
+#+begin_src emacs-lisp
+  (show-paren-mode 1)
+  (setq-default show-paren-delay 0.0)
+#+end_src
 
 ** Display visual line numbers
 
-   Visual lines are relative screen lines.
+Visual lines are relative screen lines.
 
-   #+begin_src emacs-lisp
-     (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-     (setq-default display-line-numbers-type 'visual)
-     (setq-default display-line-numbers-width-start t)
-   #+end_src
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (setq-default display-line-numbers-type 'visual)
+  (setq-default display-line-numbers-width-start t)
+#+end_src
 
 ** Center cursor vertically
 
-   #+begin_src emacs-lisp
-     (use-package centered-cursor-mode
-       :hook (prog-mode org-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package centered-cursor-mode
+    :hook (prog-mode org-mode))
+#+end_src
 
 ** Buffer list grouping
 
-   #+begin_src emacs-lisp
-     (use-package ibuffer-vc
-       :hook
-       ((ibuffer . ibuffer-vc-set-filter-groups-by-vc-root)
-        (ibuffer . ibuffer-do-sort-by-recency))
-       :init
-       (setq ibuffer-formats
-             '((mark modified read-only locked vc-status-mini
-                     " "
-                     (name 18 18 :left :elide)
-                     " "
-                     (size 9 -1 :right)
-                     " "
-                     (mode 16 16 :left :elide)
-                     " "
-                     vc-relative-file))))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package ibuffer-vc
+    :hook
+    ((ibuffer . ibuffer-vc-set-filter-groups-by-vc-root)
+     (ibuffer . ibuffer-do-sort-by-recency))
+    :init
+    (setq ibuffer-formats
+          '((mark modified read-only locked vc-status-mini
+                  " "
+                  (name 18 18 :left :elide)
+                  " "
+                  (size 9 -1 :right)
+                  " "
+                  (mode 16 16 :left :elide)
+                  " "
+                  vc-relative-file))))
+#+end_src
 
 ** Show visual indicator for column rule
 
-   #+begin_src emacs-lisp
-     (setq-default display-fill-column-indicator-column 80)
-     (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq-default display-fill-column-indicator-column 80)
+  (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+#+end_src
 
 ** Default font
 
-   #+begin_src emacs-lisp
-     (setq my/font (getenv "MY_FONT"))
+#+begin_src emacs-lisp
+  (setq my/font (getenv "MY_FONT"))
 
-     (when (member my/font (font-family-list))
-       (set-frame-font (concat my/font " 13") t t))
-   #+end_src
+  (when (member my/font (font-family-list))
+    (set-frame-font (concat my/font " 13") t t))
+#+end_src
 
 ** Show battery status
 
-   #+begin_src emacs-lisp
-     (when my/system-linux (display-battery-mode 1))
-   #+end_src
+#+begin_src emacs-lisp
+  (when my/system-linux (display-battery-mode 1))
+#+end_src
 
 ** Show current time
 
-   #+begin_src emacs-lisp
-     (defun padDateNumber (stringNumber)
-       (format "%02d" (string-to-number stringNumber)))
+#+begin_src emacs-lisp
+  (defun padDateNumber (stringNumber)
+    (format "%02d" (string-to-number stringNumber)))
 
-     (setq display-time-string-forms
-           '(" " dayname " " (padDateNumber day) ", " 24-hours ":" minutes " "))
+  (setq display-time-string-forms
+        '(" " dayname " " (padDateNumber day) ", " 24-hours ":" minutes " "))
 
-     (when my/system-linux (display-time-mode 1))
-   #+end_src
+  (when my/system-linux (display-time-mode 1))
+#+end_src
 
 ** Prettify PragmataPro
 
-   #+begin_src emacs-lisp
-     (setq prettify-symbols-unprettify-at-point 'right-edge)
+#+begin_src emacs-lisp
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
 
-     (defconst my/pragmatapro-prettify-symbols-alist
-       (mapcar (lambda (s)
-                 `(,(car s)
-                   .
-                   ,(vconcat
-                     (apply 'vconcat
-                            (make-list
-                             (- (length (car s)) 1)
-                             (vector (decode-char 'ucs #X0020) '(Br . Bl))))
-                     (vector (decode-char 'ucs (cadr s))))))
-               '(("[INFO ]"    #XE2B0)
-                 ("[WARN ]"    #XE2B1)
-                 ("[PASS ]"    #XE2B2)
-                 ("[VERBOSE]"  #XE2B3)
-                 ("[KO]"       #XE2B4)
-                 ("[OK]"       #XE2B5)
-                 ("[PASS]"     #XE2B6)
-                 ("[ERROR]"    #XE2C0)
-                 ("[DEBUG]"    #XE2C1)
-                 ("[INFO]"     #XE2C2)
-                 ("[WARN]"     #XE2C3)
-                 ("[WARNING]"  #XE2C4)
-                 ("[ERR]"      #XE2C5)
-                 ("[FATAL]"    #XE2C6)
-                 ("[TRACE]"    #XE2C7)
-                 ("[FIXME]"    #XE2C8)
-                 ("[TODO]"     #XE2C9)
-                 ("[BUG]"      #XE2CA)
-                 ("[NOTE]"     #XE2CB)
-                 ("[HACK]"     #XE2CC)
-                 ("[MARK]"     #XE2CD)
-                 ("[FAIL]"     #XE2CE)
-                 ("# ERROR"    #XE2F0)
-                 ("# DEBUG"    #XE2F1)
-                 ("# INFO"     #XE2F2)
-                 ("# WARN"     #XE2F3)
-                 ("# WARNING"  #XE2F4)
-                 ("# ERR"      #XE2F5)
-                 ("# FATAL"    #XE2F6)
-                 ("# TRACE"    #XE2F7)
-                 ("# FIXME"    #XE2F8)
-                 ("# TODO"     #XE2F9)
-                 ("# BUG"      #XE2FA)
-                 ("# NOTE"     #XE2FB)
-                 ("# HACK"     #XE2FC)
-                 ("# MARK"     #XE2FD)
-                 ("# FAIL"     #XE2FE)
-                 ("// ERROR"   #XE2E0)
-                 ("// DEBUG"   #XE2E1)
-                 ("// INFO"    #XE2E2)
-                 ("// WARN"    #XE2E3)
-                 ("// WARNING" #XE2E4)
-                 ("// ERR"     #XE2E5)
-                 ("// FATAL"   #XE2E6)
-                 ("// TRACE"   #XE2E7)
-                 ("// FIXME"   #XE2E8)
-                 ("// TODO"    #XE2E9)
-                 ("// BUG"     #XE2EA)
-                 ("// NOTE"    #XE2EB)
-                 ("// HACK"    #XE2EC)
-                 ("// MARK"    #XE2ED)
-                 ("// FAIL"    #XE2EE)
-                 ("!="         #XE900)
-                 ("!=="        #XE901)
-                 ("!=<"        #XE902)
-                 ("!≡"         #XE903)
-                 ("!≡≡"        #XE904)
-                 ("≡/"         #XEAB6)
-                 ("≡/≡"        #XEAB7)
-                 ("#("         #XE90C)
-                 ("#_"         #XE90D)
-                 ("#?"         #XE90F)
-                 ("#_("        #XE911)
-                 ("#{"         #XE90E)
-                 ("##"         #XE910)
-                 ("#["         #XE912)
-                 ("%="         #XE920)
-                 ("&%"         #XE92C)
-                 ("&&"         #XE92D)
-                 ("&+"         #XE92E)
-                 ("&-"         #XE92F)
-                 ("&/"         #XE930)
-                 ("&="         #XE931)
-                 ("&&&"        #XE932)
-                 ("$>"         #XE93A)
-                 ("(|"         #XE940)
-                 ("*>"         #XE946)
-                 ("++"         #XE94C)
-                 ("+++"        #XE94D)
-                 ("+="         #XE94E)
-                 ("+>"         #XE94F)
-                 ("++="        #XE950)
-                 ("--"         #XE960)
-                 ("-<"         #XE961)
-                 ("-<<"        #XE962)
-                 ("-="         #XE963)
-                 ("->"         #XE964)
-                 ("->>"        #XE965)
-                 ("---"        #XE966)
-                 ("-->"        #XE967)
-                 ("-+-"        #XE968)
-                 ("-\\/"       #XE969)
-                 ("-|>"        #XE96A)
-                 ("-<|"        #XE96B)
-                 ("->-"        #XE96C)
-                 ("-<-"        #XE96D)
-                 ("-|"         #XE96E)
-                 ("-||"        #XE96F)
-                 ("-|:"        #XE970)
-                 (".="         #XE979)
-                 ("//="        #XE994)
-                 ("/="         #XE995)
-                 ("/=="        #XE996)
-                 ("/-\\"       #XE997)
-                 ("/-:"        #XE998)
-                 ("/->"        #XE999)
-                 ("/=>"        #XE99A)
-                 ("/-<"        #XE99B)
-                 ("/=<"        #XE99C)
-                 ("/=:"        #XE99D)
-                 (":="         #XE9AC)
-                 (":≡"         #XE9AD)
-                 (":=>"        #XE9AE)
-                 (":-\\"       #XE9AF)
-                 (":=\\"       #XE980)
-                 (":-/"        #XE981)
-                 (":=/"        #XE982)
-                 (":-|"        #XE983)
-                 (":=|"        #XE984)
-                 (":|-"        #XE985)
-                 (":|="        #XE986)
-                 ("<$>"        #XE9C0)
-                 ("<*"         #XE9C1)
-                 ("<*>"        #XE9C2)
-                 ("<+>"        #XE9C3)
-                 ("<-"         #XE9C4)
-                 ("<<="        #XE9C5)
-                 ("<=>"        #XE9C7)
-                 ("<>"         #XE9C8)
-                 ("<|>"        #XE9C9)
-                 ("<<-"        #XE9CA)
-                 ("<|"         #XE9CB)
-                 ("<=<"        #XE9CC)
-                 ("<~"         #XE9CD)
-                 ("<~~"        #XE9CE)
-                 ("<<~"        #XE9CF)
-                 ("<$"         #XE9D0)
-                 ("<+"         #XE9D1)
-                 ("<!>"        #XE9D2)
-                 ("<@>"        #XE9D3)
-                 ("<#>"        #XE9D4)
-                 ("<%>"        #XE9D5)
-                 ("<^>"        #XE9D6)
-                 ("<&>"        #XE9D7)
-                 ("<?>"        #XE9D8)
-                 ("<.>"        #XE9D9)
-                 ("</>"        #XE9DA)
-                 ("<\\>"       #XE9DB)
-                 ("<\">"       #XE9DC)
-                 ("<:>"        #XE9DD)
-                 ("<~>"        #XE9DE)
-                 ("<**>"       #XE9DF)
-                 ("<<^"        #XE9E0)
-                 ("<="         #XE9E1)
-                 ("<->"        #XE9E2)
-                 ("<!--"       #XE9E3)
-                 ("<--"        #XE9E4)
-                 ("<~<"        #XE9E5)
-                 ("<==>"       #XE9E6)
-                 ("<|-"        #XE9E7)
-                 ("<||"        #XE9E8)
-                 ("<<|"        #XE9E9)
-                 ("<-<"        #XE9EA)
-                 ("<-->"       #XE9EB)
-                 ("<<=="       #XE9EC)
-                 ("<=="        #XE9ED)
-                 ("<-\\"       #XE9EE)
-                 ("<-/"        #XE9EF)
-                 ("<=\\"       #XE9F0)
-                 ("<=/"        #XE9F1)
-                 ("=<<"        #XEA00)
-                 ("=="         #XEA01)
-                 ("==="        #XEA02)
-                 ("==>"        #XEA03)
-                 ("=>"         #XEA04)
-                 ("=~"         #XEA05)
-                 ("=>>"        #XEA06)
-                 ("=~="        #XEA07)
-                 ("==>>"       #XEA08)
-                 ("=>="        #XEA09)
-                 ("=<="        #XEA0A)
-                 ("=<"         #XEA0B)
-                 ("==<"        #XEA0C)
-                 ("=<|"        #XEA0D)
-                 ("=/="        #XEA0F)
-                 ("=/<"        #XEA10)
-                 ("=|"         #XEA11)
-                 ("=||"        #XEA12)
-                 ("=|:"        #XEA13)
-                 (">-"         #XEA20)
-                 (">>-"        #XEA22)
-                 (">>="        #XEA23)
-                 (">=>"        #XEA24)
-                 (">>^"        #XEA25)
-                 (">>|"        #XEA26)
-                 (">!="        #XEA27)
-                 (">->"        #XEA28)
-                 (">=="        #XEA29)
-                 (">="         #XEA2A)
-                 (">/="        #XEA2B)
-                 (">-|"        #XEA2C)
-                 (">=|"        #XEA2D)
-                 (">-\\"       #XEA2E)
-                 (">=\\"       #XEA2F)
-                 (">-/"        #XEA30)
-                 (">=/"        #XEA31)
-                 (">λ="        #XEA32)
-                 ("?."         #XEA3F)
-                 ("^="         #XEA43)
-                 ("^<<"        #XEA48)
-                 ("^>>"        #XEA49)
-                 ("\\="        #XEA54)
-                 ("\\=="       #XEA55)
-                 ("\\/="       #XEA56)
-                 ("\\-/"       #XEA57)
-                 ("\\-:"       #XEA58)
-                 ("\\->"       #XEA59)
-                 ("\\=>"       #XEA5A)
-                 ("\\-<"       #XEA5B)
-                 ("\\=<"       #XEA5C)
-                 ("\\=:"       #XEA5D)
-                 ("|="         #XEA69)
-                 ("|>="        #XEA6A)
-                 ("|>"         #XEA6B)
-                 ("|+|"        #XEA6C)
-                 ("|->"        #XEA6D)
-                 ("|-->"       #XEA6E)
-                 ("|=>"        #XEA6F)
-                 ("|==>"       #XEA70)
-                 ("|>-"        #XEA71)
-                 ("|<<"        #XEA72)
-                 ("||>"        #XEA73)
-                 ("|>>"        #XEA74)
-                 ("|-"         #XEA75)
-                 ("||-"        #XEA76)
-                 ("||="        #XEA77)
-                 ("|)"         #XEA78)
-                 ("|]"         #XEA79)
-                 ("|-:"        #XEA7A)
-                 ("|=:"        #XEA7B)
-                 ("|-<"        #XEA7C)
-                 ("|=<"        #XEA7D)
-                 ("|--<"       #XEA7E)
-                 ("|==<"       #XEA7F)
-                 ("~="         #XEA8A)
-                 ("~>"         #XEA8B)
-                 ("~~>"        #XEA8C)
-                 ("~>>"        #XEA8D)
-                 ("[["         #XEA8F)
-                 ("[|"         #XEA90)
-                 ("_|_"        #XEA97)
-                 ("]]"         #XEAA0)
-                 ("≡≡"         #XEAB3)
-                 ("≡≡≡"        #XEAB4)
-                 ("≡:≡"        #XEAB5))))
+  (defconst my/pragmatapro-prettify-symbols-alist
+    (mapcar (lambda (s)
+              `(,(car s)
+                .
+                ,(vconcat
+                  (apply 'vconcat
+                         (make-list
+                          (- (length (car s)) 1)
+                          (vector (decode-char 'ucs #X0020) '(Br . Bl))))
+                  (vector (decode-char 'ucs (cadr s))))))
+            '(("[INFO ]"    #XE2B0)
+              ("[WARN ]"    #XE2B1)
+              ("[PASS ]"    #XE2B2)
+              ("[VERBOSE]"  #XE2B3)
+              ("[KO]"       #XE2B4)
+              ("[OK]"       #XE2B5)
+              ("[PASS]"     #XE2B6)
+              ("[ERROR]"    #XE2C0)
+              ("[DEBUG]"    #XE2C1)
+              ("[INFO]"     #XE2C2)
+              ("[WARN]"     #XE2C3)
+              ("[WARNING]"  #XE2C4)
+              ("[ERR]"      #XE2C5)
+              ("[FATAL]"    #XE2C6)
+              ("[TRACE]"    #XE2C7)
+              ("[FIXME]"    #XE2C8)
+              ("[TODO]"     #XE2C9)
+              ("[BUG]"      #XE2CA)
+              ("[NOTE]"     #XE2CB)
+              ("[HACK]"     #XE2CC)
+              ("[MARK]"     #XE2CD)
+              ("[FAIL]"     #XE2CE)
+              ("# ERROR"    #XE2F0)
+              ("# DEBUG"    #XE2F1)
+              ("# INFO"     #XE2F2)
+              ("# WARN"     #XE2F3)
+              ("# WARNING"  #XE2F4)
+              ("# ERR"      #XE2F5)
+              ("# FATAL"    #XE2F6)
+              ("# TRACE"    #XE2F7)
+              ("# FIXME"    #XE2F8)
+              ("# TODO"     #XE2F9)
+              ("# BUG"      #XE2FA)
+              ("# NOTE"     #XE2FB)
+              ("# HACK"     #XE2FC)
+              ("# MARK"     #XE2FD)
+              ("# FAIL"     #XE2FE)
+              ("// ERROR"   #XE2E0)
+              ("// DEBUG"   #XE2E1)
+              ("// INFO"    #XE2E2)
+              ("// WARN"    #XE2E3)
+              ("// WARNING" #XE2E4)
+              ("// ERR"     #XE2E5)
+              ("// FATAL"   #XE2E6)
+              ("// TRACE"   #XE2E7)
+              ("// FIXME"   #XE2E8)
+              ("// TODO"    #XE2E9)
+              ("// BUG"     #XE2EA)
+              ("// NOTE"    #XE2EB)
+              ("// HACK"    #XE2EC)
+              ("// MARK"    #XE2ED)
+              ("// FAIL"    #XE2EE)
+              ("!="         #XE900)
+              ("!=="        #XE901)
+              ("!=<"        #XE902)
+              ("!≡"         #XE903)
+              ("!≡≡"        #XE904)
+              ("≡/"         #XEAB6)
+              ("≡/≡"        #XEAB7)
+              ("#("         #XE90C)
+              ("#_"         #XE90D)
+              ("#?"         #XE90F)
+              ("#_("        #XE911)
+              ("#{"         #XE90E)
+              ("##"         #XE910)
+              ("#["         #XE912)
+              ("%="         #XE920)
+              ("&%"         #XE92C)
+              ("&&"         #XE92D)
+              ("&+"         #XE92E)
+              ("&-"         #XE92F)
+              ("&/"         #XE930)
+              ("&="         #XE931)
+              ("&&&"        #XE932)
+              ("$>"         #XE93A)
+              ("(|"         #XE940)
+              ("*>"         #XE946)
+              ("++"         #XE94C)
+              ("+++"        #XE94D)
+              ("+="         #XE94E)
+              ("+>"         #XE94F)
+              ("++="        #XE950)
+              ("--"         #XE960)
+              ("-<"         #XE961)
+              ("-<<"        #XE962)
+              ("-="         #XE963)
+              ("->"         #XE964)
+              ("->>"        #XE965)
+              ("---"        #XE966)
+              ("-->"        #XE967)
+              ("-+-"        #XE968)
+              ("-\\/"       #XE969)
+              ("-|>"        #XE96A)
+              ("-<|"        #XE96B)
+              ("->-"        #XE96C)
+              ("-<-"        #XE96D)
+              ("-|"         #XE96E)
+              ("-||"        #XE96F)
+              ("-|:"        #XE970)
+              (".="         #XE979)
+              ("//="        #XE994)
+              ("/="         #XE995)
+              ("/=="        #XE996)
+              ("/-\\"       #XE997)
+              ("/-:"        #XE998)
+              ("/->"        #XE999)
+              ("/=>"        #XE99A)
+              ("/-<"        #XE99B)
+              ("/=<"        #XE99C)
+              ("/=:"        #XE99D)
+              (":="         #XE9AC)
+              (":≡"         #XE9AD)
+              (":=>"        #XE9AE)
+              (":-\\"       #XE9AF)
+              (":=\\"       #XE980)
+              (":-/"        #XE981)
+              (":=/"        #XE982)
+              (":-|"        #XE983)
+              (":=|"        #XE984)
+              (":|-"        #XE985)
+              (":|="        #XE986)
+              ("<$>"        #XE9C0)
+              ("<*"         #XE9C1)
+              ("<*>"        #XE9C2)
+              ("<+>"        #XE9C3)
+              ("<-"         #XE9C4)
+              ("<<="        #XE9C5)
+              ("<=>"        #XE9C7)
+              ("<>"         #XE9C8)
+              ("<|>"        #XE9C9)
+              ("<<-"        #XE9CA)
+              ("<|"         #XE9CB)
+              ("<=<"        #XE9CC)
+              ("<~"         #XE9CD)
+              ("<~~"        #XE9CE)
+              ("<<~"        #XE9CF)
+              ("<$"         #XE9D0)
+              ("<+"         #XE9D1)
+              ("<!>"        #XE9D2)
+              ("<@>"        #XE9D3)
+              ("<#>"        #XE9D4)
+              ("<%>"        #XE9D5)
+              ("<^>"        #XE9D6)
+              ("<&>"        #XE9D7)
+              ("<?>"        #XE9D8)
+              ("<.>"        #XE9D9)
+              ("</>"        #XE9DA)
+              ("<\\>"       #XE9DB)
+              ("<\">"       #XE9DC)
+              ("<:>"        #XE9DD)
+              ("<~>"        #XE9DE)
+              ("<**>"       #XE9DF)
+              ("<<^"        #XE9E0)
+              ("<="         #XE9E1)
+              ("<->"        #XE9E2)
+              ("<!--"       #XE9E3)
+              ("<--"        #XE9E4)
+              ("<~<"        #XE9E5)
+              ("<==>"       #XE9E6)
+              ("<|-"        #XE9E7)
+              ("<||"        #XE9E8)
+              ("<<|"        #XE9E9)
+              ("<-<"        #XE9EA)
+              ("<-->"       #XE9EB)
+              ("<<=="       #XE9EC)
+              ("<=="        #XE9ED)
+              ("<-\\"       #XE9EE)
+              ("<-/"        #XE9EF)
+              ("<=\\"       #XE9F0)
+              ("<=/"        #XE9F1)
+              ("=<<"        #XEA00)
+              ("=="         #XEA01)
+              ("==="        #XEA02)
+              ("==>"        #XEA03)
+              ("=>"         #XEA04)
+              ("=~"         #XEA05)
+              ("=>>"        #XEA06)
+              ("=~="        #XEA07)
+              ("==>>"       #XEA08)
+              ("=>="        #XEA09)
+              ("=<="        #XEA0A)
+              ("=<"         #XEA0B)
+              ("==<"        #XEA0C)
+              ("=<|"        #XEA0D)
+              ("=/="        #XEA0F)
+              ("=/<"        #XEA10)
+              ("=|"         #XEA11)
+              ("=||"        #XEA12)
+              ("=|:"        #XEA13)
+              (">-"         #XEA20)
+              (">>-"        #XEA22)
+              (">>="        #XEA23)
+              (">=>"        #XEA24)
+              (">>^"        #XEA25)
+              (">>|"        #XEA26)
+              (">!="        #XEA27)
+              (">->"        #XEA28)
+              (">=="        #XEA29)
+              (">="         #XEA2A)
+              (">/="        #XEA2B)
+              (">-|"        #XEA2C)
+              (">=|"        #XEA2D)
+              (">-\\"       #XEA2E)
+              (">=\\"       #XEA2F)
+              (">-/"        #XEA30)
+              (">=/"        #XEA31)
+              (">λ="        #XEA32)
+              ("?."         #XEA3F)
+              ("^="         #XEA43)
+              ("^<<"        #XEA48)
+              ("^>>"        #XEA49)
+              ("\\="        #XEA54)
+              ("\\=="       #XEA55)
+              ("\\/="       #XEA56)
+              ("\\-/"       #XEA57)
+              ("\\-:"       #XEA58)
+              ("\\->"       #XEA59)
+              ("\\=>"       #XEA5A)
+              ("\\-<"       #XEA5B)
+              ("\\=<"       #XEA5C)
+              ("\\=:"       #XEA5D)
+              ("|="         #XEA69)
+              ("|>="        #XEA6A)
+              ("|>"         #XEA6B)
+              ("|+|"        #XEA6C)
+              ("|->"        #XEA6D)
+              ("|-->"       #XEA6E)
+              ("|=>"        #XEA6F)
+              ("|==>"       #XEA70)
+              ("|>-"        #XEA71)
+              ("|<<"        #XEA72)
+              ("||>"        #XEA73)
+              ("|>>"        #XEA74)
+              ("|-"         #XEA75)
+              ("||-"        #XEA76)
+              ("||="        #XEA77)
+              ("|)"         #XEA78)
+              ("|]"         #XEA79)
+              ("|-:"        #XEA7A)
+              ("|=:"        #XEA7B)
+              ("|-<"        #XEA7C)
+              ("|=<"        #XEA7D)
+              ("|--<"       #XEA7E)
+              ("|==<"       #XEA7F)
+              ("~="         #XEA8A)
+              ("~>"         #XEA8B)
+              ("~~>"        #XEA8C)
+              ("~>>"        #XEA8D)
+              ("[["         #XEA8F)
+              ("[|"         #XEA90)
+              ("_|_"        #XEA97)
+              ("]]"         #XEAA0)
+              ("≡≡"         #XEAB3)
+              ("≡≡≡"        #XEAB4)
+              ("≡:≡"        #XEAB5))))
 
-     (defun my/add-pragmatapro-prettify-symbols-alist ()
-       (setq prettify-symbols-alist my/pragmatapro-prettify-symbols-alist))
+  (defun my/add-pragmatapro-prettify-symbols-alist ()
+    (setq prettify-symbols-alist my/pragmatapro-prettify-symbols-alist))
 
-     ;; enable prettified symbols on comments
-     (defun my/setup-compose-predicate ()
-       (setq prettify-symbols-compose-predicate
-             (defun my/prettify-symbols-default-compose-p (start end _match)
-               "Same as `prettify-symbols-default-compose-p', except compose symbols in comments as well."
-               (let* ((syntaxes-beg (if (memq (char-syntax (char-after start)) '(?w ?_))
-                                        '(?w ?_) '(?. ?\\)))
-                      (syntaxes-end (if (memq (char-syntax (char-before end)) '(?w ?_))
-                                        '(?w ?_) '(?. ?\\))))
-                 (not (or (memq (char-syntax (or (char-before start) ?\s)) syntaxes-beg)
-                          (memq (char-syntax (or (char-after end) ?\s)) syntaxes-end)
-                          (nth 3 (syntax-ppss))))))))
+  ;; enable prettified symbols on comments
+  (defun my/setup-compose-predicate ()
+    (setq prettify-symbols-compose-predicate
+          (defun my/prettify-symbols-default-compose-p (start end _match)
+            "Same as `prettify-symbols-default-compose-p', except compose symbols in comments as well."
+            (let* ((syntaxes-beg (if (memq (char-syntax (char-after start)) '(?w ?_))
+                                     '(?w ?_) '(?. ?\\)))
+                   (syntaxes-end (if (memq (char-syntax (char-before end)) '(?w ?_))
+                                     '(?w ?_) '(?. ?\\))))
+              (not (or (memq (char-syntax (or (char-before start) ?\s)) syntaxes-beg)
+                       (memq (char-syntax (or (char-after end) ?\s)) syntaxes-end)
+                       (nth 3 (syntax-ppss))))))))
 
-     (defun my/prettify-pragmatapro ()
-       "Prettifies PragmataPro"
-       (interactive)
-       (my/add-pragmatapro-prettify-symbols-alist)
-       (my/setup-compose-predicate)
-       (prettify-symbols-mode -1)
-       (prettify-symbols-mode +1))
+  (defun my/prettify-pragmatapro ()
+    "Prettifies PragmataPro"
+    (interactive)
+    (my/add-pragmatapro-prettify-symbols-alist)
+    (my/setup-compose-predicate)
+    (prettify-symbols-mode -1)
+    (prettify-symbols-mode +1))
 
-     (add-hook 'prog-mode-hook 'my/prettify-pragmatapro)
-     (add-hook 'magit-mode-hook 'my/prettify-pragmatapro)
-   #+end_src
+  (add-hook 'prog-mode-hook 'my/prettify-pragmatapro)
+  (add-hook 'magit-mode-hook 'my/prettify-pragmatapro)
+#+end_src
 
 * Navigation, search and completion
 
 ** =counsel= completion framework
 
-   #+begin_src emacs-lisp
-     (use-package ivy
-       :init
-       (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-       (setq ivy-use-selectable-prompt t)
-       (setq counsel-rg-base-command
-             '("rg"
-               "-M" "240"
-               "--hidden"
-               "--with-filename"
-               "--no-heading"
-               "--line-number"
-               "--color" "never"
-               "%s"))
-       (general-def
-         :states '(normal visual insert motion emacs)
-         "<s-tab>" 'ivy-switch-buffer)
-       (general-def
-         :states '(normal visual)
-         "/" 'swiper-isearch
-         "?" 'swiper-isearch-backward
-         "*" 'swiper-isearch-thing-at-point)
-       (major-def
-         :keymaps 'ivy-minibuffer-map
-         "o" '(ivy-occur :which-key "occur")
-         "a" '(ivy-read-action :which-key "action"))
-       (leader-def
-         "SPC" '(counsel-M-x :which-key "M-x")
-         ;; File
-         "f f" '(counsel-find-file :which-key "find")
-         "f l" '(counsel-find-library :which-key "library")
-         ;; Search
-         "s i" '(counsel-imenu :which-key "imenu")
-         ;; Jump
-         "j m" '(counsel-mark-ring :which-key "mark")
-         ;; Help
-         "h a" '(counsel-apropos :which-key "apropos")
-         "h b" '(counsel-descbinds :which-key "bindings")
-         "h f" '(counsel-describe-function :which-key "describe function")
-         "h F" '(counsel-describe-face :which-key "face")
-         "h v" '(counsel-describe-variable :which-key "describe variable"))
-       :config
-       (ivy-mode 1))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package ivy
+    :init
+    (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+    (setq ivy-use-selectable-prompt t)
+    (setq counsel-rg-base-command
+          '("rg"
+            "-M" "240"
+            "--hidden"
+            "--with-filename"
+            "--no-heading"
+            "--line-number"
+            "--color" "never"
+            "%s"))
+    (general-def
+      :states '(normal visual insert motion emacs)
+      "<s-tab>" 'ivy-switch-buffer)
+    (general-def
+      :states '(normal visual)
+      "/" 'swiper-isearch
+      "?" 'swiper-isearch-backward
+      "*" 'swiper-isearch-thing-at-point)
+    (major-def
+      :keymaps 'ivy-minibuffer-map
+      "o" '(ivy-occur :which-key "occur")
+      "a" '(ivy-read-action :which-key "action"))
+    (leader-def
+      "SPC" '(counsel-M-x :which-key "M-x")
+      ;; File
+      "f f" '(counsel-find-file :which-key "find")
+      "f l" '(counsel-find-library :which-key "library")
+      ;; Search
+      "s i" '(counsel-imenu :which-key "imenu")
+      ;; Jump
+      "j m" '(counsel-mark-ring :which-key "mark")
+      ;; Help
+      "h a" '(counsel-apropos :which-key "apropos")
+      "h b" '(counsel-descbinds :which-key "bindings")
+      "h f" '(counsel-describe-function :which-key "describe function")
+      "h F" '(counsel-describe-face :which-key "face")
+      "h v" '(counsel-describe-variable :which-key "describe variable"))
+    :config
+    (ivy-mode 1))
+#+end_src
 
 ** =wgrep= to edit search
 
-   #+begin_src emacs-lisp
-     (use-package wgrep
-       :commands ivy-wgrep-change-to-wgrep-mode)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package wgrep
+    :commands ivy-wgrep-change-to-wgrep-mode)
+#+end_src
 
 ** =treemacs= file explorer
 
-   #+begin_src emacs-lisp
-     (use-package treemacs
-       :commands treemacs
-       :init
-       (leader-def
-         "p t" '(treemacs :which-key "treemacs")))
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :commands treemacs
+    :init
+    (leader-def
+      "p t" '(treemacs :which-key "treemacs")))
 
-     (use-package treemacs-evil
-       :after treemacs)
+  (use-package treemacs-evil
+    :after treemacs)
 
-     (use-package treemacs-projectile
-       :after treemacs)
-   #+end_src
+  (use-package treemacs-projectile
+    :after treemacs)
+#+end_src
 
 ** =company= enables auto-completion
 
-   #+begin_src emacs-lisp
-     (defun my/company-complete-common-or-cycle-backward ()
-       "Complete common prefix or cycle backward."
-       (interactive)
-       (company-complete-common-or-cycle -1))
+#+begin_src emacs-lisp
+  (defun my/company-complete-common-or-cycle-backward ()
+    "Complete common prefix or cycle backward."
+    (interactive)
+    (company-complete-common-or-cycle -1))
 
-     (use-package company
-       :hook (prog-mode . company-mode)
-       :init
-       (setq company-idle-delay 0)
-       (setq company-require-match nil)
-       (setq company-minimum-prefix-length 1)
-       (setq company-dabbrev-downcase nil)
-       (setq company-dabbrev-ignore-case nil)
-       :config
-       (general-def
-         :keymaps 'company-active-map
-         "TAB" 'company-complete-common-or-cycle
-         "<backtab>" 'my/company-complete-common-or-cycle-backward))
-   #+end_src
+  (use-package company
+    :hook (prog-mode . company-mode)
+    :init
+    (setq company-idle-delay 0)
+    (setq company-require-match nil)
+    (setq company-minimum-prefix-length 1)
+    (setq company-dabbrev-downcase nil)
+    (setq company-dabbrev-ignore-case nil)
+    :config
+    (general-def
+      :keymaps 'company-active-map
+      "TAB" 'company-complete-common-or-cycle
+      "<backtab>" 'my/company-complete-common-or-cycle-backward))
+#+end_src
 
 ** =flycheck= checks syntax
 
-   #+begin_src emacs-lisp
-     (use-package flycheck
-       :commands flycheck-mode
-       :init
-       (setq flycheck-check-syntax-automatically '(mode-enabled save))
-       :config
-       (leader-def
-         "e v" '(flycheck-verify-setup :which-key "verify setup")
-         "e n" '(flycheck-next-error :which-key "next")
-         "e N" '(flycheck-previous-error :which-key "previous")
-         "e l" '(flycheck-list-errors :which-key "list")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :commands flycheck-mode
+    :init
+    (setq flycheck-check-syntax-automatically '(mode-enabled save))
+    :config
+    (leader-def
+      "e v" '(flycheck-verify-setup :which-key "verify setup")
+      "e n" '(flycheck-next-error :which-key "next")
+      "e N" '(flycheck-previous-error :which-key "previous")
+      "e l" '(flycheck-list-errors :which-key "list")))
+#+end_src
 
 ** =ace-window=
 
-   #+begin_src emacs-lisp
-     (use-package ace-window
-       :commands ace-window
-       :init
-       (leader-def
-         "w a" '(ace-window :which-key "ace")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :commands ace-window
+    :init
+    (leader-def
+      "w a" '(ace-window :which-key "ace")))
+#+end_src
 
 ** =avy=
 
-   #+Begin_src emacs-lisp
-     (use-package avy
-       :commands (avy-goto-subword-1 avy-goto-word-1)
-       :init
-       (leader-def
-         "j s" '(avy-goto-subword-1 :which-key "subword")
-         "j w" '(avy-goto-word-1 :which-key "word")))
-   #+end_src
+#+Begin_src emacs-lisp
+  (use-package avy
+    :commands (avy-goto-subword-1 avy-goto-word-1)
+    :init
+    (leader-def
+      "j s" '(avy-goto-subword-1 :which-key "subword")
+      "j w" '(avy-goto-word-1 :which-key "word")))
+#+end_src
 
 ** =engine-mode= to search on the web
 
-   #+begin_src emacs-lisp
-     (use-package engine-mode
-       :commands (engine/search-google engine/search-youtube engine/search-wikipedia)
-       :init
-       (defengine google
-         "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s")
-       (defengine wikipedia
-         "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
-       (defengine youtube
-         "http://www.youtube.com/results?aq=f&oq=&search_query=%s")
-       (leader-def
-         "s b" '(engine/search-google :which-key "browser")
-         "s y" '(engine/search-youtube :which-key "youtube")
-         "s w" '(engine/search-wikipedia :which-key "wiki")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package engine-mode
+    :commands (engine/search-google engine/search-youtube engine/search-wikipedia)
+    :init
+    (defengine google
+      "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s")
+    (defengine wikipedia
+      "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+    (defengine youtube
+      "http://www.youtube.com/results?aq=f&oq=&search_query=%s")
+    (leader-def
+      "s b" '(engine/search-google :which-key "browser")
+      "s y" '(engine/search-youtube :which-key "youtube")
+      "s w" '(engine/search-wikipedia :which-key "wiki")))
+#+end_src
 
 * Project, time and task management
 
 ** =session=
 
-   Make sessions persistent.
+Make sessions persistent.
 
-   #+begin_src emacs-lisp
-     (use-package session
-       :hook (after-init . session-initialize)
-       :init
-       (setq session-save-file (expand-file-name ".session" user-emacs-directory))
-       (setq session-save-file-coding-system 'utf-8))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package session
+    :hook (after-init . session-initialize)
+    :init
+    (setq session-save-file (expand-file-name ".session" user-emacs-directory))
+    (setq session-save-file-coding-system 'utf-8))
+#+end_src
 
 ** =projectile=
 
-   #+begin_src emacs-lisp
-     (defun my/counsel-projectile-rg ()
-       "Calls counsel-projectile-rg with no initial input"
-       (interactive)
-       (progn
-         (setq-default counsel-projectile-rg-initial-input nil)
-         (counsel-projectile-rg)))
+#+begin_src emacs-lisp
+  (defun my/counsel-projectile-rg ()
+    "Calls counsel-projectile-rg with no initial input"
+    (interactive)
+    (progn
+      (setq-default counsel-projectile-rg-initial-input nil)
+      (counsel-projectile-rg)))
 
-     (defun my/counsel-projectile-rg-at-point ()
-       "Calls counsel-projectile-rg with ivy-at-point"
-       (interactive)
-       (progn
-         (setq-default counsel-projectile-rg-initial-input (ivy-thing-at-point))
-         (counsel-projectile-rg)))
+  (defun my/counsel-projectile-rg-at-point ()
+    "Calls counsel-projectile-rg with ivy-at-point"
+    (interactive)
+    (progn
+      (setq-default counsel-projectile-rg-initial-input (ivy-thing-at-point))
+      (counsel-projectile-rg)))
 
-     (use-package projectile
-       :commands
-       (counsel-projectile-rg
-        counsel-projectile-find-file
-        counsel-projectile-switch-project
-        counsel-projectile-switch-to-buffer
-        projectile-project-p)
-       :init
-       (setq projectile-completion-system 'ivy)
-       (leader-def
-         "/" '(my/counsel-projectile-rg :which-key "find in project")
-         "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point")
-         "p f" '(counsel-projectile-find-file :which-key "find file")
-         "p p" '(counsel-projectile-switch-project :which-key "switch")
-         "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer"))
-       :config
-       (projectile-mode 1))
+  (use-package projectile
+    :commands
+    (counsel-projectile-rg
+     counsel-projectile-find-file
+     counsel-projectile-switch-project
+     counsel-projectile-switch-to-buffer
+     projectile-project-p)
+    :init
+    (setq projectile-completion-system 'ivy)
+    (leader-def
+      "/" '(my/counsel-projectile-rg :which-key "find in project")
+      "*" '(my/counsel-projectile-rg-at-point :which-key "find in project at point")
+      "p f" '(counsel-projectile-find-file :which-key "find file")
+      "p p" '(counsel-projectile-switch-project :which-key "switch")
+      "p b" '(counsel-projectile-switch-to-buffer :which-key "buffer"))
+    :config
+    (projectile-mode 1))
 
-     (use-package counsel-projectile
-       :after projectile
-       :config
-       (counsel-projectile-mode 1))
-   #+end_src
+  (use-package counsel-projectile
+    :after projectile
+    :config
+    (counsel-projectile-mode 1))
+#+end_src
 
 ** =magit=
 
-   #+begin_src emacs-lisp
-     (use-package magit
-       :commands
-       (magit-status
-        magit-blame-addition
-        magit-clone
-        magit-log-buffer-file)
-       :init
-       (setq magit-blame-styles
-             '((margin
-                (margin-format " %a - %s%f" " %C" " %H")
-                (margin-width . 42)
-                (margin-face . magit-blame-margin)
-                (margin-body-face magit-blame-dimmed))))
-       (leader-def
-         "g" '(:ignore t :which-key "git")
-         "g s" '(magit-status :which-key "status")
-         "g b" '(magit-blame-addition :which-key "blame")
-         "g c" '(magit-clone :which-key "clone")
-         "g h" '(magit-log-buffer-file :which-key "history"))
-       :config
-       (add-hook 'git-commit-mode-hook 'flyspell-mode))
+#+begin_src emacs-lisp
+  (use-package magit
+    :commands
+    (magit-status
+     magit-blame-addition
+     magit-clone
+     magit-log-buffer-file)
+    :init
+    (setq magit-blame-styles
+          '((margin
+             (margin-format " %a - %s%f" " %C" " %H")
+             (margin-width . 42)
+             (margin-face . magit-blame-margin)
+             (margin-body-face magit-blame-dimmed))))
+    (leader-def
+      "g" '(:ignore t :which-key "git")
+      "g s" '(magit-status :which-key "status")
+      "g b" '(magit-blame-addition :which-key "blame")
+      "g c" '(magit-clone :which-key "clone")
+      "g h" '(magit-log-buffer-file :which-key "history"))
+    :config
+    (add-hook 'git-commit-mode-hook 'flyspell-mode))
 
-     (use-package forge
-       :after magit
-       :init
-       (setq forge-topic-list-limit '(60 . 6))
-       (setq forge-add-default-bindings nil))
+  (use-package forge
+    :after magit
+    :init
+    (setq forge-topic-list-limit '(60 . 6))
+    (setq forge-add-default-bindings nil))
 
-     (use-package code-review
-       :after forge
-       :init
-       (general-def
-         :keymaps 'forge-pullreq-section-map
-         [remap magit-visit-thing] 'code-review-forge-pr-at-point)
-       (general-def
-         :keymaps 'forge-pullreq-list-mode-map
-         [remap forge-visit-topic] 'code-review-forge-pr-at-point))
-   #+end_src
+  (use-package code-review
+    :after forge
+    :init
+    (general-def
+      :keymaps 'forge-pullreq-section-map
+      [remap magit-visit-thing] 'code-review-forge-pr-at-point)
+    (general-def
+      :keymaps 'forge-pullreq-list-mode-map
+      [remap forge-visit-topic] 'code-review-forge-pr-at-point))
+#+end_src
 
 ** =org-mode=
 
 *** Keybindings
 
-    #+begin_src emacs-lisp
-      (defun my/open-notes ()
-        "Opens my notes."
-        (interactive)
-        (find-file (expand-file-name "~/Notes/notes.org")))
+#+begin_src emacs-lisp
+  (defun my/open-notes ()
+    "Opens my notes."
+    (interactive)
+    (find-file (expand-file-name "~/Notes/notes.org")))
 
-      (leader-def
-        "a n" '(my/open-notes :which-key "notes"))
+  (leader-def
+    "a n" '(my/open-notes :which-key "notes"))
 
-      (leader-def
-        :keymaps '(org-mode-map outline-minor-mode-map)
-        "n s" '(org-narrow-to-subtree :which-key "subtree"))
+  (leader-def
+    :keymaps '(org-mode-map outline-minor-mode-map)
+    "n s" '(org-narrow-to-subtree :which-key "subtree"))
 
-      (major-def
-        :keymaps 'org-mode-map
-        "'" '(org-edit-special :which-key "src editor")
-        "e" '(org-export-dispatch :which-key "export")
-        "a" '(org-agenda :which-key "agenda")
-        "t" '(org-todo :which-key "toggle todo")
+  (major-def
+    :keymaps 'org-mode-map
+    "'" '(org-edit-special :which-key "src editor")
+    "e" '(org-export-dispatch :which-key "export")
+    "a" '(org-agenda :which-key "agenda")
+    "t" '(org-todo :which-key "toggle todo")
 
-        "i" '(:ignore t :which-key "insert")
-        "i t" '(org-insert-structure-template :which-key "template")
+    "i" '(:ignore t :which-key "insert")
+    "i t" '(org-insert-structure-template :which-key "template")
 
-        "d" '(:ignore t :which-key "date")
-        "d s" '(org-schedule :which-key "schedule")
-        "d d" '(org-deadline :which-key "deadline")
+    "d" '(:ignore t :which-key "date")
+    "d s" '(org-schedule :which-key "schedule")
+    "d d" '(org-deadline :which-key "deadline")
 
-        "s" '(:ignore t :which-key "subtree"))
-    #+end_src
+    "s" '(:ignore t :which-key "subtree"))
+#+end_src
 
 *** Agenda files
 
-    #+begin_src emacs-lisp
-      (setq org-agenda-files '("~/Notes/notes.org"))
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/Notes/notes.org"))
+#+end_src
 
 *** Show bullets instead of stars
 
-    #+begin_src emacs-lisp
-      (use-package org-bullets
-        :hook (org-mode . org-bullets-mode))
-    #+end_src
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
+#+end_src
 
 *** Hide leading stars
 
-    #+begin_src emacs-lisp
-      (setq org-hide-leading-stars t)
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-hide-leading-stars t)
+#+end_src
 
 *** Change collapsed subtree symbol
 
-    #+begin_src emacs-lisp
-      (setq org-ellipsis " ▼")
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-ellipsis " ▼")
+#+end_src
 
 *** Make TAB act natively for code blocks
 
-    #+begin_src emacs-lisp
-      (setq org-src-tab-acts-natively t)
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+end_src
 
 *** Log TODO's done progress
 
-    #+begin_src emacs-lisp
-      (setq org-log-done t)
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-log-done t)
+#+end_src
 
 *** Better =org-refile=
 
-    #+begin_src emacs-lisp
-      (setq-default org-refile-targets
-                    '((org-agenda-files :maxlevel . 2)
-                      (my/configuration-org :maxlevel . 2)))
-      (setq-default org-refile-use-outline-path 'file)
-      (setq-default org-outline-path-complete-in-steps nil)
-      (setq-default org-refile-allow-creating-parent-nodes 'confirm)
+#+begin_src emacs-lisp
+  (setq-default org-refile-targets
+                '((org-agenda-files :maxlevel . 2)
+                  (my/configuration-org :maxlevel . 2)))
+  (setq-default org-refile-use-outline-path 'file)
+  (setq-default org-outline-path-complete-in-steps nil)
+  (setq-default org-refile-allow-creating-parent-nodes 'confirm)
 
-      (add-hook 'org-after-refile-insert-hook 'org-update-parent-todo-statistics)
+  (add-hook 'org-after-refile-insert-hook 'org-update-parent-todo-statistics)
 
-      (defun my/org-refile ()
-        "My custom org-refile"
-        (interactive)
-        (progn
-          (org-refile)
-          (org-update-parent-todo-statistics)))
+  (defun my/org-refile ()
+    "My custom org-refile"
+    (interactive)
+    (progn
+      (org-refile)
+      (org-update-parent-todo-statistics)))
 
-      (major-def
-        :keymaps 'org-mode-map
-        "s r" '(my/org-refile :which-key "refile"))
-    #+end_src
+  (major-def
+    :keymaps 'org-mode-map
+    "s r" '(my/org-refile :which-key "refile"))
+#+end_src
 
 *** Enable =evil-org=
 
-    #+begin_src emacs-lisp
-      (use-package evil-org
-        :hook (org-mode . evil-org-mode)
-        :config
-        (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
-        (require 'evil-org-agenda)
-        (evil-org-agenda-set-keys))
-    #+end_src
+#+begin_src emacs-lisp
+  (use-package evil-org
+    :hook (org-mode . evil-org-mode)
+    :config
+    (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
+#+end_src
 
 *** Presentations with =ox-reveal=
 
-    #+begin_src emacs-lisp
-      (use-package ox-reveal
-        :commands org-export-dispatch
-        :config
-        (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
-    #+end_src
+#+begin_src emacs-lisp
+  (use-package ox-reveal
+    :commands org-export-dispatch
+    :config
+    (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0"))
+#+end_src
 
 *** Allow bind keywords for export
 
-    #+begin_src emacs-lisp
-      (setq org-export-allow-bind-keywords t)
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-export-allow-bind-keywords t)
+#+end_src
 
 *** Enter with overview folded
 
-    #+begin_src emacs-lisp
-      (setq org-startup-folded t)
-    #+end_src
+#+begin_src emacs-lisp
+  (setq org-startup-folded t)
+#+end_src
 
 ** =harvest=
 
-   #+begin_src emacs-lisp
-     (defun my/reaper ()
-       "Set's reaper variables first and then starts it"
-       (interactive)
-       (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
-       (setq reaper-account-id (auth-source-pick-first-password :host "conta.harvest.id"))
-       (reaper))
+#+begin_src emacs-lisp
+  (defun my/reaper ()
+    "Set's reaper variables first and then starts it"
+    (interactive)
+    (setq reaper-api-key (auth-source-pick-first-password :host "conta.harvest.key"))
+    (setq reaper-account-id (auth-source-pick-first-password :host "conta.harvest.id"))
+    (reaper))
 
-     (use-package reaper
-       :commands reaper
-       :load-path "my/reaper"
-       :init
-       (setq-default reaper-hours-timer-mode nil)
-       (leader-def
-         "a h" '(my/reaper :which-key "harvest"))
-       :config
-       (general-def
-         :states '(normal visual)
-         :keymaps 'reaper-mode-map
-         "q" 'kill-buffer-and-window
-         "g r" '(reaper-refresh :which-key "refresh")
-         "d" '(:ignore t :which-key "date")
-         "d n" '(reaper-goto-date+1 :which-key "next")
-         "d N" '(reaper-goto-date-1 :which-key "previous")
-         "s" '(reaper-start-timer :which-key "start timer")
-         "S" '(reaper-stop-timer :which-key "stop timer")
-         "n" '(reaper-start-new-timer :which-key "new timer")
-         "e" '(reaper-edit-entry-time :which-key "edit time")
-         "E" '(reaper-edit-entry :which-key "edit entry")
-         "x" '(reaper-delete-entry :which-key "delete")))
-   #+end_src
+  (use-package reaper
+    :commands reaper
+    :load-path "my/reaper"
+    :init
+    (setq-default reaper-hours-timer-mode nil)
+    (leader-def
+      "a h" '(my/reaper :which-key "harvest"))
+    :config
+    (general-def
+      :states '(normal visual)
+      :keymaps 'reaper-mode-map
+      "q" 'kill-buffer-and-window
+      "g r" '(reaper-refresh :which-key "refresh")
+      "d" '(:ignore t :which-key "date")
+      "d n" '(reaper-goto-date+1 :which-key "next")
+      "d N" '(reaper-goto-date-1 :which-key "previous")
+      "s" '(reaper-start-timer :which-key "start timer")
+      "S" '(reaper-stop-timer :which-key "stop timer")
+      "n" '(reaper-start-new-timer :which-key "new timer")
+      "e" '(reaper-edit-entry-time :which-key "edit time")
+      "E" '(reaper-edit-entry :which-key "edit entry")
+      "x" '(reaper-delete-entry :which-key "delete")))
+#+end_src
 
 * Programming languages and modes
 
 ** =undo-tree=
 
-   #+begin_src emacs-lisp
-     (use-package undo-tree
-       :init
-       (global-undo-tree-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode))
+#+end_src
 
 ** =html=
 
-   #+begin_src emacs-lisp
-     (use-package web-mode
-       :mode
-       ("\\.html?\\'" . web-mode)
-       ("\\.php\\'" . web-mode))
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :mode
+    ("\\.html?\\'" . web-mode)
+    ("\\.php\\'" . web-mode))
 
-     (use-package emmet-mode
-       :hook (sgml-mode css-mode web-mode)
-       :config
-       (general-def
-         :definer 'minor-mode
-         :states 'insert
-         :keymaps 'emmet-mode
-         "TAB" 'emmet-expand-line))
-   #+end_src
+  (use-package emmet-mode
+    :hook (sgml-mode css-mode web-mode)
+    :config
+    (general-def
+      :definer 'minor-mode
+      :states 'insert
+      :keymaps 'emmet-mode
+      "TAB" 'emmet-expand-line))
+#+end_src
 
 ** =css=
 
-   #+begin_src emacs-lisp
-     (use-package counsel-css
-       :hook (css-mode . counsel-css-imenu-setup))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package counsel-css
+    :hook (css-mode . counsel-css-imenu-setup))
+#+end_src
 
 ** =elm=
 
-   #+begin_src emacs-lisp
-     (defun my/elm-outline-mode ()
-       "Enables outline mode for Elm files."
-       (progn
-         (outline-minor-mode)
-         (setq outline-regexp "--+\ ")))
+#+begin_src emacs-lisp
+  (defun my/elm-outline-mode ()
+    "Enables outline mode for Elm files."
+    (progn
+      (outline-minor-mode)
+      (setq outline-regexp "--+\ ")))
 
-     ;; Override function to ignore node_modules
-     (defun elm-mode-generate-tags ()
-       "Generate a TAGS file for the current project."
-       (interactive)
-       (when (elm--has-dependency-file)
-         (let* ((default-directory (elm--find-dependency-file-path))
-                (find-command "find . -type f -name \"*.elm\" -print")
-                (exclude-command (if elm-tags-exclude-elm-stuff
-                                     (concat find-command " | egrep -v elm-stuff")
-                                   find-command))
-                (etags-command (concat
-                                exclude-command
-                                " | egrep -v node_modules"
-                                " | etags --language=none --regex=@"
-                                (shell-quote-argument elm-tags-regexps)
-                                " -")))
-           (call-process-shell-command (concat etags-command "&") nil 0))))
+  ;; Override function to ignore node_modules
+  (defun elm-mode-generate-tags ()
+    "Generate a TAGS file for the current project."
+    (interactive)
+    (when (elm--has-dependency-file)
+      (let* ((default-directory (elm--find-dependency-file-path))
+             (find-command "find . -type f -name \"*.elm\" -print")
+             (exclude-command (if elm-tags-exclude-elm-stuff
+                                  (concat find-command " | egrep -v elm-stuff")
+                                find-command))
+             (etags-command (concat
+                             exclude-command
+                             " | egrep -v node_modules"
+                             " | etags --language=none --regex=@"
+                             (shell-quote-argument elm-tags-regexps)
+                             " -")))
+        (call-process-shell-command (concat etags-command "&") nil 0))))
 
-     (defun my/elm-import ()
-       "Imports a module from prompted string."
-       (interactive)
-       (let ((statement (read-string "Import statement: " "import ")))
-         (save-excursion
-           (goto-char (point-min))
-           (if (re-search-forward "^import " nil t)
-               (beginning-of-line)
-             (forward-line 1)
-             (insert "\n"))
-           (insert (concat statement "\n"))
-           (save-buffer))))
+  (defun my/elm-import ()
+    "Imports a module from prompted string."
+    (interactive)
+    (let ((statement (read-string "Import statement: " "import ")))
+      (save-excursion
+        (goto-char (point-min))
+        (if (re-search-forward "^import " nil t)
+            (beginning-of-line)
+          (forward-line 1)
+          (insert "\n"))
+        (insert (concat statement "\n"))
+        (save-buffer))))
 
-     (use-package elm-mode
-       :commands elm-mode
-       :init
-       (setq elm-package-json "elm.json")
-       (setq elm-tags-on-save t)
-       (setq elm-tags-exclude-elm-stuff t)
-       (setq elm-format-on-save t)
-       (setq elm-imenu-use-categories nil)
-       :config
-       (remove-hook 'elm-mode-hook 'elm-indent-mode)
-       (add-hook 'elm-mode-hook 'flycheck-mode)
-       (add-hook 'elm-mode-hook 'my/elm-outline-mode)
-       (add-hook 'elm-mode-hook
-                 (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
-       (general-def
-         :states '(normal visual)
-         :keymaps 'elm-mode-map
-         "TAB" 'org-cycle
-         "<backtab>" 'org-global-cycle
-         "M-<up>" 'outline-move-subtree-up
-         "M-<down>" 'outline-move-subtree-down
-         "g k" '(outline-previous-heading :which-key "previous heading")
-         "g j" '(outline-next-heading :which-key "next heading"))
-       (major-def
-         :keymaps 'elm-mode-map
-         "i" '(my/elm-import :which-key "import")
-         "e" '(elm-expose-at-point :which-key "expose")
-         "d" '(elm-documentation-lookup :which-key "documentation")
-         "r" '(eglot-rename :which-key "rename")))
+  (use-package elm-mode
+    :commands elm-mode
+    :init
+    (setq elm-package-json "elm.json")
+    (setq elm-tags-on-save t)
+    (setq elm-tags-exclude-elm-stuff t)
+    (setq elm-format-on-save t)
+    (setq elm-imenu-use-categories nil)
+    :config
+    (remove-hook 'elm-mode-hook 'elm-indent-mode)
+    (add-hook 'elm-mode-hook 'flycheck-mode)
+    (add-hook 'elm-mode-hook 'my/elm-outline-mode)
+    (add-hook 'elm-mode-hook
+              (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
+    (general-def
+      :states '(normal visual)
+      :keymaps 'elm-mode-map
+      "TAB" 'org-cycle
+      "<backtab>" 'org-global-cycle
+      "M-<up>" 'outline-move-subtree-up
+      "M-<down>" 'outline-move-subtree-down
+      "g k" '(outline-previous-heading :which-key "previous heading")
+      "g j" '(outline-next-heading :which-key "next heading"))
+    (major-def
+      :keymaps 'elm-mode-map
+      "i" '(my/elm-import :which-key "import")
+      "e" '(elm-expose-at-point :which-key "expose")
+      "d" '(elm-documentation-lookup :which-key "documentation")
+      "r" '(eglot-rename :which-key "rename")))
 
-     (use-package flycheck-elm
-       :after elm-mode
-       :config
-       (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-   #+end_src
+  (use-package flycheck-elm
+    :after elm-mode
+    :config
+    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
+#+end_src
 
 ** =javascript=
 
-   #+begin_src emacs-lisp
-     (use-package js2-mode
-       :mode ("\\.js\\'" . js2-mode)
-       :config
-       (setq js2-mode-show-parse-errors nil)
-       (setq js2-mode-show-strict-warnings nil)
-       (add-hook 'js2-mode-hook 'flycheck-mode)
-       (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :mode ("\\.js\\'" . js2-mode)
+    :config
+    (setq js2-mode-show-parse-errors nil)
+    (setq js2-mode-show-strict-warnings nil)
+    (add-hook 'js2-mode-hook 'flycheck-mode)
+    (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
-     (use-package eslint-fix
-       :commands eslint-fix
-       :init
-       (add-hook 'js2-mode-hook
-                 (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
+  (use-package eslint-fix
+    :commands eslint-fix
+    :init
+    (add-hook 'js2-mode-hook
+              (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
 
-     (use-package nodejs-repl
-       :commands nodejs-repl)
-   #+end_src
+  (use-package nodejs-repl
+    :commands nodejs-repl)
+#+end_src
 
 ** =json=
 
-   #+begin_src emacs-lisp
-     (defun my/json-sort-setup ()
-       "Sets JSON sorting before save if requested"
-       (interactive)
-       (when (y-or-n-p "Enable JSON sorting?")
-         (add-hook 'before-save-hook 'my/json-sort-at-point nil 'local)))
+#+begin_src emacs-lisp
+  (defun my/json-sort-setup ()
+    "Sets JSON sorting before save if requested"
+    (interactive)
+    (when (y-or-n-p "Enable JSON sorting?")
+      (add-hook 'before-save-hook 'my/json-sort-at-point nil 'local)))
 
-     (defun my/json-sort-at-point ()
-       "Sort JSON-like structure surrounding the point."
-       (interactive)
-       (let ((object-begin (nth 1 (syntax-ppss (point)))))
-         (when object-begin
-           (save-excursion
-             (goto-char object-begin)
-             (forward-list)
-             (json-pretty-print-ordered object-begin (point))
-             (indent-region object-begin (point))))))
+  (defun my/json-sort-at-point ()
+    "Sort JSON-like structure surrounding the point."
+    (interactive)
+    (let ((object-begin (nth 1 (syntax-ppss (point)))))
+      (when object-begin
+        (save-excursion
+          (goto-char object-begin)
+          (forward-list)
+          (json-pretty-print-ordered object-begin (point))
+          (indent-region object-begin (point))))))
 
-     (use-package json-mode
-       :commands json-mode
-       :config
-       (setq json-encoding-default-indentation "    ")
-       (add-hook 'json-mode-hook 'my/json-sort-setup)
-       (add-hook 'json-mode-hook 'hs-minor-mode)
-       (major-def
-         :keymaps 'json-mode-map
-         "p" '(json-mode-show-path :which-key "path")
-         "h" '(hs-toggle-hiding :which "toggle hiding")))
-   #+end_src
+  (use-package json-mode
+    :commands json-mode
+    :config
+    (setq json-encoding-default-indentation "    ")
+    (add-hook 'json-mode-hook 'my/json-sort-setup)
+    (add-hook 'json-mode-hook 'hs-minor-mode)
+    (major-def
+      :keymaps 'json-mode-map
+      "p" '(json-mode-show-path :which-key "path")
+      "h" '(hs-toggle-hiding :which "toggle hiding")))
+#+end_src
 
 ** =nix=
 
-   #+begin_src emacs-lisp
-     (use-package nix-mode
-       :mode "\\.nix\\'")
+#+begin_src emacs-lisp
+  (use-package nix-mode
+    :mode "\\.nix\\'")
 
-     (use-package nixpkgs-fmt
-       :hook (nix-mode . nixpkgs-fmt-on-save-mode))
+  (use-package nixpkgs-fmt
+    :hook (nix-mode . nixpkgs-fmt-on-save-mode))
 
-     (use-package ivy-nixos-options
-       :load-path "my/nix-emacs"
-       :commands ivy-nixos-options
-       :init
-       (leader-def
-         "h n" '(ivy-nixos-options :which-key "nixos options")))
-   #+end_src
+  (use-package ivy-nixos-options
+    :load-path "my/nix-emacs"
+    :commands ivy-nixos-options
+    :init
+    (leader-def
+      "h n" '(ivy-nixos-options :which-key "nixos options")))
+#+end_src
 
 ** =yaml=
 
-   #+begin_src emacs-lisp
-     (use-package yaml-mode
-       :mode "\\.yaml\\'")
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yaml\\'")
+#+end_src
 
 ** =extempore=
 
-   #+begin_src emacs-lisp
-     (use-package extempore-mode
-       :commands extempore-mode
-       :init
-       (unless (fboundp 'eldoc-beginning-of-sexp)
-         (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package extempore-mode
+    :commands extempore-mode
+    :init
+    (unless (fboundp 'eldoc-beginning-of-sexp)
+      (defalias 'eldoc-beginning-of-sexp 'elisp--beginning-of-sexp)))
+#+end_src
 
 ** =go=
 
-   #+begin_src emacs-lisp
-     (use-package go-mode
-       :commands go-mode
-       :config
-       (add-hook 'go-mode-hook
-                 (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :commands go-mode
+    :config
+    (add-hook 'go-mode-hook
+              (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
 
-     (use-package flycheck-golangci-lint
-       :hook (go-mode . flycheck-golangci-lint-setup))
-   #+end_src
+  (use-package flycheck-golangci-lint
+    :hook (go-mode . flycheck-golangci-lint-setup))
+#+end_src
 
 ** =lsp=
 
-   #+begin_src emacs-lisp
-     (use-package eglot
-       :hook
-       (elm-mode . eglot-ensure)
-       :init
-       (setq eglot-ignored-server-capabilities '(:hoverProvider))
-       :config
-       (setq eglot-managed-mode-hook (lambda () (flymake-mode -1))))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package eglot
+    :hook
+    (elm-mode . eglot-ensure)
+    :init
+    (setq eglot-ignored-server-capabilities '(:hoverProvider))
+    :config
+    (setq eglot-managed-mode-hook (lambda () (flymake-mode -1))))
+#+end_src
 
 ** =smartparens=
 
-   #+begin_src emacs-lisp
-     (use-package smartparens
-       :hook (prog-mode . smartparens-mode)
-       :config
-       (require 'smartparens-config))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :hook (prog-mode . smartparens-mode)
+    :config
+    (require 'smartparens-config))
+#+end_src
 
 ** =direnv=
 
-   #+begin_src emacs-lisp
-     (use-package envrc
-       :hook (prog-mode . envrc-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package envrc
+    :hook (prog-mode . envrc-mode))
+#+end_src
 
 ** =jenkins=
 
-   #+begin_src emacs-lisp
-     (use-package jenkins
-       :commands jenkins
-       :init
-       (leader-def
-         "a j" '(jenkins :which-key "jenkins"))
-       :config
-       (evil-set-initial-state 'jenkins-mode 'motion)
-       (evil-set-initial-state 'jenkins-job-view-mode 'motion)
-       (evil-set-initial-state 'jenkins-console-output-mode 'motion)
-       (general-def
-         :states '(motion)
-         :keymaps 'jenkins-mode-map
-         "g r" 'revert-buffer
-         "RET" 'jenkins-enter-job
-         "b" 'jenkins--call-build-job-from-main-screen
-         "r" 'jenkins--call-rebuild-job-from-main-screen
-         "q" 'kill-buffer-and-window)
-       (general-def
-         :states '(motion)
-         :keymaps 'jenkins-job-view-mode-map
-         "g r" '(jenkins--refresh-job-from-job-screen :which-key "refresh")
-         "RET" 'jenkins--show-console-output-from-job-screen
-         "b" 'jenkins--call-build-job-from-job-screen
-         "r" 'jenkins--call-rebuild-job-from-job-screen)
-       (setq jenkins-url "https://ci.conta.no")
-       (setq jenkins-api-token (auth-source-pick-first-password :host "ci.conta.no"))
-       (setq jenkins-username "akoppela"))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package jenkins
+    :commands jenkins
+    :init
+    (leader-def
+      "a j" '(jenkins :which-key "jenkins"))
+    :config
+    (evil-set-initial-state 'jenkins-mode 'motion)
+    (evil-set-initial-state 'jenkins-job-view-mode 'motion)
+    (evil-set-initial-state 'jenkins-console-output-mode 'motion)
+    (general-def
+      :states '(motion)
+      :keymaps 'jenkins-mode-map
+      "g r" 'revert-buffer
+      "RET" 'jenkins-enter-job
+      "b" 'jenkins--call-build-job-from-main-screen
+      "r" 'jenkins--call-rebuild-job-from-main-screen
+      "q" 'kill-buffer-and-window)
+    (general-def
+      :states '(motion)
+      :keymaps 'jenkins-job-view-mode-map
+      "g r" '(jenkins--refresh-job-from-job-screen :which-key "refresh")
+      "RET" 'jenkins--show-console-output-from-job-screen
+      "b" 'jenkins--call-build-job-from-job-screen
+      "r" 'jenkins--call-rebuild-job-from-job-screen)
+    (setq jenkins-url "https://ci.conta.no")
+    (setq jenkins-api-token (auth-source-pick-first-password :host "ci.conta.no"))
+    (setq jenkins-username "akoppela"))
+#+end_src
 
 ** =vterm=
 
-   #+begin_src emacs-lisp
-     (defun my/terminal ()
-       "Starts terminal using projectile if possible."
-       (interactive)
-       (if (projectile-project-p)
-           (projectile-run-vterm nil)
-         (vterm)))
+#+begin_src emacs-lisp
+  (defun my/terminal ()
+    "Starts terminal using projectile if possible."
+    (interactive)
+    (if (projectile-project-p)
+        (projectile-run-vterm nil)
+      (vterm)))
 
-     (defun paste-to-os (text)
-       "Copies content of clipboard from Emacs to OS"
-       (if my/system-mac
-           (let ((process-connection-type nil))
-             (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-               (process-send-string proc text)
-               (process-send-eof proc)))
-         (gui-select-text text)))
+  (defun paste-to-os (text)
+    "Copies content of clipboard from Emacs to OS"
+    (if my/system-mac
+        (let ((process-connection-type nil))
+          (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+            (process-send-string proc text)
+            (process-send-eof proc)))
+      (gui-select-text text)))
 
-     (defun copy-from-os ()
-       "Copies content of clipboard from OS to Emacs"
-       (interactive)
-       (if my/system-mac
-           (vterm-insert (shell-command-to-string "pbpaste"))
-         (vterm-yank)))
+  (defun copy-from-os ()
+    "Copies content of clipboard from OS to Emacs"
+    (interactive)
+    (if my/system-mac
+        (vterm-insert (shell-command-to-string "pbpaste"))
+      (vterm-yank)))
 
-     (use-package vterm
-       :commands vterm
-       :init
-       (setq interprogram-cut-function 'paste-to-os)
-       (leader-def
-         "a t" '(my/terminal :which-key "terminal"))
-       :config
-       (general-def
-         :keymaps 'vterm-mode-map
-         [remap xterm-paste] 'copy-from-os
-         [remap yank] 'copy-from-os
-         [remap vterm-yank] 'copy-from-os)
-       (general-def
-         :states '(normal visual)
-         :keymaps 'vterm-mode-map
-         ;; up
-         "M-O A" 'evil-previous-line
-         ;; down
-         "M-O B" 'evil-next-line
-         ;; left
-         "M-O C" 'evil-backward-char
-         ;; right
-         "M-O D" 'evil-forward-char)
-       (general-def
-         :states 'insert
-         :keymaps 'vterm-mode-map
-         ;; up
-         "M-O A" 'vterm-send-up
-         ;; down
-         "M-O B" 'vterm-send-down
-         ;; left
-         "M-O C" 'vterm-send-left
-         ;; right
-         "M-O D" 'vterm-send-right))
-   #+end_src
+  (use-package vterm
+    :commands vterm
+    :init
+    (setq interprogram-cut-function 'paste-to-os)
+    (leader-def
+      "a t" '(my/terminal :which-key "terminal"))
+    :config
+    (general-def
+      :keymaps 'vterm-mode-map
+      [remap xterm-paste] 'copy-from-os
+      [remap yank] 'copy-from-os
+      [remap vterm-yank] 'copy-from-os)
+    (general-def
+      :states '(normal visual)
+      :keymaps 'vterm-mode-map
+      ;; up
+      "M-O A" 'evil-previous-line
+      ;; down
+      "M-O B" 'evil-next-line
+      ;; left
+      "M-O C" 'evil-backward-char
+      ;; right
+      "M-O D" 'evil-forward-char)
+    (general-def
+      :states 'insert
+      :keymaps 'vterm-mode-map
+      ;; up
+      "M-O A" 'vterm-send-up
+      ;; down
+      "M-O B" 'vterm-send-down
+      ;; left
+      "M-O C" 'vterm-send-left
+      ;; right
+      "M-O D" 'vterm-send-right))
+#+end_src
 
 ** =csv/tsv=
 
-   #+begin_src emacs-lisp
-     (use-package csv-mode
-       :commands (csv-mode tsv-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package csv-mode
+    :commands (csv-mode tsv-mode))
+#+end_src
 
 ** =docker=
 
-   #+begin_src emacs-lisp
-     (use-package docker
-       :commands docker
-       :init
-       (leader-def
-         "a D" '(docker :which-key "docker")))
+#+begin_src emacs-lisp
+  (use-package docker
+    :commands docker
+    :init
+    (leader-def
+      "a D" '(docker :which-key "docker")))
 
-     (use-package dockerfile-mode
-       :mode "Dockerfile\\'")
+  (use-package dockerfile-mode
+    :mode "Dockerfile\\'")
 
-     (use-package docker-compose-mode
-       :commands docker-compose-mode)
+  (use-package docker-compose-mode
+    :commands docker-compose-mode)
 
-     (use-package docker-tramp
-       :defer t)
-   #+end_src
+  (use-package docker-tramp
+    :defer t)
+#+end_src
 
 ** =vlf=
 
-   Open large files with =vlf=.
+Open large files with =vlf=.
 
-   #+begin_src emacs-lisp
-     (use-package vlf
-       :commands vlf
-       :config
-       (require 'vlf-setup))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package vlf
+    :commands vlf
+    :config
+    (require 'vlf-setup))
+#+end_src
 
 ** =ledger=
 
-   #+begin_src emacs-lisp
-     (defun my/open-ledger ()
-       "Opens my ledger."
-       (interactive)
-       (find-file (expand-file-name "~/Notes/my.ledger")))
+#+begin_src emacs-lisp
+  (defun my/open-ledger ()
+    "Opens my ledger."
+    (interactive)
+    (find-file (expand-file-name "~/Notes/my.ledger")))
 
-     (use-package ledger-mode
-       :commands ledger-mode
-       :init
-       (setq ledger-default-date-format "%Y/%m/%d")
-       (setq ledger-report-use-strict t)
-       (leader-def
-         "a L" '(my/open-ledger :which-key "ledger"))
-       :config
-       (add-hook 'ledger-mode-hook
-                 (lambda () (add-hook 'before-save-hook
-                                      (lambda ()
-                                        (progn
-                                          (ledger-mode-clean-buffer)
-                                          (ledger-sort-buffer)))
-                                      nil
-                                      'local)))
-       (major-def
-         :keymaps 'ledger-mode-map
-         "r" '(ledger-report :which-key "report")
-         "a" '(ledger-add-transaction :which-key "add transaction"))
-       (general-def
-         :states 'normal
-         :keymaps 'ledger-report-mode-map
-         "e" 'ledger-report-edit-report
-         "s" 'ledger-report-save
-         "q" 'ledger-report-quit))
+  (use-package ledger-mode
+    :commands ledger-mode
+    :init
+    (setq ledger-default-date-format "%Y/%m/%d")
+    (setq ledger-report-use-strict t)
+    (leader-def
+      "a L" '(my/open-ledger :which-key "ledger"))
+    :config
+    (add-hook 'ledger-mode-hook
+              (lambda () (add-hook 'before-save-hook
+                                   (lambda ()
+                                     (progn
+                                       (ledger-mode-clean-buffer)
+                                       (ledger-sort-buffer)))
+                                   nil
+                                   'local)))
+    (major-def
+      :keymaps 'ledger-mode-map
+      "r" '(ledger-report :which-key "report")
+      "a" '(ledger-add-transaction :which-key "add transaction"))
+    (general-def
+      :states 'normal
+      :keymaps 'ledger-report-mode-map
+      "e" 'ledger-report-edit-report
+      "s" 'ledger-report-save
+      "q" 'ledger-report-quit))
 
-     (use-package flycheck-ledger
-       :after ledger-mode
-       :config
-       (add-hook 'ledger-mode-hook 'flycheck-mode))
+  (use-package flycheck-ledger
+    :after ledger-mode
+    :config
+    (add-hook 'ledger-mode-hook 'flycheck-mode))
 
-     (use-package company-ledger
-       :after (company ledger-mode)
-       :init
-       (add-hook 'ledger-mode-hook 'company-mode)
-       :config
-       (add-to-list 'company-backends 'company-ledger))
-   #+end_src
+  (use-package company-ledger
+    :after (company ledger-mode)
+    :init
+    (add-hook 'ledger-mode-hook 'company-mode)
+    :config
+    (add-to-list 'company-backends 'company-ledger))
+#+end_src
 
 ** =rust=
 
-   #+begin_src emacs-lisp
-     (use-package rust-mode
-       :commands rust-mode
-       :init
-       (setq rust-format-on-save t))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :commands rust-mode
+    :init
+    (setq rust-format-on-save t))
+#+end_src
 
 ** =flyspell=
 
-   #+begin_src emacs-lisp
-     (add-hook 'text-mode-hook 'flyspell-mode)
-     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-     (add-hook 'org-mode-hook 'flyspell-mode)
-   #+end_src
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+#+end_src
 
 ** =haskell=
 
-   #+begin_src emacs-lisp
-     (use-package haskell-mode
-       :commands haskell-mode)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package haskell-mode
+    :commands haskell-mode)
+#+end_src
 
 ** =exwm=
 
-   #+begin_src emacs-lisp
-     (defun my/run-in-background (command)
-       "Runs command in the background"
-       (let ((command-parts (split-string command "[ ]+")))
-         (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+#+begin_src emacs-lisp
+  (defun my/run-in-background (command)
+    "Runs command in the background"
+    (let ((command-parts (split-string command "[ ]+")))
+      (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-     (defun my/exwm-rename-workspace ()
-       "Renames workspace buffer based on title"
-       (exwm-workspace-rename-buffer (format "%s" exwm-title)))
+  (defun my/exwm-rename-workspace ()
+    "Renames workspace buffer based on title"
+    (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
-     (use-package exwm
-       :if my/window-system-x
-       :init
-       (setq exwm-workspace-number 1)
-       (setq exwm-input-prefix-keys
-             '(s-left
-               s-right
-               s-up
-               s-down
-               s-tab
-               ?\C-\ ))
+  (use-package exwm
+    :if my/window-system-x
+    :init
+    (setq exwm-workspace-number 1)
+    (setq exwm-input-prefix-keys
+          '(s-left
+            s-right
+            s-up
+            s-down
+            s-tab
+            ?\C-\ ))
 
-       (evil-set-initial-state 'exwm-mode 'emacs)
+    (evil-set-initial-state 'exwm-mode 'emacs)
 
-       (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
-       (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
+    (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
+    (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
 
-       (require 'exwm-randr)
-       (exwm-randr-enable)
-       (exwm-enable)
+    (require 'exwm-randr)
+    (exwm-randr-enable)
+    (exwm-enable)
 
-       (leader-def
-         "w f" '(exwm-floating-toggle-floating :which-key "float")
-         "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line")))
-   #+end_src
+    (leader-def
+      "w f" '(exwm-floating-toggle-floating :which-key "float")
+      "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line")))
+#+end_src
 
 * Communication and connection
 
 ** RSS reader
 
-   #+begin_src emacs-lisp
-     (defun my/elfeed-db-remove-entry (id)
-       "Removes the entry for ID"
-       (avl-tree-delete elfeed-db-index id)
-       (remhash id elfeed-db-entries))
+#+begin_src emacs-lisp
+  (defun my/elfeed-db-remove-entry (id)
+    "Removes the entry for ID"
+    (avl-tree-delete elfeed-db-index id)
+    (remhash id elfeed-db-entries))
 
-     (defun my/elfeed-search-remove-selected ()
-       "Remove selected entries from database"
-       (interactive)
-       (let* ((entries (elfeed-search-selected))
-              (count (length entries)))
-         (when (y-or-n-p (format "Delete %d entires?" count))
-           (cl-loop for entry in entries
-                    do (my/elfeed-db-remove-entry (elfeed-entry-id entry)))))
-       (elfeed-search-update--force))
+  (defun my/elfeed-search-remove-selected ()
+    "Remove selected entries from database"
+    (interactive)
+    (let* ((entries (elfeed-search-selected))
+           (count (length entries)))
+      (when (y-or-n-p (format "Delete %d entires?" count))
+        (cl-loop for entry in entries
+                 do (my/elfeed-db-remove-entry (elfeed-entry-id entry)))))
+    (elfeed-search-update--force))
 
-     (use-package elfeed
-       :commands elfeed
-       :init
-       (setq elfeed-db-directory "~/.config/elfeed")
-       (leader-def
-         "a f" 'elfeed)
-       :config
-       (general-def
-         :states '(normal visual)
-         :keymaps 'elfeed-search-mode-map
-         "u" 'elfeed-update
-         "d" 'my/elfeed-search-remove-selected))
+  (use-package elfeed
+    :commands elfeed
+    :init
+    (setq elfeed-db-directory "~/.config/elfeed")
+    (leader-def
+      "a f" 'elfeed)
+    :config
+    (general-def
+      :states '(normal visual)
+      :keymaps 'elfeed-search-mode-map
+      "u" 'elfeed-update
+      "d" 'my/elfeed-search-remove-selected))
 
-     (use-package elfeed-org
-       :after elfeed
-       :init
-       (setq rmh-elfeed-org-files '("~/.emacs.d/rss.org"))
-       :config
-       (elfeed-org))
-   #+end_src
+  (use-package elfeed-org
+    :after elfeed
+    :init
+    (setq rmh-elfeed-org-files '("~/.emacs.d/rss.org"))
+    :config
+    (elfeed-org))
+#+end_src
 
 ** IRC
 
-   #+begin_src emacs-lisp
-     (setq erc-prompt-for-password nil)
-     (setq erc-nick user-login-name)
-     (setq erc-user-full-name user-full-name)
+#+begin_src emacs-lisp
+  (setq erc-prompt-for-password nil)
+  (setq erc-nick user-login-name)
+  (setq erc-user-full-name user-full-name)
 
-     (defun my/erc ()
-       "Connect to IRC"
-       (interactive)
-       (erc :server "irc.libera.chat" :port "6667"))
+  (defun my/erc ()
+    "Connect to IRC"
+    (interactive)
+    (erc :server "irc.libera.chat" :port "6667"))
 
-     (leader-def
-       "a i" '(my/erc :which-key "IRC"))
-   #+end_src
+  (leader-def
+    "a i" '(my/erc :which-key "IRC"))
+#+end_src
 
 ** VPN
 
-   #+begin_src emacs-lisp
-     (defun my/connect-vpn ()
-       "Connects to VPN"
-       (interactive)
-       (my/sudo-shell-command "systemctl start wg-quick-wg0.service")
-       (message "VPN connected"))
+#+begin_src emacs-lisp
+  (defun my/connect-vpn ()
+    "Connects to VPN"
+    (interactive)
+    (my/sudo-shell-command "systemctl start wg-quick-wg0.service")
+    (message "VPN connected"))
 
-     (defun my/disconnect-vpn ()
-       "Disconnects from VPN"
-       (interactive)
-       (my/sudo-shell-command "systemctl stop wg-quick-wg0.service")
-       (message "VPN disconnected"))
+  (defun my/disconnect-vpn ()
+    "Disconnects from VPN"
+    (interactive)
+    (my/sudo-shell-command "systemctl stop wg-quick-wg0.service")
+    (message "VPN disconnected"))
 
-     (leader-def
-       "a v" '(:ignore t :which-key "vpn")
-       "a v c" '(my/connect-vpn :which-key "connect")
-       "a v d" '(my/disconnect-vpn :which-key "disconnect"))
-   #+end_src
+  (leader-def
+    "a v" '(:ignore t :which-key "vpn")
+    "a v c" '(my/connect-vpn :which-key "connect")
+    "a v d" '(my/disconnect-vpn :which-key "disconnect"))
+#+end_src
 
 ** Torrent
 
-   #+begin_src emacs-lisp
-     (use-package transmission
-       :commands transmission
-       :init
-       (setq transmission-refresh-modes
-             '(transmission-mode
-               transmission-files-mode))
-       (leader-def
-         "a T" '(transmission :which-key "torrent")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package transmission
+    :commands transmission
+    :init
+    (setq transmission-refresh-modes
+          '(transmission-mode
+            transmission-files-mode))
+    (leader-def
+      "a T" '(transmission :which-key "torrent")))
+#+end_src
 
 ** Slack
 
-   #+begin_src emacs-lisp
-     (defun my/launch-slack ()
-       "Starts Slack"
-       (interactive)
-       (my/launch-program "slack"))
+#+begin_src emacs-lisp
+  (defun my/launch-slack ()
+    "Starts Slack"
+    (interactive)
+    (my/launch-program "slack"))
 
-     (use-package slack
-       :commands slack-start
-       :init
-       (setq slack-request-timeout 120)
-       (setq slack-enable-global-mode-string t)
-       (setq slack-buffer-emojify t)
-       (leader-def
-         "a s" '(:ignore t :which-key "slack")
-         "a s a" '(my/launch-slack :which-key "app")
-         "a s s" '(slack-start :which-key "start")
-         "a s c" '(slack-channel-select :which-key "channel")
-         "a s m" '(slack-im-select :which-key "message")
-         "a s r" '(slack-select-rooms :which-key "room")
-         "a s R" '(slack-select-unread-rooms :which-key "unread room")
-         "a s f" '(slack-file-upload :which-key "upload file")
-         "a s t" '(slack-all-threads :which-key "threads"))
-       :config
-       (general-def
-         :states '(normal visual)
-         :keymaps
-         '(slack-mode-map
-           slack-all-threads-buffer-mode-map
-           slack-thread-message-buffer-mode-map
-           slack-file-info-buffer-mode-map
-           slack-search-result-buffer-mode-map)
-         "q" 'kill-buffer-and-window)
-       (major-def
-         :keymaps 'slack-message-buffer-mode-map
-         "e" '(slack-message-edit :which-key "edit")
-         "m" '(:ignore t :which-key "mention")
-         "m u" '(slack-message-embed-mention :which-key "user")
-         "m c" '(slack-message-embed-channel :which-key "channel")
-         "r" '(slack-message-add-reaction :which-key "reaction")
-         "p" '(:ignore t :which-key "pin")
-         "p a" '(slack-message-pins-add :which-key "add")
-         "p r" '(slack-message-pins-remove :which-key "remove")
-         "d" '(slack-message-delete :which-key "delete"))
-       (slack-register-team
-        :name "Conta"
-        :default t
-        :token (auth-source-pick-first-password
-                :host "conta.slack.com"
-                :user "akoppela@gmail.com")
-        :cookie (auth-source-pick-first-password
-                 :host "conta.slack.com^cookie"
-                 :user "akoppela@gmail.com^cookie")
-        :modeline-enabled t))
-   #+end_src
+  (use-package slack
+    :commands slack-start
+    :init
+    (setq slack-request-timeout 120)
+    (setq slack-enable-global-mode-string t)
+    (setq slack-buffer-emojify t)
+    (leader-def
+      "a s" '(:ignore t :which-key "slack")
+      "a s a" '(my/launch-slack :which-key "app")
+      "a s s" '(slack-start :which-key "start")
+      "a s c" '(slack-channel-select :which-key "channel")
+      "a s m" '(slack-im-select :which-key "message")
+      "a s r" '(slack-select-rooms :which-key "room")
+      "a s R" '(slack-select-unread-rooms :which-key "unread room")
+      "a s f" '(slack-file-upload :which-key "upload file")
+      "a s t" '(slack-all-threads :which-key "threads"))
+    :config
+    (general-def
+      :states '(normal visual)
+      :keymaps
+      '(slack-mode-map
+        slack-all-threads-buffer-mode-map
+        slack-thread-message-buffer-mode-map
+        slack-file-info-buffer-mode-map
+        slack-search-result-buffer-mode-map)
+      "q" 'kill-buffer-and-window)
+    (major-def
+      :keymaps 'slack-message-buffer-mode-map
+      "e" '(slack-message-edit :which-key "edit")
+      "m" '(:ignore t :which-key "mention")
+      "m u" '(slack-message-embed-mention :which-key "user")
+      "m c" '(slack-message-embed-channel :which-key "channel")
+      "r" '(slack-message-add-reaction :which-key "reaction")
+      "p" '(:ignore t :which-key "pin")
+      "p a" '(slack-message-pins-add :which-key "add")
+      "p r" '(slack-message-pins-remove :which-key "remove")
+      "d" '(slack-message-delete :which-key "delete"))
+    (slack-register-team
+     :name "Conta"
+     :default t
+     :token (auth-source-pick-first-password
+             :host "conta.slack.com"
+             :user "akoppela@gmail.com")
+     :cookie (auth-source-pick-first-password
+              :host "conta.slack.com^cookie"
+              :user "akoppela@gmail.com^cookie")
+     :modeline-enabled t))
+#+end_src
 
 ** Bluetooth
 
-   #+begin_src emacs-lisp
-     (use-package bluetooth
-       :commands bluetooth-list-devices
-       :init
-       (leader-def
-         "d b" '(bluetooth-list-devices :which-key "bluetooth"))
-       :config
-       (evil-set-initial-state 'bluetooth-mode 'motion)
-       (general-def
-         :states 'motion
-         :keymaps 'bluetooth-mode-map
-         "c" 'bluetooth-connect
-         "C" 'bluetooth-connect-profile
-         "d" 'bluetooth-disconnect
-         "D" 'bluetooth-disconnect-profile
-         "p" 'bluetooth-pair
-         "P" 'bluetooth-toggle-pairable
-         "x" 'bluetooth-toggle-powered
-         "t" 'bluetooth-toggle-trusted
-         "b" 'bluetooth-toggle-blocked
-         "i" 'bluetooth-show-device-info
-         "r" 'bluetooth-remove-device
-         "a" 'bluetooth-set-alias
-         "s" 'bluetooth-start-discovery
-         "S" 'bluetooth-stop-discovery))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package bluetooth
+    :commands bluetooth-list-devices
+    :init
+    (leader-def
+      "d b" '(bluetooth-list-devices :which-key "bluetooth"))
+    :config
+    (evil-set-initial-state 'bluetooth-mode 'motion)
+    (general-def
+      :states 'motion
+      :keymaps 'bluetooth-mode-map
+      "c" 'bluetooth-connect
+      "C" 'bluetooth-connect-profile
+      "d" 'bluetooth-disconnect
+      "D" 'bluetooth-disconnect-profile
+      "p" 'bluetooth-pair
+      "P" 'bluetooth-toggle-pairable
+      "x" 'bluetooth-toggle-powered
+      "t" 'bluetooth-toggle-trusted
+      "b" 'bluetooth-toggle-blocked
+      "i" 'bluetooth-show-device-info
+      "r" 'bluetooth-remove-device
+      "a" 'bluetooth-set-alias
+      "s" 'bluetooth-start-discovery
+      "S" 'bluetooth-stop-discovery))
+#+end_src
 
 ** Email
 
-   #+begin_src emacs-lisp
-     (setq my/mu4e-path (getenv "MY_MU4E_PATH"))
+#+begin_src emacs-lisp
+  (setq my/mu4e-path (getenv "MY_MU4E_PATH"))
 
-     (defun my/mu4e-next-link ()
-       "Move forward to the next link based of mu4e message view mode"
-       (interactive)
-       (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
-           (shr-next-link)
-         (org-next-link)))
+  (defun my/mu4e-next-link ()
+    "Move forward to the next link based of mu4e message view mode"
+    (interactive)
+    (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
+        (shr-next-link)
+      (org-next-link)))
 
-     (defun my/mu4e-previous-link ()
-       "Move forward to the next link based of mu4e message view mode"
-       (interactive)
-       (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
-           (shr-previous-link)
-         (org-previous-link)))
+  (defun my/mu4e-previous-link ()
+    "Move forward to the next link based of mu4e message view mode"
+    (interactive)
+    (if (mu4e~message-use-html-p mu4e~view-message mu4e-view-prefer-html)
+        (shr-previous-link)
+      (org-previous-link)))
 
-     (use-package mu4e
-       :commands mu4e
-       :load-path my/mu4e-path
-       :init
-       (setq mu4e-split-view 'vertical)
-       (setq message-send-mail-function 'smtpmail-send-it)
-       (setq smtpmail-smtp-server "smtp.gmail.com")
-       (setq smtpmail-smtp-service 465)
-       (setq smtpmail-stream-type 'ssl)
-       (setq mu4e-compose-signature "Thank you,\nAndrey")
-       (setq mu4e-compose-format-flowed t)
-       (setq shr-use-colors nil)
-       (setq mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
-       (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
-       (setq mu4e-change-filenames-when-moving t)
-       (setq mu4e-update-interval (* 10 60))
-       (setq mu4e-get-mail-command "mbsync -a -V")
-       (setq mu4e-display-update-status-in-modeline t)
-       (setq mu4e-drafts-folder "/akoppela@gmail.com/Drafts")
-       (setq mu4e-sent-folder   "/akoppela@gmail.com/Sent")
-       (setq mu4e-refile-folder "/akoppela@gmail.com/All Mail")
-       (setq mu4e-trash-folder  "/akoppela@gmail.com/Trash")
-       (setq mu4e-maildir-shortcuts
-             '(("/akoppela@gmail.com/Inbox" . ?i)
-               ("/akoppela@gmail.com/Sent" . ?s)
-               ("/akoppela@gmail.com/Starred" . ?*)
-               ("/akoppela@gmail.com/Spam" . ?S)
-               ("/akoppela@gmail.com/Trash" . ?t)
-               ("/akoppela@gmail.com/Drafts" . ?d)
-               ("/akoppela@gmail.com/All Mail" . ?a)))
-       (setq mu4e-bookmarks
-             '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key 117)
-               (:name "Today's messages" :query "date:today..now" :key 116)
-               (:name "Last 7 days" :query "date:7d..now" :key 119)))
-       (leader-def
-         "a m" '(mu4e :which-key "email"))
-       (general-def
-         :states 'normal
-         :keymaps 'mu4e-view-mode-map
-         "<tab>" 'my/mu4e-next-link
-         "<backtab>" 'my/mu4e-previous-link))
-   #+end_src
+  (use-package mu4e
+    :commands mu4e
+    :load-path my/mu4e-path
+    :init
+    (setq mu4e-split-view 'vertical)
+    (setq message-send-mail-function 'smtpmail-send-it)
+    (setq smtpmail-smtp-server "smtp.gmail.com")
+    (setq smtpmail-smtp-service 465)
+    (setq smtpmail-stream-type 'ssl)
+    (setq mu4e-compose-signature "Thank you,\nAndrey")
+    (setq mu4e-compose-format-flowed t)
+    (setq shr-use-colors nil)
+    (setq mu4e-view-html-plaintext-ratio-heuristic most-positive-fixnum)
+    (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
+    (setq mu4e-change-filenames-when-moving t)
+    (setq mu4e-update-interval (* 10 60))
+    (setq mu4e-get-mail-command "mbsync -a -V")
+    (setq mu4e-display-update-status-in-modeline t)
+    (setq mu4e-drafts-folder "/akoppela@gmail.com/Drafts")
+    (setq mu4e-sent-folder   "/akoppela@gmail.com/Sent")
+    (setq mu4e-refile-folder "/akoppela@gmail.com/All Mail")
+    (setq mu4e-trash-folder  "/akoppela@gmail.com/Trash")
+    (setq mu4e-maildir-shortcuts
+          '(("/akoppela@gmail.com/Inbox" . ?i)
+            ("/akoppela@gmail.com/Sent" . ?s)
+            ("/akoppela@gmail.com/Starred" . ?*)
+            ("/akoppela@gmail.com/Spam" . ?S)
+            ("/akoppela@gmail.com/Trash" . ?t)
+            ("/akoppela@gmail.com/Drafts" . ?d)
+            ("/akoppela@gmail.com/All Mail" . ?a)))
+    (setq mu4e-bookmarks
+          '((:name "Unread messages" :query "flag:unread AND NOT flag:trashed" :key 117)
+            (:name "Today's messages" :query "date:today..now" :key 116)
+            (:name "Last 7 days" :query "date:7d..now" :key 119)))
+    (leader-def
+      "a m" '(mu4e :which-key "email"))
+    (general-def
+      :states 'normal
+      :keymaps 'mu4e-view-mode-map
+      "<tab>" 'my/mu4e-next-link
+      "<backtab>" 'my/mu4e-previous-link))
+#+end_src
 
 * Help
 
 ** =which-key= shows all available keybindings in a popup
 
-   #+begin_src emacs-lisp
-     (use-package which-key
-       :defer 2
-       :config
-       (which-key-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package which-key
+    :defer 2
+    :config
+    (which-key-mode))
+#+end_src
 
 ** =helpful= provides *Help* buffer on steroids
 
-   #+begin_src emacs-lisp
-     (use-package helpful
-       :commands
-       (helpful-symbol
-        helpful-key
-        helpful-at-point
-        helpful-callable
-        helpful-variable)
-       :init
-       (setq counsel-describe-function-function 'helpful-callable)
-       (setq counsel-describe-variable-function 'helpful-variable)
-       (leader-def
-         "h s" '(helpful-symbol :which-key "describe symbol")
-         "h k" '(helpful-key :which-key "describe key")
-         "h p" '(helpful-at-point :which-key "at point"))
-       :config
-       (general-def
-         :states '(normal visual)
-         :keymaps 'helpful-mode-map
-         "q" 'kill-buffer-and-window))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package helpful
+    :commands
+    (helpful-symbol
+     helpful-key
+     helpful-at-point
+     helpful-callable
+     helpful-variable)
+    :init
+    (setq counsel-describe-function-function 'helpful-callable)
+    (setq counsel-describe-variable-function 'helpful-variable)
+    (leader-def
+      "h s" '(helpful-symbol :which-key "describe symbol")
+      "h k" '(helpful-key :which-key "describe key")
+      "h p" '(helpful-at-point :which-key "at point"))
+    :config
+    (general-def
+      :states '(normal visual)
+      :keymaps 'helpful-mode-map
+      "q" 'kill-buffer-and-window))
+#+end_src
 
 ** Select help window when open
 
-   #+begin_src emacs-lisp
-     (setq help-window-select t)
-   #+end_src
+#+begin_src emacs-lisp
+  (setq help-window-select t)
+#+end_src
 
 ** Display =apropos= buffer in same window
 
-   #+begin_src emacs-lisp
-     (add-to-list 'display-buffer-alist
-                  '("*Apropos*" display-buffer-same-window))
-   #+end_src
+#+begin_src emacs-lisp
+  (add-to-list 'display-buffer-alist
+               '("*Apropos*" display-buffer-same-window))
+#+end_src
 
 ** =dash= documentation
 
-   #+begin_src emacs-lisp
-     (use-package counsel-dash
-       :commands counsel-dash
-       :init
-       (leader-def
-         "a d" '(counsel-dash :which-key "dash"))
-       :config
-       (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package counsel-dash
+    :commands counsel-dash
+    :init
+    (leader-def
+      "a d" '(counsel-dash :which-key "dash"))
+    :config
+    (setq counsel-dash-common-docsets '("JavaScript" "Lo-Dash")))
+#+end_src
 
 ** Thesaurus synonyms/antonyms
 
-   #+begin_src emacs-lisp
-     (use-package synosaurus
-       :commands synosaurus-lookup
-       :init
-       (leader-def
-         "h w s" '(synosaurus-lookup :which-key "synonyms")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package synosaurus
+    :commands synosaurus-lookup
+    :init
+    (leader-def
+      "h w s" '(synosaurus-lookup :which-key "synonyms")))
+#+end_src
 
 ** =define-word=
 
-   #+begin_src emacs-lisp
-     (use-package define-word
-       :commands (define-word define-word-at-point)
-       :init
-       (leader-def
-         "h w d" '(define-word :which-key "define")
-         "h w p" '(define-word-at-point :which-key "define at point")))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package define-word
+    :commands (define-word define-word-at-point)
+    :init
+    (leader-def
+      "h w d" '(define-word :which-key "define")
+      "h w p" '(define-word-at-point :which-key "define at point")))
+#+end_src
 
 * Fun
 
 ** =fireplace=
 
-   #+begin_src emacs-lisp
-     (use-package fireplace
-       :commands fireplace)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package fireplace
+    :commands fireplace)
+#+end_src
 
 * The End!
