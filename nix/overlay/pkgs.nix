@@ -36,18 +36,4 @@ self: super:
       {
         pkgs = super;
       };
-
-  emacs =
-    let
-      # Disble Cairo as it does not work well with PragmataPro ligatures
-      emacsNoCairo =
-        super.emacs.overrideAttrs (old: {
-          configureFlags = builtins.filter
-            (flag: flag != "--with-cairo")
-            (old.configureFlags or [ ]);
-        });
-    in
-    (super.emacsPackagesFor emacsNoCairo).emacsWithPackages (epkgs: [
-      epkgs.vterm # Add VTerm integration
-    ]);
 }
