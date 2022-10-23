@@ -22,9 +22,6 @@ in
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "1password"
       "slack"
-      "steam"
-      "steam-original"
-      "steam-runtime"
       "zoom"
     ];
 
@@ -55,9 +52,6 @@ in
         DISPLAY = ":${toString config.services.xserver.display}";
       };
     };
-
-    # Enable Steam for gaming
-    programs.steam.enable = true;
 
     # Enable Docker
     virtualisation.docker.enable = true;
