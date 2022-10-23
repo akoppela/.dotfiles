@@ -5,10 +5,6 @@ let
   userEmail = "akoppela@gmail.com";
   realName = "Andrey Koppel (${userName})";
   userFont = "PragmataPro Mono";
-
-  emacs = pkgs.emacsWithPackages (epkgs: [
-    epkgs.vterm
-  ]);
 in
 {
   imports = [
@@ -82,7 +78,7 @@ in
         home.stateVersion = "18.09";
 
         home.sessionVariables = {
-          EDITOR = "${emacs}/bin/emacs";
+          EDITOR = "${pkgs.emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
           MY_FONT = userFont;
           MY_MU4E_PATH = "${pkgs.mu}/share/emacs/site-lisp/mu4e";
@@ -90,7 +86,7 @@ in
 
         home.file.".xinitrc".text = ''
           xrandr --output eDP-1 --primary --mode 2160x1350 --pos 0x0 --rotate normal
-          ${emacs}/bin/emacs -mm --debug-init
+          ${pkgs.emacs}/bin/emacs -mm --debug-init
         '';
 
         fonts.fontconfig.enable = true;
@@ -137,7 +133,7 @@ in
 
         programs.emacs = {
           enable = true;
-          package = emacs;
+          package = pkgs.emacs;
         };
         home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e $HOME/.emacs.d ]; then
