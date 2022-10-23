@@ -5,7 +5,7 @@ pkgs.mkShell {
   buildInputs = [
     # NIX
     pkgs.nixpkgs-fmt
-    pkgs.nixops
+    pkgs.nixops_unstable
   ];
 
   AWS_SHARED_CREDENTIALS_FILE = "~/.config/aws/credentials";
