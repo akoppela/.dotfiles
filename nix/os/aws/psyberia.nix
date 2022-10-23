@@ -116,6 +116,21 @@ in
           publicKey = "4bpHKkn25wTswP7uEon886GcfEUHJAiw9EL9q9M5ZCI=";
           allowedIPs = [ "10.100.0.8/32" ];
         }
+        # Zi's Macbook
+        {
+          publicKey = "gO27vLZy/pXpiml71tD0S7u5iGlS3y87Wuygzx2QADk=";
+          allowedIPs = [ "10.100.0.9/32" ];
+        }
+        # Tima's iPhone X
+        {
+          publicKey = "/m7Pl8tvGp7M9YqTv04OE5PTF6xIaBjGEDiP74YijgQ=";
+          allowedIPs = [ "10.100.0.10/32" ];
+        }
+        # Leo's phone
+        {
+          publicKey = "y0SRjYxdFl0PULpKOSpRAliwGGYIaiU6XCrGoy9dA14=";
+          allowedIPs = [ "10.100.0.11/32" ];
+        }
       ];
     };
 
