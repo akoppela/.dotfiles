@@ -1397,8 +1397,10 @@ Make sessions persistent.
     (setq elm-format-on-save nil)
     (setq elm-imenu-use-categories nil)
     :config
+    (remove-hook 'elm-mode-hook 'elm-indent-mode)
     (add-hook 'elm-mode-hook
               (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil 'local)))
+    (add-hook 'elm-mode-hook 'eglot-ensure)
     (major-def
       :keymaps 'elm-mode-map
       "i" '(elm-import :which-key "import")
