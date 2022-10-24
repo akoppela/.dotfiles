@@ -171,35 +171,6 @@ in
 
         programs.chromium.enable = true;
 
-        programs.kitty = {
-          enable = true;
-          font = {
-            name = userFont;
-            size = 17;
-          };
-          settings = {
-            # Font
-            bold_font = "${userFont} Bold";
-            italic_font = "${userFont} Italic";
-            bold_italic_font = "${userFont} Bold Italic";
-            disable_ligatures = "always";
-
-            # Mouse
-            mouse_hide_wait = "-1.0";
-
-            # Bell
-            enable_audio_bell = "no";
-
-            # Color scheme
-            background = "#1c1c1c";
-            background_opacity = "1.0";
-
-            # OS specific
-            macos_option_as_alt = "yes";
-            macos_thicken_font = "0.2";
-          };
-        };
-
         programs.mbsync.enable = true;
         programs.mu.enable = true;
         accounts.email.accounts = {
