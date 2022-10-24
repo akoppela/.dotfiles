@@ -171,6 +171,7 @@ in
 
         programs.chromium.enable = true;
 
+        # Mail
         programs.mbsync.enable = true;
         programs.mu.enable = true;
         accounts.email.accounts = {
