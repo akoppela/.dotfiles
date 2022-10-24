@@ -417,6 +417,10 @@
       ;; Error
       "e" '(:ignore t :which-key "error")
       "e w" '(flyspell-auto-correct-word :which-key "auto correct word")
+      "e n" '(flymake-goto-next-error :which-key "next")
+      "e N" '(flymake-goto-prev-error :which-key "previous")
+      "e l" '(flymake-show-buffer-diagnostics :which-key "list")
+      "e L" '(flymake-show-project-diagnostics :which-key "list all")
       ;; Narrow
       "n" '(:ignore t :which-key "narrow")
       "n f" '(narrow-to-defun :which-key "function")
@@ -1052,21 +1056,6 @@ Visual lines are relative screen lines.
       "<backtab>" 'my/company-complete-common-or-cycle-backward))
 #+end_src
 
-** =flycheck= checks syntax
-
-#+begin_src emacs-lisp
-  (use-package flycheck
-    :commands flycheck-mode
-    :init
-    (setq flycheck-check-syntax-automatically '(mode-enabled save))
-    :config
-    (leader-def
-      "e v" '(flycheck-verify-setup :which-key "verify setup")
-      "e n" '(flycheck-next-error :which-key "next")
-      "e N" '(flycheck-previous-error :which-key "previous")
-      "e l" '(flycheck-list-errors :which-key "list")))
-#+end_src
-
 ** =ace-window=
 
 #+begin_src emacs-lisp
@@ -1423,14 +1412,10 @@ Make sessions persistent.
     :config
     (setq js2-mode-show-parse-errors nil)
     (setq js2-mode-show-strict-warnings nil)
-    (add-hook 'js2-mode-hook 'flycheck-mode)
     (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
   (use-package eslint-fix
-    :commands eslint-fix
-    :init
-    (add-hook 'js2-mode-hook
-              (lambda () (add-hook 'flycheck-before-syntax-check-hook 'eslint-fix nil 'local))))
+    :commands eslint-fix)
 
   (use-package nodejs-repl
     :commands nodejs-repl)
@@ -1510,9 +1495,6 @@ Make sessions persistent.
     :config
     (add-hook 'go-mode-hook
               (lambda () (add-hook 'before-save-hook 'gofmt-before-save nil 'local))))
-
-  (use-package flycheck-golangci-lint
-    :hook (go-mode . flycheck-golangci-lint-setup))
 #+end_src
 
 ** =lsp=
@@ -1703,11 +1685,6 @@ Open large files with =vlf=.
       "e" 'ledger-report-edit-report
       "s" 'ledger-report-save
       "q" 'ledger-report-quit))
-
-  (use-package flycheck-ledger
-    :after ledger-mode
-    :config
-    (add-hook 'ledger-mode-hook 'flycheck-mode))
 
   (use-package company-ledger
     :after (company ledger-mode)
