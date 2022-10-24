@@ -229,6 +229,12 @@
   (setq warning-minimum-level :error)
 #+end_src
 
+** Show =eldoc= echo in one line
+
+#+begin_src emacs-lisp
+  (setq eldoc-echo-area-use-multiline-p nil)
+#+end_src
+
 * Package management
 
 ** Initialize =package.el= and include Org, Gnu and Melpa package archives
