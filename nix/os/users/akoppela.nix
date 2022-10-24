@@ -61,7 +61,6 @@ in
       isNormalUser = true;
       extraGroups = [ "wheel" "audio" "docker" ];
     };
-
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
