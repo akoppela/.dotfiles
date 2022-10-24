@@ -110,7 +110,7 @@ in
           pkgs.htop # Monitoring
           pkgs.bluez # Bluetooth
           pkgs.pavucontrol # Audio
-          pkgs.killall
+          pkgs.killall # Process utility
 
           # Development
           pkgs.vim
