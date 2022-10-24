@@ -1388,77 +1388,23 @@ Make sessions persistent.
 ** =elm=
 
 #+begin_src emacs-lisp
-  (defun my/elm-outline-mode ()
-    "Enables outline mode for Elm files."
-    (progn
-      (outline-minor-mode)
-      (setq outline-regexp "--+\ ")))
-
-  ;; Override function to ignore node_modules
-  (defun elm-mode-generate-tags ()
-    "Generate a TAGS file for the current project."
-    (interactive)
-    (when (elm--has-dependency-file)
-      (let* ((default-directory (elm--find-dependency-file-path))
-             (find-command "find . -type f -name \"*.elm\" -print")
-             (exclude-command (if elm-tags-exclude-elm-stuff
-                                  (concat find-command " | egrep -v elm-stuff")
-                                find-command))
-             (etags-command (concat
-                             exclude-command
-                             " | egrep -v node_modules"
-                             " | etags --language=none --regex=@"
-                             (shell-quote-argument elm-tags-regexps)
-                             " -")))
-        (call-process-shell-command (concat etags-command "&") nil 0))))
-
-  (defun my/elm-import ()
-    "Imports a module from prompted string."
-    (interactive)
-    (let ((statement (read-string "Import statement: " "import ")))
-      (save-excursion
-        (goto-char (point-min))
-        (if (re-search-forward "^import " nil t)
-            (beginning-of-line)
-          (forward-line 1)
-          (insert "\n"))
-        (insert (concat statement "\n"))
-        (save-buffer))))
-
   (use-package elm-mode
     :commands elm-mode
     :init
     (setq elm-package-json "elm.json")
-    (setq elm-tags-on-save t)
+    (setq elm-tags-on-save nil)
     (setq elm-tags-exclude-elm-stuff t)
-    (setq elm-format-on-save t)
+    (setq elm-format-on-save nil)
     (setq elm-imenu-use-categories nil)
     :config
-    (remove-hook 'elm-mode-hook 'elm-indent-mode)
-    (add-hook 'elm-mode-hook 'flycheck-mode)
-    (add-hook 'elm-mode-hook 'my/elm-outline-mode)
     (add-hook 'elm-mode-hook
-              (lambda () (set (make-local-variable 'company-backends) '(company-dabbrev))))
-    (general-def
-      :states '(normal visual)
-      :keymaps 'elm-mode-map
-      "TAB" 'org-cycle
-      "<backtab>" 'org-global-cycle
-      "M-<up>" 'outline-move-subtree-up
-      "M-<down>" 'outline-move-subtree-down
-      "g k" '(outline-previous-heading :which-key "previous heading")
-      "g j" '(outline-next-heading :which-key "next heading"))
+              (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil 'local)))
     (major-def
       :keymaps 'elm-mode-map
-      "i" '(my/elm-import :which-key "import")
+      "i" '(elm-import :which-key "import")
       "e" '(elm-expose-at-point :which-key "expose")
       "d" '(elm-documentation-lookup :which-key "documentation")
       "r" '(eglot-rename :which-key "rename")))
-
-  (use-package flycheck-elm
-    :after elm-mode
-    :config
-    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
 #+end_src
 
 ** =javascript=
