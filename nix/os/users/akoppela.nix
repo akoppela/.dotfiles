@@ -130,15 +130,15 @@ in
           pkgs.zoom-us
         ];
 
-        programs.emacs = {
-          enable = true;
-          package = pkgs.emacs;
-        };
         home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e $HOME/.emacs.d ]; then
             $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
           fi
         '';
+        programs.emacs = {
+          enable = true;
+          package = pkgs.emacs;
+        };
 
         programs.gpg.enable = true;
         services.gpg-agent = {
