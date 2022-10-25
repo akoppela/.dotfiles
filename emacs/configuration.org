@@ -1394,23 +1394,37 @@ Make sessions persistent.
 ** =elm=
 
 #+begin_src emacs-lisp
+  (defun my/elm-import ()
+    "Imports a module from prompted string."
+    (interactive)
+    (let ((statement (read-string "Import statement: " "import ")))
+      (save-excursion
+        (goto-char (point-min))
+        (if (re-search-forward "^import " nil t)
+            (beginning-of-line)
+          (forward-line 1)
+          (insert "\n"))
+        (insert (concat statement "\n"))
+        (save-buffer))))
+
   (use-package elm-mode
     :commands elm-mode
     :init
     (setq elm-package-json "elm.json")
-    (setq elm-tags-on-save nil)
+    (setq elm-tags-on-save t)
     (setq elm-tags-exclude-elm-stuff t)
-    (setq elm-format-on-save nil)
+    (setq elm-format-on-save t)
     (setq elm-imenu-use-categories nil)
     :config
     (remove-hook 'elm-mode-hook 'elm-indent-mode)
     (add-hook 'elm-mode-hook 'flycheck-mode)
+    (add-to-list 'project-find-functions 'elm-project-find-function)
     (add-hook 'elm-mode-hook
               (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil 'local)))
     (add-hook 'elm-mode-hook 'eglot-ensure)
     (major-def
       :keymaps 'elm-mode-map
-      "i" '(elm-import :which-key "import")
+      "i" '(my/elm-import :which-key "import")
       "e" '(elm-expose-at-point :which-key "expose")
       "d" '(elm-documentation-lookup :which-key "documentation")
       "r" '(eglot-rename :which-key "rename")))
