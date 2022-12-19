@@ -112,6 +112,11 @@ in
           pkgs.pavucontrol # Audio
           pkgs.killall # Process utility
 
+          # Networking
+          pkgs.transmission
+          pkgs.mosh
+          pkgs.tailscale
+
           # Development
           pkgs.vim
           pkgs.tokei
