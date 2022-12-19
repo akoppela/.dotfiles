@@ -1934,6 +1934,7 @@ Open large files with =vlf=.
       "p" '(:ignore t :which-key "pin")
       "p a" '(slack-message-pins-add :which-key "add")
       "p r" '(slack-message-pins-remove :which-key "remove")
+      "t" '(slack-thread-show-or-create :which-key "thread")
       "d" '(slack-message-delete :which-key "delete"))
     (slack-register-team
      :name "Conta"
