@@ -957,6 +957,13 @@ Visual lines are relative screen lines.
   (add-hook 'magit-mode-hook 'my/prettify-pragmatapro)
 #+end_src
 
+** All the icons
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+#+end_src
+
 * Navigation, search and completion
 
 ** =counsel= completion framework
