@@ -170,6 +170,7 @@ in
           historyControl = [ "ignoredups" ];
           historyFile = "$HOME/.config/bash/history";
           initExtra = ''
+            # Start X from first terminal
             [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
           '';
         };
