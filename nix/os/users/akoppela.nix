@@ -176,6 +176,7 @@ in
         };
 
         programs.chromium.enable = true;
+        programs.firefox.enable = true;
 
         # Mail
         programs.mbsync.enable = true;
