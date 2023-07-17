@@ -115,7 +115,6 @@ in
           # Networking
           pkgs.transmission
           pkgs.mosh
-          pkgs.tailscale
 
           # Development
           pkgs.vim
