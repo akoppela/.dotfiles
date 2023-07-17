@@ -993,7 +993,8 @@ Visual lines are relative screen lines.
     (major-def
       :keymaps 'ivy-minibuffer-map
       "o" '(ivy-occur :which-key "occur")
-      "a" '(ivy-read-action :which-key "action"))
+      "a" '(ivy-read-action :which-key "action")
+      "c" '(ivy-toggle-case-fold :which "toggle case fold"))
     (leader-def
       "SPC" '(counsel-M-x :which-key "M-x")
       ;; File
