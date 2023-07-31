@@ -15,7 +15,7 @@
   # Enable X server
   services.xserver = {
     enable = true;
-    dpi = 130;
+    dpi = 165;
   };
 
   # This value determines the NixOS release from which the default
