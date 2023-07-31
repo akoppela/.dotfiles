@@ -31,9 +31,6 @@
   };
   swapDevices = [ ];
 
-  # Enable high-resolution display
-  hardware.video.hidpi.enable = true;
-
   # Enable sound
   sound.enable = true;
   hardware.pulseaudio = {

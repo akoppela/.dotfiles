@@ -9,7 +9,7 @@
   # Enable SSH with agent and Mosh
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
+    settings.PasswordAuthentication = false;
   };
   programs.ssh.startAgent = true;
   programs.mosh.enable = true;
