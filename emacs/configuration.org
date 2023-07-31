@@ -964,6 +964,12 @@ Visual lines are relative screen lines.
     :if (display-graphic-p))
 #+end_src
 
+** Split window settings
+
+#+begin_src emacs-lisp
+  (setq split-width-threshold 90)
+#+end_src
+
 * Navigation, search and completion
 
 ** =counsel= completion framework
