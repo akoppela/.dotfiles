@@ -1081,16 +1081,6 @@ Visual lines are relative screen lines.
       "e l" '(flycheck-list-errors :which-key "list")))
 #+end_src
 
-** =ace-window=
-
-#+begin_src emacs-lisp
-  (use-package ace-window
-    :commands ace-window
-    :init
-    (leader-def
-      "w a" '(ace-window :which-key "ace")))
-#+end_src
-
 ** =avy=
 
 #+Begin_src emacs-lisp
