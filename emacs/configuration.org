@@ -967,7 +967,7 @@ Visual lines are relative screen lines.
     :if (display-graphic-p))
 #+end_src
 
-** Split window settings
+** Split window
 
 #+begin_src emacs-lisp
   (setq split-width-threshold 90)
