@@ -1199,23 +1199,6 @@ Make sessions persistent.
       "g h" '(magit-log-buffer-file :which-key "history"))
     :config
     (add-hook 'git-commit-mode-hook 'flyspell-mode))
-
-  (use-package forge
-    :after magit
-    :init
-    (setq forge-topic-list-limit '(60 . 6))
-    (setq forge-add-default-bindings nil))
-
-  (use-package code-review
-    :after forge
-    :init
-    (evil-set-initial-state 'code-review-mode 'emacs)
-    (general-def
-      :keymaps 'forge-pullreq-section-map
-      [remap magit-visit-thing] 'code-review-forge-pr-at-point)
-    (general-def
-      :keymaps 'forge-pullreq-list-mode-map
-      [remap forge-visit-topic] 'code-review-forge-pr-at-point))
 #+end_src
 
 ** =org-mode=
