@@ -1318,21 +1318,17 @@ Make sessions persistent.
     (setq elm-package-json "elm.json")
     (setq elm-tags-on-save t)
     (setq elm-tags-exclude-elm-stuff t)
-    (setq elm-format-on-save nil)
+    (setq elm-format-on-save t)
     (setq elm-imenu-use-categories nil)
     :config
     (remove-hook 'elm-mode-hook 'elm-indent-mode)
     (add-hook 'elm-mode-hook 'flycheck-mode)
     (add-to-list 'project-find-functions 'elm-project-find-function)
-    (add-hook 'elm-mode-hook
-              (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil 'local)))
-    (add-hook 'elm-mode-hook 'eglot-ensure)
     (major-def
       :keymaps 'elm-mode-map
       "i" '(my/elm-import :which-key "import")
       "e" '(elm-expose-at-point :which-key "expose")
-      "d" '(elm-documentation-lookup :which-key "documentation")
-      "r" '(eglot-rename :which-key "rename")))
+      "d" '(elm-documentation-lookup :which-key "documentation")))
 
   (use-package flycheck-elm
     :after elm-mode
@@ -1438,13 +1434,6 @@ Make sessions persistent.
 
   (use-package flycheck-golangci-lint
     :hook (go-mode . flycheck-golangci-lint-setup))
-#+end_src
-
-** =lsp=
-
-#+begin_src emacs-lisp
-  ;; Remove when Emacs 29 is out
-  (use-package eglot)
 #+end_src
 
 ** =smartparens=
