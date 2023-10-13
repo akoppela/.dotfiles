@@ -14,17 +14,11 @@ in
 
   config = {
     nix.settings.max-jobs = lib.mkDefault 1;
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       "/nix/var/nix/profiles/per-user/root/channels"
-    ];
-
-    # Enable Nix Flakes
-    environment.systemPackages = [
-      (pkgs.writeShellScriptBin "nixFlakes" ''
-        exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
-      '')
     ];
 
     # Set locales and key maps
