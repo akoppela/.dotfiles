@@ -15,6 +15,7 @@ in
   config = {
     nix.settings.max-jobs = lib.mkDefault 1;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.warn-dirty = false;
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
