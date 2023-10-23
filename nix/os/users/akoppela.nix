@@ -124,6 +124,7 @@ in
           # Tools
           pkgs.unzip
           pkgs.gcc
+          pkgs.du-dust
 
           # Security
           pkgs._1password-gui
