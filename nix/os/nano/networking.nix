@@ -18,6 +18,16 @@ in
   networking.useDHCP = false;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
+  # Extra Conta hosts
+  networking.extraHosts = ''
+    127.0.0.1   conta.test
+    127.0.0.1   api.conta.test
+    127.0.0.1   app.conta.test
+    127.0.0.1   gjest.conta.test
+    127.0.0.1   dist.conta.test
+    127.0.0.1   mysql.conta.test
+  '';
+
   # Enable VPN
   networking.firewall.allowedUDPPorts = [ wireguard.port ];
   networking.wg-quick.interfaces."${wireguard.interface}" = {
