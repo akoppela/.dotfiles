@@ -18,6 +18,9 @@
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
+      START_CHARGE_THRESH_BAT0 = "75";
+      STOP_CHARGE_THRESH_BAT0 = "80";
+
       CPU_MIN_PERF_ON_AC = 0;
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
