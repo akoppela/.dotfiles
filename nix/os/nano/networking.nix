@@ -28,11 +28,11 @@ in
     peers = [
       {
         # Public key of the server
-        publicKey = "sGtokUUfiTWht6o/UF/vD/JigYOddoslUW/MpHD8Tw0=";
+        publicKey = "b+eJgKELR8XcZeGIBcviLDMAA1eatJutD6wVP3rUN2c=";
         # Forward all the traffic via VPN
         allowedIPs = [ "0.0.0.0/0" ];
         # Set this to the server IP and port
-        endpoint = "18.136.219.23:51820";
+        endpoint = "128.199.16.170:51820";
         # Send keepalives every 25 seconds, important to keep NAT tables alive
         persistentKeepalive = 25;
       }
