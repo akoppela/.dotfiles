@@ -43,4 +43,7 @@
     enable = true;
     hsphfpd.enable = true;
   };
+
+  # Intel CPU
+  hardware.cpu.intel.updateMicrocode = true;
 }
