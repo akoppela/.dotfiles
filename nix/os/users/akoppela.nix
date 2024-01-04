@@ -22,7 +22,6 @@ in
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "1password"
       "slack"
-      "zoom"
     ];
 
     # Enable graphical interface
@@ -132,7 +131,6 @@ in
 
           # Communication
           pkgs.slack
-          pkgs.zoom-us
         ];
 
         home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
