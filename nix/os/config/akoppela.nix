@@ -167,6 +167,9 @@ in
           enable = true;
           historyControl = [ "ignoredups" ];
           historyFile = "$HOME/.config/bash/history";
+          shellAliases = {
+            my-update-os = "sudo nixos-rebuild switch --flake ~/.dotfiles/nix#nano";
+          };
           initExtra = ''
             # Start X from first terminal
             [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
