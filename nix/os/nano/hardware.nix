@@ -8,6 +8,7 @@
     ../config/intel.nix
     ../config/ssd.nix
     ../config/audio.nix
+    ../config/bluetooth.nix
   ];
 
   # Kernel modules
@@ -30,10 +31,4 @@
     fsType = "vfat";
   };
   swapDevices = [ ];
-
-  # Enable Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    hsphfpd.enable = true;
-  };
 }
