@@ -7,6 +7,7 @@
     ../config/bootloader.nix
     ../config/intel.nix
     ../config/ssd.nix
+    ../config/audio.nix
   ];
 
   # Kernel modules
@@ -29,13 +30,6 @@
     fsType = "vfat";
   };
   swapDevices = [ ];
-
-  # Enable sound
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
 
   # Enable Bluetooth
   hardware.bluetooth = {
