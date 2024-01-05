@@ -2,8 +2,8 @@
   imports = [
     ./hardware.nix
     ./networking.nix
+    ../config/akoppela.nix
     ../default.nix
-    ../users/akoppela.nix
   ];
 
   # General
