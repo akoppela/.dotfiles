@@ -5,6 +5,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./hardware/power-management.nix
     ../config/bootloader.nix
+    ../config/intel.nix
   ];
 
   # Kernel modules
@@ -15,9 +16,6 @@
     "usb_storage"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
 
   # File systems and swap
   boot.supportedFilesystems = [ "ntfs" ];
@@ -43,7 +41,4 @@
     enable = true;
     hsphfpd.enable = true;
   };
-
-  # Intel CPU
-  hardware.cpu.intel.updateMicrocode = true;
 }
