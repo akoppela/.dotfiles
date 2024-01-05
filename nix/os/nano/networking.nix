@@ -3,29 +3,29 @@ let
     interface = "wg0";
     port = 51820;
   };
+
+  wifiInterface = "wlp0s20f3";
 in
 {
   imports = [
     ../config/networking.nix
   ];
 
-  # Enables wireless support via wpa_supplicant.
-  networking.wireless.enable = true;
-  networking.wireless.interfaces = [ "wlp0s20f3" ];
-  networking.wireless.userControlled.enable = true;
-  networking.wireless.environmentFile = ./../../../secret/networks.env;
-
-  # Available networks
-  networking.wireless.networks = {
-    "Zina_2.4G".psk = "@HOME_PSK@";
-    "alesha-wifi_2.4G".psk = "@OFFICE_PSK@";
-    "akoppela mini".psk = "@PHONE_PSK@";
-    "Mi 11 Lite".psk = "@ZI_PHONE_PSK@";
+  # Enables wireless support
+  networking.interfaces."${wifiInterface}".useDHCP = true;
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      Settings = {
+        AutoConnect = true;
+        AlwaysRandomizeAddress = true;
+      };
+    };
   };
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  networking.useDHCP = false;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   # Extra Conta hosts
   networking.extraHosts = ''
