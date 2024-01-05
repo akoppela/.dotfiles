@@ -13,6 +13,15 @@ in
   networking.wireless.enable = true;
   networking.wireless.interfaces = [ "wlp0s20f3" ];
   networking.wireless.userControlled.enable = true;
+  networking.wireless.environmentFile = ./../../../secret/networks.env;
+
+  # Available networks
+  networking.wireless.networks = {
+    "Zina_2.4G".psk = "@HOME_PSK@";
+    "alesha-wifi_2.4G".psk = "@OFFICE_PSK@";
+    "akoppela mini".psk = "@PHONE_PSK@";
+    "Mi 11 Lite".psk = "@ZI_PHONE_PSK@";
+  };
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   networking.useDHCP = false;
