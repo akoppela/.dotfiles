@@ -30,4 +30,7 @@
     device = "/dev/disk/by-label/boot";
     fsType = "vfat";
   };
+
+  # Specify host platform
+  nixpkgs.hostPlatform = "x86_64-linux";
 }

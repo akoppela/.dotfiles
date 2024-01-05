@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, home-manager, ... }:
 
 let
   userName = "akoppela";
@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    <home-manager/nixos>
+    home-manager.nixosModules.home-manager
   ];
 
   config = {
@@ -64,7 +64,7 @@ in
       useUserPackages = true;
       useGlobalPkgs = true;
 
-      users."${userName}" = hmModule: {
+      users."${userName}" = {
         # This value determines the Home Manager release that your
         # configuration is compatible with. This helps avoid breakage
         # when a new Home Manager release introduces backwards
@@ -133,7 +133,7 @@ in
           pkgs.slack
         ];
 
-        home.activation.linkEmacsConfig = hmModule.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        home.activation.linkEmacsConfig = home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if [ ! -e $HOME/.emacs.d ]; then
             $DRY_RUN_CMD ln -s $HOME/.dotfiles/emacs $HOME/.emacs.d
           fi
