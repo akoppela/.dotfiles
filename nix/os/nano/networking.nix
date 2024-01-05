@@ -4,7 +4,7 @@ let
     port = 51820;
   };
 
-  wifiInterface = "wlp0s20f3";
+  wifiInterface = "wlan0";
 in
 {
   imports = [
