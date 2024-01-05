@@ -4,7 +4,7 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./hardware/power-management.nix
-    ../config/efi.nix
+    ../config/bootloader.nix
   ];
 
   # Kernel modules
