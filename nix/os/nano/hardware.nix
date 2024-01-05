@@ -3,12 +3,12 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./hardware/power-management.nix
     ../config/bootloader.nix
     ../config/intel.nix
     ../config/ssd.nix
     ../config/audio.nix
     ../config/bluetooth.nix
+    ../config/power-management.nix
   ];
 
   # Kernel modules
