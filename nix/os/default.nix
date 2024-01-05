@@ -15,6 +15,7 @@ in
   config = {
     nix.settings.max-jobs = lib.mkDefault 1;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.auto-optimise-store = true;
     nix.settings.warn-dirty = false;
     nix.nixPath = lib.mkDefault [
       "nixos-config=${cfg.configPath}"

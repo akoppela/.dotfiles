@@ -11,9 +11,6 @@
   # Keep temporary directory clean
   boot.cleanTmpDir = true;
 
-  # Keep Nix store clean
-  nix.settings.auto-optimise-store = true;
-
   # Default TCP ports
   networking.firewall.allowedTCPPorts = [
     22 # SSH
