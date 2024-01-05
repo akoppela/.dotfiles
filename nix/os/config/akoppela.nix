@@ -168,7 +168,7 @@ in
           historyControl = [ "ignoredups" ];
           historyFile = "$HOME/.config/bash/history";
           shellAliases = {
-            my-update-os = "sudo nixos-rebuild switch --flake ~/.dotfiles/nix#nano";
+            my-update-os = "sudo nixos-rebuild switch --flake ~/.dotfiles#nano";
           };
           initExtra = ''
             # Start X from first terminal
