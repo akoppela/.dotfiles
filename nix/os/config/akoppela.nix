@@ -106,7 +106,7 @@ in
           pkgs.brightnessctl # Brightness
           pkgs.scrot # Screenshots
           pkgs.bluez # Bluetooth
-          pkgs.pavucontrol # Audio
+          pkgs.alsa-utils # Audio
           pkgs.killall # Process utility
 
           # Networking
