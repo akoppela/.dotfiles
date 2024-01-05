@@ -58,7 +58,7 @@ in
     # Set user
     users.users."${userName}" = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "audio" "docker" ];
+      extraGroups = [ "wheel" "audio" "docker" "networkmanager" ];
     };
     home-manager = {
       useUserPackages = true;
