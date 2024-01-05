@@ -20,7 +20,7 @@
     "sd_mod"
   ];
 
-  # File systems and swap
+  # File systems
   boot.supportedFilesystems = [ "ntfs" ];
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
@@ -30,5 +30,4 @@
     device = "/dev/disk/by-label/boot";
     fsType = "vfat";
   };
-  swapDevices = [ ];
 }
