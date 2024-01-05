@@ -6,6 +6,7 @@
     ./hardware/power-management.nix
     ../config/bootloader.nix
     ../config/intel.nix
+    ../config/ssd.nix
   ];
 
   # Kernel modules
