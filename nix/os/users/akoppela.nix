@@ -105,8 +105,6 @@ in
           # System
           pkgs.brightnessctl # Brightness
           pkgs.scrot # Screenshots
-          pkgs.bottom # Monitoring
-          pkgs.htop # Monitoring
           pkgs.bluez # Bluetooth
           pkgs.pavucontrol # Audio
           pkgs.killall # Process utility
@@ -116,13 +114,15 @@ in
           pkgs.mosh
 
           # Development
+          pkgs.gcc
           pkgs.vim
           pkgs.tokei
           pkgs.ripgrep
 
           # Tools
           pkgs.unzip
-          pkgs.gcc
+          pkgs.bottom
+          pkgs.htop
           pkgs.du-dust
 
           # Security
