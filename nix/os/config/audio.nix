@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 {
   sound.enable = true;
   hardware.pulseaudio = {
