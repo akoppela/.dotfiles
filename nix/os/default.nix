@@ -28,5 +28,25 @@ in
     console.earlySetup = true;
     console.keyMap = lib.mkDefault "us";
     console.useXkbConfig = config.services.xserver.enable;
+
+    # Monokai Pro theme
+    console.colors = [
+      "363537"
+      "ff6188"
+      "a9dc76"
+      "ffd866"
+      "fc9867"
+      "ab9df2"
+      "78dce8"
+      "fdf9f3"
+      "908e8f"
+      "ff6188"
+      "a9dc76"
+      "ffd866"
+      "fc9867"
+      "ab9df2"
+      "78dce8"
+      "fdf9f3"
+    ];
   };
 }
