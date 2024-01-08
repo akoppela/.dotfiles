@@ -32,9 +32,6 @@ in
       libinput.enable = true;
       libinput.touchpad.naturalScrolling = true;
       displayManager.startx.enable = true;
-      serverFlagsSection = ''
-        Option "DontVTSwitch" "True"
-      '';
     };
 
     # Enable screen locker
