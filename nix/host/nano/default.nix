@@ -1,13 +1,12 @@
 {
   imports = [
+    ../../module/host.nix
     ../../module/akoppela.nix
-    ../default.nix
     ./hardware.nix
     ./networking.nix
   ];
 
   # General
-  my-os.configPath = "/home/akoppela/.dotfiles/nix/os/nano/default.nix";
   networking.hostName = "nano";
   time.timeZone = "Asia/Bangkok";
   nix.settings.max-jobs = 6;
