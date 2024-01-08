@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    ../config/networking.nix
+    ../../module/networking.nix
   ];
 
   # Enables wireless support

@@ -15,7 +15,7 @@ in
     nix.settings.trusted-users = [ userName ];
 
     nixpkgs.overlays = [
-      (import ../../overlay/pkgs.nix)
+      (import ../overlay/pkgs.nix)
     ];
 
     # Allowed unfree packages

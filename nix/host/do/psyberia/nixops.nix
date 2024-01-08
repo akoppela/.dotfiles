@@ -6,9 +6,9 @@
 
   do-psyberia = { config, ... }: {
     imports = [
+      ../../../module/wireguard.nix
       ../default.nix
       ./networking.nix # generated at runtime by nixos-infect
-      ../../config/wireguard.nix
     ];
 
     # Physical configuration

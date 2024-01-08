@@ -1,7 +1,7 @@
 {
   imports = [
+    ../../module/networking.nix
     ../default.nix
-    ../config/networking.nix
     ./hardware.nix
   ];
 

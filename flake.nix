@@ -18,7 +18,7 @@
         };
 
         modules = [
-          ./nix/os/nano/default.nix
+          ./nix/host/nano/default.nix
         ];
       };
     };

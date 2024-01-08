@@ -1,9 +1,9 @@
 {
   imports = [
+    ../../module/akoppela.nix
+    ../default.nix
     ./hardware.nix
     ./networking.nix
-    ../config/akoppela.nix
-    ../default.nix
   ];
 
   # General
