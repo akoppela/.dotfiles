@@ -18,13 +18,11 @@ in
       (import ../overlay/pkgs.nix)
     ];
 
-    # Allowed unfree packages
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "1password"
       "slack"
     ];
 
-    # Enable screen locker
     programs.slock.enable = true;
     systemd.services.my-sleep-locker = {
       description = "Locks the screen on sleep";
@@ -39,11 +37,11 @@ in
       };
     };
 
-    # Set user
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" "audio" "docker" "networkmanager" ];
     };
+
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
@@ -107,9 +105,6 @@ in
 
           # Communication
           pkgs.slack
-
-          # Music
-          pkgs.ardour
         ];
 
         home.activation.linkEmacsConfig = home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''

@@ -4,6 +4,7 @@
     ../../module/xserver.nix
     ../../module/docker.nix
     ../../module/akoppela.nix
+    ../../module/cosmicsun.nix
     ./hardware.nix
     ./networking.nix
   ];
