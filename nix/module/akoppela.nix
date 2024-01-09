@@ -24,16 +24,6 @@ in
       "slack"
     ];
 
-    # Enable graphical interface
-    services.xserver = lib.mkIf config.services.xserver.enable {
-      autoRepeatDelay = 350;
-      autoRepeatInterval = 25;
-      xkbOptions = "caps:swapescape";
-      libinput.enable = true;
-      libinput.touchpad.naturalScrolling = true;
-      displayManager.startx.enable = true;
-    };
-
     # Enable screen locker
     programs.slock.enable = true;
     systemd.services.my-sleep-locker = {

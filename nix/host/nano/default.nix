@@ -1,6 +1,7 @@
 {
   imports = [
     ../../module/host.nix
+    ../../module/xserver.nix
     ../../module/akoppela.nix
     ./hardware.nix
     ./networking.nix
@@ -12,10 +13,7 @@
   nix.settings.max-jobs = 6;
 
   # Enable X server
-  services.xserver = {
-    enable = true;
-    dpi = 165;
-  };
+  services.xserver.dpi = 165;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
