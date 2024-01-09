@@ -49,16 +49,6 @@ in
       useGlobalPkgs = true;
 
       users."${userName}" = {
-        # This value determines the Home Manager release that your
-        # configuration is compatible with. This helps avoid breakage
-        # when a new Home Manager release introduces backwards
-        # incompatible changes.
-        #
-        # You can update Home Manager without changing this value. See
-        # the Home Manager release notes for a list of state version
-        # changes in each release.
-        home.stateVersion = "18.09";
-
         home.sessionVariables = {
           EDITOR = "${pkgs.emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
@@ -247,6 +237,16 @@ in
             };
           };
         };
+
+        # This value determines the Home Manager release that your
+        # configuration is compatible with. This helps avoid breakage
+        # when a new Home Manager release introduces backwards
+        # incompatible changes.
+        #
+        # You can update Home Manager without changing this value. See
+        # the Home Manager release notes for a list of state version
+        # changes in each release.
+        home.stateVersion = "18.09";
       };
     };
   };
