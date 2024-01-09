@@ -39,9 +39,6 @@ in
       };
     };
 
-    # Enable Docker
-    virtualisation.docker.enable = true;
-
     # Set user
     users.users."${userName}" = {
       isNormalUser = true;

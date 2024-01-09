@@ -2,6 +2,7 @@
   imports = [
     ../../module/host.nix
     ../../module/xserver.nix
+    ../../module/docker.nix
     ../../module/akoppela.nix
     ./hardware.nix
     ./networking.nix
