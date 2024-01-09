@@ -100,11 +100,10 @@ in
           pkgs.pragmatapro
 
           # System
-          pkgs.brightnessctl # Brightness
-          pkgs.scrot # Screenshots
-          pkgs.bluez # Bluetooth
-          pkgs.alsa-utils # Audio
-          pkgs.killall # Process utility
+          pkgs.brightnessctl
+          pkgs.scrot
+          pkgs.bluez
+          pkgs.alsa-utils
 
           # Networking
           pkgs.transmission
@@ -118,9 +117,11 @@ in
 
           # Tools
           pkgs.unzip
-          pkgs.bottom
           pkgs.htop
+          pkgs.bottom
           pkgs.du-dust
+          pkgs.killall
+          pkgs.neofetch
 
           # Security
           pkgs._1password-gui
@@ -176,7 +177,6 @@ in
         programs.chromium.enable = true;
         programs.firefox.enable = true;
 
-        # Mail
         programs.mbsync.enable = true;
         programs.mu.enable = true;
         accounts.email.accounts = {
