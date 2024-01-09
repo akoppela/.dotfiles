@@ -1688,6 +1688,9 @@ Open large files with =vlf=.
     (exwm-randr-enable)
     (exwm-enable)
 
+    (add-to-list 'exwm-manage-configurations
+                 '((equal exwm-class-name "Slack") managed t))
+
     (leader-def
       "w f" '(exwm-floating-toggle-floating :which-key "float")
       "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line")))
