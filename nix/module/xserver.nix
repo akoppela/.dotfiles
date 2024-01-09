@@ -1,7 +1,6 @@
 {
   services.xserver = {
     enable = true;
-    tty = 2;
     autoRepeatDelay = 350;
     autoRepeatInterval = 25;
     xkbOptions = "caps:swapescape";
