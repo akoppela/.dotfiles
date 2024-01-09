@@ -53,7 +53,7 @@ in
           EDITOR = "${pkgs.emacs}/bin/emacs";
           SHELL = "${pkgs.bashInteractive}/bin/bash";
           MY_FONT = userFont;
-          MY_MU4E_PATH = "${pkgs.mu}/share/emacs/site-lisp/mu4e";
+          MY_MU4E_PATH = "${pkgs.mu.mu4e}/share/emacs/site-lisp/mu4e";
         };
 
         home.file.".xinitrc".text = ''
@@ -161,6 +161,7 @@ in
 
         programs.mbsync.enable = true;
         programs.mu.enable = true;
+        programs.mu.package = pkgs.mu;
         accounts.email.accounts = {
           "${userEmail}" = {
             primary = true;
