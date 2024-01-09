@@ -355,6 +355,11 @@
     (interactive)
     (my/launch-program "pavucontrol"))
 
+  (defun my/switch-to-wayland ()
+    "Switches to Wayland TTY"
+    (interactive)
+    (my/sudo-shell-command "chvt 7"))
+
   (use-package general
     :init
     (general-create-definer leader-def
@@ -384,6 +389,7 @@
       "d" '(:ignore t :which-key "device")
       ;; Window
       "w" '(:ignore t :which-key "window")
+      "w w" '(my/switch-to-wayland :which-key "wayland")
       "w TAB" '(other-window :which-key "next")
       "w d" '(delete-window :which-key "delete")
       "w D" '(delete-other-windows :which-key "delete other")
