@@ -122,6 +122,7 @@ in
           pkgs.du-dust
           pkgs.killall
           pkgs.neofetch
+          pkgs.powertop
 
           # Security
           pkgs._1password-gui
