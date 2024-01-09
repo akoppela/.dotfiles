@@ -130,6 +130,9 @@ in
 
           # Communication
           pkgs.slack
+
+          # Music
+          pkgs.ardour
         ];
 
         home.activation.linkEmacsConfig = home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
