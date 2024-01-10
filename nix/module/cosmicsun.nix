@@ -29,6 +29,10 @@ in
         fonts.fontconfig.enable = true;
 
         home.packages = [
+          # System
+          pkgs.gnome-firmware
+          pkgs.gnome.gnome-session
+
           # Security
           pkgs._1password-gui
 
