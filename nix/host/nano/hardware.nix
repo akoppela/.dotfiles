@@ -9,6 +9,7 @@
     ../../module/audio.nix
     ../../module/bluetooth.nix
     ../../module/power-management.nix
+    ../../module/firmware.nix
   ];
 
   # Kernel modules
