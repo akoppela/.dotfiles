@@ -3,7 +3,7 @@
 {
   imports = [
     ../../module/host.nix
-    ../../module/xserver.nix
+    ../../module/desktop.nix
     ../../module/docker.nix
     ../../module/akoppela.nix
     ../../module/cosmicsun.nix

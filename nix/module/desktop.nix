@@ -1,6 +1,17 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
+  services.dbus.enable = true;
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = lib.mkForce [
+    pkgs.xdg-desktop-portal-gnome
+    (pkgs.xdg-desktop-portal-gtk.override {
+      # Do not build portals that we already have.
+      buildPortalsInGnome = false;
+    })
+  ];
+
   services.xserver = {
     enable = true;
     autoRepeatDelay = 350;
@@ -26,8 +37,10 @@
     pkgs.gnome.gnome-terminal
     pkgs.gnome.epiphany
     pkgs.gnome.totem
+    pkgs.gnome.geary
     pkgs.gnome.gedit
     pkgs.gnome.yelp
+    pkgs.gnome.cheese
     pkgs.gnome.gnome-calculator
     pkgs.gnome.gnome-calendar
     pkgs.gnome.gnome-characters
