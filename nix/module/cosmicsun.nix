@@ -9,8 +9,6 @@ in
   ];
 
   config = {
-    nix.settings.trusted-users = [ userName ];
-
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" "audio" "video" "networkmanager" ];
