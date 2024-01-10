@@ -24,6 +24,9 @@ in
         home.packages = [
           # Music
           pkgs.ardour
+
+          # Communication
+          pkgs.telegram-desktop
         ];
 
         programs.bash = {
