@@ -29,6 +29,9 @@ in
         fonts.fontconfig.enable = true;
 
         home.packages = [
+          # Security
+          pkgs._1password-gui
+
           # Music
           pkgs.ardour
 
