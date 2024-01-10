@@ -358,7 +358,7 @@
   (defun my/switch-to-wayland ()
     "Switches to Wayland TTY"
     (interactive)
-    (my/sudo-shell-command "chvt 7"))
+    (my/sudo-shell-command "chvt 2"))
 
   (use-package general
     :init
