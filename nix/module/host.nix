@@ -6,7 +6,6 @@
   nix.settings.auto-optimise-store = true;
   nix.settings.warn-dirty = false;
 
-  # Set locales and key maps
   i18n.defaultLocale = "en_US.UTF-8";
   console.earlySetup = true;
   console.keyMap = lib.mkDefault "us";

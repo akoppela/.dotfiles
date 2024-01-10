@@ -11,7 +11,6 @@ in
     ../../module/networking.nix
   ];
 
-  # Enables wireless support
   networking.interfaces."${wifiInterface}".useDHCP = true;
   networking.wireless.iwd = {
     enable = true;
@@ -27,7 +26,6 @@ in
     wifi.backend = "iwd";
   };
 
-  # Extra Conta hosts
   networking.extraHosts = ''
     127.0.0.1   conta.test
     127.0.0.1   api.conta.test
@@ -37,7 +35,6 @@ in
     127.0.0.1   mysql.conta.test
   '';
 
-  # Enable VPN
   networking.firewall.allowedUDPPorts = [ wireguard.port ];
   networking.wg-quick.interfaces."${wireguard.interface}" = {
     address = [ "10.100.0.6/24" ];

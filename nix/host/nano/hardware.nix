@@ -12,7 +12,6 @@
     ../../module/firmware.nix
   ];
 
-  # Kernel modules
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "thunderbolt"
@@ -21,7 +20,6 @@
     "sd_mod"
   ];
 
-  # File systems
   boot.supportedFilesystems = [ "ntfs" ];
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
@@ -32,6 +30,5 @@
     fsType = "vfat";
   };
 
-  # Specify host platform
   nixpkgs.hostPlatform = "x86_64-linux";
 }

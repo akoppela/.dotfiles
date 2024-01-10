@@ -5,10 +5,11 @@
   boot.kernelModules = [ "acpi_call" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
 
-  # Enable power management
+  services.power-profiles-daemon.enable = false;
+
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
-  services.power-profiles-daemon.enable = false;
+
   services.tlp = {
     enable = true;
     settings = {
