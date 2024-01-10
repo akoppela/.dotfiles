@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 {
   imports = [
     ../../module/host.nix
@@ -13,6 +15,12 @@
   networking.hostName = "nano";
   time.timeZone = "Asia/Bangkok";
   nix.settings.max-jobs = 6;
+
+  # Allow unfree
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "1password"
+    "slack"
+  ];
 
   # Enable X server
   services.xserver.dpi = 165;

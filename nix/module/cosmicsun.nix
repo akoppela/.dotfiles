@@ -11,11 +11,6 @@ in
   config = {
     nix.settings.trusted-users = [ userName ];
 
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "1password"
-      "slack"
-    ];
-
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" "audio" "video" "networkmanager" ];

@@ -18,11 +18,6 @@ in
       (import ../overlay/pkgs.nix)
     ];
 
-    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "1password"
-      "slack"
-    ];
-
     programs.slock.enable = true;
     systemd.services.my-sleep-locker = {
       description = "Locks the screen on sleep";
