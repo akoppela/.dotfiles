@@ -26,6 +26,16 @@ in
           pkgs.ardour
         ];
 
+        programs.bash = {
+          enable = true;
+          historyControl = [ "ignoredups" ];
+          historyFile = "$HOME/.config/bash/history";
+          initExtra = ''
+            # Start sway from second terminal
+            [[ -z $WAYLAND_DISPLAY && $XDG_VTNR -eq 2 ]] && dbus-run-session gnome-session
+          '';
+        };
+
         programs.firefox.enable = true;
 
         # This value determines the Home Manager release that your
