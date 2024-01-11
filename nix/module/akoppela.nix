@@ -90,7 +90,7 @@ in
           # Tools
           pkgs.unzip
           pkgs.htop
-          pkgs.bottom
+          pkgs.btop
           pkgs.du-dust
           pkgs.killall
           pkgs.neofetch
