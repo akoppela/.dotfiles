@@ -9,6 +9,20 @@ in
   ];
 
   config = {
+    programs.slock.enable = true;
+    systemd.services."${userName}-sleep-locker" = {
+      description = "Locks the screen on sleep";
+      before = [ "sleep.target" ];
+      wantedBy = [ "sleep.target" ];
+      script = "${config.security.wrapperDir}/slock";
+      serviceConfig = {
+        User = userName;
+      };
+      environment = {
+        DISPLAY = ":1";
+      };
+    };
+
     users.users."${userName}" = {
       isNormalUser = true;
       extraGroups = [ "wheel" "audio" "video" "networkmanager" ];
@@ -20,11 +34,14 @@ in
 
       users."${userName}" = {
         home.sessionVariables = {
-          XDG_SESSION_TYPE = "wayland";
-          QT_QPA_PLATFORM = "wayland";
-          MOZ_ENABLE_WAYLAND = "1";
-          NIXOS_OZONE_WL = "1";
+          XDG_SESSION_TYPE = "x11";
+          GDK_BACKEND = "x11";
         };
+
+        home.file.".xinitrc".text = ''
+          xrandr --output eDP-1 --primary --mode 2160x1350 --pos 0x0 --rotate normal
+          exec gnome-session
+        '';
 
         fonts.fontconfig.enable = true;
 
@@ -50,8 +67,11 @@ in
           historyControl = [ "ignoredups" ];
           historyFile = "$HOME/.config/bash/history";
           initExtra = ''
-            # Start sway from second terminal
-            [[ -z $WAYLAND_DISPLAY && $XDG_VTNR -eq 2 ]] && dbus-run-session gnome-session
+            # Logout from TTY after 3 minutes
+            [[ $(tty) =~ /dev\/tty[1-6] ]] && TMOUT=180
+
+            # Start X from second terminal
+            [[ -z $DISPLAY && $XDG_VTNR -eq 2 ]] && exec startx
           '';
         };
 
