@@ -19,7 +19,7 @@ in
     ];
 
     programs.slock.enable = true;
-    systemd.services.my-sleep-locker = {
+    systemd.services."${userName}-sleep-locker" = {
       description = "Locks the screen on sleep";
       before = [ "sleep.target" ];
       wantedBy = [ "sleep.target" ];
