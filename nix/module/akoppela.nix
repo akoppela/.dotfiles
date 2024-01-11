@@ -143,6 +143,9 @@ in
             os-build = "nix build ~/.dotfiles#nixosConfigurations.nano.config.system.build.toplevel";
           };
           initExtra = ''
+            # Logout from TTY after 3 minutes
+            [[ $(tty) =~ /dev\/tty[1-6] ]] && TMOUT=180
+
             # Start X from first terminal
             [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
           '';
