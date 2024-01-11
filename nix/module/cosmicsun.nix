@@ -32,6 +32,7 @@ in
           # System
           pkgs.gnome-firmware
           pkgs.gnome.gnome-session
+          pkgs.gnome.gnome-tweaks
 
           # Security
           pkgs._1password-gui
