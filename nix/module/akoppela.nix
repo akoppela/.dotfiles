@@ -28,7 +28,7 @@ in
         User = userName;
       };
       environment = {
-        DISPLAY = ":${toString config.services.xserver.display}";
+        DISPLAY = ":0";
       };
     };
 
