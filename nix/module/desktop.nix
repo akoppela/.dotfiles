@@ -6,10 +6,6 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = lib.mkForce [
     pkgs.xdg-desktop-portal-gnome
-    (pkgs.xdg-desktop-portal-gtk.override {
-      # Do not build portals that we already have.
-      buildPortalsInGnome = false;
-    })
   ];
 
   services.xserver = {
