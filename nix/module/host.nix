@@ -11,6 +11,10 @@
   console.keyMap = lib.mkDefault "us";
   console.useXkbConfig = config.services.xserver.enable;
 
+  fonts.fontconfig.antialias = true;
+  fonts.fontconfig.hinting.enable = true;
+  fonts.fontconfig.hinting.autohint = true;
+
   # Monokai Pro theme
   console.colors = [
     "363537"
