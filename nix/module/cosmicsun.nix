@@ -41,6 +41,7 @@ in
 
           # Communication
           pkgs.telegram-desktop
+          pkgs.zoom-us
         ];
 
         programs.bash = {

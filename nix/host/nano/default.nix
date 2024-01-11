@@ -18,6 +18,7 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "1password"
     "slack"
+    "zoom"
   ];
 
   services.xserver.dpi = 165;
