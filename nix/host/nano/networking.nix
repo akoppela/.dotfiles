@@ -12,6 +12,10 @@ in
   ];
 
   networking.interfaces."${wifiInterface}".useDHCP = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
   networking.wireless.iwd = {
     enable = true;
     settings = {
@@ -20,10 +24,6 @@ in
         AlwaysRandomizeAddress = true;
       };
     };
-  };
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
   };
 
   networking.extraHosts = ''
