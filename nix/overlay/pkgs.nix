@@ -32,8 +32,8 @@ self: super:
     import
       (builtins.fetchGit {
         url = "git@github.com:akoppela/pragmata-pro.git";
-        ref = "releases/tag/0.829.5";
-        rev = "759cb4956f0929a6a5eca97896e04585e3c2003f";
+        ref = "releases/tag/0.829.6";
+        rev = "8a87317558114a5bb83c7a9ca479d4a77584dfea";
       })
       {
         pkgs = super;
