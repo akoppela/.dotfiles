@@ -20,7 +20,6 @@
 
   services.xserver.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages = [
-    pkgs.xterm
     pkgs.gnome-photos
     pkgs.gnome-tour
     pkgs.gnome-secrets
