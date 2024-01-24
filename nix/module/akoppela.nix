@@ -139,8 +139,8 @@ in
           historyControl = [ "ignoredups" ];
           historyFile = "$HOME/.config/bash/history";
           shellAliases = {
-            os-update = "sudo nixos-rebuild switch --flake ~/.dotfiles#nano";
-            os-build = "nix build ~/.dotfiles#nixosConfigurations.nano.config.system.build.toplevel";
+            os-update = "sudo nixos-rebuild switch --flake ~/.dotfiles#${config.networking.hostName}";
+            os-build = "nix build ~/.dotfiles#nixosConfigurations.${config.networking.hostName}.config.system.build.toplevel";
           };
           initExtra = ''
             # Logout from TTY after 3 minutes

@@ -40,6 +40,16 @@
             ./nix/host/nano/default.nix
           ];
         };
+
+        p16s = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit home-manager;
+          };
+
+          modules = [
+            ./nix/host/p16s/default.nix
+          ];
+        };
       };
     };
 }

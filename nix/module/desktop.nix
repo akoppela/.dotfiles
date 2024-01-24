@@ -16,9 +16,9 @@
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
     displayManager.startx.enable = true;
-    desktopManager.gnome.enable = true;
   };
 
+  services.xserver.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages = [
     pkgs.xterm
     pkgs.gnome-photos
