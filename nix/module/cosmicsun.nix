@@ -36,6 +36,9 @@ in
         home.sessionVariables = {
           XDG_SESSION_TYPE = "x11";
           GDK_BACKEND = "x11";
+
+          LV2_PATH = "/etc/profiles/per-user/${userName}/lib/lv2";
+          LADSPA_PATH = "/etc/profiles/per-user/${userName}/lib/ladspa";
         };
 
         home.file.".xinitrc".text = ''
@@ -56,6 +59,17 @@ in
 
           # Music
           pkgs.ardour
+          pkgs.zrythm
+          pkgs.mixxx
+
+          pkgs.helm
+          pkgs.surge-XT
+          pkgs.lsp-plugins
+          pkgs.x42-plugins
+          pkgs.dragonfly-reverb
+
+          # Video
+          pkgs.obs-studio
 
           # Communication
           pkgs.telegram-desktop
