@@ -10,8 +10,8 @@
   console.earlySetup = true;
   console.keyMap = lib.mkDefault "us";
   console.useXkbConfig = config.services.xserver.enable;
-  console.packages = [ pkgs.terminus_font ];
-  console.font = "ter-u24b";
+  console.packages = [ pkgs.spleen ];
+  console.font = "spleen-16x32";
 
   fonts.fontconfig.antialias = true;
   fonts.fontconfig.hinting.enable = true;
