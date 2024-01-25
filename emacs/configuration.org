@@ -355,8 +355,8 @@
     (interactive)
     (my/launch-program "pavucontrol"))
 
-  (defun my/switch-to-wayland ()
-    "Switches to Wayland TTY"
+  (defun my/switch-to-desktop ()
+    "Switches to Desktop TTY"
     (interactive)
     (my/sudo-shell-command "chvt 2"))
 
@@ -389,7 +389,6 @@
       "d" '(:ignore t :which-key "device")
       ;; Window
       "w" '(:ignore t :which-key "window")
-      "w w" '(my/switch-to-wayland :which-key "wayland")
       "w TAB" '(other-window :which-key "next")
       "w d" '(delete-window :which-key "delete")
       "w D" '(delete-other-windows :which-key "delete other")
@@ -449,7 +448,8 @@
       "<s-left>" 'windmove-left
       "<s-right>" 'windmove-right
       "<s-up>" 'windmove-up
-      "<s-down>" 'windmove-down)
+      "<s-down>" 'windmove-down
+      "C-<tab>" 'my/switch-to-desktop)
     (general-def
       :states '(normal visual)
       :keymaps 'ibuffer-mode-map

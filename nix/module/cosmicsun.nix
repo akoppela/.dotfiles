@@ -48,6 +48,21 @@ in
 
         fonts.fontconfig.enable = true;
 
+        dconf.enable = true;
+        dconf.settings = {
+          "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
+          "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
+            "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          ];
+
+          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+            name = "Switch to Emacs";
+            binding = "<Control>Tab";
+            command = "pkexec chvt 1";
+          };
+        };
+
         home.packages = [
           # System
           pkgs.gnome-firmware
