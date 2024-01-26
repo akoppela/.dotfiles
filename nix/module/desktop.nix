@@ -15,6 +15,7 @@
     xkbOptions = "caps:swapescape";
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
+    libinput.touchpad.clickMethod = "clickfinger";
     displayManager.startx.enable = true;
   };
 
