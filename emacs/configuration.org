@@ -564,11 +564,17 @@
 ** Load custom =modeline=
 
 #+begin_src emacs-lisp
+  (defun my/doom-modeline-segment--buffer-info (orig-fn &rest args)
+    "`doom-modeline-segment--buffer-info' but truncate for EXWM buffers."
+    (s-truncate my/max-buffer-name (format-mode-line (apply orig-fn args))))
+
   (use-package doom-modeline
     :init
+    (setq my/max-buffer-name 45)
     (setq doom-modeline-height 40)
-    (setq doom-modeline-buffer-file-name-style 'relative-from-project)
+    (setq doom-modeline-buffer-file-name-style 'file-name)
     :config
+    (advice-add #'doom-modeline-segment--buffer-info :around #'my/doom-modeline-segment--buffer-info)
     (doom-modeline-mode 1))
 #+end_src
 
