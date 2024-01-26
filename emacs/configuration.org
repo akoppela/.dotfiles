@@ -191,6 +191,8 @@
 ** Set authentication sources
 
 #+begin_src emacs-lisp
+  ;; Temporary ignore epg status as of bug in GnuPG 2.4.1
+  (fset 'epg-wait-for-status 'ignore)
   (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
 #+end_src
 
