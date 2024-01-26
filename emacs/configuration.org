@@ -655,6 +655,8 @@ Visual lines are relative screen lines.
 ** Show battery status
 
 #+begin_src emacs-lisp
+  (setq battery-echo-area-format
+        "Power %L, battery %B at %r (%p%% load, %cmWh capacity, remaining time %t)")
   (when my/system-linux (display-battery-mode 1))
 #+end_src
 
