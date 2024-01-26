@@ -116,9 +116,7 @@ in
         };
 
         programs.gpg.enable = true;
-        services.gpg-agent = {
-          enable = true;
-        };
+        services.gpg-agent.enable = true;
 
         programs.git = {
           enable = true;
