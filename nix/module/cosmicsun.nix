@@ -74,9 +74,6 @@ in
 
           # Music
           pkgs.ardour
-          pkgs.zrythm
-          pkgs.mixxx
-
           pkgs.helm
           pkgs.surge-XT
           pkgs.lsp-plugins
