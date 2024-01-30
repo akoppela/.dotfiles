@@ -1838,6 +1838,7 @@ Open large files with =vlf=.
      :modeline-enabled t))
 
   (use-package slack
+    :load-path "my/slack"
     :commands slack-start
     :init
     (setq slack-request-timeout 120)
