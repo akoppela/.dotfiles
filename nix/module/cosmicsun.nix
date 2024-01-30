@@ -81,6 +81,7 @@ in
           pkgs.dragonfly-reverb
 
           # Video
+          pkgs.vlc
           pkgs.obs-studio
 
           # Communication
