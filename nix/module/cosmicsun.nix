@@ -74,6 +74,7 @@ in
 
           # Music
           pkgs.ardour
+          pkgs.audacity
           pkgs.helm
           pkgs.surge-XT
           pkgs.lsp-plugins
