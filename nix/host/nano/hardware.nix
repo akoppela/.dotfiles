@@ -4,6 +4,7 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ../../module/bootloader.nix
+    ../../module/time.nix
     ../../module/intel.nix
     ../../module/ssd.nix
     ../../module/audio.nix
