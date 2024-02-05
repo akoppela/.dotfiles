@@ -21,6 +21,7 @@
     "sd_mod"
   ];
 
+  boot.supportedFilesystems = [ "ntfs" ];
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
