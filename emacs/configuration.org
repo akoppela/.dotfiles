@@ -362,6 +362,36 @@
     (interactive)
     (my/sudo-shell-command "chvt 2"))
 
+  (defun my/vterm-send-string-and-return (str)
+    "Sends given string to Vterm and then sends return"
+    (vterm-send-string str)
+    (vterm-send-return))
+
+  (defun my/wi-fi ()
+    "Opens Wi-Fi settings"
+    (interactive)
+    (let ((wi-fi-buffer-name "*wi-fi*"))
+      (if (get-buffer wi-fi-buffer-name)
+          (switch-to-buffer wi-fi-buffer-name)
+        (progn (vterm)
+               (rename-buffer wi-fi-buffer-name)
+               (evil-emacs-state)
+               (my/vterm-send-string-and-return "clear")
+               (my/vterm-send-string-and-return "iwctl")
+               (my/vterm-send-string-and-return "station wlan0 scan")
+               (my/vterm-send-string-and-return "station wlan0 get-networks")))))
+
+  (defun my/system-monitor ()
+    "Opens system monitoring"
+    (interactive)
+    (let ((system-monitor-buffer-name "*system-monitor*"))
+      (if (get-buffer system-monitor-buffer-name)
+          (switch-to-buffer system-monitor-buffer-name)
+        (progn (vterm)
+               (rename-buffer system-monitor-buffer-name)
+               (evil-emacs-state)
+               (my/vterm-send-string-and-return "btop")))))
+
   (use-package general
     :init
     (general-create-definer leader-def
@@ -389,6 +419,8 @@
       "b R" '(revert-buffer :which-key "revert")
       ;; Device
       "d" '(:ignore t :which-key "device")
+      "d w" '(my/wi-fi :which-key "wi-fi")
+      "d m" '(my/system-monitor :which-key "system monitoring")
       ;; Window
       "w" '(:ignore t :which-key "window")
       "w TAB" '(other-window :which-key "next")
