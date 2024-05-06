@@ -689,7 +689,7 @@ Visual lines are relative screen lines.
     (when (member my/font (font-family-list))
       (set-frame-font (concat my/font " " size) t t)))
 
-  (my/set-font "13")
+  (my/set-font "15")
 #+end_src
 
 ** Show battery status
