@@ -684,8 +684,12 @@ Visual lines are relative screen lines.
 #+begin_src emacs-lisp
   (setq my/font (getenv "MY_FONT"))
 
-  (when (member my/font (font-family-list))
-    (set-frame-font (concat my/font " 13") t t))
+  (defun my/set-font (size)
+    "Sets my font with given size"
+    (when (member my/font (font-family-list))
+      (set-frame-font (concat my/font " " size) t t)))
+
+  (my/set-font "13")
 #+end_src
 
 ** Show battery status
@@ -1717,10 +1721,33 @@ Open large files with =vlf=.
     "Renames workspace buffer based on title"
     (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
+  (defun my/switch-to-docked-display-layout ()
+    "Switches display layout to docked mode"
+    (interactive)
+    (my/set-font "18")
+    (shell-command-to-string "xrandr --output HDMI-1 --above eDP-1 --mode 4096x2160 --primary"))
+
+  (defun my/switch-to-mobile-display-layout ()
+    "Switches display layout to mobile mode"
+    (interactive)
+    (my/set-font "15")
+    (shell-command-to-string "xrandr --output HDMI-1 --off"))
+
+  (defun my/switch-to-workspace-1 ()
+    "Switches to Workspace 1"
+    (interactive)
+    (exwm-workspace-switch 1))
+
+  (defun my/switch-to-workspace-2 ()
+    "Switches to Workspace 2"
+    (interactive)
+    (exwm-workspace-switch 2))
+
   (use-package exwm
     :if my/window-system-x
     :init
-    (setq exwm-workspace-number 1)
+    (setq exwm-workspace-number 3)
+    (setq exwm-randr-workspace-monitor-plist '(2 "eDP-1"))
     (setq exwm-input-prefix-keys
           '(s-left
             s-right
@@ -1742,8 +1769,17 @@ Open large files with =vlf=.
                  '((equal exwm-class-name "Slack") managed t))
 
     (leader-def
+      "d l" '(:ignore t :which-key "layout")
+      "d l d" '(my/switch-to-docked-display-layout :which-key "docked")
+      "d l m" '(my/switch-to-mobile-display-layout :which-key "mobile")
+
       "w f" '(exwm-floating-toggle-floating :which-key "float")
-      "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line")))
+      "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line"))
+
+    (general-def
+      :states '(normal visual insert motion emacs)
+      "s-1" 'my/switch-to-workspace-1
+      "s-2" 'my/switch-to-workspace-2))
 #+end_src
 
 * Communication and connection
