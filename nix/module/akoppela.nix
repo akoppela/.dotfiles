@@ -49,7 +49,6 @@ in
           MY_MU4E_PATH = "${pkgs.mu.mu4e}/share/emacs/site-lisp/mu4e";
           XDG_SESSION_TYPE = "x11";
           GDK_BACKEND = "x11";
-          ELM_HOME = "~/.cache/elm";
         };
 
         home.file.".xinitrc".text = ''
