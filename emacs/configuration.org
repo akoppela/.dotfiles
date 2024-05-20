@@ -149,7 +149,7 @@
   (setq custom-file "/dev/null")
 #+end_src
 
-** Narrow
+** Enable narrowing
 
 #+begin_src emacs-lisp
   (put 'narrow-to-region 'disabled nil)
