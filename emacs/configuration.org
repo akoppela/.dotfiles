@@ -370,7 +370,7 @@
   (defun my/wi-fi ()
     "Opens Wi-Fi settings"
     (interactive)
-    (let ((wi-fi-buffer-name "*wi-fi*"))
+    (let ((wi-fi-buffer-name "*wifi*"))
       (if (get-buffer wi-fi-buffer-name)
           (switch-to-buffer wi-fi-buffer-name)
         (progn (vterm)
