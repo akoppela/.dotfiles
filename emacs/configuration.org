@@ -15,13 +15,13 @@
 
 #+begin_src emacs-lisp
   (defvar last-file-name-handler-alist file-name-handler-alist)
-  (setq gc-cons-threshold (* 1024 1024 50))
+  (setq gc-cons-threshold (* 1024 1024 42))
   (setq gc-cons-percentage 0.6)
   (setq file-name-handler-alist nil)
 
   (add-hook 'emacs-startup-hook
             (lambda ()
-              (setq gc-cons-threshold (* 1024 1024 2))
+              (setq gc-cons-threshold (* 1024 1024 3))
               (setq gc-cons-percentage 0.1)
               (setq file-name-handler-alist last-file-name-handler-alist)))
 #+end_src
@@ -70,7 +70,7 @@
 ** Increase read process output
 
 #+begin_src emacs-lisp
-  (setq read-process-output-max (* 1024 1024 5))
+  (setq read-process-output-max (* 1024 1024 42))
 #+end_src
 
 ** Delete trailing whitespace every time buffer is saved
