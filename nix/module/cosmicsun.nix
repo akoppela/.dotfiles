@@ -42,7 +42,7 @@ in
         };
 
         home.file.".xinitrc".text = ''
-          xrandr --output eDP-1 --primary --mode 2160x1350 --pos 0x0 --rotate normal
+          xrandr --output eDP-1 --primary --mode 1920x1200 --pos 0x0 --rotate normal
           exec gnome-session
         '';
 

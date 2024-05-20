@@ -683,13 +683,15 @@ Visual lines are relative screen lines.
 
 #+begin_src emacs-lisp
   (setq my/font (getenv "MY_FONT"))
+  (setq my/mobile-font-size "13")
+  (setq my/docked-font-size "18")
 
   (defun my/set-font (size)
     "Sets my font with given size"
     (when (member my/font (font-family-list))
       (set-frame-font (concat my/font " " size) t t)))
 
-  (my/set-font "15")
+  (my/set-font my/mobile-font-size)
 #+end_src
 
 ** Show battery status
@@ -1724,13 +1726,13 @@ Open large files with =vlf=.
   (defun my/switch-to-docked-display-layout ()
     "Switches display layout to docked mode"
     (interactive)
-    (my/set-font "18")
-    (shell-command-to-string "xrandr --output HDMI-1 --above eDP-1 --mode 4096x2160 --primary"))
+    (my/set-font my/docked-font-size)
+    (shell-command-to-string "xrandr --output HDMI-1 --above eDP-1 --mode 4096x2160 --rate 120 --primary"))
 
   (defun my/switch-to-mobile-display-layout ()
     "Switches display layout to mobile mode"
     (interactive)
-    (my/set-font "15")
+    (my/set-font my/mobile-font-size)
     (shell-command-to-string "xrandr --output HDMI-1 --off"))
 
   (defun my/switch-to-workspace-1 ()
