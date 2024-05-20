@@ -1776,7 +1776,7 @@ Open large files with =vlf=.
       "d l m" '(my/switch-to-mobile-display-layout :which-key "mobile")
 
       "w f" '(exwm-floating-toggle-floating :which-key "float")
-      "w m" '(exwm-layout-toggle-mode-line :which-key "mode-line"))
+      "w m" '(exwm-workspace-move-window :which-key "move"))
 
     (general-def
       :states '(normal visual insert motion emacs)
