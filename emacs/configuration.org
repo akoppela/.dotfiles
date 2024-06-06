@@ -119,10 +119,10 @@
   (setq log-edit-require-final-newline nil)
 #+end_src
 
-** Set =Chromium= as default browser
+** Set =Firefox= as default browser
 
 #+begin_src emacs-lisp
-  (setq browse-url-browser-function 'browse-url-chromium)
+  (setq browse-url-browser-function 'browse-url-firefox)
 #+end_src
 
 ** Revert TAGS file without asking
@@ -350,7 +350,7 @@
   (defun my/launch-browser ()
     "Starts browser"
     (interactive)
-    (my/launch-program "chromium"))
+    (my/launch-program "firefox"))
 
   (defun my/launch-pavucontrol ()
     "Starts Volume Control GUI"
