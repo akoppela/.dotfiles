@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, pkgsUnstable, lib, home-manager, ... }:
 
 let
   userName = "akoppela";
@@ -86,6 +86,7 @@ in
           pkgs.vim
           pkgs.tokei
           pkgs.ripgrep
+          pkgsUnstable.gpt4all
 
           # Tools
           pkgs.unzip

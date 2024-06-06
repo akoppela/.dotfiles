@@ -1117,6 +1117,28 @@ Visual lines are relative screen lines.
       "s w" '(engine/search-wikipedia :which-key "wiki")))
 #+end_src
 
+** =gptel=
+
+#+begin_src emacs-lisp
+  (use-package gptel
+    :commands (gptel gptel-send)
+    :init
+    (setq gptel-max-tokens 500)
+    (setq gptel-model "mistral-7b-openorca.Q4_0.gguf")
+    (setq gptel-use-curl nil)
+    (setq gptel-stream t)
+    (setq gptel-backend
+          (gptel-make-gpt4all "GPT4All"
+            :protocol "http"
+            :host "localhost:4891"
+            :stream t
+            :models '("mistral-7b-instruct-v0.1.Q4_0.gguf"
+                      "Meta-Llama-3-8B-Instruct.Q4_0.gguf")))
+    :config
+    (leader-def
+      "h g" '(gptel-send :which-key "gptel")))
+#+end_src
+
 * Project, time and task management
 
 ** =session=
