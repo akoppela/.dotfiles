@@ -1759,6 +1759,11 @@ Open large files with =vlf=.
     (my/set-font my/mobile-font-size)
     (shell-command-to-string "xrandr --output HDMI-1 --off"))
 
+  (defun my/switch-to-workspace-0 ()
+    "Switches to Workspace 0"
+    (interactive)
+    (exwm-workspace-switch 0))
+
   (defun my/switch-to-workspace-1 ()
     "Switches to Workspace 1"
     (interactive)
@@ -1804,6 +1809,7 @@ Open large files with =vlf=.
 
     (general-def
       :states '(normal visual insert motion emacs)
+      "s-0" 'my/switch-to-workspace-0
       "s-1" 'my/switch-to-workspace-1
       "s-2" 'my/switch-to-workspace-2))
 #+end_src
