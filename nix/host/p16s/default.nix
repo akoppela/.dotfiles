@@ -20,6 +20,7 @@
     "1password"
     "slack"
     "zoom"
+    "roomeqwizard"
   ];
 
   services.xserver.dpi = 141;

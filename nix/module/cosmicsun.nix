@@ -80,6 +80,7 @@ in
           pkgs.lsp-plugins
           pkgs.x42-plugins
           pkgs.dragonfly-reverb
+          pkgs.roomeqwizard
 
           # Video
           pkgs.vlc
