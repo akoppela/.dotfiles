@@ -82,6 +82,7 @@ in
           pkgs.dragonfly-reverb
           pkgs.roomeqwizard
           pkgs.bitwig-studio
+          pkgs.mixxx
 
           # Video
           pkgs.vlc
