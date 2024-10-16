@@ -92,6 +92,9 @@ in
           # Communication
           pkgs.telegram-desktop
           pkgs.zoom-us
+
+          # Internet
+          pkgs.transmission_4-gtk
         ];
 
         programs.bash = {
