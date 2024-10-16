@@ -95,6 +95,9 @@ in
 
           # Internet
           pkgs.transmission_4-gtk
+
+          # Utils
+          pkgs.woeusb-ng
         ];
 
         programs.bash = {
