@@ -24,7 +24,7 @@
     "bitwig-studio"
   ];
 
-  services.xserver.dpi = 141;
+  services.xserver.dpi = 126;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
