@@ -1418,7 +1418,9 @@ Make sessions persistent.
 
 #+begin_src emacs-lisp
   (use-package js2-mode
-    :mode ("\\.js\\'" . js2-mode)
+    :mode
+    ("\\.js\\'" . js2-mode)
+    ("\\.mjs\\'" . js2-mode)
     :config
     (setq js2-mode-show-parse-errors nil)
     (setq js2-mode-show-strict-warnings nil)
