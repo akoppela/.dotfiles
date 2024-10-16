@@ -81,6 +81,7 @@ in
           pkgs.x42-plugins
           pkgs.dragonfly-reverb
           pkgs.roomeqwizard
+          pkgs.bitwig-studio
 
           # Video
           pkgs.vlc

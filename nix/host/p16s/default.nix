@@ -21,6 +21,7 @@
     "slack"
     "zoom"
     "roomeqwizard"
+    "bitwig-studio"
   ];
 
   services.xserver.dpi = 141;
