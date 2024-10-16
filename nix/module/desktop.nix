@@ -12,11 +12,14 @@
     enable = true;
     autoRepeatDelay = 350;
     autoRepeatInterval = 25;
-    xkbOptions = "caps:swapescape";
-    libinput.enable = true;
-    libinput.touchpad.naturalScrolling = true;
-    libinput.touchpad.clickMethod = "clickfinger";
+    xkb.options = "caps:swapescape";
     displayManager.startx.enable = true;
+  };
+
+  services.libinput = {
+    enable = true;
+    touchpad.naturalScrolling = true;
+    touchpad.clickMethod = "clickfinger";
   };
 
   services.xserver.desktopManager.gnome.enable = true;
@@ -34,7 +37,6 @@
     pkgs.gnome.epiphany
     pkgs.gnome.totem
     pkgs.gnome.geary
-    pkgs.gnome.gedit
     pkgs.gnome.yelp
     pkgs.gnome.cheese
     pkgs.gnome.gnome-calculator
