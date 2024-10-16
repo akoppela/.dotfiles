@@ -83,6 +83,7 @@ in
           pkgs.roomeqwizard
           pkgs.bitwig-studio
           pkgs.mixxx
+          pkgs.freac
 
           # Video
           pkgs.vlc
