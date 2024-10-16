@@ -82,6 +82,7 @@ in
           pkgs.x42-plugins
           pkgs.dragonfly-reverb
           pkgs.roomeqwizard
+          pkgs.opensoundmeter
           pkgs.bitwig-studio
           pkgs.mixxx
           pkgs.freac
