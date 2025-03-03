@@ -1792,8 +1792,6 @@ Open large files with =vlf=.
     (add-hook 'exwm-update-class-hook 'my/exwm-rename-workspace)
     (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
 
-    (require 'exwm-randr)
-    (exwm-randr-enable)
     (exwm-enable)
 
     (add-to-list 'exwm-manage-configurations
