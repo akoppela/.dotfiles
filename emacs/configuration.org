@@ -381,6 +381,48 @@
                (my/vterm-send-string-and-return "station wlan0 scan")
                (my/vterm-send-string-and-return "station wlan0 get-networks")))))
 
+  (defun my/conta-terminal (name location)
+    "Creates a terminal with given buffer name at given location or switches to it"
+    (if (get-buffer name)
+        (switch-to-buffer name)
+      (projectile-with-default-dir location
+        (vterm)
+        (rename-buffer name))))
+
+  (defun my/conta-dev-terminal ()
+    "Creates Conta's development terminal or switches to it"
+    (interactive)
+    (my/conta-terminal "*conta-dev*" "~/contadev/development/docker"))
+
+  (defun my/conta-fe-terminal ()
+    "Creates Conta's frontend terminal or switches to it"
+    (interactive)
+    (my/conta-terminal "*conta-fe*" "~/contadev/diy/frontend"))
+
+  (defun my/conta-be-terminal ()
+    "Creates Conta's backend terminal or switches to it"
+    (interactive)
+    (my/conta-terminal "*conta-be*" "~/contadev/diy/backend"))
+
+  (defun my/conta-dev-up ()
+    "Starts Conta's development environment"
+    (interactive)
+    (my/conta-dev-terminal)
+    (my/vterm-send-string-and-return "docker compose --profile phpmyadmin up -d")
+    (my/vterm-send-string-and-return "docker compose stop frontend"))
+
+  (defun my/conta-dev-down ()
+    "Stops Conta's development environment"
+    (interactive)
+    (my/conta-dev-terminal)
+    (my/vterm-send-string-and-return "docker compose --profile phpmyadmin down"))
+
+  (defun my/conta-be-update ()
+    "Updates Conta's backend environment"
+    (interactive)
+    (my/conta-be-terminal)
+    (my/vterm-send-string-and-return "docker exec -it backend vendor/bin/phing update"))
+
   (defun my/system-monitor ()
     "Opens system monitoring"
     (interactive)
@@ -417,6 +459,17 @@
       "b e" '(eval-buffer :which-key "eval")
       "b r" '(rename-buffer :which-key "rename")
       "b R" '(revert-buffer :which-key "revert")
+      ;; Conta
+      "c" '(:ignore t :which-key "Conta")
+      "c d" '(:ignore t :which-key "development")
+      "c d t" '(my/conta-dev-terminal :which-key "terminal")
+      "c d u" '(my/conta-dev-up :which-key "up")
+      "c d d" '(my/conta-dev-down :which-key "down")
+      "c f" '(:ignore t :which-key "frontend")
+      "c f t" '(my/conta-fe-terminal :which-key "terminal")
+      "c b" '(:ignore t :which-key "backend")
+      "c b t" '(my/conta-be-terminal :which-key "terminal")
+      "c b u" '(my/conta-be-update :which-key "update")
       ;; Device
       "d" '(:ignore t :which-key "device")
       "d w" '(my/wi-fi :which-key "wi-fi")
@@ -1176,6 +1229,7 @@ Make sessions persistent.
      counsel-projectile-find-file
      counsel-projectile-switch-project
      counsel-projectile-switch-to-buffer
+     projectile-with-default-dir
      projectile-project-p)
     :init
     (setq projectile-completion-system 'ivy)
