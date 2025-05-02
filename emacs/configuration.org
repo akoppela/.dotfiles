@@ -392,7 +392,7 @@
   (defun my/conta-dev-terminal ()
     "Creates Conta's development terminal or switches to it"
     (interactive)
-    (my/conta-terminal "*conta-dev*" "~/contadev/development/docker"))
+    (my/conta-terminal "*conta-dev*" "~/contadev/diy"))
 
   (defun my/conta-fe-terminal ()
     "Creates Conta's frontend terminal or switches to it"
