@@ -1866,6 +1866,13 @@ Open large files with =vlf=.
       "s-2" 'my/switch-to-workspace-2))
 #+end_src
 
+** =markdown=
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :commands markdown-mode)
+#+end_src
+
 * Communication and connection
 
 ** RSS reader
