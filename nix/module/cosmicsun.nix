@@ -86,6 +86,7 @@ in
           pkgs.bitwig-studio
           pkgs.mixxx
           pkgs.freac
+          pkgs.easytag
 
           # Video
           pkgs.vlc
