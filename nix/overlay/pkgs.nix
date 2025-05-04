@@ -40,7 +40,7 @@ self: super:
       };
 
   emacs =
-    (super.emacsPackagesFor (super.emacs29.override { withImageMagick = true; })).emacsWithPackages (epkgs: [
+    (super.emacsPackagesFor (super.emacs.override { withImageMagick = true; })).emacsWithPackages (epkgs: [
       epkgs.vterm
     ]);
 }

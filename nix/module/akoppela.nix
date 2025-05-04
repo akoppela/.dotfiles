@@ -63,7 +63,6 @@ in
           (pkgs.aspellWithDicts (dict: [
             dict.en
             dict.en-computers
-            dict.en-science
           ]))
           pkgs.wordnet
           pkgs.texlive.combined.scheme-full
@@ -78,7 +77,7 @@ in
           pkgs.alsa-utils
 
           # Networking
-          pkgs.transmission
+          pkgs.transmission_4
           pkgs.mosh
 
           # Development
