@@ -31,22 +31,21 @@
     pkgs.gnome-text-editor
     pkgs.gnome-connections
     pkgs.gnome-user-docs
-
-    pkgs.gnome.seahorse
-    pkgs.gnome.gnome-terminal
-    pkgs.gnome.epiphany
-    pkgs.gnome.totem
-    pkgs.gnome.geary
-    pkgs.gnome.yelp
-    pkgs.gnome.cheese
-    pkgs.gnome.gnome-calculator
-    pkgs.gnome.gnome-calendar
-    pkgs.gnome.gnome-characters
-    pkgs.gnome.gnome-clocks
-    pkgs.gnome.gnome-contacts
-    pkgs.gnome.gnome-maps
-    pkgs.gnome.gnome-weather
-    pkgs.gnome.gnome-notes
-    pkgs.gnome.gnome-font-viewer
+    pkgs.gnome-terminal
+    pkgs.gnome-calculator
+    pkgs.gnome-calendar
+    pkgs.gnome-characters
+    pkgs.gnome-clocks
+    pkgs.gnome-contacts
+    pkgs.gnome-maps
+    pkgs.gnome-weather
+    pkgs.gnome-notes
+    pkgs.gnome-font-viewer
+    pkgs.seahorse
+    pkgs.epiphany
+    pkgs.totem
+    pkgs.geary
+    pkgs.yelp
+    pkgs.cheese
   ];
 }

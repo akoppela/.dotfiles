@@ -66,8 +66,8 @@ in
         home.packages = [
           # System
           pkgs.gnome-firmware
-          pkgs.gnome.gnome-session
-          pkgs.gnome.gnome-tweaks
+          pkgs.gnome-session
+          pkgs.gnome-tweaks
 
           # Security
           pkgs._1password-gui
