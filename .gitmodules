@@ -1,7 +1,3 @@
 [submodule "nix-emacs"]
 	path = emacs/my/nix-emacs
 	url = https://github.com/travisbhartwell/nix-emacs.git
-[submodule "slack"]
-	path = emacs/my/slack
-	url = https://github.com/isamert/emacs-slack.git
-    branch = fix-curl-downloader
