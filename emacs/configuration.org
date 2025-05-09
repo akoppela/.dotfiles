@@ -417,6 +417,12 @@
     (my/conta-dev-terminal)
     (my/vterm-send-string-and-return "docker compose --profile phpmyadmin down"))
 
+  (defun my/conta-fe-update ()
+    "Updates Conta's frontend environment"
+    (interactive)
+    (my/conta-fe-terminal)
+    (my/vterm-send-string-and-return "update"))
+
   (defun my/conta-be-update ()
     "Updates Conta's backend environment"
     (interactive)
@@ -467,6 +473,7 @@
       "c d d" '(my/conta-dev-down :which-key "down")
       "c f" '(:ignore t :which-key "frontend")
       "c f t" '(my/conta-fe-terminal :which-key "terminal")
+      "c f u" '(my/conta-fe-update :which-key "update")
       "c b" '(:ignore t :which-key "backend")
       "c b t" '(my/conta-be-terminal :which-key "terminal")
       "c b u" '(my/conta-be-update :which-key "update")
