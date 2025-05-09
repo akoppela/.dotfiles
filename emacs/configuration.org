@@ -386,8 +386,8 @@
     (if (get-buffer name)
         (switch-to-buffer name)
       (projectile-with-default-dir location
-        (vterm)
-        (rename-buffer name))))
+                                   (vterm)
+                                   (rename-buffer name))))
 
   (defun my/conta-dev-terminal ()
     "Creates Conta's development terminal or switches to it"
