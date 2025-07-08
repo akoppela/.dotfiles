@@ -2100,6 +2100,7 @@ Open large files with =vlf=.
     (setq message-send-mail-function 'smtpmail-send-it)
     (setq smtpmail-smtp-server "smtp.gmail.com")
     (setq smtpmail-smtp-service 465)
+    (setq smtpmail-smtp-user "akoppela@gmail.com")
     (setq smtpmail-stream-type 'ssl)
     (setq mu4e-compose-signature "Thank you,\nAndrey")
     (setq mu4e-compose-format-flowed t)
@@ -2114,6 +2115,7 @@ Open large files with =vlf=.
     (setq mu4e-sent-folder   "/akoppela@gmail.com/Sent")
     (setq mu4e-refile-folder "/akoppela@gmail.com/All Mail")
     (setq mu4e-trash-folder  "/akoppela@gmail.com/Trash")
+    (setq mu4e-context-policy 'pick-first)
     (setq mu4e-maildir-shortcuts
           '(("/akoppela@gmail.com/Inbox" . ?i)
             ("/akoppela@gmail.com/Sent" . ?s)
@@ -2132,7 +2134,25 @@ Open large files with =vlf=.
       :states 'normal
       :keymaps 'mu4e-view-mode-map
       "<tab>" 'my/mu4e-next-link
-      "<backtab>" 'my/mu4e-previous-link))
+      "<backtab>" 'my/mu4e-previous-link)
+    :config
+    (setq mu4e-contexts
+          (list
+           (make-mu4e-context
+            :name "Main"
+            :match-func
+            (lambda (msg)
+              (when msg
+                (mu4e-message-contact-field-matches msg :to "akoppela@gmail.com")))
+            :vars '((user-mail-address . "akoppela@gmail.com")))
+
+           (make-mu4e-context
+            :name "Personal"
+            :match-func
+            (lambda (msg)
+              (when msg
+                (mu4e-message-contact-field-matches msg :to "me@akoppela.com")))
+            :vars '((user-mail-address . "me@akoppela.com"))))))
 #+end_src
 
 * Help
