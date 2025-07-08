@@ -66,6 +66,7 @@ in
           ]))
           pkgs.wordnet
           pkgs.texlive.combined.scheme-full
+          pkgs.ledger
 
           # Fonts
           pkgs.pragmatapro
