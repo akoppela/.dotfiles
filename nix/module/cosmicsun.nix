@@ -87,10 +87,13 @@ in
           pkgs.mixxx
           pkgs.freac
           pkgs.easytag
+          pkgs.musescore
+          pkgs.denemo
 
           # Video
           pkgs.vlc
           pkgs.obs-studio
+          pkgs.shotcut
 
           # Communication
           pkgs.telegram-desktop
