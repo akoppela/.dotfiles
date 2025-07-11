@@ -1751,7 +1751,8 @@ Open large files with =vlf=.
     (major-def
       :keymaps 'ledger-mode-map
       "r" '(ledger-report :which-key "report")
-      "a" '(ledger-add-transaction :which-key "add transaction"))
+      "a" '(ledger-add-transaction :which-key "add transaction")
+      "e" '(ledger-post-edit-amount :which-key "edit amount"))
     (general-def
       :states 'normal
       :keymaps 'ledger-report-mode-map
