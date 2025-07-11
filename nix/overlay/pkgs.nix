@@ -43,4 +43,6 @@ self: super:
     (super.emacsPackagesFor (super.emacs.override { withImageMagick = true; })).emacsWithPackages (epkgs: [
       epkgs.vterm
     ]);
+
+  ledger = (super.ledger.override { gpgmeSupport = true; });
 }
