@@ -146,7 +146,7 @@
 ** Do not create custom file
 
 #+begin_src emacs-lisp
-  (setq custom-file "/dev/null")
+  (setq custom-file "~/.emacs.d/custom.el")
 #+end_src
 
 ** Enable narrowing
