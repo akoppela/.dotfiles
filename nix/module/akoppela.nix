@@ -99,7 +99,6 @@ in
 
           # Security
           pkgs._1password-gui
-          pkgs.pinentry-gtk2
 
           # Communication
           pkgs.slack
@@ -117,6 +116,7 @@ in
 
         programs.gpg.enable = true;
         services.gpg-agent.enable = true;
+        services.gpg-agent.pinentryPackage = pkgs.pinentry-gtk2;
 
         programs.git = {
           enable = true;
