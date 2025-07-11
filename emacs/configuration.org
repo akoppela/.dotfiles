@@ -1289,7 +1289,7 @@ Make sessions persistent.
   (defun my/open-notes ()
     "Opens my notes."
     (interactive)
-    (find-file (expand-file-name "~/Notes/notes.org")))
+    (find-file (expand-file-name "~/Notes/notes.org.gpg")))
 
   (leader-def
     "a n" '(my/open-notes :which-key "notes"))
@@ -1318,7 +1318,7 @@ Make sessions persistent.
 *** Agenda files
 
 #+begin_src emacs-lisp
-  (setq org-agenda-files '("~/Notes/notes.org"))
+  (setq org-agenda-files '("~/Notes/notes.org.gpg"))
 #+end_src
 
 *** Show bullets instead of stars
@@ -1730,7 +1730,7 @@ Open large files with =vlf=.
   (defun my/open-ledger ()
     "Opens my ledger."
     (interactive)
-    (find-file (expand-file-name "~/Notes/my.ledger")))
+    (find-file (expand-file-name "~/Notes/accounting/book.ledger.gpg")))
 
   (use-package ledger-mode
     :commands ledger-mode
