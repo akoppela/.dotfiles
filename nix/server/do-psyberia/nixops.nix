@@ -6,18 +6,18 @@
 
   do-psyberia = { config, ... }: {
     imports = [
-      ../../../module/wireguard.nix
+      ../../module/wireguard.nix
       ../default.nix
       ./networking.nix # generated at runtime by nixos-infect
     ];
 
     # Physical configuration
     deployment = {
-      targetHost = "128.199.16.170";
+      targetHost = "167.99.73.196";
     };
 
     networking.hostName = "psyberia-nixos";
-    time.timeZone = "Asia/Bangalore";
+    time.timeZone = "Asia/Singapore";
 
     # # Enable Docker
     # virtualisation.docker.enable = true;
@@ -61,55 +61,15 @@
       enable = true;
       externalInterface = "eth0";
       peers = [
-        # iPad
-        {
-          publicKey = "V89k5btlMR1IVokswq45ARLRfkeFG6wFkW7RwKWG6lM=";
-          allowedIPs = [ "10.100.0.2/32" ];
-        }
-        # Zi's phone
-        {
-          publicKey = "bxkrVLoDBuLlqIwsq4hAln8l4BJ9mB83GM/PQviqpS8=";
-          allowedIPs = [ "10.100.0.3/32" ];
-        }
         # iPhone
         {
-          publicKey = "uiBEuWMz3wl1HqCVCuljSY/zoKG5SKT5iMtPYc4gOmM=";
-          allowedIPs = [ "10.100.0.5/32" ];
+          publicKey = "B/ziclrDAyq0y8rK3e/3Blqq5JHB8NSmQvYYqKrFfAU=";
+          allowedIPs = [ "10.100.0.2/32" ];
         }
-        # Nano
+        # Lenovo p16s
         {
-          publicKey = "ZnXsoUG4lNbIG8P4RNXT1IIqqsivb0upSSZ4lnSAoHw=";
-          allowedIPs = [ "10.100.0.6/32" ];
-        }
-        # Tima's phone
-        {
-          publicKey = "HloR2iQkA1eTM60ksn3mvmClIHSGNCD8T8dfYSBpyh4=";
-          allowedIPs = [ "10.100.0.7/32" ];
-        }
-        # Zi's iPad
-        {
-          publicKey = "4bpHKkn25wTswP7uEon886GcfEUHJAiw9EL9q9M5ZCI=";
-          allowedIPs = [ "10.100.0.8/32" ];
-        }
-        # Zi's Macbook
-        {
-          publicKey = "gO27vLZy/pXpiml71tD0S7u5iGlS3y87Wuygzx2QADk=";
-          allowedIPs = [ "10.100.0.9/32" ];
-        }
-        # Tima's iPhone X
-        {
-          publicKey = "/m7Pl8tvGp7M9YqTv04OE5PTF6xIaBjGEDiP74YijgQ=";
-          allowedIPs = [ "10.100.0.10/32" ];
-        }
-        # Leo's phone
-        {
-          publicKey = "vaTsunHz1Ep9DDOq8U5R9f44e1Xs4yN2q7jijbmztBI=";
-          allowedIPs = [ "10.100.0.11/32" ];
-        }
-        # Mama's phone
-        {
-          publicKey = "nirzrlImv4Ed68iT8xwTmOz5SfJngfWeKQFVEXOUYHo=";
-          allowedIPs = [ "10.100.0.12/32" ];
+          publicKey = "Th/o1x5/8rTke2W7C08dnp65DXF6VyMy7iN3dyxEeCA=";
+          allowedIPs = [ "10.100.0.3/32" ];
         }
       ];
     };
@@ -120,6 +80,6 @@
     # this value at the release version of the first install of this system.
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "21.05";
+    system.stateVersion = "23.11";
   };
 }

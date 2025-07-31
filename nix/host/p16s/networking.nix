@@ -35,19 +35,19 @@ in
     127.0.0.1   mysql.conta.test
   '';
 
-  # networking.firewall.allowedUDPPorts = [ wireguard.port ];
-  # networking.wg-quick.interfaces."${wireguard.interface}" = {
-  #   address = [ "10.100.0.6/24" ];
-  #   dns = [ "1.1.1.1" "8.8.8.8" ];
-  #   listenPort = wireguard.port;
-  #   privateKeyFile = "/root/.config/wireguard/private";
-  #   peers = [
-  #     {
-  #       publicKey = "b+eJgKELR8XcZeGIBcviLDMAA1eatJutD6wVP3rUN2c=";
-  #       allowedIPs = [ "0.0.0.0/0" ];
-  #       endpoint = "128.199.16.170:51820";
-  #       persistentKeepalive = 25;
-  #     }
-  #   ];
-  # };
+  networking.firewall.allowedUDPPorts = [ wireguard.port ];
+  networking.wg-quick.interfaces."${wireguard.interface}" = {
+    address = [ "10.100.0.3/24" ];
+    dns = [ "1.1.1.1" "8.8.8.8" ];
+    listenPort = wireguard.port;
+    privateKeyFile = "/root/.config/wireguard/private";
+    peers = [
+      {
+        publicKey = "S8kJiIyGFCJ+UrmXHdl+nQmSOyJGDLGuKaYgG09ZSUk=";
+        allowedIPs = [ "0.0.0.0/0" ];
+        endpoint = "167.99.73.196:51820";
+        persistentKeepalive = 25;
+      }
+    ];
+  };
 }

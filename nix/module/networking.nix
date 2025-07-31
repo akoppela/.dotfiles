@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ ];
@@ -10,7 +10,7 @@
     enable = true;
     settings = {
       PasswordAuthentication = false;
-      PermitRootLogin = "no";
+      PermitRootLogin = lib.mkDefault "no";
     };
   };
 
