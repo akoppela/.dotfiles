@@ -12,15 +12,23 @@
 
   outputs = { self, nixpkgs, nixpkgsUnstable, home-manager, ... }:
     let
-      pkgs = import nixpkgs { inherit system; };
-      pkgsUnstable = import nixpkgsUnstable { inherit system; };
       system = "x86_64-linux";
+
+      pkgs = import nixpkgs { inherit system; };
+      pkgsUnstable = import nixpkgsUnstable {
+        inherit system;
+
+        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgsUnstable.lib.getName pkg) [
+          "claude-code"
+        ];
+      };
     in
     {
       devShells."${system}".default = pkgs.mkShell {
         buildInputs = [
           pkgs.nixpkgs-fmt
           pkgs.nixops_unstable_minimal
+          pkgsUnstable.claude-code
         ];
       };
 
