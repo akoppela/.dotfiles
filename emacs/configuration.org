@@ -2001,6 +2001,7 @@ Open large files with =vlf=.
     "Starts Emacs Slack client"
     (interactive)
     (url-cookie-store "d" (my/get-conta-slack-cookie) nil ".slack.com" "/" t)
+    (url-cookie-store "d" (my/get-augceo-slack-cookie) nil ".slack.com" "/" t)
     (slack-start))
 
   (defun my/get-conta-slack-cookie ()
@@ -2019,6 +2020,24 @@ Open large files with =vlf=.
              :host "conta.slack.com"
              :user "akoppela@gmail.com")
      :cookie (my/get-conta-slack-cookie)
+     :modeline-enabled t))
+
+  (defun my/get-augceo-slack-cookie ()
+    "Returns cookie for AugCeo slack channel"
+    (auth-source-pick-first-password
+     :host "augceo.slack.com^cookie"
+     :user "akoppela@gmail.com^cookie"))
+
+  (defun my/slack-register-augceo ()
+    "Registers AugCeo Slack team"
+    (interactive)
+    (slack-register-team
+     :name "AugCeo"
+     :default t
+     :token (auth-source-pick-first-password
+             :host "augceo.slack.com"
+             :user "akoppela@gmail.com")
+     :cookie (my/get-augceo-slack-cookie)
      :modeline-enabled t))
 
   (use-package slack
@@ -2059,7 +2078,8 @@ Open large files with =vlf=.
       "p r" '(slack-message-pins-remove :which-key "remove")
       "t" '(slack-thread-show-or-create :which-key "thread")
       "d" '(slack-message-delete :which-key "delete"))
-    (my/slack-register-conta))
+    (my/slack-register-conta)
+    (my/slack-register-augceo))
 #+end_src
 
 ** Bluetooth
