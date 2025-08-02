@@ -1408,6 +1408,12 @@ Make sessions persistent.
   (setq org-startup-folded t)
 #+end_src
 
+*** Start =calc-mode= with emacs evil state
+
+#+begin_src emacs-lisp
+  (evil-set-initial-state 'calc-mode 'emacs)
+#+end_src
+
 * Programming languages and modes
 
 ** =html=
