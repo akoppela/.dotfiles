@@ -1506,6 +1506,15 @@ Make sessions persistent.
     (add-hook 'typescript-mode-hook '(lambda() (setq tab-width 2))))
 #+end_src
 
+** =prettier=
+
+#+begin_src emacs-lisp
+  (use-package prettier-js
+    :init
+    (setq prettier-js-use-modules-bin t)
+    (add-hook 'typescript-mode-hook 'prettier-js-mode))
+#+end_src
+
 ** =json=
 
 #+begin_src emacs-lisp
