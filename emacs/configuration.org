@@ -1199,6 +1199,131 @@ Visual lines are relative screen lines.
       "h g" '(gptel-send :which-key "gptel")))
 #+end_src
 
+** =whisper=
+
+Voice input for Emacs using OpenAI Whisper.
+
+#+begin_src emacs-lisp
+  (defvar my/whisper-session nil
+    "Current whisper session plist: (:buffer buf :marker pos :terminal t/nil :refine t/nil)")
+
+  (defvar my/whisper-refine-model "gemini-2.5-flash-lite"
+    "Model to use for text refinement.")
+
+  (defvar my/whisper-refine-prompt-template
+    "The following text was transcribed from speech and may contain recognition errors. Please refine it by:
+     1. Fixing obvious speech recognition errors (wrong words that sound similar)
+     2. Correcting grammar and punctuation
+     3. Preserving the original meaning and tone
+
+     Transcribed text: %s"
+    "Template for refinement prompt.")
+
+  (defun my/whisper-cleanup-session ()
+    "Clean up whisper session state."
+    (when my/whisper-session
+      (let ((marker (plist-get my/whisper-session :marker)))
+        (when marker (set-marker marker nil)))
+      (setq my/whisper-session nil)))
+
+  (defun my/whisper-cleanup-history-buffers ()
+    "Clean up all timestamped whisper history buffers."
+    (interactive)
+    (let ((killed-count 0))
+      (dolist (buffer (buffer-list))
+        (when (string-match-p "\\*whisper-[0-9]+\\*" (buffer-name buffer))
+          (kill-buffer buffer)
+          (setq killed-count (1+ killed-count))))
+      (message "Cleaned up %d whisper history buffers" killed-count)))
+
+  (defun my/whisper-refine-text (text)
+    "Refine text using configured model. Returns refined text or original if refinement fails."
+    (message "Refining...")
+    (let* ((prompt (format my/whisper-refine-prompt-template text))
+           (project-dir (or (projectile-project-root) (expand-file-name "~/")))
+           (refined (string-trim (shell-command-to-string
+                                  (format "cd %s && direnv exec . gemini -m %s -p %s 2>/dev/null"
+                                          (shell-quote-argument project-dir)
+                                          my/whisper-refine-model
+                                          (shell-quote-argument prompt))))))
+      (if (string-empty-p refined) text refined)))
+
+  (defun my/whisper-process-text ()
+    "Process transcribed text with optional refinement."
+    (let ((text (string-trim (buffer-string))))
+      (when (and text
+                 (not (string-empty-p text))
+                 my/whisper-session
+                 (buffer-live-p (plist-get my/whisper-session :buffer)))
+        (let* ((buffer (plist-get my/whisper-session :buffer))
+               (final-text (if (plist-get my/whisper-session :refine)
+                               (my/whisper-refine-text text)
+                             text)))
+          (with-current-buffer buffer
+            (if (plist-get my/whisper-session :terminal)
+                (vterm-send-string final-text)
+              (progn
+                (when-let ((marker (plist-get my/whisper-session :marker)))
+                  (goto-char marker))
+                (insert final-text)))
+            (message "Text %s%s"
+                     (if (plist-get my/whisper-session :refine) "refined and " "")
+                     (if (plist-get my/whisper-session :terminal) "sent to terminal" "inserted")))
+          (my/whisper-cleanup-session)))))
+
+  (defun my/whisper-suppress-display (orig-fun &rest args)
+    "Suppress buffer display when using whisper."
+    (if my/whisper-session
+        (cl-letf (((symbol-function 'display-buffer) (lambda (&rest _) nil)))
+          (apply orig-fun args))
+      (apply orig-fun args)))
+
+  (defun my/whisper-smart (&optional no-refine)
+    "Transcribe audio - smart handling for vterm vs normal buffers.
+     With NO-REFINE, skip refinement."
+    (interactive)
+    (if (and (boundp 'whisper--recording-process)
+             whisper--recording-process
+             (process-live-p whisper--recording-process))
+        (interrupt-process whisper--recording-process)
+      (let ((is-terminal (eq major-mode 'vterm-mode)))
+        (setq my/whisper-session
+              (list :buffer (current-buffer)
+                    :marker (unless is-terminal (point-marker))
+                    :terminal is-terminal
+                    :refine (not no-refine)))
+        (whisper-run))))
+
+  (defun my/whisper--nix-command (input-file)
+    `("whisper-cli"
+      "--model" ,(expand-file-name (concat "~/.local/lib/whisper.cpp/models/ggml-" whisper-model ".bin"))
+      ,@(when whisper-use-threads (list "--threads" (number-to-string whisper-use-threads)))
+      ,@(when whisper-translate '("--translate"))
+      ,@(when whisper-show-progress-in-mode-line '("--print-progress"))
+      "--language" ,whisper-language
+      "--no-timestamps"
+      "--file" ,input-file))
+
+  (use-package whisper
+    :load-path "my/whisper.el"
+    :commands whisper-run
+    :after projectile
+    :init
+    (setq whisper-install-directory "~/.local/lib/")
+    (setq whisper-model "base")
+    (setq whisper-language "en")
+    (setq whisper-translate nil)
+    (setq whisper-use-threads (/ (num-processors) 2))
+    (setq whisper-install-whispercpp nil)
+    (setq whisper-insert-text-at-point nil)
+    (global-set-key (kbd "s-w") (lambda () (interactive) (my/whisper-smart t)))
+    (global-set-key (kbd "s-W") 'my/whisper-smart)
+    :config
+    (add-hook 'whisper-after-transcription-hook 'my/whisper-process-text)
+    (advice-add 'whisper-command :override #'my/whisper--nix-command)
+    (advice-add 'whisper--handle-transcription-output :around #'my/whisper-suppress-display))
+#+end_src
+
 * Project, time and task management
 
 ** =session=

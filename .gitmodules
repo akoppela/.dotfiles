@@ -1,3 +1,6 @@
 [submodule "nix-emacs"]
 	path = emacs/my/nix-emacs
 	url = https://github.com/travisbhartwell/nix-emacs.git
+[submodule "emacs/my/whisper.el"]
+	path = emacs/my/whisper.el
+	url = https://github.com/natrys/whisper.el.git

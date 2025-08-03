@@ -71,6 +71,7 @@ in
           pkgs.wordnet
           pkgs.texlive.combined.scheme-full
           pkgs.ledger
+          pkgsUnstable.whisper-cpp
 
           # Fonts
           pkgs.pragmatapro
@@ -91,6 +92,7 @@ in
           pkgs.tokei
           pkgs.ripgrep
           pkgsUnstable.gpt4all
+          pkgsUnstable.gemini-cli
 
           # Tools
           pkgs.unzip
@@ -100,6 +102,7 @@ in
           pkgs.killall
           pkgs.neofetch
           pkgs.powertop
+          pkgs.ffmpeg
 
           # Security
           pkgs._1password-gui
