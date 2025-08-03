@@ -404,6 +404,12 @@
     (interactive)
     (my/conta-terminal "*conta-be*" "~/contadev/diy/backend"))
 
+  (defun my/conta-fe-claude-terminal ()
+    "Creates Conta's frontend terminal with Claude Code or switches to it"
+    (interactive)
+    (my/conta-terminal "*conta-fe-claude*" "~/contadev/diy/frontend")
+    (my/vterm-send-string-and-return "claude"))
+
   (defun my/conta-dev-up ()
     "Starts Conta's development environment"
     (interactive)
@@ -473,6 +479,7 @@
       "c d d" '(my/conta-dev-down :which-key "down")
       "c f" '(:ignore t :which-key "frontend")
       "c f t" '(my/conta-fe-terminal :which-key "terminal")
+      "c f c" '(my/conta-fe-claude-terminal :which-key "claude terminal")
       "c f u" '(my/conta-fe-update :which-key "update")
       "c b" '(:ignore t :which-key "backend")
       "c b t" '(my/conta-be-terminal :which-key "terminal")
