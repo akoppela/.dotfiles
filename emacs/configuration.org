@@ -1640,6 +1640,8 @@ Make sessions persistent.
 
 #+begin_src emacs-lisp
   (use-package typescript-mode
+    :mode
+    ("\\.ts\\'" . typescript-mode)
     :init
     (add-hook 'typescript-mode-hook '(lambda() (setq tab-width 2))))
 #+end_src
@@ -1648,6 +1650,7 @@ Make sessions persistent.
 
 #+begin_src emacs-lisp
   (use-package prettier-js
+    :after (typescript-mode)
     :init
     (setq prettier-js-use-modules-bin t)
     (add-hook 'typescript-mode-hook 'prettier-js-mode))
