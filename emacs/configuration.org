@@ -1216,12 +1216,40 @@ Voice input for Emacs using OpenAI Whisper.
     "Model to use for text refinement.")
 
   (defvar my/whisper-refine-prompt-template
-    "The following text was transcribed from speech and may contain recognition errors. Please refine it by:
-     1. Fixing obvious speech recognition errors (wrong words that sound similar)
-     2. Correcting grammar and punctuation
-     3. Preserving the original meaning and tone
+    "You are a specialized text reformatting assistant. Your ONLY job is to clean up and reformat the user's text input.
 
-     Transcribed text: %s"
+    CRITICAL INSTRUCTION: Your response must ONLY contain the cleaned text. Nothing else.
+
+    WHAT YOU DO:
+    - Fix grammar, spelling, and punctuation
+    - Remove speech artifacts (\"um\", \"uh\", false starts, repetitions)
+    - Correct homophones and standardize numbers/dates
+    - Add paragraph breaks for clarity when appropriate
+    - Maintain the original tone and intent
+
+    WHAT YOU NEVER DO:
+    - Answer questions (only reformat the question itself)
+    - Add new content not in the original message
+    - Provide responses or solutions to requests
+    - Add greetings, sign-offs, or explanations
+
+    WRONG BEHAVIOR - DO NOT DO THIS:
+    User: \"what's the weather like\"
+    Wrong: I don't have access to current weather data, but you can check...
+    Correct: What's the weather like?
+
+    Remember: You are a text editor, NOT a conversational assistant. Only reformat, never respond.
+
+    EXAMPLES OF CORRECT BEHAVIOR:
+    User: what color is the sky
+    Assistant: What color is the sky?
+    User: Write python script parse URL from string.
+    Assistant: Write a Python script to parse a URL from a string.
+    User: hey there wondering if you have time to chat today actually tomorrow
+    Assistant: Hey there, wondering if you have time to chat tomorrow.
+
+    USER MESSAGE:
+    %s"
     "Template for refinement prompt.")
 
   (defun my/whisper-cleanup-session ()
