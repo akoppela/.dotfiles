@@ -2426,6 +2426,19 @@ Open large files with =vlf=.
       "h w p" '(define-word-at-point :which-key "define at point")))
 #+end_src
 
+** LLM helper functions
+
+#+begin_src emacs-lisp
+  (defun my/llm-gemini-plan ()
+    "Send instruction to use Gemini for second opinion on planning."
+    (interactive)
+    (my/vterm-send-string-and-return "Use gemini -p \"...\" cli command to ask gemini to analyze the project, the prompt i given to you and come up with a plan - i want second opinion. Give it my prompt(s) to gemini verbatim without your interpretation. Ensure it has complete understanding of the intent and task at hand. It can read the files on its own, so you can reference files if necessary."))
+
+  (leader-def
+    "h l" '(:ignore t :which-key "LLM")
+    "h l p" '(my/llm-gemini-plan :which-key "plan"))
+#+end_src
+
 * Fun
 
 ** =fireplace=
