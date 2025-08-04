@@ -1966,16 +1966,27 @@ Open large files with =vlf=.
     (exwm-workspace-rename-buffer (format "%s" exwm-title)))
 
   (defun my/switch-to-docked-display-layout ()
-    "Switches display layout to docked mode"
+    "Switches display layout to docked mode - 4K monitor to the left"
     (interactive)
-    (my/set-font my/docked-font-size)
-    (shell-command-to-string "xrandr --output HDMI-1 --above eDP-1 --mode 4096x2160 --rate 120 --primary"))
+    (shell-command-to-string "xrandr --output HDMI-1 --mode 2560x1440 --rate 120 --primary --output eDP-1 --mode 1920x1200 --right-of HDMI-1")
+    (exwm-randr-refresh))
 
   (defun my/switch-to-mobile-display-layout ()
-    "Switches display layout to mobile mode"
+    "Switches display layout to mobile mode - laptop only"
     (interactive)
-    (my/set-font my/mobile-font-size)
-    (shell-command-to-string "xrandr --output HDMI-1 --off"))
+    (shell-command-to-string "xrandr --output HDMI-1 --off --output eDP-1 --mode 1920x1200 --primary")
+    (exwm-randr-refresh))
+
+  (defun my/switch-to-mirror-display-layout ()
+    "Switches display layout to mirror mode - both displays show same content"
+    (interactive)
+    (shell-command-to-string "xrandr --output HDMI-1 --mode 1920x1080 --rate 120 --primary --output eDP-1 --mode 1920x1080 --same-as HDMI-1")
+    (exwm-randr-refresh))
+
+  (defun my/query-display-configuration ()
+    "Shows current display configuration"
+    (interactive)
+    (message "%s" (shell-command-to-string "xrandr --query | grep ' connected'")))
 
   (defun my/switch-to-workspace-0 ()
     "Switches to Workspace 0"
@@ -1996,7 +2007,7 @@ Open large files with =vlf=.
     :if my/window-system-x
     :init
     (setq exwm-workspace-number 3)
-    (setq exwm-randr-workspace-monitor-plist '(2 "eDP-1"))
+    (setq exwm-randr-workspace-monitor-plist '(1 "HDMI-1" 2 "eDP-1"))
     (setq exwm-input-prefix-keys
           '(s-left
             s-right
@@ -2011,6 +2022,7 @@ Open large files with =vlf=.
     (add-hook 'exwm-update-title-hook 'my/exwm-rename-workspace)
 
     (exwm-enable)
+    (exwm-randr-mode 1)
 
     (add-to-list 'exwm-manage-configurations
                  '((equal exwm-class-name "Slack") managed t))
@@ -2019,6 +2031,7 @@ Open large files with =vlf=.
       "d l" '(:ignore t :which-key "layout")
       "d l d" '(my/switch-to-docked-display-layout :which-key "docked")
       "d l m" '(my/switch-to-mobile-display-layout :which-key "mobile")
+      "d l M" '(my/switch-to-mirror-display-layout :which-key "mirror")
 
       "w f" '(exwm-floating-toggle-floating :which-key "float")
       "w m" '(exwm-workspace-move-window :which-key "move"))
