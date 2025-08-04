@@ -2014,7 +2014,10 @@ Open large files with =vlf=.
             s-up
             s-down
             s-tab
-            ?\C-\ ))
+            ?\C-@
+            ?\s-0
+            ?\s-1
+            ?\s-2))
 
     (evil-set-initial-state 'exwm-mode 'emacs)
 
