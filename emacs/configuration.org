@@ -1284,8 +1284,7 @@ Voice input for Emacs using OpenAI Whisper.
       (apply orig-fun args)))
 
   (defun my/whisper-smart (&optional no-refine)
-    "Transcribe audio - smart handling for vterm vs normal buffers.
-     With NO-REFINE, skip refinement."
+    "Transcribe audio - smart handling for vterm vs normal buffers. With NO-REFINE, skip refinement."
     (interactive)
     (if (and (boundp 'whisper--recording-process)
              whisper--recording-process
