@@ -548,7 +548,6 @@
       "<s-right>" 'windmove-right
       "<s-up>" 'windmove-up
       "<s-down>" 'windmove-down
-      "<s-SPC>" 'toggle-input-method
       "C-<tab>" 'my/switch-to-desktop)
     (general-def
       :states '(normal visual)

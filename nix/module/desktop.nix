@@ -12,7 +12,10 @@
     enable = true;
     autoRepeatDelay = 350;
     autoRepeatInterval = 25;
-    xkb.options = "caps:swapescape";
+    xkb = {
+      layout = "us,ru";
+      options = "caps:swapescape,grp:win_space_toggle";
+    };
     displayManager.startx.enable = true;
   };
 
