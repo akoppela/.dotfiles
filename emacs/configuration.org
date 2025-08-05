@@ -1737,7 +1737,6 @@ Make sessions persistent.
     :commands json-mode
     :config
     (setq json-encoding-default-indentation "    ")
-    (add-hook 'json-mode-hook 'my/json-sort-setup)
     (add-hook 'json-mode-hook 'hs-minor-mode)
     (major-def
       :keymaps 'json-mode-map
