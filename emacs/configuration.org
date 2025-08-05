@@ -1304,6 +1304,12 @@ Voice input for Emacs using OpenAI Whisper.
                      (if (plist-get my/whisper-session :terminal) "sent to terminal" "inserted")))
           (my/whisper-cleanup-session)))))
 
+  (defun my/whisper-recording-p ()
+    "Return t if whisper is currently recording."
+    (and (boundp 'whisper--recording-process)
+         whisper--recording-process
+         (process-live-p whisper--recording-process)))
+
   (defun my/whisper-suppress-display (orig-fun &rest args)
     "Suppress buffer display when using whisper."
     (if my/whisper-session
@@ -1311,20 +1317,38 @@ Voice input for Emacs using OpenAI Whisper.
           (apply orig-fun args))
       (apply orig-fun args)))
 
-  (defun my/whisper-smart (&optional no-refine)
-    "Transcribe audio - smart handling for vterm vs normal buffers. With NO-REFINE, skip refinement."
+  (defun my/whisper (&optional language)
+    "Transcribe audio - smart handling for vterm vs normal buffers. LANGUAGE defaults to auto-detect."
     (interactive)
-    (if (and (boundp 'whisper--recording-process)
-             whisper--recording-process
-             (process-live-p whisper--recording-process))
+    (if (my/whisper-recording-p)
         (interrupt-process whisper--recording-process)
       (let ((is-terminal (eq major-mode 'vterm-mode)))
+        (setq whisper-language (or language "auto"))
         (setq my/whisper-session
               (list :buffer (current-buffer)
                     :marker (unless is-terminal (point-marker))
                     :terminal is-terminal
-                    :refine (not no-refine)))
+                    :refine nil))
         (whisper-run))))
+
+  (defmacro my/define-whisper-hydra (name language display-name)
+    `(defhydra ,name (:color pink :hint nil :body-pre (unless (my/whisper-recording-p) (my/whisper ,language)))
+       ,(format "
+    Whisper %s [Refine: %%(if (and my/whisper-session (plist-get my/whisper-session :refine)) \"ON\" \"OFF\")]
+
+    _t_: Toggle refine  _c_: Clean history  _q_: %%(if (my/whisper-recording-p) \"Stop & Transcribe\" \"Cancel\")
+    " display-name)
+       ("t" (when my/whisper-session
+              (plist-put my/whisper-session :refine
+                         (not (plist-get my/whisper-session :refine)))))
+       ("c" (my/whisper-cleanup-history-buffers))
+       ("q" (if (my/whisper-recording-p)
+                (interrupt-process whisper--recording-process)
+              (message "Cancelled"))
+        :exit t)))
+
+  (my/define-whisper-hydra my/whisper-english-hydra "en" "English")
+  (my/define-whisper-hydra my/whisper-russian-hydra "ru" "Russian")
 
   (defun my/whisper--nix-command (input-file)
     `("whisper-cli"
@@ -1348,8 +1372,10 @@ Voice input for Emacs using OpenAI Whisper.
     (setq whisper-use-threads (/ (num-processors) 2))
     (setq whisper-install-whispercpp nil)
     (setq whisper-insert-text-at-point nil)
-    (global-set-key (kbd "s-w") (lambda () (interactive) (my/whisper-smart t)))
-    (global-set-key (kbd "s-W") 'my/whisper-smart)
+    (general-def
+      :states '(normal visual insert motion emacs)
+      "s-w" 'my/whisper-english-hydra/body
+      "s-W" 'my/whisper-russian-hydra/body)
     :config
     (add-hook 'whisper-after-transcription-hook 'my/whisper-process-text)
     (advice-add 'whisper-command :override #'my/whisper--nix-command)
