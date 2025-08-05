@@ -1341,9 +1341,9 @@ Voice input for Emacs using OpenAI Whisper.
        ,(format "
     Whisper %s [Refine: %%(if (and my/whisper-session (plist-get my/whisper-session :refine)) \"ON\" \"OFF\")]
 
-    _t_: Toggle refine  _c_: Clean history  _q_: %%(if (my/whisper-recording-p) \"Stop & Transcribe\" \"Cancel\")
+    _r_: Toggle refine  _c_: Clean history  _q_: %%(if (my/whisper-recording-p) \"Stop & Transcribe\" \"Cancel\")
     " display-name)
-       ("t" (when my/whisper-session
+       ("r" (when my/whisper-session
               (plist-put my/whisper-session :refine
                          (not (plist-get my/whisper-session :refine)))))
        ("c" (my/whisper-cleanup-history-buffers))
